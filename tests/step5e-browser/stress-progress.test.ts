@@ -1,0 +1,7 @@
+import {expect,it} from 'vitest';
+import {requireNextHand,requireCompletedHand} from '../browser/step5e-stress-progress';
+const before={handId:'hand-98',number:98,hands:98,sessionId:'session'},after={...before,handId:'hand-99',number:99};
+it('rejects the observed attempt1 unchanged hand acknowledgement immediately',()=>expect(()=>requireNextHand(before,before)).toThrow('advance'));
+it('requires exactly one hand-number advance and preserved history/session',()=>{requireNextHand(before,after);for(const changed of [{...after,number:100},{...after,hands:99},{...after,sessionId:'other'}])expect(()=>requireNextHand(before,changed)).toThrow();});
+it('rejects the observed duplicate98th completion counted as iteration99',()=>expect(()=>requireCompletedHand({handId:'hand-98',hands:98,settlements:98},{handId:'hand-99',hands:99},new Set(['hand-98']))).toThrow());
+it('requires each completion identity/count/payout to match the requested ordinal',()=>{requireCompletedHand({handId:'hand-99',hands:99,settlements:99},{handId:'hand-99',hands:99},new Set(['hand-98']));for(const result of [{handId:'other',hands:99,settlements:99},{handId:'hand-99',hands:98,settlements:99},{handId:'hand-99',hands:99,settlements:98}])expect(()=>requireCompletedHand(result,{handId:'hand-99',hands:99},new Set())).toThrow();expect(()=>requireCompletedHand({handId:'hand-99',hands:99,settlements:99},{handId:'hand-99',hands:99},new Set(['hand-99']))).toThrow();});

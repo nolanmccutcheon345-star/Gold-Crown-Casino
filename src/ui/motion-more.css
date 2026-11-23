@@ -1,0 +1,76 @@
+/* Patch 79: motion for the parts of the app that had none: Omaha, blackjack, heads-up, Home and the controls.
+   Presentation only. Off with the app's motion switch (.motion-off, see polish.css) and with the device's
+   reduced-motion setting. */
+@keyframes pna2-deal-a{from{opacity:0;translate:0 -40px;scale:.6;rotate:-10deg}to{opacity:1;translate:0 0;scale:1;rotate:0deg}}
+@keyframes pna2-deal-b{from{opacity:0;translate:0 -40px;scale:.6;rotate:10deg}to{opacity:1;translate:0 0;scale:1;rotate:0deg}}
+@keyframes pna2-flip{0%{opacity:0;rotate:y -95deg;translate:0 -6px}60%{opacity:1}100%{opacity:1;rotate:y 0deg;translate:0 0}}
+@keyframes pna2-pop{0%{opacity:0;scale:.4}60%{opacity:1;scale:1.15}100%{scale:1}}
+@keyframes pna2-rise{0%{opacity:0;translate:0 10px}100%{opacity:1;translate:0 0}}
+@keyframes pna2-float{0%{opacity:0;translate:0 6px;scale:.8}25%{opacity:1;translate:0 0;scale:1.1}100%{opacity:1;translate:0 -4px;scale:1}}
+@keyframes pna2-glow{0%{box-shadow:0 0 0 0 #e8c58b00}40%{box-shadow:0 0 0 6px #e8c58b55,0 0 22px #e8c58b66}100%{box-shadow:0 0 0 2px #e8c58b44}}
+@keyframes pna2-pulse{0%,100%{box-shadow:0 0 0 0 #e8c58b00}50%{box-shadow:0 0 0 4px #e8c58b33}}
+@keyframes pna2-shake{0%,100%{translate:0 0}25%{translate:-3px 0}75%{translate:3px 0}}
+@keyframes pna2-think{0%,100%{opacity:.45}50%{opacity:1}}
+
+@media (prefers-reduced-motion:no-preference){
+ /* Controls: a press you can feel. */
+ .button,.segment,.home-card,.subnav-button,.nav-button,.chip-button{transition:transform .12s ease,background-color .15s ease,border-color .15s ease,box-shadow .15s ease}
+ .button:active:not(:disabled),.segment:active,.home-card:active,.subnav-button:active,.chip-button:active{transform:scale(.97)}
+ .home-hub .hub-balances>div{animation:pna2-rise .35s ease-out backwards}
+ .home-hub .hub-balances>div:nth-child(2){animation-delay:.05s}.home-hub .hub-balances>div:nth-child(3){animation-delay:.1s}.home-hub .hub-balances>div:nth-child(4){animation-delay:.15s}
+ .home-cards>.home-card{animation:pna2-rise .35s ease-out backwards}
+ .home-cards>.home-card:nth-child(2){animation-delay:.04s}.home-cards>.home-card:nth-child(3){animation-delay:.08s}.home-cards>.home-card:nth-child(4){animation-delay:.12s}.home-cards>.home-card:nth-child(5){animation-delay:.16s}.home-cards>.home-card:nth-child(6){animation-delay:.2s}.home-cards>.home-card:nth-child(7){animation-delay:.24s}
+
+ /* Omaha: cards dealt from the middle each hand (two keyframe names so the deal replays on reused cards),
+    board cards flip in, bets pop, winners glow, words pop up. */
+ .plo-felt.plo-hand-a .plo-seat .plo-cards>*{animation:pna2-deal-a .38s cubic-bezier(.2,.8,.3,1) backwards}
+ .plo-felt.plo-hand-b .plo-seat .plo-cards>*{animation:pna2-deal-b .38s cubic-bezier(.2,.8,.3,1) backwards}
+ .plo-seat .plo-cards>:nth-child(2){animation-delay:.06s}.plo-seat .plo-cards>:nth-child(3){animation-delay:.12s}.plo-seat .plo-cards>:nth-child(4){animation-delay:.18s}
+ .plo-felt .rp-board>*{animation:pna2-flip .42s ease-out backwards}
+ .plo-felt .rp-board>:nth-child(2){animation-delay:.08s}.plo-felt .rp-board>:nth-child(3){animation-delay:.16s}
+ .plo-seat .rp-bet{animation:pna2-pop .3s ease-out backwards}
+ .plo-seat .rp-won{animation:pna2-float .6s ease-out backwards}
+ .plo-seat.won b{animation:pna2-glow 1s ease-out 2 alternate;border-radius:6px}
+ .plo-seat.acting b{animation:pna2-think 1.1s ease-in-out infinite}
+ .plo-say{animation:pna2-pop .28s ease-out backwards}
+ .plo-actions{animation:pna2-rise .25s ease-out backwards}
+
+ /* Blackjack: each new card slides in, the dealer's hole card flips, results pop, talk bubbles rise. */
+ .bj-hand .bj-card,.bj-dealer .bj-card{animation:pna2-deal-a .32s cubic-bezier(.2,.8,.3,1) backwards}
+ .bj-dealer .bj-card:not(.card-back){animation:pna2-flip .4s ease-out backwards}
+ .bj-hand-state,.bj-tag{animation:pna2-pop .3s ease-out backwards}
+ .bj-seat .bj-mini{animation:pna2-rise .25s ease-out backwards}
+
+ /* Heads-up: the match banner, a result that lands, the next rung that waits for you. */
+ .hu-over{animation:pna2-pop .35s ease-out backwards}
+ .hu-last.won{animation:pna2-glow 1.2s ease-out 2 alternate}
+ .hu-rung.current{animation:pna2-pulse 2.4s ease-in-out infinite}
+ .hu-say,.hu-noticed{animation:pna2-rise .3s ease-out backwards}
+
+ /* Promotions and tokes. */
+ .promo-notice{animation:pna2-pop .35s ease-out backwards}
+ .toke-line{animation:pna2-rise .3s ease-out backwards}
+ .error-banner{animation:pna2-shake .3s ease-in-out 1}
+}
+/* The app's own motion switch wins over everything above. */
+.motion-off .plo-felt *,.motion-off .bj-card,.motion-off .home-card,.motion-off .hu-rung{animation:none!important}
+/* Showdown labels on a small felt: narrower, so they don't cover the board. */
+.plo-label{font-size:9.5px;max-width:92px;line-height:1.2}
+
+/* Patch 82: chips that fly, money that counts, a stack bar that slides, a loading shimmer. */
+.plo-fly{position:absolute;left:var(--tx);top:var(--ty);width:16px;height:16px;transform:translate(-50%,-50%);pointer-events:none;z-index:4;opacity:0}
+.plo-fly .plo-chip{position:absolute;left:0;top:0}
+.plo-fly .plo-chip:nth-child(2){left:3px;top:-3px}.plo-fly .plo-chip:nth-child(3){left:-3px;top:-5px}
+.hu-bar{flex-basis:100%;height:6px;border-radius:999px;background:#ffffff1f;overflow:hidden}
+.hu-bar>i{display:block;height:100%;background:linear-gradient(90deg,#e6c48a,#f2d9a6);border-radius:999px}
+.counting-up{color:#9be29b}.counting-down{color:#f0a39b}
+@keyframes pna2-fly{0%{left:var(--fx);top:var(--fy);opacity:0;scale:.7}15%{opacity:1}85%{opacity:1}100%{left:var(--tx);top:var(--ty);opacity:0;scale:1}}
+@keyframes pna2-shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
+@media (prefers-reduced-motion:no-preference){
+ .plo-fly{animation:pna2-fly .7s cubic-bezier(.3,.7,.3,1) forwards}
+ .plo-fly.win{animation-duration:.85s}
+ .hu-bar>i{transition:width .6s cubic-bezier(.3,.7,.3,1)}
+ .counting-up,.counting-down{transition:color .4s}
+ .restore-placeholder{background-image:linear-gradient(100deg,transparent 30%,#ffffff0d 50%,transparent 70%);background-size:200% 100%;animation:pna2-shimmer 1.4s linear infinite}
+}
+.motion-off .plo-fly{display:none}

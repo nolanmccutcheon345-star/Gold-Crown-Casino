@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import process from 'node:process';
+import {sha,isRuntimeInput} from './step5d-ci-plan.mjs';
+const option=(flag,fallback)=>{const i=process.argv.indexOf(flag);return i<0?fallback:process.argv[i+1];};
+const read=p=>readFileSync(p),path=option('--receipt','TEST_EVIDENCE/step5e/release-final/manifest.json'),base=JSON.parse(read(path)),head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();assert.equal(base.status,'PASS');
+const runtime=Object.fromEntries(Object.entries(base.sourceHashes).filter(([p])=>isRuntimeInput(p)));for(const[p,h]of Object.entries(runtime))assert.equal(sha(read(p)),h);
+const files=['tests/browser/step5e-applied-provenance.ts','tests/browser/step5e-warning.ts','tests/browser/step5e-warning.html','tests/step5e-gates/warning-fixture.ts','tests/step5e-gates/warning-fixture.test.ts','tests/browser/step5e-support.ts'];
+const receipt={format:'step5e-warning-fixture-source',version:1,sourceCommit:base.sourceCommit,sourceHead:head,baseReceipt:{path,sha256:sha(read(path))},runtimeHashes:runtime,fixtureHashes:Object.fromEntries(files.map(p=>[p,sha(read(p))])),actualUIPlayedHands:0,fixtureHands:8};writeFileSync('tests/browser/step5e-fixtures/compiled/warning-source.json',JSON.stringify(receipt,null,2)+'\n');

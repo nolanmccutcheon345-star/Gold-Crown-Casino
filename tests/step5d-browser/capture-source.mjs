@@ -1,0 +1,10 @@
+import process from 'node:process';
+import {execFileSync} from 'node:child_process';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const git=(...args)=>execFileSync('git',args,{encoding:'utf8'}).trim();
+const files=git('ls-files','src').split('\n').filter(Boolean);
+const sourceHashes=Object.fromEntries(files.map(file=>[file,createHash('sha256').update(readFileSync(file)).digest('hex')]));
+const evidence={capturedAt:new Date().toISOString(),sourceCommit:git('rev-parse','HEAD'),productionDirty:git('status','--short','--','src'),sourceHashes,scope:'QA source-input provenance captured before browser execution; not an execution result. Root must ensure no production source changes during the matched run.'};
+writeFileSync('tests/browser/step5d-recovery-fixtures/candidate-source.json',JSON.stringify(evidence,null,2)+'\n');
+process.stdout.write(JSON.stringify({sourceCommit:evidence.sourceCommit,files:files.length,productionDirty:evidence.productionDirty})+'\n');

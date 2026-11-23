@@ -1,0 +1,24 @@
+// Read-only comparison of retained native-browser measurements. Runs no browser.
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const read=p=>readFileSync(p),json=p=>JSON.parse(read(p)),sha=b=>createHash('sha256').update(b).digest('hex');
+const receiptPath='TEST_EVIDENCE/step5e/release-draftfix/manifest.json',receipt=json(receiptPath);
+assert.equal(receipt.status,'PASS');
+const rows=[];
+for(const hands of [0,100,500,1000,5000,10000]){
+ const baselinePath=`TEST_EVIDENCE/step5e/browser/baseline-normal-${hands}.json`,candidatePath=`TEST_EVIDENCE/step5e/browser-clockfix/recovery-${hands}-final-PASS.json`;
+ const baseline=json(baselinePath),candidate=json(candidatePath);
+ for(const record of [baseline,candidate]){assert.equal(record.status,'PASS');assert.equal(record.parameters.hands,hands);assert.equal(record.parameters.scenario,'closed');assert.equal(record.parameters.storage,'normal');assert.equal(record.productionDatabaseAccessed,false);assert.equal(record.fullAudit.status,'verified');assert.equal(record.fullAudit.hands,hands);assert.equal(record.fullAudit.current,true);}
+ assert.equal(candidate.runtimeSource.productionDirty,'');
+ for(const [path,hash]of Object.entries(candidate.runtimeSource.sourceFiles))assert.equal(hash,receipt.sourceHashes[path],`Runtime mismatch: ${path}`);
+ assert.equal(candidate.fixtureRawSHA256,baseline.fixtureRawSHA256,'Workload bytes differ');
+ for(const field of ['wallet','table','net','hands'])assert.equal(candidate.accountingAtReady[field],baseline.accountingAtReady[field],`Accounting differs: ${field}`);
+ assert.equal(candidate.accountingAtReady.loadedHandBodies,Math.min(hands,120));
+ rows.push({hands,baseline:{path:baselinePath,sha256:sha(read(baselinePath)),sourceCommit:baseline.runtimeSource.sourceCommit,readyMs:baseline.safeGameplayReadyMs},candidate:{path:candidatePath,sha256:sha(read(candidatePath)),runtimeSourceCommit:candidate.runtimeSource.sourceCommit,sourceFilesCompared:Object.keys(candidate.runtimeSource.sourceFiles).length,readyMs:candidate.safeGameplayReadyMs,navigationToReadyMs:candidate.navigationToSafeGameplayReadyMs,shellSynchronousRenderMs:candidate.shellSynchronousRenderMs,paintProxyMs:candidate.shellFirstPaintMs,installMs:candidate.installation.ms,historyMs:candidate.historyBrowse.ms,auditMs:candidate.fullAudit.durationMs,auditCompletedMs:candidate.fullAudit.completedMs,maxStartupTaskMs:candidate.maximumStartupBrowserTaskMs,maxHistoryTaskMs:candidate.maximumHistoryBrowserTaskMs,maxAuditTaskMs:candidate.maximumAuditBrowserTaskMs,heapReadyBytes:candidate.heapAtReady?.usedJSHeapSize??null,heapPeakObserved:candidate.heapPeakObserved,serializedStorageBytes:candidate.storage.serializedBytes,accounting:candidate.accountingAtReady}});
+}
+const report={status:'PASS',scope:'Read-only measurement/provenance/accounting comparison, not overall performance approval',candidateSourceCommit:receipt.sourceCommit,receipt:{path:receiptPath,sha256:sha(read(receiptPath))},samplesPerCell:1,rows,limitations:['Same fixed fixture bytes; native Chromium155/Linux IndexedDB in managed HTTP iframe. Not a physical device.','Separate observations, not forced-cold renderer/process/cache or controlled GC; no latency percentiles inferred.','Ready is verified controller readiness. Double-requestAnimationFrame is a paint proxy and may be throttled.','Heap samples include fixture preparation and renderer residue; not isolated application retention.','Earlier incomplete parallel diagnostic attempts remain retained, not rewritten as PASS.','Full historical bodies outside120 are audited only when explicitly loaded/audited. Local hashes are not adversarial tamper resistance.','Long Tasks are not INP; serialized bytes are not physical disk allocation or quota guarantees.']};
+const out='TEST_EVIDENCE/step5e/final-recovery-comparison';
+writeFileSync(out+'.json',JSON.stringify(report,null,2)+'\n');
+writeFileSync(out+'.md','# Final native recovery observations\n\nExecuted runtime inputs match `'+receipt.sourceCommit+'`. N=1 per cell; this is not an R1 approval.\n\n| Hands | V10 ready ms | Candidate ready ms | First install ms | History ms | Full audit ms | Max startup task ms |\n|---:|---:|---:|---:|---:|---:|---:|\n'+rows.map(r=>`| ${r.hands} | ${r.baseline.readyMs.toFixed(1)} | ${r.candidate.readyMs.toFixed(1)} | ${r.candidate.installMs.toFixed(1)} | ${r.candidate.historyMs.toFixed(1)} | ${r.candidate.auditMs.toFixed(1)} | ${r.candidate.maxStartupTaskMs.toFixed(0)} |`).join('\n')+'\n\n'+report.limitations.map(x=>'- '+x).join('\n')+'\n\nRaw paths, byte hashes, source hashes, accounting, memory and separate timing windows are in [the JSON comparison](final-recovery-comparison.json).\n');
+process.stdout.write(JSON.stringify({status:report.status,cells:rows.length,source:receipt.sourceCommit,output:out})+'\n');

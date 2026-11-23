@@ -1,0 +1,365 @@
+/*
+ * Poker Night AI — Premium Casino art direction (visual release 97)
+ * The render trees, controls, data, game rules, storage and audio remain unchanged.
+ * Loaded last so the same design language reaches every mode and content page.
+ * Everything below is CSS: no fake chip counts or static mockups over live data.
+ */
+
+/* 1. Design system: dark tailored surfaces, brass accents and tactile controls. */
+:root{
+  --gold:#e9c788;
+  --gold-bright:#ffe6ad;
+  --gold-deep:#95703b;
+  --green:#86dfbb;
+  --muted:#a2b4af;
+  --line:#d7c39a22;
+  --panel:#121d23;
+  --premium-ink:#091116;
+  --premium-edge:#d2af6c52;
+  --premium-shadow:0 16px 34px #0008,0 2px 5px #0007;
+  --premium-glass:linear-gradient(150deg,#263b3d55,#0a151abf 38%,#101d22e8);
+  font-variant-numeric:tabular-nums;
+}
+html{background:#080e12}
+body{background:#080e12;color:#ecf2ec;min-width:0}
+.app-shell{
+  position:relative;
+  background:
+    radial-gradient(ellipse 78% 49% at 49% 0%,#1a55482a,transparent 76%),
+    radial-gradient(ellipse 45% 50% at 96% 31%,#bb8b3521,transparent 75%),
+    radial-gradient(ellipse 40% 45% at 0% 75%,#0e3f4a28,transparent 80%),
+    linear-gradient(175deg,#0e1c20 0%,#0a1419 50%,#080e13 100%);
+  isolation:isolate;
+}
+.app-shell::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  opacity:.25;
+  background-image:repeating-linear-gradient(118deg,transparent 0 43px,#e4c38606 44px,transparent 45px 88px);
+}
+.app-header{
+  position:relative;z-index:11;
+  min-height:76px;gap:22px;padding:14px clamp(16px,3vw,46px);
+  background:linear-gradient(180deg,#101d21f5,#081318f2);
+  border-bottom:1px solid #d9b87940;
+  box-shadow:inset 0 1px 0 #ffffff0c,0 10px 32px #030a0e66;
+}
+.app-header::after{content:"";position:absolute;bottom:-2px;left:3%;right:3%;height:1px;background:linear-gradient(90deg,transparent,#d1a85a77,transparent);pointer-events:none}
+.brand{min-width:unset;gap:11px;color:#f6ead3;text-shadow:0 1px 6px #0007}
+.brand-mark{font-size:38px;color:#f8daa0;line-height:1;filter:drop-shadow(0 0 10px #d7a35750);text-shadow:0 1px 0 #573811}
+.brand b{font-family:Georgia,'Times New Roman',serif;font-size:19px;letter-spacing:.105em;color:#f9e8c0;font-weight:700}
+.brand small{color:#d4bd93;letter-spacing:.15em;font-size:8px}
+.app-header nav{gap:6px}
+.nav-button{min-height:43px;padding:7px 15px;border:1px solid transparent;border-radius:11px;color:#a8b8b4;transition:background-color .16s,color .16s,border-color .16s,box-shadow .16s}
+.nav-button:hover:not(:disabled){color:#ffe4a4;background:#f8dca30b}
+.nav-button.selected,.nav-button[aria-current="page"]{
+  color:#fae5b9;border-color:#dfbd7555;
+  background:linear-gradient(180deg,#5a4a2d7a,#2a3027e8);
+  box-shadow:inset 0 1px 0 #ffe1a030,0 0 14px #e9ba4d14;
+}
+.nav-icon{opacity:.9}
+.header-status .outline-tag{color:#e8cb98;border:1px solid #c9a86c65;background:#a9874320;box-shadow:inset 0 1px 0 #e7c99f20}
+.virtual-label{color:#a9bcb6}
+.subnav{gap:6px;padding-top:7px;padding-bottom:7px}
+.subnav-button{border-radius:999px;border:1px solid #e2c4871f;background:#101b20a8;color:#b5c6bd;transition:background .16s,border-color .16s}
+.subnav-button:is(.selected,[aria-current="page"]){color:#f9dfac;border-color:#daba745c;background:linear-gradient(180deg,#5b4e305b,#24372ba9);box-shadow:0 0 0 1px #d6b67319 inset}
+main{max-width:1680px;padding-inline:clamp(12px,2.6vw,44px)}
+.page-heading{margin-bottom:22px}
+.page-heading h1,.page-heading h2{color:#f3ead7;letter-spacing:-.025em}
+.page-heading .eyebrow,.eyebrow{color:#e4bf7f;letter-spacing:.13em;text-transform:uppercase}
+.muted,small{overflow-wrap:anywhere}
+
+/* Reusable panels, section headers, forms, tables and gameplay UI. */
+.panel,.table-panel,.t-action-panel,.action-panel,.bj-felt-panel,.slot-auto-panel,.slot-session{
+  border-color:#cdb57c29;
+  box-shadow:inset 0 1px 0 #ffffff0d,0 12px 27px #00000035;
+}
+.panel{
+  background:linear-gradient(145deg,#1b2d31 0%,#122025 38%,#101a21 100%);
+  border-radius:15px;
+}
+.panel>h2,.section-heading h2,.home-intro h2,.results-panel h2{color:#f4eddf}
+.section-heading,.cashout-head{border-color:#dcbd8030}
+.home-start,.home-card,.panel:is(.career,.coach,.heads-up,.by-game,.deep-stats){box-shadow:inset 0 1px 0 #ffffff13,0 9px 28px #0004}
+.home-start{background:radial-gradient(ellipse at 95% 0%,#bfa2641b,transparent 46%),linear-gradient(145deg,#182b2c,#0f1d24)}
+.home-card{position:relative;border-color:#d5bc8240;background:linear-gradient(157deg,#253d40,#152329 61%,#111b22);border-radius:15px;overflow:hidden}
+.home-card::after{content:"";position:absolute;inset:auto 10% 0;height:1px;background:linear-gradient(90deg,transparent,#d9b8755e,transparent);pointer-events:none}
+.home-card:not(:disabled):hover{border-color:#e8c78b9e;box-shadow:inset 0 1px 0 #ffffff27,0 12px 27px #0008,0 0 20px #d9ae4a25}
+.home-card-main{background:linear-gradient(155deg,#51402a,#2d3226 55%,#192423);border-color:#f2c9827d}
+.home-card-icon{filter:drop-shadow(0 2px 4px #0006)}
+.button,.segment,.table-choice,.slot-key{border-radius:10px;transition:transform .15s ease,filter .15s ease,box-shadow .2s ease,background-color .2s ease}
+.button{border-color:#d3caaf23;background:linear-gradient(180deg,#34464a,#1d2a30);box-shadow:inset 0 1px 0 #ffffff19,0 2px 5px #0005;color:#e1eae5}
+.button:hover:not(:disabled){filter:brightness(1.1);box-shadow:inset 0 1px 0 #ffffff2a,0 4px 9px #0008}
+.button.primary,.primary{background:linear-gradient(180deg,#ffecb9,#e8c380 55%,#cda267);border-color:#ffedba;color:#2d2113;box-shadow:inset 0 1px 0 #fff9dc,0 2px 0 #926e39,0 5px 14px #0007}
+.button.primary:hover:not(:disabled),.primary:hover:not(:disabled){background:linear-gradient(180deg,#fff3d3,#e8cb92 65%,#caa066)}
+.button.secondary,.secondary{border-color:#d3ba8030;background:linear-gradient(180deg,#2c3c41,#18252a);color:#e0e7de}
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),select,textarea{
+  border-color:#ccb68145;border-radius:10px;background-color:#0c1a1f;color:#f2f5ee;
+  box-shadow:inset 0 2px 7px #0003;
+}
+input:focus-visible,select:focus-visible,textarea:focus-visible{border-color:#f7dc9d;outline:2px solid #d9ae6b66;outline-offset:1px}
+input[type="checkbox"],input[type="radio"]{accent-color:#e4ba74}
+summary{color:#dbd6c5}
+.segment.selected,.segment[aria-selected="true"]{color:#fce3ac;border-color:#d0ab5f;background:#6b573039}
+.history-tools-wrap,.recovery-note,.provenance-details,.table-style{border-color:#d8bb8630}
+.panel th,.panel td{border-color:#ded0a21a}
+.deep-rate,.deep-money>div{background:linear-gradient(135deg,#283b3b,#14252a);border:1px solid #d4b98122;border-radius:11px}
+.deep-rate dd,.deep-money dd{color:#f6e0b5}
+
+/* 2. Cash, tournament, heads-up and related poker surfaces. Preserve seat geometry. */
+.table-panel,.tournament-table{background:linear-gradient(155deg,#1a3036,#0b181f 70%);border:1px solid #d1b06a47;border-radius:19px}
+.table-heading{padding-top:16px;color:#f3e1bb}
+.table-heading b{font-weight:700;letter-spacing:.025em}
+.table-scene{filter:drop-shadow(0 10px 12px #020a0d40)}
+.table-rail{
+  background:
+    linear-gradient(150deg,#fff0ba3d,transparent 19% 74%,#bb884436),
+    linear-gradient(125deg,#3b2d23 0%,#15191b 19%,#826440 29%,#2e261f 34%,#111b1b 66%,#7b633f 81%,#241b16 100%);
+  box-shadow:0 18px 34px #000b,0 0 0 2px #d7b4775e,inset 0 0 0 2px #090f13,inset 0 0 0 5px #caa56e7a,inset 0 10px 20px #0009;
+}
+.table-rail::after{border:1px dashed #edce986b;inset:5px}
+.felt{
+  background:
+    radial-gradient(ellipse 70% 45% at 48% 38%,#3b8b6a6b,transparent 98%),
+    radial-gradient(ellipse 130% 100% at 50% 44%,#206b52 0%,#114a3c 59%,#0b2b2b 100%);
+  box-shadow:inset 0 0 0 1px #d9c18838,inset 0 12px 33px #011b19b8,inset 0 -20px 40px #06140f88;
+}
+.felt-line{border-color:#c7d6a84c;box-shadow:0 0 0 1px #061c19ae}
+.table-watermark{font-family:Georgia,'Times New Roman',serif;color:#e2d7b129;letter-spacing:.15em;text-shadow:0 1px 1px #00251c}
+.street-label{color:#e9d59f;letter-spacing:.14em;text-shadow:0 1px 3px #000b}
+.playing-card{
+  background:linear-gradient(135deg,#fffef9 0%,#f7f2e5 75%,#e6d9bc 100%);
+  border:1px solid #fff9e9;
+  box-shadow:inset 0 0 0 1px #cec0a65c,0 4px 8px #0006,0 1px 1px #000b;
+}
+.playing-card.red-card{color:#bc303b}
+.playing-card.card-back{border:2px solid #d6b87fa1;background:
+  repeating-linear-gradient(45deg,#c6dbde23 0 1px,transparent 1px 6px),
+  repeating-linear-gradient(-45deg,#c6dbde23 0 1px,transparent 1px 6px),
+  linear-gradient(145deg,#274b69,#112e47 65%,#091927);
+  box-shadow:inset 0 0 0 2px #0d2531,inset 0 0 0 3px #e8d9b449,0 2px 6px #0007;
+}
+.board-slot{border:1px solid #d8e9c42f;background:linear-gradient(145deg,#0a393277,#052b2744);box-shadow:inset 0 1px 7px #001913a1}
+.pot-display{border:1px solid #d9bc7d7b;background:linear-gradient(165deg,#1e4436e8,#102921ed);box-shadow:inset 0 1px 0 #ecdcae35,0 5px 12px #0007}
+.pot-display>span{color:#d6d6bc;font-size:10px;letter-spacing:.13em}
+.pot-display strong{color:#fff0c4;text-shadow:0 1px 5px #0009;font-weight:800}
+.seat-label{background:linear-gradient(155deg,#2b3c3edb,#132328f5 62%,#0e1d22f5);border:1px solid #afbbac69;border-radius:11px;box-shadow:inset 0 1px 0 #ffffff1c,0 4px 13px #000a}
+.seat-label b{color:#cbd5ce}
+.seat-label strong{color:#f6f3e6;text-shadow:0 1px 3px #000b}
+.seat:has(.portrait) .portrait{box-shadow:0 0 0 2px #c9a46b,0 2px 6px #000b}
+.hero-seat .seat-label{background:linear-gradient(160deg,#55492d,#24392f 66%,#17251f);border-color:#eacb86;box-shadow:inset 0 1px 0 #fce3a348,0 0 0 2px #bda36f33,0 6px 16px #0009}
+.acting .seat-label{border-color:#87eec4;box-shadow:0 0 0 2px #6eddb475,0 0 18px #59ffb340,0 5px 12px #0008}
+.winner .seat-label{border-color:#f9d17f;box-shadow:0 0 0 2px #e9c76d66,0 0 18px #f8d37b66}
+.folded .seat-label{opacity:.6;filter:saturate(.6)}
+.seat-bet{background:#102720f0;border:1px solid #c3b87b45;box-shadow:0 3px 8px #0006;color:#f7e6bd}
+.dealer-button{background:radial-gradient(circle at 35% 25%,#fff,#ece5cf 70%,#b6a684);color:#25221a;border-color:#d0bc87;box-shadow:0 2px 5px #000b}
+.action-panel,.t-action-panel{
+  background:linear-gradient(160deg,#223636f5,#101e25f8 40%,#0b151bf8);
+  border-color:#d8c08d68;
+  box-shadow:inset 0 1px 0 #ffffff20,0 8px 22px #0009;
+  backdrop-filter:blur(14px);
+}
+.action-panel .button,.t-action-panel .button{box-shadow:inset 0 1px 0 #ffffff1c,0 2px 6px #0007}
+.action-panel .button.primary,.t-action-panel .button.primary{box-shadow:inset 0 1px 0 #fff5cf,0 3px 0 #94743d,0 5px 11px #0006}
+.tournament-play .table-toolbar,.table-toolbar{border-color:#c4b48629;color:#e3e9df}
+.tournament-wallet{background:linear-gradient(130deg,#2d3d34,#17242a);border-color:#d9bc8060}
+.tournament-wallet strong{color:#f5dfb7}
+.t-raise-row input{background:#101d22;color:#fff1d5;border-color:#bdac7b79}
+.speech-bubble,.table-talk-line{box-shadow:0 4px 16px #0009}
+
+/* Alternative felt selections still work, with a consistent leather/brass rail. */
+.felt-blue .table-panel .felt,.felt-blue .tournament-play .felt{background:radial-gradient(ellipse at 45% 28%,#357e9c,#174b69 55%,#102b46 100%)}
+.felt-burgundy .table-panel .felt,.felt-burgundy .tournament-play .felt{background:radial-gradient(ellipse at 45% 28%,#a04953,#682637 55%,#391822 100%)}
+.felt-charcoal .table-panel .felt,.felt-charcoal .tournament-play .felt{background:radial-gradient(ellipse at 45% 28%,#687076,#39454a 55%,#20282e 100%)}
+
+/* 3. Omaha is a first-class card room, not a separate-looking minigame. */
+.plo-felt{
+  background:
+    radial-gradient(ellipse 75% 55% at 48% 30%,#2a896878,transparent 86%),
+    radial-gradient(ellipse at 50% 44%,#196d53,#114737 65%,#092d29 100%);
+  box-shadow:inset 0 0 0 3px #8e704b,inset 0 0 0 8px #1b1a17,inset 0 0 0 11px #bb945b,0 16px 30px #0009;
+}
+.plo-felt::before{border-color:#e5d5a64f;box-shadow:0 0 0 1px #00171277}
+.plo-id{background:linear-gradient(160deg,#253b3d,#0d2025);border-color:#e0c3877a;box-shadow:inset 0 1px 0 #ffffff27,0 4px 9px #0009}
+.plo-seat.acting .plo-id{box-shadow:0 0 0 2px #77e6ad,0 0 14px #6effb933,0 4px 9px #0009}
+.plo-seat.won .plo-id{box-shadow:0 0 0 2px #f0ca7c,0 0 15px #fbd67f40,0 4px 9px #0009}
+.plo-avatar.plo-face{box-shadow:0 0 0 2px #c6aa75,0 4px 10px #0009}
+.plo-felt .rp-pot{border:1px solid #e5bd6d94;background:#0d2a23ec;box-shadow:0 4px 12px #0008}
+.plo-bet{color:#f9e7b8;text-shadow:0 1px 4px #001811}
+.plo-actions{background:linear-gradient(150deg,#213734,#0d1920);border-color:#d6b47c5e;box-shadow:inset 0 1px 0 #ffffff17,0 7px 22px #0007}
+
+/* 4. Blackjack: proper casino rail, illuminated lettering and professional chips/cards. */
+.blackjack-play .bj-felt-panel{border-color:#bc9d626b;background:linear-gradient(160deg,#172c2a,#0b151a)}
+.blackjack-play .bj-felt{
+  border-color:#2d2118;
+  background:
+    radial-gradient(ellipse 70% 42% at 50% 19%,#37916f96,transparent 96%),
+    radial-gradient(ellipse at 50% 35%,#1c7155,#0d4d3e 64%,#0b332d 100%);
+  box-shadow:inset 0 0 0 2px #bf9d618c,inset 0 0 0 5px #092823bb,inset 0 16px 28px #0007,inset 0 -20px 50px #0008,0 0 0 1px #d0af7290,0 15px 30px #000b;
+}
+.bj-print-main{fill:#f6d58e}
+.bj-print-rule{fill:#f6ead0;fill-opacity:.8}
+.bj-print-band path{stroke:#f3cf7a;stroke-opacity:.76}
+.blackjack-play .bj-bet-circle{border-color:#f1d094;box-shadow:inset 0 0 0 1px #c2a2674d,0 0 15px #b8a26120}
+.blackjack-play .bj-hand.acting{background:radial-gradient(ellipse at 50% 45%,#efd08b2f,transparent 72%)}
+.blackjack-play .bj-hand.acting .bj-cards{filter:drop-shadow(0 0 10px #ffdf9b78)}
+.blackjack-play .bj-card{background:linear-gradient(130deg,#fff,#f7f4e9 70%,#e7decb);box-shadow:inset 0 0 0 1px #ffffffb0,0 2px 2px #0007,0 7px 15px #0009}
+.blackjack-play .bj-card.card-back{box-shadow:inset 0 0 0 1px #fff6e1a1,0 3px 8px #000b}
+.bj-rack{box-shadow:inset 0 2px 4px #0008,0 3px 8px #000b,0 0 0 1px #dabb7c38}
+.bj-seat{border-color:#d8c28f30;box-shadow:inset 0 1px 0 #ffffff1c,0 3px 8px #0006}
+.blackjack-play .bj-full .bj-seat.hero{border-color:#f5d48b;box-shadow:inset 0 1px 0 #ffe5a442,0 0 0 2px #e8c58b44,0 0 18px #e8c58b40}
+.bj-chip{box-shadow:inset 0 1px 0 #ffffff36,0 3px 7px #0009}
+
+/* 5. Slots: the main lobby reads as a premium selection of machine cabinets. */
+.panel.slots{background:linear-gradient(150deg,#1d292f,#0d1720);border-color:#cda76855}
+.slot-floor-tabs .segment{border-radius:999px;min-height:36px}
+.slot-recently{padding:4px 0}
+.slot-card{
+  position:relative;
+  background:
+    radial-gradient(ellipse 120% 55% at 50% 0%,color-mix(in srgb,var(--glow) 40%,transparent),transparent 80%),
+    linear-gradient(175deg,var(--top),var(--bottom));
+  border:1px solid #edd8ab80;
+  border-radius:19px;
+  box-shadow:inset 0 1px 0 #fff6d168,inset 0 0 0 4px #100d14d1,inset 0 0 0 5px #f5d7a05e,0 15px 27px #0009;
+}
+.slot-card::after{content:"";position:absolute;inset:5px;border:1px solid #ffe6ac4d;border-radius:14px;pointer-events:none}
+.slot-card:hover:not(:disabled){transform:translateY(-3px);box-shadow:inset 0 1px 0 #fff6d168,inset 0 0 0 4px #100d14d1,inset 0 0 0 5px #f5d7a0,0 15px 28px #000c,0 0 26px color-mix(in srgb,var(--glow) 50%,transparent)}
+.slot-card-marquee{padding-top:17px}
+.slot-card-marquee b{filter:drop-shadow(0 2px 0 #000) drop-shadow(0 0 10px var(--glow));letter-spacing:.05em}
+.slot-card-reels{
+  border:2px solid #d8b677;
+  background:linear-gradient(180deg,#fff9e9,#e4d6b8);
+  box-shadow:inset 0 5px 11px #0007,0 0 0 4px #0c090a,0 0 0 5px #cda86b;
+}
+.slot-card-text{padding-top:14px}
+.slot-card-text span{color:#fff2d7}
+.slot-chip{border:1px solid #c5a86c69;background:#273238;box-shadow:0 3px 10px #0008}
+
+/* All eight machines inherit the same manufacturing-quality shell but keep their unique themes. */
+.slot-cabinet{
+  border-radius:26px 26px 18px 18px;
+  background:
+    radial-gradient(ellipse 115% 30% at 50% 0%,color-mix(in srgb,var(--glow) 42%,transparent),transparent 94%),
+    linear-gradient(155deg,#ffffff09,transparent 40%),
+    linear-gradient(180deg,var(--top),var(--bottom) 84%);
+  box-shadow:inset 0 1px 0 #fff6dcaa,inset 0 0 0 3px #f1d69e,inset 0 0 0 7px #090d13ec,inset 0 0 0 9px #d5b06c,0 18px 40px #000b,0 0 34px color-mix(in srgb,var(--glow) 20%,transparent);
+}
+.slot-marquee{
+  background:radial-gradient(ellipse 90% 100% at 50% 0%,color-mix(in srgb,var(--glow) 55%,transparent),transparent),linear-gradient(180deg,#ffffff2e,#0000001f);
+  border-bottom:1px solid #fff1c461;
+  box-shadow:inset 0 1px 0 #ffffff50,0 4px 12px #0006;
+}
+.slot-marquee h3{letter-spacing:.075em;filter:drop-shadow(0 3px 0 #000c) drop-shadow(0 0 15px color-mix(in srgb,var(--glow) 65%,transparent))}
+.slot-window-frame{
+  background:linear-gradient(145deg,#fbe5a3,#916621 19%,#f4d288 52%,#8a5920 81%,#f0c982);
+  box-shadow:inset 0 1px 0 #fff9d9,0 0 0 2px #120d0b,0 6px 15px #000c,0 0 18px color-mix(in srgb,var(--glow) 14%,transparent);
+}
+.slot-window{background:#140f11;box-shadow:inset 0 3px 10px #000b}
+.slot-reel{
+  background:linear-gradient(90deg,#c6b99d 0%,#fffefa 13%,#fffdfa 78%,#d8c5a2 100%);
+  box-shadow:inset 3px 0 0 #ffffff91,inset -3px 0 0 #74695390,0 0 0 1px #d5c4a0;
+}
+.slot-glass{background:linear-gradient(180deg,#ffffff41,transparent 24%,transparent 69%,#0000002e),linear-gradient(92deg,#0000003d,transparent 10%,transparent 88%,#0000003d)}
+.slot-status-row{min-height:36px}
+.slot-meters>div{border-radius:9px;border:1px solid #b9a17380;background:linear-gradient(180deg,#010509,#0b1115);box-shadow:inset 0 2px 7px #000,inset 0 1px 0 #d8bf8e2b,0 3px 7px #0005}
+.slot-meters small{color:#f6d89e}
+.slot-meters b{text-shadow:0 0 7px #ff613a80}
+.slot-meters .lit b{text-shadow:0 0 8px #6bffac96}
+.slot-deck{padding:1px 2px 3px}
+.slot-key{border:1px solid #ffffff24;background:linear-gradient(180deg,#656871,#292d35 65%,#181a21);box-shadow:inset 0 1px 0 #ffffff48,0 3px 0 #080a0e,0 6px 12px #0008}
+.slot-key.on{background:linear-gradient(180deg,#f4cb65,#9b6714);color:#231a0e}
+.slot-spin-button{border:1px solid #fff3ca!important;box-shadow:inset 0 3px 0 #ffffff7c,inset 0 -6px 10px #380909ab,0 0 0 4px #eac479,0 0 0 7px #070a0ce0,0 7px 17px #000c,0 0 18px #ff38386b}
+.slot-overlay,.slot-gamble{backdrop-filter:blur(3px)}
+.slot-overlay .ov-title{letter-spacing:.07em}
+.slot-auto-panel,.slot-session{background:linear-gradient(160deg,#22303a,#0d151b);border:1px solid #d5b87839}
+.slot-chest{border:1px solid #d5bd89aa;background:radial-gradient(circle at 45% 23%,#276979,#071b2b)}
+
+/* 6. Make non-table pages genuinely part of the same product. */
+.results-panel,.history-panel,.cashier-panel,.stats-panel,.setup-panel,.bj-lobby,.bj-trainer,.coach-panel,.deep-stats,.session-manager{border-color:#d0b2773f}
+.table-list,.activity-list,.hub-list,.results-panel table{border-color:#d2b67e24}
+.table-choice{background:linear-gradient(145deg,#273a3a,#112028);border-color:#d5b57b36}
+.table-choice:hover{border-color:#f1d5a36e;background:linear-gradient(145deg,#304941,#162a2b)}
+.recovery-note{background:linear-gradient(115deg,#352e23,#1b2527);border-color:#cba5666f;color:#e8d6af}
+.recovery-note>summary{color:#f4e7c9}
+.cashout-summary{background:linear-gradient(150deg,#314237,#1b2b29 55%,#141f22);border-color:#e4c3857a;box-shadow:inset 0 1px 0 #fff5ce2a,0 8px 27px #0006}
+.cashout-summary h2{color:#f5ebda}
+.chart-shell,.chart-card,.stats-card{border-color:#dcc38c26}
+
+/* Preserve accessible color contrast in the built-in light theme. Tables and machine shells
+ * stay dark for legibility of their gold/white chips; surrounding content becomes parchment. */
+.theme-light{--muted:#53695f;--line:#aa8e5844;--panel:#f1ebe0;color:#25332f;background:#f3eee5}
+.theme-light.app-shell{background:radial-gradient(ellipse at 70% 0%,#d9caac,transparent 53%),linear-gradient(180deg,#faf6ee,#eee7dc)}
+.theme-light .app-header{background:linear-gradient(180deg,#253935,#162a2b);color:#f6ead7}
+.theme-light .app-header .nav-button{color:#d6e2d6}
+.theme-light .app-header .nav-button.selected{color:#ffe9b7}
+.theme-light .panel:not(.slots):not(.cashout-summary):not(.tournament-wallet),.theme-light .home-start{color:#20322d;background:linear-gradient(150deg,#fffdfa,#e9e5da);border-color:#9f895b7a}
+.theme-light .panel:not(.slots) h2,.theme-light .home-intro h2,.theme-light .page-heading h1,.theme-light .page-heading h2{color:#20332e}
+.theme-light .home-card:not(.home-card-main){color:#ecf3ef;background:linear-gradient(155deg,#2e4a47,#192d32)}
+.theme-light .home-card:not(.home-card-main) b{color:#fff0cc}
+.theme-light .page-heading .eyebrow{color:#805f29}
+.theme-light .subnav-button{color:#3f564d;background:#fff9e9;border-color:#af906244}
+.theme-light .subnav-button.selected{background:#e3d2a8;color:#49391e}
+.theme-light .table-panel,.theme-light .tournament-table,.theme-light .blackjack-play .bj-felt-panel{color:#f3f0e4;background:#122326}
+.theme-light .panel.slots,.theme-light .slot-cabinet,.theme-light .slot-session,.theme-light .slot-auto-panel{color:#f0ebde}
+.theme-light .recovery-note{color:#d8ba8c;background:#382f23}
+.theme-light .action-panel,.theme-light .t-action-panel,.theme-light .plo-actions{color:#eef2e7;background:#12262adf;border-color:#d2b06d9e}
+.theme-light .panel select,.theme-light .panel input:not([type="checkbox"]):not([type="radio"]):not([type="range"]){color:#e9f0e7;background:#203331}
+
+/* Mobile: no new horizontal overflow, clipped speech, or lost touch targets.
+ * Landscape/table positioning from Patch 85 is deliberately left intact. */
+@media(max-width:700px){
+  .app-header{min-height:0;padding:7px 6px 8px;gap:4px}
+  .brand-mark{font-size:29px}
+  .brand b{font-size:14px}
+  .brand small{font-size:6px}
+  .nav-button{padding:6px 4px;border-radius:9px;min-height:44px}
+  main{padding-inline:8px}
+  .page-heading{margin-bottom:13px}
+  .table-panel,.tournament-table{border-radius:13px}
+  .table-rail{box-shadow:0 9px 22px #000b,0 0 0 1px #d7b47762,inset 0 0 0 3px #cba56e96}
+  .slot-card{border-radius:15px}
+  .slot-card-marquee b{font-size:clamp(20px,6.5vw,27px)}
+  .slot-card-text{padding-inline:12px}
+  .slot-cabinet{border-radius:20px 20px 14px 14px}
+  .slot-marquee{padding-top:13px}
+  .slot-deck .slot-key{min-height:44px}
+  .bj-felt{border-width:9px}
+}
+@media(max-width:370px){
+  .nav-button{font-size:10px;padding-inline:2px}
+  .slot-meters small{font-size:8px}
+  .slot-meters b{font-size:clamp(11px,3.4vw,16px)}
+}
+/* Nothing decorative may hijack interaction or override the player's motion choice. */
+.motion-off .slot-card,.motion-off .home-card,.motion-off .slot-reel,.motion-off .nav-button{transition:none!important;animation:none!important}
+@media(prefers-reduced-motion:reduce){
+ .slot-card,.home-card,.slot-reel,.nav-button,.button{transition:none!important;animation:none!important}
+ .slot-card:hover,.home-card:hover{transform:none!important}
+}
+
+/* Existing light-theme accessibility rules intentionally recolor ordinary document copy.
+ * Slots are dark, self-contained game cabinets even inside a light app shell. Reassert
+ * their instrument/readout colors rather than weakening the site-wide light rules. */
+.theme-light main .slot-cabinet,
+.theme-light main .slot-card,
+.theme-light main .slot-session,
+.theme-light main .slot-auto-panel{color:#f5f0df!important}
+.theme-light main :is(.slot-marquee h3,.slot-card-marquee b){
+  color:transparent!important;
+  -webkit-text-fill-color:transparent!important;
+  background-image:linear-gradient(180deg,#fff9e2,#ffd973 45%,#b67c21 53%,#ffebaa)!important;
+  -webkit-background-clip:text!important;background-clip:text!important;
+}
+.theme-light main :is(.slot-marquee small,.slot-card-marquee small,.slot-card-text span,.slot-card-text small,.slot-bet-step>span,.slot-meters small,.slot-session-row small){color:#f3dfb2!important}
+.theme-light main .slot-status{color:#ffe8b2!important}
+.theme-light main .slot-status:is(.win,.feature){color:#8ff0b8!important}
+.theme-light main .slot-status.big{color:#ffe14a!important}
+.theme-light main .slot-meters b{color:#ff785a!important}
+.theme-light main .slot-meters .lit b{color:#83f5a9!important}
+.theme-light main .slot-key,.theme-light main .slot-spin-button{color:#fff!important}
+.theme-light main .slot-card-text small b{color:#a1f0c9!important}
+.theme-light main .slot-session-row b{color:#fbefd6!important}
+.theme-light main .slot-session .slot-recent i.win{color:#9df0b7!important}
+.theme-light .app-header .nav-button:is(.selected,[aria-current="page"]){background:linear-gradient(180deg,#615137,#2c3b34)!important;color:#fbe7bd!important;border-color:#f0cc89}
+.theme-light .blackjack-play .bj-felt .bj-bet-circle small{color:#f7d99e!important}
+.theme-light .blackjack-play .bj-felt .bj-bet-circle b{color:#fff8e7!important}

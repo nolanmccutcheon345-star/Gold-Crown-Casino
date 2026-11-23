@@ -1,0 +1,4 @@
+import {build} from 'esbuild';
+import {readFile, mkdir} from 'node:fs/promises';
+await mkdir('tests/step5c-stall/evidence',{recursive:true});
+await build({entryPoints:['tests/step5c-stall/run.ts'],bundle:true,platform:'node',format:'esm',outfile:'/tmp/step5c-stall-run.mjs',sourcemap:'external',plugins:[{name:'read-only-stall-observation',setup(build){build.onLoad({filter:/\/src\/session\/controller\.ts$/},async args=>{const source=await readFile(args.path,'utf8'),needle="p.decision=timed('bot.policy',()=>chooseDecision(observation,a.profiles[p.seatId],seeded(p.drawToken)));";if(!source.includes(needle))throw new Error('Observation instrumentation source anchor changed.');return{loader:'ts',contents:source.replace(needle,"(globalThis as unknown as {__stallObservation:unknown}).__stallObservation={observation,profile:a.profiles[p.seatId]};\n   "+needle)};});}}]});

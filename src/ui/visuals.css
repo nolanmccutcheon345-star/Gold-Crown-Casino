@@ -1,0 +1,89 @@
+/* Patch 81: a finished look for the Omaha table and the main navigation. */
+
+/* Omaha felt: a printed rail, a betting line, the game name, seat plates and chips. */
+.plo-felt{background:radial-gradient(ellipse at 50% 42%,#2f805a 0%,#1f6646 45%,#14472f 78%),#1a5a3c;box-shadow:inset 0 0 0 10px #5a3c22,inset 0 0 0 12px #c9a25a55,inset 0 0 60px #0007,0 10px 28px #0008;overflow:visible}
+.plo-felt::before{content:'';position:absolute;inset:16%;border:1.5px solid #ffffff1f;border-radius:50%/46%;pointer-events:none}
+.plo-print{position:absolute;left:50%;top:66%;transform:translate(-50%,-50%);font:700 11px/1 'DM Sans',system-ui,sans-serif;letter-spacing:.32em;color:#ffffff1c;white-space:nowrap;pointer-events:none}
+.plo-felt .rp-pot{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:#0b241a99;border:1px solid #e6c48a55;color:#f2d9a6;font-size:13px}
+.plo-felt .rp-pot::before{content:'';width:10px;height:10px;border-radius:50%;background:radial-gradient(circle,#fff 0 22%,#c0392b 24% 62%,#fff 64% 74%,#c0392b 76%);box-shadow:0 1px 0 #0006}
+
+.plo-seat{gap:3px}
+.plo-plate{display:flex;align-items:center;gap:6px;padding:3px 9px 3px 3px;border-radius:999px;background:linear-gradient(180deg,#132026f2,#0b151af2);border:1px solid #ffffff24;box-shadow:0 3px 10px #0007;min-width:0}
+.plo-seat.hero .plo-plate{border-color:#e6c48a99;background:linear-gradient(180deg,#2a2414f2,#17130af2)}
+.plo-seat.acting .plo-plate{border-color:#e6c48a;box-shadow:0 0 0 2px #e6c48a55,0 3px 10px #0007}
+.plo-seat.won .plo-plate{border-color:#9be29b;box-shadow:0 0 0 2px #9be29b55,0 0 18px #9be29b44}
+.plo-seat.folded .plo-plate{opacity:.6}
+.plo-avatar{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;flex:0 0 auto;background:hsl(var(--hue) 45% 38%);color:#fff;font-weight:800;font-size:12px;box-shadow:inset 0 0 0 1.5px #ffffff40}
+.plo-id{display:grid;line-height:1.1;text-align:left;min-width:0}
+.plo-id b{font-size:12px;color:#f2f5f3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:84px}
+.plo-id small{font-size:11px;color:#bfe0c9}
+.plo-bet{position:absolute;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;z-index:2}
+.plo-chip{width:12px;height:12px;border-radius:50%;background:radial-gradient(circle,#fff 0 20%,#2d6cdf 22% 60%,#fff 62% 72%,#2d6cdf 74%);box-shadow:0 1px 0 #0007,0 -1px 0 #ffffff55 inset}
+
+/* Talk bubbles stay on the screen: left-side seats speak to the right, right-side seats to the left. */
+.plo-seat.side-left .plo-say{left:0;transform:translate(0,-4px)}
+.plo-seat.side-right .plo-say{left:auto;right:0;transform:translate(0,-4px)}
+.plo-say{max-width:150px}
+
+/* Light theme: the felt stays a felt; the panel around it follows the theme. */
+.theme-light .plo-felt .rp-pot{background:#0b241acc}
+
+/* Main navigation icons. */
+.nav-icon{display:block;width:18px;height:18px;margin:0 auto 2px;opacity:.75}
+.nav-button.selected .nav-icon,.nav-button[aria-current] .nav-icon{opacity:1}
+.nav-button .nav-icon+span{display:block}
+@media(max-width:680px){.nav-button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:7px 2px 6px;font-size:11px}}
+.plo-seat{width:max-content;min-width:0}.plo-seat.folded .plo-id b{max-width:none}
+/* The plates are dark in both themes, so their text stays light. */
+.theme-light .plo-felt .plo-id b,.app-shell .plo-felt .plo-id b{color:#f2f5f3!important}
+.theme-light .plo-felt .plo-id small{color:#bfe0c9!important}
+.theme-light .plo-felt :is(.plo-label,.rp-won,.plo-print){color:inherit}
+.theme-light .plo-felt .rp-pot{color:#f2d9a6!important}
+.theme-light .plo-felt .rp-won{color:#9be29b!important}
+.theme-light .plo-felt .plo-label{color:#fff!important}
+.theme-light .plo-felt .plo-bet{color:#fff;text-shadow:0 1px 2px #000a}
+.theme-light .plo-felt .plo-avatar{color:#fff!important}
+/* Patch 84: portraits in every game. */
+.plo-avatar.plo-face{width:34px;height:34px;padding:0;background:#0d1b20;overflow:hidden;box-shadow:0 0 0 2px #17252b,0 3px 8px #0008}
+.plo-face .face,.bj-face .face,.hu-face .face{display:block;width:100%;height:100%}
+.plo-seat.hero .plo-face{box-shadow:0 0 0 2px #b29764,0 3px 8px #0008}
+.plo-seat.acting .plo-face{box-shadow:0 0 0 2px #91d4b4,0 0 12px #91d4b477}
+.plo-seat.won .plo-face{box-shadow:0 0 0 2px #e8c58b,0 0 16px #e8c58baa}
+.plo-seat.folded .plo-face .portrait{filter:grayscale(.75) brightness(.6)}
+.bj-face{display:block;width:40px;height:40px;margin:0 auto 3px;border-radius:50%;overflow:hidden;background:#0d1b20;box-shadow:0 0 0 2px #17252b,0 3px 8px #0008}
+.bj-seat.hero .bj-face{box-shadow:0 0 0 2px #b29764,0 3px 8px #0008}
+.bj-seat.acting .bj-face{box-shadow:0 0 0 2px #91d4b4,0 0 12px #91d4b477}
+@media(max-width:420px){.bj-face{width:30px;height:30px}}
+.hu-face{display:inline-block;width:36px;height:36px;border-radius:50%;overflow:hidden;background:#0d1b20;flex:0 0 auto;box-shadow:0 0 0 2px #17252b}
+.hu-rung.locked .hu-face .portrait{filter:grayscale(.8) brightness(.65)}
+.hu-rung.beaten .hu-face{box-shadow:0 0 0 2px #6fcf97}
+.hu-rung.current .hu-face{box-shadow:0 0 0 2px #e6c48a}
+.profile-persona{margin-top:4px;font-size:12px;color:#b9c6c0;line-height:1.35}.profile-persona b{color:#e8c58b;font-weight:700}
+/* Patch 87: tells from players who are not acting. One neutral style, so the colour never gives the meaning away. */
+.seat:has(.side-tell){overflow:visible}.side-tell{position:absolute;left:50%;bottom:-15px;translate:-50% 0;z-index:6;display:block;padding:1px 7px;border-radius:9px;background:#0b1418e6;box-shadow:0 0 0 1px #e8dcc033;font-size:10.5px;line-height:14px;font-style:italic;color:#efe3c6;white-space:nowrap;pointer-events:none;animation:side-tell-in .3s ease-out backwards}@keyframes side-tell-in{from{opacity:0}to{opacity:1}}
+.plo-seat .side-tell,.tournament-table .side-tell{bottom:-15px}
+@media (prefers-reduced-motion:reduce){.side-tell{animation:none}}
+.side-tell::before{content:'👁 ';font-style:normal;font-size:9px}
+.theme-light .side-tell{color:#5d4a20;background:#fffaf0e6;box-shadow:0 0 0 1px #6d5a2f33}
+.tell-guide{margin-top:16px}.tell-guide summary{cursor:pointer;font-weight:700;min-height:40px;display:flex;align-items:center}
+.tell-guide table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}.tell-guide th,.tell-guide td{text-align:left;padding:6px 8px;border-bottom:1px solid #ffffff14;vertical-align:top}.tell-guide th{color:#a9bbb4;font-weight:600;font-size:12px}
+/* Patch 88: the straddle game. */
+.table-straddle{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:9px;background:#e8c58b26;color:#e8c58b;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase}
+.straddle-note{margin:8px 0;padding:10px 12px;border-radius:10px;background:#e8c58b14;border:1px solid #e8c58b40;font-size:13px;line-height:1.45}
+.straddle-prompt{display:grid;gap:6px;margin-top:10px;padding:10px 12px;border-radius:10px;background:#e8c58b14;border:1px solid #e8c58b40}
+.straddle-prompt p{margin:0;font-size:13px}.straddle-prompt small{font-size:11px}
+.theme-light .table-straddle{color:#7a5a1c;background:#e8c58b55}
+/* Patch 89: deep stats. */
+.panel.deep-stats{padding:20px 18px;display:grid;gap:10px;align-content:start}
+.panel.deep-stats>h2{font-size:21px;margin:0}.panel.deep-stats h3{margin:14px 0 2px;font-size:16px}.panel.deep-stats h4{margin:6px 0;font-size:14px}
+.deep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:6px;margin:0}
+.deep-rate{padding:8px 10px;border-radius:10px;background:#ffffff08;border:1px solid #ffffff12;display:grid;gap:1px}
+.deep-rate dt{font-size:11px;color:#a9bbb4;letter-spacing:.02em}.deep-rate dd{margin:0;font-size:19px;font-weight:700}.deep-rate small{font-size:10.5px;color:#8a9c95}
+.deep-rate.thin dd{opacity:.55}
+.deep-money{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px;margin:0}.deep-money>div{padding:8px 10px;border-radius:10px;background:#ffffff08}.deep-money dt{font-size:11px;color:#a9bbb4}.deep-money dd{margin:0;font-weight:700;font-size:16px}
+.deep-table{width:100%;border-collapse:collapse;font-size:13px}.deep-table th,.deep-table td{text-align:left;padding:6px 8px;border-bottom:1px solid #ffffff12;white-space:nowrap}.deep-table th{font-size:11px;color:#a9bbb4;font-weight:600}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.deep-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.allin-luck p{margin:4px 0}
+.profile-deep{font-size:12px;line-height:1.45;color:#c8d6cf;margin:6px 0 0}
+.theme-light .deep-rate,.theme-light .deep-money>div{background:#00000008;border-color:#00000012}.theme-light .deep-rate dt,.theme-light .deep-money dt{color:#5d6b66}

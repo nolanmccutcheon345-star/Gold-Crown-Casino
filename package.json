@@ -1,0 +1,31 @@
+{
+  "name": "ai-texas-hold-em",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests",
+    "release:check": "node scripts/build-r1-dashboard.mjs --check --release-check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:browser": "playwright test --config=tests/browser/playwright.config.ts",
+    "test:oracle": "RUN_ORACLE=1 vitest run tests/oracle"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.1",
+    "@playwright/test": "1.56.1",
+    "@types/node": "24.10.0",
+    "eslint": "9.39.1",
+    "fast-check": "4.3.0",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.4",
+    "vite": "7.1.12",
+    "vitest": "3.2.4"
+  },
+  "dependencies": {
+    "@noble/hashes": "2.0.1"
+  }
+}

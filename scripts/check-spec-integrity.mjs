@@ -1,0 +1,16 @@
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+const root=new URL('../',import.meta.url);
+const read=(p)=>readFileSync(new URL(p,root));
+const manifest=JSON.parse(read('docs/specs/manifest.json'));
+for (const [file,expected] of Object.entries(manifest.files)) assert.equal(createHash('sha256').update(read('docs/specs/'+file)).digest('hex'),expected,`Governing package changed: ${file}`);
+for (const [file,expected] of Object.entries(manifest.registers)) assert.equal(createHash('sha256').update(read(file)).digest('hex'),expected,`Original register changed: ${file}`);
+const requirements=JSON.parse(read('docs/specs/acceptance-source.json'));
+const backlog=JSON.parse(read('docs/specs/backlog-source.json'));
+assert.equal(requirements.length,302);assert.equal(new Set(requirements.map(x=>x.id)).size,302);
+assert.equal(backlog.length,86);assert.equal(new Set(backlog.map(x=>x.id)).size,86);
+assert.ok(backlog.every(x=>x.status==='DEFERRED_NOT_IMPLEMENTED' && x.dependencies && x.required_behavior));
+assert.equal(manifest.available_exact_requirement_rows,302);assert.equal(manifest.available_exact_deferred_rows,86);
+if(process.argv.includes('--release')) throw new Error('R1 RELEASE BLOCKED: applicable acceptance gates have not all executed/passed. Phase 0 preview only.');
+console.log('PASS: four governing PDF hashes and original register hashes unchanged; 302 unique acceptance requirements and 86 deferred features preserved.');

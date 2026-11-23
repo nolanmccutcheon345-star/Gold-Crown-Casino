@@ -1,0 +1,298 @@
+AI TEXAS HOLD EM — STEP 4B: ADVANCED BOT INTELLIGENCE, RANGE REASONING AND HUMAN REALISM
+
+Continue developing the existing AI Texas Hold Em project, currently published as Version 5 at:
+
+https://ai-texas-hold-em.stevemccutcheon89.chatgpt.site/
+
+Use the existing V7 Master Directive, 302 acceptance requirements, 86 deferred features, Acceleration Addendum and Step 4A implementation as the authoritative foundation.
+
+Do not rebuild the application, modify Poker MaxEV or replace correctly functioning components.
+
+PRIMARY OBJECTIVE
+
+Improve the existing eight synthetic poker opponent archetypes so that their decisions become significantly more consistent with plausible real-human No-Limit Texas Hold’em play across low-, middle- and high-stakes cash games.
+
+Focus on strategic reasoning, conditional action frequencies, hand selection, stack-depth sensitivity, opponent modeling and believable human mistakes.
+
+Optimize for actual working gameplay and verified improvements, not additional documentation.
+
+1. INVESTIGATE THE POCKET-ACES PROBLEM FIRST
+
+Step 4A reported the following raise frequencies for AA in an unopened preflop scenario, with 1,000 opportunities per profile:
+
+* Nit: 50.7%.
+* Calling station: 27.1%.
+* TAG: 96.2%.
+* Strong regular: 96.3%.
+
+These results raise serious concerns about realism.
+
+Before modifying the policy:
+
+1. Reproduce the exact scenarios.
+2. Verify that they are truly unopened, first-in opportunities.
+3. Record position, effective stack, blinds, prior actions and available legal actions.
+4. Distinguish a limp, raise, all-in raise, check and fold.
+5. Verify that the test harness classifies actions correctly.
+6. Inspect the decision path and personality parameters producing the results.
+7. Identify whether the issue is policy logic, test construction, action classification or some combination.
+8. Correct the underlying problem instead of hardcoding a cosmetic frequency.
+
+Premium hands should be treated coherently by each archetype. Occasional slow-playing may be appropriate for particular players and situations, but it must be deliberate and plausible.
+
+Create regression tests for AA, KK, QQ, AK, weaker broadways, small pairs and suited connectors across positions.
+
+2. POSITION-SPECIFIC PREFLOP RANGES
+
+Implement or improve explicit, versioned starting-hand range models.
+
+Account for:
+
+* 2–10 players.
+* UTG, middle position, cutoff, button, small blind and big blind.
+* Unopened pots.
+* Single limpers and multiple limpers.
+* Open raises and cold calls.
+* Isolation raises and squeezes.
+* 3-bets and 4-bets.
+* Facing different raise sizes.
+* Short-handed and heads-up adjustments.
+* Archetype, skill, population and player-specific tendencies.
+
+Use actual hand-combination frequencies and valid conditional probabilities.
+
+Ensure different actions produce coherent ranges. For example, a nit’s 3-bet range should generally be much tighter than a competent LAG’s, while a calling station should have a meaningfully different calling distribution.
+
+Do not blindly apply solver ranges to recreational players.
+
+3. STACK-DEPTH INTELLIGENCE
+
+Improve decision-making at:
+
+* 20bb.
+* 40bb.
+* 60bb.
+* 100bb.
+* 150bb.
+* 200bb and deeper.
+
+Account for effective stacks, stack-to-pot ratio, commitment thresholds, speculative hand value, implied odds, reverse implied odds and all-in incentives.
+
+Deep-stacked and short-stacked versions of the same opponent should not behave identically.
+
+Use legal stack-aware sizings and preserve existing engine validation.
+
+4. PUBLIC-ACTION OPPONENT RANGE UPDATES
+
+Create or strengthen a weighted opponent range-estimation system.
+
+Initial opponent ranges should be conditioned on observed player tendencies, position, stack depth and prior public actions.
+
+Update range weights after each observable action.
+
+Use the updated distribution to inform:
+
+* Value betting.
+* Bluff selection.
+* Bluff-catching.
+* Draw decisions.
+* Thin value.
+* Continuation betting.
+* Check-raising.
+* Turn and river decisions.
+
+The range model must never use an opponent’s undisclosed hole cards, future cards or information unavailable to the acting bot.
+
+Do not mistake a bot’s true internal policy for information another player would automatically know.
+
+Use probabilistic uncertainty and prevent the opponent model from becoming artificially omniscient.
+
+5. ADVANCED POSTFLOP DECISION-MAKING
+
+Improve decision policies for:
+
+* Heads-up and multiway pots.
+* Dry, wet, paired, monotone and connected boards.
+* Static and dynamic board textures.
+* Made hands, draws, redraws and blockers.
+* Range and nut advantage.
+* Equity realization.
+* Pot odds and implied odds.
+* Fold equity.
+* Protection and value extraction.
+* Continuation betting and delayed continuation betting.
+* Turn barreling.
+* River bluffing and bluff-catching.
+* Check-raising.
+* Slow-playing and trapping.
+* Facing overbets, small bets and unusual sizing.
+* River decisions after specific prior betting lines.
+
+Evaluate future-street implications rather than treating every street as an unrelated isolated decision.
+
+Avoid rigid rules such as always bluffing a missed draw or automatically betting every top pair.
+
+6. REALISTIC HUMAN ERRORS
+
+Each archetype should possess plausible weaknesses.
+
+Examples:
+
+* Calling stations overcall appropriate situations but still recognize sufficiently extreme threats.
+* Nits overfold marginal spots and avoid risky bluffs, while strongly valuing premium hands.
+* Maniacs overbluff and overaggress, but do not raise randomly regardless of hand and board.
+* Recreational players may use inconsistent sizing, chase draws or become overly attached to pairs.
+* TAGs have disciplined ranges and relatively coherent postflop decisions.
+* LAGs pressure capped ranges and bluff selectively.
+* Strong regulars demonstrate more accurate range awareness, bet sizing and stack-sensitive decisions.
+
+Make these mistakes context-dependent, internally consistent and stable enough to be recognizable.
+
+Preserve distinct individual personalities within each archetype.
+
+7. CASH-GAME ENVIRONMENT MODELING
+
+Improve low-, middle- and high-stakes population presets.
+
+Keep player skill separate from stakes.
+
+Model differences in:
+
+* Limp frequency.
+* Multiway frequency.
+* Preflop aggression.
+* 3-betting.
+* Isolation raising.
+* Check-raising.
+* Value betting.
+* Bluff frequency.
+* Bet-size selection.
+* Positional awareness.
+* Adaptation to opponents.
+* Common player mistakes.
+
+Use research-supported qualitative differences where available.
+
+Do not claim numeric frequencies are measured human population statistics without a genuine relevant dataset.
+
+Keep all numerical synthetic assumptions documented and versioned.
+
+8. COMPLETE-HAND BEHAVIORAL TESTING
+
+Go beyond isolated single-decision benchmarks.
+
+Implement reproducible tests for complete betting sequences, including:
+
+* Limped multiway pots.
+* Single-raised heads-up pots.
+* 3-bet pots.
+* Short-stack all-ins.
+* Deep-stack river situations.
+* Draw-completion scenarios.
+* Missed-draw river bluffs.
+* Thin-value opportunities.
+* Bluff-catching against different archetypes.
+* Traps and slow-plays.
+* Large-bet and overbet responses.
+
+Record:
+
+* Scenario and seed.
+* Actual legal actions.
+* Opponent range assumptions.
+* Actions and sizes chosen.
+* Decision frequencies and opportunity counts.
+* Relevant strategy diagnostics.
+* Full-hand outcome.
+* Policy version.
+
+Use held-out scenarios and opponent lineups not used when tuning the policies.
+
+Compare against credible reference material where technically and legally available. Label synthetic assumptions separately from actual human observations and independent solver results.
+
+9. ANTI-EXPLOIT TESTING
+
+Create controlled evaluation opponents capable of probing weaknesses in the bot policies.
+
+Test whether simple strategies can systematically exploit pathological behaviors, such as:
+
+* Excessive folding to small bets.
+* Automatically calling every draw.
+* Excessive limping with premium hands.
+* Never bluffing the river.
+* Always bluffing missed draws.
+* Betting the same percentage regardless of hand strength and range.
+* Predictable sizing tells.
+* Overcalling large bets with weak hands.
+* Failing to respond to stack depth.
+* Artificially soft play against Hero.
+
+Report discovered weaknesses and improve them without erasing intended recreational-player mistakes.
+
+Do not equate making every bot unexploitable with making every bot realistic.
+
+10. ENGINE, PERSISTENCE AND PERFORMANCE SAFEGUARDS
+
+Preserve:
+
+* Single authoritative engine and chip accounting.
+* Legal action enforcement.
+* Hidden-information restrictions.
+* Bot decision idempotency.
+* Saved hand history.
+* Policy-version compatibility.
+* Bankroll and statistics.
+* New Session functionality.
+* Mobile perimeter seating at 2–10 seats.
+* Guest access.
+* Reload and interrupted-action recovery.
+* Previous automated tests and browser workflows.
+
+Ensure bot reasoning does not introduce significant latency on mobile or cause stalled turns.
+
+Run representative browser hands against the improved bots.
+
+11. IMPLEMENTATION AND VALIDATION
+
+Use parallel development and testing workstreams where supported, with isolated ownership and integration checks.
+
+Do not simply increase the number of simulated hands while leaving unrealistic policies unchanged.
+
+Execute:
+
+* Relevant unit and property tests.
+* Regression tests.
+* Independent hand-evaluation comparisons.
+* Controlled bot decision benchmarks.
+* Complete-hand simulations.
+* Actual browser gameplay.
+* Mobile performance checks.
+
+Do not modify expected test results merely to match the newly generated policies.
+
+Investigate failed tests, repair defects and preserve clear evidence.
+
+12. PUBLICATION AND REPORT
+
+Publish the updated version to the existing Site only after relevant release gates pass.
+
+Report:
+
+1. Root cause of the original AA frequency anomalies.
+2. Before-and-after AA decision results under identical scenarios.
+3. Updated positional preflop range behavior.
+4. Stack-depth comparison results.
+5. Examples of public-action range updates.
+6. Complete-hand decisions from multiple archetypes.
+7. Actual executed tests and measured behavioral samples.
+8. Remaining exploitable or unrealistic behavior.
+9. Browser and performance results.
+10. Updated V7 acceptance status.
+11. Outstanding verification blockers.
+12. Specific recommendations for Step 4C.
+
+Keep all 302 acceptance requirements and 86 deferred features intact.
+
+Mobile hand-history export remains awaiting physical-iPhone verification; do not silently mark it passed.
+
+Begin implementing and testing Step 4B now. Prioritize genuine improvements to poker decision quality over additional specification writing.

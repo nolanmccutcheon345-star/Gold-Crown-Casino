@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtempSync,writeFileSync,rmSync,readFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {execFileSync,spawnSync} from 'node:child_process';
+import {inspectHistory} from './source-preflight.mjs';
+
+const git=(cwd,...args)=>execFileSync('git',args,{cwd,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+function repository(){const root=mkdtempSync(join(tmpdir(),'poker-ci-history-')),origin=join(root,'origin');git(root,'init',origin);git(origin,'config','user.name','CI contract');git(origin,'config','user.email','ci@example.invalid');writeFileSync(join(origin,'fixture.txt'),'original assertion');git(origin,'add','fixture.txt');git(origin,'commit','-m','original fixture');const original=git(origin,'rev-parse','HEAD');writeFileSync(join(origin,'fixture.txt'),'changed assertion');git(origin,'commit','-am','candidate fixture');return{root,origin,original,head:git(origin,'rev-parse','HEAD')};}
+
+test('actual shallow clone omits original source and is rejected before qualification',()=>{const f=repository();try{const shallow=join(f.root,'shallow');git(f.root,'clone','--depth','1',`file://${f.origin}`,shallow);const old=spawnSync('git',['show',`${f.original}:fixture.txt`],{cwd:shallow,encoding:'utf8'});assert.notEqual(old.status,0);assert.throws(()=>inspectHistory(shallow,{providerSHA:f.head,requiredCommits:[f.original]}),/complete Git history/);}finally{rmSync(f.root,{recursive:true,force:true});}});
+test('full clone retains exact original assertion bytes and passes source inspection',()=>{const f=repository();try{const clone=join(f.root,'full');git(f.root,'clone',`file://${f.origin}`,clone);assert.equal(git(clone,'show',`${f.original}:fixture.txt`),'original assertion');assert.equal(inspectHistory(clone,{providerSHA:f.head,requiredCommits:[f.original]}).history,'COMPLETE');}finally{rmSync(f.root,{recursive:true,force:true});}});
+test('wrong provider SHA fails even with complete source history',()=>{const f=repository();try{assert.throws(()=>inspectHistory(f.origin,{providerSHA:f.original}),/Provider commit differs/);}finally{rmSync(f.root,{recursive:true,force:true});}});
+test('missing historical commit is never treated as current-source evidence',()=>{const f=repository();try{assert.throws(()=>inspectHistory(f.origin,{requiredCommits:['f'.repeat(40)]}));}finally{rmSync(f.root,{recursive:true,force:true});}});
+
+const workflow=readFileSync('.github/workflows/verify.yml','utf8');
+const jobs=[...workflow.matchAll(/^ {2}([a-z0-9-]+):\n(?<body>[\s\S]*?)(?=^ {2}[a-z0-9-]+:\n|$(?![\s\S]))/gm)].map(m=>({name:m[1],body:m.groups.body}));
+for(const name of ['critical','oracle','release-load','browser','r1-release'])test(`${name} retains full history, restores original receipts and uploads bootstrap proof`,()=>{const job=jobs.find(x=>x.name===name);assert(job,`Missing job${name}`);assert.match(job.body,/uses: actions\/checkout@[a-f0-9]{40} # v7\.0\.1\n {8}with:\n {10}fetch-depth: 0\n {10}persist-credentials: false/);assert.match(job.body,/uses: actions\/setup-python@[a-f0-9]{40}/);assert(job.body.includes(`node tests/step5f-ci/source-preflight.mjs test-results/bootstrap-${name}/manifest.json`));assert(job.body.includes(`test-results/bootstrap-${name}/`));assert(job.body.indexOf('source-preflight.mjs')<job.body.indexOf('step5d-ci-runner.mjs'));});
+test('workflow keeps least privilege and contains no deployment or publication command',()=>{assert.match(workflow,/permissions:\n {2}contents: read/);assert(!/contents: write|deploy_site|save_version_and_deploy|publish_on_push/.test(workflow));});
+test('ordinary checks retain typecheck/lint/build runner and independent oracle lane',()=>{assert(jobs.find(j=>j.name==='critical').body.includes('step5d-ci-runner.mjs critical'));assert(jobs.find(j=>j.name==='oracle').body.includes('step5d-ci-runner.mjs oracle'));});
+test('high-volume release remains explicit while browser runs for ordinary source changes',()=>{for(const name of ['release-load','r1-release'])assert(jobs.find(j=>j.name===name).body.includes("github.event_name == 'workflow_dispatch' && inputs.release_candidate"));assert(!jobs.find(j=>j.name==='browser').body.includes('workflow_dispatch'));assert(jobs.find(j=>j.name==='browser').body.includes('test-results/critical/manifest.json'));assert.match(jobs.find(j=>j.name==='r1-release').body,/needs: \[critical, oracle, release-load, browser\]/);});

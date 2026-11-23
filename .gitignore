@@ -1,0 +1,21 @@
+node_modules/
+dist/
+tests/browser/built-artifact/
+.sites-runtime/
+playwright-report/
+test-results/
+*.tar.gz
+__pycache__/
+.venv/
+node_modules
+
+# Credentials and local guest-data exports never belong in source control.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.npmrc.local
+.guest-backups/
+.private-fixtures/
+.ci-local/

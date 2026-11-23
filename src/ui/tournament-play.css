@@ -1,0 +1,42 @@
+/* Tournament presentation reuses the engine's public view and the existing seat geometry. */
+.tournament-play{min-width:0}.t-model-note{font-size:12px;color:#a9bbb4;margin:10px 0 14px;line-height:1.5}.t-play-grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}.t-action-panel{position:sticky;top:12px;background:#121f25;border:1px solid #688d7f66;border-radius:12px;padding:16px;display:grid;gap:12px;max-height:calc(100dvh - 24px);overflow:auto}.t-action-panel.your-action{border-color:#8fe0bd}.t-action-title{display:flex;align-items:center;justify-content:space-between;gap:10px}.t-action-title h2,.t-action-panel>h2{font-size:18px}.t-action-title>span{white-space:nowrap;color:#bfd0c8}.t-action-panel>p{font-size:13px;color:#bfd0c8;line-height:1.4}.t-raise-row{display:grid;grid-template-columns:minmax(65px,1fr) auto auto;gap:6px}.t-raise-row>label{grid-column:1/-1;font-size:13px}.t-raise-row input{min-width:0;width:100%;padding:9px;border:1px solid #536961;border-radius:5px;background:#0b171c;color:#eee;font-size:16px}.t-raise-row input[aria-invalid=true]{border-color:#ed9d8e}.t-action-panel .action-buttons{display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:6px}.t-action-panel .button{min-height:44px;padding:8px;font-size:14px}.t-action-panel .showdown-hands{max-height:5em;overflow:auto}.t-pot-list{padding:12px;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:#bdd0c3}.tournament-play .table-toolbar{padding:10px 12px;display:flex;justify-content:space-between;gap:10px}.t-standings,.t-history,.t-result{margin-top:16px}.t-result p{margin-top:8px;line-height:1.5}.t-standings>summary,.t-history>summary,.t-hand>summary{cursor:pointer;min-height:44px;display:flex;align-items:center}.t-standings .panel{padding:14px;margin-top:12px}.t-history p{font-size:13px;line-height:1.5;margin:8px 0}.t-hand{border-top:1px solid #53696155;margin-top:8px}.t-hand ol{font-size:13px;line-height:1.6;padding-left:22px;overflow-wrap:anywhere}.tournament-table .empty-seat .seat-label{opacity:.7}.tournament-table .empty-seat .seat-cards{justify-content:center}
+@media(max-width:1180px){.t-play-grid{display:block}.tournament-play{padding-bottom:calc(230px + env(safe-area-inset-bottom))}.t-action-panel{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;border-radius:14px 14px 0 0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));max-height:calc(100dvh - 64px);background:#0f1a1f;gap:6px;box-shadow:0 -8px 24px #0007}.t-action-panel .action-buttons{order:5}.t-action-panel .action-buttons .button{min-height:48px}.t-action-panel #t-raise-help{font-size:12px}.t-raise-row{grid-template-columns:minmax(70px,1fr) auto auto}.t-raise-row>label{grid-column:1/-1}.t-action-title h2{font-size:16px}.t-action-panel .showdown-hands{max-height:3em}.tournament-play .table-heading{font-size:12px}}
+@media(min-width:701px) and (max-width:1180px){.t-action-panel{left:50%;right:auto;transform:translateX(-50%);width:min(100%,760px)}}
+@media(min-width:701px) and (max-height:870px){.tournament-table .table-scene.perimeter-table{--table-h:var(--short-height)}.tournament-table .perimeter-table .seat{--seat-x:var(--short-x);--seat-y:var(--short-y)}}
+@media(max-width:700px){.tournament-play .table-heading{display:none}.tournament-play .table-panel .table-scene.perimeter-table{margin:2px 5px}.t-model-note{font-size:12px;margin:7px 0}.tournament-play .table-toolbar{font-size:12px}.t-standings,.t-history{padding:10px}.t-standings .panel{padding:8px}.t-action-panel .button{font-size:14px}.t-raise-row>label{font-size:12px}.t-result h2{font-size:20px}.t-result p{font-size:13px}.tournament-play .empty-seat.hero-seat .seat-status{display:none}}
+.tournament-table .seat-hand-label{font-size:12px;line-height:1.2;margin-top:0}
+.app-shell.tournament-active .page-heading,.app-shell.tournament-active .save-status,.app-shell.tournament-active .room-details{display:none}
+.app-shell.tournament-active .tournament-wallet{display:flex;align-items:center;flex-wrap:wrap;gap:8px 18px;padding:10px 14px;margin:0 0 10px;position:relative}
+.app-shell.tournament-active .tournament-wallet>h2{font-size:14px;margin:0}
+.app-shell.tournament-active .tournament-wallet>p{font-size:13px;margin:0}
+.app-shell.tournament-active .tournament-wallet>.tournament-help{margin-left:auto}
+.app-shell.tournament-active .tournament-help>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:13px}
+.app-shell.tournament-active .tournament-help[open]{flex-basis:100%;margin-left:0}
+@media(max-width:700px){.app-shell.tournament-active .tournament-wallet{gap:2px 8px;padding:3px 8px;margin-bottom:5px}.app-shell.tournament-active .tournament-wallet>h2{font-size:12px}.app-shell.tournament-active .tournament-wallet>p{font-size:12px}.app-shell.tournament-active .tournament-wallet>.tournament-help{font-size:12px}.app-shell.tournament-active .site-header{margin-bottom:0}}
+.t-watch-result{display:flex;align-items:center;gap:10px;min-height:44px;font-size:14px;cursor:pointer}.t-watch-result input{width:20px;height:20px;accent-color:#69c8a8}.t-action-panel .t-watch-hint{font-size:12px;line-height:1.35;color:#bccfc5}
+/* Patch 17: cash-style betting conveniences on the tournament table. */
+.t-action-title{gap:8px}.t-action-title h2{margin:0;min-width:0}
+.t-hero-cards{display:none;gap:3px;flex:none}
+.t-hero-cards .playing-card{width:30px;height:40px;min-width:0;border-radius:4px;font-size:12px;box-shadow:none}
+.t-pre{flex:none;min-height:44px;padding:0 14px;border-radius:999px;font-size:13px;white-space:nowrap}
+.t-pre[aria-pressed=true]{background:#1f3a31;border-color:#8fe0bd;color:#d9f5e8}
+.t-raise-row{grid-template-columns:44px minmax(65px,1fr) 44px}
+.t-action-panel .t-step{min-width:44px;padding:0;font-size:20px;line-height:1}
+.t-size-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}.t-size-row::-webkit-scrollbar{display:none}
+.t-action-panel .t-size-row .button{flex:1 0 auto;min-width:52px;min-height:44px;padding:3px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:1.15;font-size:13px;white-space:nowrap}
+.t-size-row small{font-size:12px;font-weight:400;color:#a9bbb4;font-variant-numeric:tabular-nums}
+.t-size-row .button.selected{border-color:#d5b16f;color:#f0dfb8}
+.t-deal-row{display:flex;gap:6px}.t-deal-row>.button:first-child{flex:1 1 auto}.t-deal-row #t-auto-hold{flex:0 0 auto;min-width:72px}
+.t-auto-deal{min-height:44px}
+.tournament-table .street-label,.tournament-table .hand-tag{font-size:12px}
+@media(max-width:1180px){
+ .t-hero-cards{display:inline-flex;margin-right:auto}
+ .tournament-play{padding-bottom:calc(290px + env(safe-area-inset-bottom))}
+ .t-action-panel.waiting-action .t-raise-row,.t-action-panel.waiting-action .t-size-row,.t-action-panel.waiting-action #t-raise-help{display:none}
+ .t-raise-row{grid-template-columns:48px minmax(70px,1fr) 48px}
+}
+@media(max-width:700px){
+ .t-raise-row>label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .t-action-title>span:not(.t-hero-cards){font-size:13px}
+}
+.t-pot-list:empty{display:none}.tournament-table .pot-display span{font-size:12px}

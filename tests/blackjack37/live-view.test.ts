@@ -1,0 +1,16 @@
+import {describe,it,expect} from 'vitest';
+import {createBlackjackState,orderedBlackjackShoe,applyBlackjack,blackjackView} from '../../src/blackjack/engine';
+import {BLACKJACK_TABLES} from '../../src/blackjack/presets';
+import {liveBlackjackView} from '../../src/blackjack/live-view';
+import {blackjackTableMarkup} from '../../src/blackjack/screens';
+const session={rounds:0,wagered:0,fees:0,net:0,blackjacks:0,decisions:0,mistakes:0,sideBetNet:0};
+const table=BLACKJACK_TABLES.find(t=>t.id==='casino-5')!;
+function state(faces:string[]){const shoe=orderedBlackjackShoe(6),first=faces.map(face=>{const i=shoe.findIndex(c=>c.endsWith(':'+face));return shoe.splice(i,1)[0]});return createBlackjackState(table,[...first,...shoe]);}
+describe('live UI projection',()=>{
+ it('includes the one-round ante in affordability and hides future cards',()=>{const s=createBlackjackState(table,orderedBlackjackShoe(6),{balance:500});const vm=liveBlackjackView(blackjackView(s),table,session,[],500,false);expect(vm.legal.deal).toBe(false);expect(vm.dealer.cards).toEqual([]);expect(JSON.stringify(vm)).not.toContain('initialShoe');});
+ it('reveals only dealer upcard while acting, carries frozen rules and legal actions',()=>{const s=applyBlackjack(state(['9c','6d','7h','Ts']),{id:'deal',revision:0,type:'deal',bet:500});const vm=liveBlackjackView(blackjackView(s),table,session,[],500,false);expect(vm.dealer.cards).toEqual(['6d',null]);expect(vm.dealer.total).toBe(6);expect(vm.phase).toBe('player');expect(vm.legal.actions).toEqual(['hit','stand','double']);expect(vm.hands[0].result).toBeNull();});
+ it('distinguishes hand profit from whole-round profit including fee',()=>{let s=applyBlackjack(state(['As','6d','Kh','Ts']),{id:'deal',revision:0,type:'deal',bet:500});const vm=liveBlackjackView(blackjackView(s),table,session,[],0,false);expect(vm.hands[0].result).toEqual({outcome:'blackjack',net:750});expect(vm.roundNet).toBe(700);expect(vm.lastBet).toBe(500);s=applyBlackjack(s,{id:'again',revision:s.revision,type:'deal',bet:500});expect(s.round?.ante).toBe(50);});
+ it('keeps live side bets unavailable without changing preview fixtures',()=>{const vm=liveBlackjackView(blackjackView(state([])),table,session,[],500,false);expect(blackjackTableMarkup(vm,{liveClassic:true})).not.toContain('data-blackjack-side');expect(blackjackTableMarkup(vm)).toContain('data-blackjack-side');});
+ it('disables unaffordable insurance rather than presenting an active button',()=>{const s=applyBlackjack(createBlackjackState(table,state(['9c','Ad','7h','6s']).shoe,{balance:550}),{id:'deal',revision:0,type:'deal',bet:500});const vm=liveBlackjackView(blackjackView(s),table,session,[],0,false);expect(vm.phase).toBe('insurance');expect(vm.legal.insurance).toBe(false);expect(blackjackTableMarkup(vm,{liveClassic:true})).toMatch(/id="bj-insurance-yes"[^>]*disabled/);});
+ it('change-bet view clears shown cards but retains rebet proposal and count',()=>{const s=applyBlackjack(state(['As','6d','Kh','Ts']),{id:'deal',revision:0,type:'deal',bet:500});const vm=liveBlackjackView(blackjackView(s),table,session,['As','6d','Kh','Ts'],1000,true);expect(vm.phase).toBe('betting');expect(vm.lastBet).toBe(500);expect(vm.bet).toBe(1000);expect(vm.hands).toEqual([]);expect(vm.seen).toHaveLength(4);expect(vm.roundNet).toBeNull();});
+});

@@ -1,0 +1,5 @@
+# Z14 cash notes and deferred bookmarks
+
+Original Z14 ID, title and acceptance text remain unchanged; whole status stays NOT_EXECUTED. Basic Live notes are mandatory in V7_Master lines1657–1660 and2057–2062. They were previously missing, recordedFAIL, then implemented and tested. Actual2/6/10-seat browser note/replay/cashout flows now pass, including bounded storage, pending-action isolation, privacy and accessible controls.
+
+FUT050 explicitly assigns session recording and bookmarks toR4coaching, with the required behavior tag/bookmark pivotal hands without affecting results. V7 permanent directive section9 preserves all86 deferred features as nonblocking; V7_Master2212–2214 names replay bookmarks among post-R1 candidates. This supports only the narrow favorites/bookmarks deferral, not a waiver of basic notes. The release gate therefore uses a separately evidenced cash component. The original whole requirement cannot becomePASS until its deferred clauses are executed. External screen-reader/device checks remain separate unresolved release requirements; no emulator is claimed as physical verification.

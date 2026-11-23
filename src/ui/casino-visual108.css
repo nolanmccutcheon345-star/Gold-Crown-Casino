@@ -1,0 +1,263 @@
+/* Patch 108 — The Card Room: seven-game, in-play premium refinement.
+   Only existing live DOM nodes and user actions are styled. Nothing here supplies
+   cards, chips, outcomes, opponent information or synthetic financial values. */
+:root {
+  --card-room-ivory:#fff3db;
+  --card-room-muted:#c4d4ca;
+  --card-room-brass:#e8c68b;
+  --card-room-edge:#c5a16b8c;
+  --card-room-shadow:0 12px 32px #000b;
+  --card-room-inset:inset 0 1px 0 #fff0c635;
+  --card-room-focus:#fff2b9;
+}
+/* Shared hierarchy for every real casino game: stage, outcome, choice, action. */
+:is(.table-panel,.tournament-table,.blackjack-play,.panel.slots,.cz-game,.plo-table) {min-width:0}
+:is(.table-heading,.tournament-hud,.bj-dealer-rail,.slot-head,.cz-wallet) {
+  position:relative;isolation:isolate;
+}
+:is(.table-heading,.slot-head,.cz-wallet) {
+  border-bottom:1px solid #cda56c4a;
+}
+:is(.casino-home-hero,.table-panel,.tournament-table,.blackjack-play,.panel.slots,.cz-game) {
+  scroll-margin-top:18px;
+}
+:is(.table-panel,.blackjack-play,.cz-game,.panel.slots) :is(h1,h2,h3) {text-wrap:balance}
+:is(.table-panel,.tournament-table,.blackjack-play,.panel.slots,.cz-game) :is(.muted,.cz-fine,small) {
+  overflow-wrap:anywhere;
+}
+:is(.action-panel,.t-action-panel,.plo-actions,.bj-actions,.cz-actions,.slot-deck) button {
+  touch-action:manipulation;
+}
+:is(.action-panel,.t-action-panel,.plo-actions,.bj-actions,.cz-actions,.slot-deck) button:focus-visible {
+  outline:3px solid var(--card-room-focus);outline-offset:3px;
+}
+/* Hold'em: engraved seat nameplates, legible status, staged action rail. */
+.table-panel .table-heading {
+  display:flex;align-items:center;justify-content:space-between;gap:8px 16px;
+  padding-bottom:12px;
+}
+.table-panel .table-hand {font-variant-numeric:tabular-nums;letter-spacing:.095em;color:var(--card-room-brass)}
+.table-panel .table-scene {isolation:isolate}
+.table-panel .table-rail,.tournament-table .table-rail {
+  box-shadow:0 0 0 2px #080e11,0 0 0 4px #9e6b37cc,0 13px 30px #000c,
+   inset 0 2px 2px #fff0c880,inset 0 -9px 15px #060b0ad9;
+}
+.table-panel .felt,.tournament-table .felt {
+  background:radial-gradient(ellipse 65% 45% at 50% 28%,#6dd9a12b,transparent 91%),
+   radial-gradient(ellipse 90% 90% at 50% 45%,#1e8061,#0a4939 64%,#032920 100%),
+   repeating-linear-gradient(98deg,#fff2d804 0 1px,transparent 1px 5px);
+}
+:is(.seat-label,.plo-plate,.bj-seat) {font-variant-numeric:tabular-nums}
+.seat-label {backdrop-filter:blur(5px);border-bottom:2px solid #b28b54ad}
+.seat-status {isolation:isolate}
+.seat-action.active-label,.seat.acting .seat-action {color:#c9ffe3;font-weight:800}
+.seat.hero-seat .hero-tag {color:#ffe5af}
+.seat.folded .seat-label {opacity:.68}
+.seat.winner .seat-label {box-shadow:0 0 0 1px #ffdf94,0 0 21px #f3b86b80,0 6px 13px #0008}
+.board-area .street-label {letter-spacing:.17em;text-shadow:0 2px 5px #00150b}
+.board-area .board-slot {border-style:dashed;opacity:.82}
+.board-area .playing-card.win-card,.board-area .playing-card.winning-card {
+  box-shadow:inset 0 0 0 1px #dfbb80,0 0 0 2px #fff0bb,0 0 13px #e9bf69a8;
+}
+.pot-display {border-radius:13px;min-width:0;max-width:100%;box-shadow:var(--card-room-inset),0 4px 16px #0008}
+.pot-display span {font-size:.7em;letter-spacing:.13em;color:#e2d0a5}
+.pot-display strong {font-variant-numeric:tabular-nums;letter-spacing:.02em}
+:is(.action-panel,.t-action-panel).your-action {
+  border-color:#edc586b8;
+  background:radial-gradient(ellipse at 50% 0,#d5ba5d29,transparent 84%),linear-gradient(180deg,#24413bdc,#091c21f7);
+}
+:is(.action-panel,.t-action-panel) .action-top {min-width:0;gap:10px 17px}
+:is(.action-panel,.t-action-panel) .hero-stack-label {
+  border:1px solid #be9d695c;border-radius:12px;padding:7px 11px;
+  background:#091a1ec9;font-variant-numeric:tabular-nums;
+}
+:is(.action-panel,.t-action-panel) .action-buttons {gap:9px}
+:is(.action-panel,.t-action-panel) :is(.call-button,.fold-button,#raise,#t-raise,#call,#t-call,#fold,#t-fold) {
+  min-height:48px;position:relative;font-weight:800;letter-spacing:.015em;
+}
+:is(.action-panel,.t-action-panel) .amount-slider {accent-color:#e6bd7e}
+/* Tournament and heads-up share the poker finish but keep mode-specific information. */
+:is(.tournament-hud,.t-status,.hu-stack-bar,.hu-ladder) {
+  border-radius:13px;box-shadow:var(--card-room-inset),0 7px 17px #0007;
+}
+.tournament-hud :is(b,strong),.hu-stack-bar :is(b,strong){font-variant-numeric:tabular-nums}
+.tournament-table .table-watermark {opacity:.8}
+.hu-rung {box-shadow:inset 0 1px 0 #fff0c61c}
+/* Pot-Limit Omaha: four-card group and actions stay live and independently operable. */
+.plo-felt {
+  background:radial-gradient(ellipse 70% 50% at 50% 25%,#77dab031,transparent 88%),
+  radial-gradient(ellipse 110% 110% at 50% 45%,#268263,#0d4b3b 65%,#052b25);
+}
+.plo-plate {border-bottom:2px solid #be965e}
+.plo-seat.acting .plo-plate {box-shadow:0 0 0 2px #6effc579,0 0 20px #2df6ab66}
+.plo-actions {border-radius:15px}
+.plo-actions button {min-height:48px;font-weight:750;touch-action:manipulation}
+/* Blackjack: clear distinction between dealer hand, player hand, and betting decision. */
+.blackjack-play .bj-felt {
+  background:radial-gradient(ellipse 78% 47% at 50% 20%,#66c9a33b,transparent 94%),
+   radial-gradient(ellipse 110% 95% at 50% 52%,#227a5e,#0a4938 70%,#032c26);
+}
+.blackjack-play .bj-dealer {filter:drop-shadow(0 4px 9px #00180b88)}
+.blackjack-play .bj-dealer-rail {border-color:#d3b27580}
+.blackjack-play .bj-hands {gap:clamp(7px,1.5vw,16px)}
+.blackjack-play .bj-hand {min-width:0}
+.blackjack-play .bj-hand-info {font-variant-numeric:tabular-nums}
+.blackjack-play .bj-hand.active {outline:2px solid #f6d18f;outline-offset:2px}
+.blackjack-play .bj-card {box-shadow:inset 0 0 0 1px #c9b088,0 2px 0 #fdf5e6,0 5px 10px #00100bb3}
+.blackjack-play .bj-total {background:linear-gradient(145deg,#253e36,#0c1e24);color:#fff1c8;font-weight:800}
+.blackjack-play .bj-bet-circle {border-style:double;border-width:3px}
+.blackjack-play .bj-actions {gap:9px;max-width:100%}
+.blackjack-play .bj-actions button {min-height:48px;font-weight:750}
+.blackjack-play :is(.bj-strategy-card,.bj-dealer-odds,.bj-side-info) {
+  border:1px solid #d8b87881;border-radius:12px;
+  background:linear-gradient(160deg,#203b37,#0e2023);
+  box-shadow:inset 0 1px #fff6d51e,0 6px 15px #0006;
+}
+/* Slots: the reels always occupy the brightest part of the real cabinet. */
+.panel.slots .slot-head {padding-bottom:10px}
+.panel.slots .slot-name {color:var(--card-room-muted)}
+.panel.slots .slot-floor-tabs {max-width:100%;flex-wrap:wrap}
+.panel.slots .slot-sort {min-width:0}
+.slot-card {
+  transition:transform .16s ease,filter .16s ease,box-shadow .16s ease;
+}
+.slot-card:not(:disabled):hover {transform:translateY(-2px);filter:brightness(1.06)}
+.slot-card:focus-visible,.slot-star:focus-visible {outline:3px solid #ffe8aa;outline-offset:4px}
+.slot-card-marquee .casino-slot-art,.slot-marquee .casino-slot-art {pointer-events:none}
+.slot-cabinet {isolation:isolate;min-width:0;overflow:hidden}
+.slot-cabinet .slot-window-frame {isolation:isolate;border-radius:13px}
+.slot-cabinet .slot-window {border:2px solid #fef3d48f;border-radius:8px}
+.slot-cabinet .slot-glass {pointer-events:none}
+.slot-cabinet .slot-status-row {min-height:40px;display:flex;align-items:center;justify-content:center}
+.slot-cabinet .slot-status {letter-spacing:.07em;text-shadow:0 2px 4px #000f}
+.slot-cabinet .slot-meters {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.slot-cabinet .slot-meters>div {min-width:0;box-shadow:inset 0 1px #ffe5aa2b}
+.slot-cabinet .slot-meters b {font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.slot-cabinet .slot-deck {position:relative;gap:9px;min-width:0}
+.slot-cabinet .slot-spin-button {min-height:64px;box-shadow:0 5px 13px #000b,inset 0 2px #fff7cf67}
+.slot-cabinet .slot-keys {gap:6px}
+.slot-cabinet .slot-key {min-height:46px}
+.slot-cabinet .slot-bet-step {min-width:0}
+.slot-session {border:1px solid #c1a06b72;border-radius:13px;background:#102526e8}
+.slot-session-row {gap:7px;min-width:0}
+.slot-session-row b {font-variant-numeric:tabular-nums}
+.slot-paytable summary,.slots-how summary {min-height:44px;cursor:pointer}
+/* Shared roulette / craps / baccarat / racing surface language. */
+.cz-game {position:relative;isolation:isolate}
+.cz-game::after {
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  box-shadow:inset 0 0 0 1px #ffebba19;
+}
+.cz-wallet {display:flex;flex-wrap:wrap;align-items:center;gap:11px}
+.cz-balance {font-variant-numeric:tabular-nums}
+.cz-actions {gap:10px;flex-wrap:wrap}
+.cz-actions :is(button,.button,.cz-go) {min-height:48px;touch-action:manipulation}
+.cz-actions :is(button,.button,.cz-go):disabled {cursor:not-allowed}
+.cz-game .cz-result {font-variant-numeric:tabular-nums}
+.cz-rounds {background:linear-gradient(160deg,#263c39,#0c2024);box-shadow:inset 0 1px #fff1ca2d}
+.cz-rounds summary {font-weight:750;color:#fff0d5}
+.cz-round-list {scrollbar-color:#aa8959 #142426}
+.cz-game .cz-patrons {border-bottom:2px solid #b9945b71}
+.cz-game .cz-patron {box-shadow:inset 0 1px #ffffff22,0 4px 11px #0007}
+/* Roulette: ball/wheel remains the animated live SVG; zero and wins stay explicit. */
+.roulette .rl-top {background:radial-gradient(ellipse at 50% 20%,#296e544d,transparent 80%)}
+.roulette .rl-wheel-wrap {box-shadow:0 0 0 3px #29180d,0 0 0 6px #c4a16b,0 9px 22px #000b}
+.roulette .rl-pointer {filter:drop-shadow(0 2px 3px #000c)}
+.roulette .rl-layout {border:2px solid #cbb17a;border-radius:12px;min-width:0}
+.roulette .rl-cell {min-height:38px;transition:filter .16s ease,box-shadow .16s ease}
+.roulette .rl-cell.hit {box-shadow:inset 0 0 0 2px #ffe4a1,0 0 14px #ffe19a8c}
+.roulette .rl-cell.has-chip {outline:1px solid #f3d49b;outline-offset:-2px}
+.roulette .rl-history {min-width:0}
+.roulette .rl-stats {border:1px solid #caab7180;border-radius:12px;background:#101f23cf}
+.roulette .rl-side {min-width:0;max-width:100%}
+/* Craps: numbers and proposition chips are readable even at 390px. */
+.craps .cr-felt {background:radial-gradient(ellipse at 50% 20%,#3c93714a,transparent 80%),linear-gradient(145deg,#0c634d,#083e35 65%,#042b28)}
+.craps .cr-puck.on {border-color:#fff0bf;box-shadow:0 0 0 2px #84623b,0 0 13px #f2c87c}
+.craps .cr-dice {filter:drop-shadow(0 5px 5px #0009)}
+.craps .cr-numbers {gap:5px}
+.craps .cr-spot {border-color:#f6da9d7e;min-width:0}
+.craps .cr-spot.has-chip {box-shadow:inset 0 0 0 1px #fce1af,0 0 12px #ecc47a66}
+.craps .cr-props,.craps .cr-hops {border:1px solid #d0b17c72;border-radius:13px}
+.craps .cr-chart {max-width:100%;overflow-x:auto;scrollbar-width:thin}
+.craps .cr-fire {border:1px solid #d2a56190;border-radius:12px}
+.craps .cr-shooter {font-variant-numeric:tabular-nums;color:#f9e9c8}
+/* Baccarat: the live shoe, squeeze, and roads share one consistent instrumentation. */
+.baccarat .bc-felt {background:radial-gradient(ellipse at 50% 18%,#7fcba42b,transparent 70%),linear-gradient(165deg,#13684d,#0a4b3c 70%,#092b29)}
+.baccarat .bc-hand {min-width:0;border-bottom:2px solid #d1b078}
+.baccarat .bc-hand.winner {box-shadow:0 0 0 2px #fff0b8,0 0 17px #e9c77c8a}
+.baccarat .bc-hand-name {font-variant:small-caps;letter-spacing:.13em}
+.baccarat .bc-spot {min-height:48px}
+.baccarat .bc-shoe-box {border:1px solid #e5c78d8c;border-radius:12px;background:linear-gradient(145deg,#1b3936,#0d2326)}
+.baccarat :is(.bc-road,.big-road,.bead-plate) {min-width:0;max-width:100%}
+.baccarat .bc-road {box-shadow:0 3px 10px #0007}
+.baccarat .bc-options {min-width:0;flex-wrap:wrap}
+/* Racing: preserve lane geometry and readability of the actual finishing order. */
+.races .rc-track {position:relative;isolation:isolate}
+.races .rc-track::after {content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit;box-shadow:inset 0 12px 22px #fff4d00b,inset 0 -15px 25px #2d1c0c69}
+.races .rc-lane {border-color:#e5d0a685}
+.races .rc-runner {filter:drop-shadow(1px 2px 3px #000b)}
+.races .rc-caller {border-bottom:2px solid #e0bf85}
+.races .rc-result {box-shadow:inset 0 1px #fbe4af31,0 6px 13px #0007}
+.races .rc-photo {letter-spacing:.08em}
+.races .rc-slip {font-variant-numeric:tabular-nums}
+.races .rc-table th {letter-spacing:.045em}
+.races .rc-table tr.sel td {outline:1px solid #f2dbab;outline-offset:-1px}
+/* Narrow screens: keep the primary decision visible; never shrink touch controls. */
+@media (max-width:760px) {
+  .table-panel .table-heading {flex-wrap:wrap;padding-bottom:8px}
+  .table-panel .table-hand {font-size:11px}
+  :is(.action-panel,.t-action-panel) .action-top {flex-wrap:wrap}
+  :is(.action-panel,.t-action-panel) .action-buttons {display:flex;flex-wrap:wrap}
+  :is(.action-panel,.t-action-panel) :is(.call-button,.fold-button,#raise,#t-raise,#call,#t-call,#fold,#t-fold) {min-height:48px}
+  .blackjack-play .bj-actions {display:flex;flex-wrap:wrap}
+  .blackjack-play .bj-actions button {min-height:48px}
+  .slot-machines {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .slot-cabinet .slot-meters {gap:3px}
+  .slot-cabinet .slot-meters b {font-size:clamp(12px,3.1vw,18px)}
+  .cz-actions {align-items:stretch}
+  .cz-actions :is(button,.button,.cz-go) {min-height:48px}
+  .roulette .rl-layout {max-width:100%;overflow-x:auto}
+  .craps .cr-numbers {max-width:100%;overflow-x:auto}
+  .baccarat .bc-hands {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .races .rc-table {font-size:12px}
+}
+@media (max-width:420px) {
+  .slot-machines {grid-template-columns:minmax(0,1fr)}
+  .slot-card {max-width:100%}
+  .slot-cabinet .slot-deck {gap:6px}
+  .slot-cabinet .slot-meters b {font-size:13px}
+  .cz-game {padding:9px}
+  .cz-game .cz-wallet {gap:7px}
+  .cz-game .cz-actions :is(button,.button,.cz-go) {min-width:0}
+  .cz-game .cz-rounds {padding:7px}
+  .blackjack-play .bj-hands {gap:6px}
+}
+/* Player preference and OS accessibility always outrank decoration. */
+@media (prefers-reduced-motion:reduce) {
+  .slot-card,.roulette .rl-cell,.slot-cabinet .slot-spin-button,
+  :is(.table-panel,.blackjack-play,.cz-game) button {transition:none!important;animation:none!important}
+}
+.motion-off :is(.slot-card,.rl-cell,.slot-spin-button) {transition:none!important;animation:none!important}
+@media (forced-colors:active) {
+  :is(.table-panel,.tournament-table,.blackjack-play,.panel.slots,.cz-game) :is(button,.slot-card,.cz-actions,.slot-meters,.bj-hand,.rl-cell,.cr-spot,.bc-spot) {
+    color:CanvasText!important;box-shadow:none!important;border-color:CanvasText!important;
+  }
+  :is(.table-panel,.tournament-table,.blackjack-play,.panel.slots,.cz-game) button:focus-visible {
+    outline:3px solid Highlight!important;
+  }
+}
+
+/* Light UI mode still keeps the table dark; surrounding help stays readable. */
+.theme-light :is(.table-panel,.tournament-table,.blackjack-play,.cz-game,.panel.slots) {
+ color:#f7f0df;
+}
+.theme-light :is(.cz-rounds,.slot-session,.bj-strategy-card,.bj-dealer-odds) {
+ color:#f7ead4;
+}
+/* 320px baccarat correction: squeeze cards within each live hand, not offscreen. */
+@media (max-width:420px) {
+  .baccarat .bc-hand {min-width:0;padding:6px 3px}
+  .baccarat .bc-cards {min-width:0;max-width:100%;display:flex;flex-wrap:wrap;justify-content:center;gap:3px}
+  .baccarat .bc-cards .cz-card {box-sizing:border-box;flex:0 1 auto;width:clamp(34px,10.8vw,45px);height:clamp(49px,15.5vw,62px);padding:0}
+  .baccarat .bc-cards .cz-card:nth-child(3) {margin:5px 8px}
+}

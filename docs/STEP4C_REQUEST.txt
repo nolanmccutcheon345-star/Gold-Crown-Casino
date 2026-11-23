@@ -1,0 +1,272 @@
+AI TEXAS HOLD EM — STEP 4C: INDEPENDENT BOT REALISM, EXPLOIT TESTING AND POPULATION VALIDATION
+
+Continue development of the existing AI Texas Hold Em ChatGPT Site, currently published as Version 6.
+
+Use the V7 Master Directive, 302 acceptance requirements, 86 deferred features, Acceleration Addendum and completed Steps 4A–4B as governing requirements.
+
+Do not rebuild the application, alter Poker MaxEV, or weaken any existing test requirement.
+
+OBJECTIVE: Independently evaluate and improve whether our eight bot archetypes behave like credible human No-Limit Texas Hold’em opponents across different stakes, seats, stacks, betting sequences and complete hands.
+
+Do not merely increase simulation counts or adjust frequencies to satisfy predetermined test thresholds. Identify genuine weaknesses, trace their causes, correct them and demonstrate improvement on unseen scenarios.
+
+1. INVESTIGATE THE TAG OPENING-RANGE DISCREPANCY
+
+Step 4B reported a designed 100BB TAG first-in range of 9.48% UTG and 19.99% on the button.
+
+Determine:
+
+* Whether the scenarios were six-handed, nine-handed or ten-handed.
+* Whether these represent all hands played, raises first in, or only selected 169 starting-hand classes.
+* Whether percentages correctly weight the 1,326 possible starting-hand combinations.
+* Whether early-position names were mapped correctly for each table size.
+* Whether randomization, skill modifiers, population settings or rake affected the figures.
+* Whether the displayed designed ranges agree with actual decisions produced by the bots.
+
+Compare comparable six-max 100BB conditions with independently published preflop references, such as GTO Wizard-related resources, ART/GTO and other reputable training sources.
+
+Treat solver-style strategies as technical reference baselines, not mandatory targets for recreational archetypes.
+
+Correct erroneous or excessively restrictive TAG and strong-regular ranges where supported by the findings.
+
+Repeat the measurement for 2, 6, 9 and 10 seated players and multiple stack depths.
+
+Report before-and-after results, including definitions, sample sizes and exact test configurations.
+
+2. BUILD AN INDEPENDENT BEHAVIORAL EVALUATION HARNESS
+
+Separate the evaluation system from the bot policy implementation so the bots cannot merely pass tests by reproducing their own design assumptions.
+
+Use controlled, reproducible random seeds and independent policy configurations.
+
+Evaluate:
+
+* All eight principal archetypes.
+* Multiple individuals within the same archetype.
+* Unknown and Custom configurations.
+* Different skill levels.
+* Low-, middle- and high-stakes population presets.
+* Heads-up, six-handed, nine-handed and ten-handed games.
+* Shallow, normal and deep effective stacks.
+* Different rake and betting environments.
+
+Measure actual completed-hand behavior, not merely isolated decision outputs.
+
+Preserve test inputs, policy versions, outcome data and reproducible failure examples.
+
+3. MEASURE REALISTIC POPULATION BEHAVIOR
+
+Collect opportunity-based measurements for:
+
+Preflop:
+
+* VPIP and PFR.
+* Limping and overlimping.
+* Raise-first-in by position.
+* Isolation raises.
+* Cold calls.
+* 3-bets, 4-bets and squeezes.
+* Fold-to-3-bet.
+* Blind defense.
+* Open sizes.
+* Heads-up and multiway participation.
+
+Postflop:
+
+* Flop continuation betting.
+* Turn and river barreling.
+* Check-raising.
+* Fold-to-continuation-bet.
+* Draw calling and raising.
+* Value betting by hand class.
+* Bluffing by street.
+* River bluff-catching.
+* WTSD, W$SD and WWSF where definitions permit.
+* Bet-size distributions.
+* Showdown and non-showdown outcomes.
+
+Segment by archetype, position, stack depth, board type, previous action, heads-up/multiway status and stake environment.
+
+Report exact opportunities and confidence intervals for key measurements. Treat repeated decisions from the same player or session as potentially correlated.
+
+Avoid interpreting rare decisions using tiny samples.
+
+Use sufficient targeted sampling to estimate important conditional frequencies with useful precision; report insufficient coverage explicitly instead of inventing thresholds or filling missing observations.
+
+4. TEST FULL-HAND COHERENCE
+
+Generate and inspect complete hand histories covering:
+
+* Unopened and limped pots.
+* Single-raised and 3-bet pots.
+* Deep-stacked value hands.
+* Multiway pots.
+* Check-raises and delayed bets.
+* Flush draws and straight draws.
+* Turn and river runouts.
+* Large river bets and overbets.
+* Bluff-catching.
+* Missed-draw bluffs.
+* Slow-playing.
+* Trapping.
+* Short-stack all-ins and side pots.
+
+Audit whether earlier actions produce plausible later-street ranges.
+
+A calling station should retain a recognizable calling bias without being incapable of folding.
+
+A nit should value premium hands and usually avoid excessive speculative aggression.
+
+A maniac should take aggressive lines with strategic and psychological coherence, even when overbluffing.
+
+A strong regular should demonstrate better conditional decisions, not simply tighter ranges or more frequent raises.
+
+Record representative high-quality hands, questionable hands and clearly defective hands.
+
+5. BUILD INDEPENDENT EXPLOIT-PROBE OPPONENTS
+
+Create evaluation-only agents with strategies designed to expose specific policy errors.
+
+Probe:
+
+* Excessive folding versus small bets.
+* Excessive calling versus oversized bets.
+* Automatic river bluffing after missed draws.
+* Never bluffing without strong draws.
+* Predictable bet sizing associated with hand strength.
+* Excessive passivity with premium hands.
+* Inadequate response to changing effective stacks.
+* Weak multiway decision-making.
+* Incorrect river bluff-catching.
+* Unrealistically broad continuation ranges.
+* Artificially favorable treatment of Hero.
+
+Use held-out seeds, novel boards, unseen stack configurations and opponents not used to tune the original policies.
+
+Run mirrored seats and role-swapped evaluations where appropriate.
+
+Distinguish desirable human-like exploitable mistakes from mechanical defects or accidentally exploitable algorithms.
+
+Measure outcomes with uncertainty intervals. Do not claim mathematical exploitability bounds unless they have actually been established by a suitable solver or formal method.
+
+6. TEST HIDDEN-INFORMATION INDEPENDENCE
+
+Verify that changing Hero’s undisclosed cards while preserving everything legitimately visible to a bot does not change that bot’s decision distribution.
+
+Likewise, changing future undealt cards must not alter current decisions.
+
+Check public-action range models for:
+
+* Correct card removal.
+* Valid normalized combination weights.
+* Legal use of only observable information.
+* Proper response to action likelihoods.
+* Sensible treatment of uncertain and previously unseen opponents.
+* No accidental access to engine-internal cards, deal order or Hero outcomes.
+
+Verify no hidden-information advantage is used to make bots artificially difficult or easy.
+
+7. EXPERT AND HUMAN-PLAY COMPARISONS
+
+Research reputable poker resources and publicly documented strategy frameworks relevant to:
+
+* Live $1/$2 and $1/$3 recreational games.
+* $2/$5 and $5/$10 cash games.
+* Tougher online six-max and higher-stakes environments.
+* Loose-passive multiway tables.
+* Position- and stack-dependent strategies.
+* Tournament transitions that will matter later.
+
+Separate direct observations of real human decisions from coaching claims, solver examples and our synthetic assumptions.
+
+If suitable legally usable human hand histories or decision datasets are available, apply an independent evaluation set with a held-out portion.
+
+If unavailable, prepare an expert-review sample of complete hands and classify findings as analytically supported, expert judged, hypothetical or quantitatively measured.
+
+Do not claim experts reviewed hands unless actual independent experts performed that review.
+
+Do not fabricate field statistics, human calibration, solver outputs or opponent profitability.
+
+8. IDENTIFY AND FIX THE HIGHEST-IMPACT DEFECTS
+
+Prioritize changes that materially improve gameplay realism:
+
+* Wrong action-frequency definitions.
+* Incorrect position handling.
+* Excessively tight or loose baseline ranges without a plausible profile explanation.
+* Incoherent postflop sequences.
+* Missing effective-stack effects.
+* Overly predictable bet sizing.
+* Implausible draws and bluff-catching.
+* Faulty opponent-range updates.
+* Bots exploiting inaccessible information.
+* Bot behavior biased toward making Hero win.
+
+Fix confirmed problems in the source code, add regression tests, and rerun independent scenarios.
+
+Preserve intended personality differences and human mistakes.
+
+Do not optimize every archetype into the same strong strategy.
+
+9. VERIFY PERFORMANCE AND EXISTING FEATURES
+
+Retain:
+
+* One authoritative poker engine.
+* Correct betting, side pots and payouts.
+* Persistent bankroll and hand history.
+* Correct statistical accounting.
+* Guest access.
+* Mobile 2–10-player perimeter seating.
+* Session creation and safe exit.
+* Recovery after reload.
+* Bot decision idempotency.
+* Historical policy-version support.
+
+Test gameplay performance with 2, 6, 9 and 10 players, including on narrow mobile screens.
+
+Measure bot decision latency, memory usage where available and browser responsiveness.
+
+Prevent evaluation harnesses from interfering with live game performance.
+
+Execute automated regression, independent PokerKit comparisons, accounting simulations, browser testing and relevant new behavioral tests.
+
+10. KEEP VALIDATION CLAIMS PRECISE
+
+Maintain separate status for:
+
+A. Correct poker mechanics.
+B. Stable and functionally distinct synthetic opponent policies.
+C. Plausible expert-reviewed poker behavior.
+D. Statistically validated resemblance to measured human play.
+
+A, B, C and D are separate achievements.
+
+Do not report D as passed without relevant actual human data and appropriate comparisons.
+
+Do not assume positive simulated win rate proves real-world poker profitability.
+
+11. COMPLETION REPORT
+
+Provide:
+
+1. Current published version and live Site URL.
+2. Root cause and resolution of the tight TAG opening-range issue.
+3. Independent population statistics by archetype.
+4. Sample sizes, opportunities and uncertainty estimates.
+5. Full-hand examples showing coherent and incoherent behavior.
+6. Exploit-probe results and corrected weaknesses.
+7. Hidden-information independence results.
+8. Improvements tested on held-out scenarios.
+9. Actual executed tests and browser results.
+10. Remaining realism limitations and unverified assumptions.
+11. Updated 302-test acceptance tracker.
+12. Confirmation that all 86 deferred features remain documented.
+13. Outstanding mobile export and device-verification items.
+14. A recommendation on whether the synthetic opponent system is ready for the cash-game release or requires more refinement.
+
+Implement and test meaningful fixes. Do not stop at producing another research document.
+
+Publish the next version to the existing Site only after passing relevant regression and gameplay checks.
+
+Begin Step 4C implementation and independent evaluation now.

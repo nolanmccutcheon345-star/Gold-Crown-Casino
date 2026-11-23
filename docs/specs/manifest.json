@@ -1,0 +1,20 @@
+{
+  "authority": "V7 master then acceleration execution addendum; subordinate V6 as preserved",
+  "expected_acceptance_count": 302,
+  "available_exact_requirement_rows": 302,
+  "missing_original_baseline_rows": 0,
+  "expected_deferred_count": 86,
+  "available_exact_deferred_rows": 86,
+  "source_gap_status": "REGISTERS_COMPLETE_ORIGINAL_FIXTURE_ARCHIVE_NOT_SUPPLIED",
+  "files": {
+    "V7_Acceleration.pdf": "da5daa3c78bc7da9e48ae4e05a1a3a7621b4ce924b8e72add66c6d246d0c07ed",
+    "V7_All_302_Acceptance_Tests.pdf": "3a2804c26f2d98b4724edc6cbb2b22f96d792213a2183320a38c21e50de19352",
+    "V7_Complete_86_Future_Features.pdf": "86ad76cb7a26e6c0bafd0a316d6d6e296d317ad7176c3ef9a4497e411c594c32",
+    "V7_Master.pdf": "90165c5f7b82a4a6cbf5130bfaf8953640dace0ed8c50bda11ca54601b7584e7"
+  },
+  "registers": {
+    "Acceptance_Tracker_V7_302.csv": "ab719664cea77e4a2b8f505b45f2159211f4083c650e0cc0a4fb46bb1710a809",
+    "BACKLOG_86.csv": "4f299c265c61c7a31846075368e116d0348438be6a3c6f850d3c79ec6aeab41c"
+  },
+  "normalization": "PDF headers and line-wrap whitespace removed; original IDs, source wording, dependencies, constraints and statuses retained. PDF bytes authoritative."
+}

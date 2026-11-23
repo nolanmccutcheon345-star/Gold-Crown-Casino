@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 180" role="img" aria-hidden="true">
+ <defs>
+ <linearGradient id="bg" x2=".9" y2="1"><stop stop-color="#341054"/><stop offset=".55" stop-color="#a53bd2"/><stop offset="1" stop-color="#341054"/></linearGradient>
+ <linearGradient id="metal" x2=".35" y2="1"><stop stop-color="#fff5d5"/><stop offset=".33" stop-color="#fff3a9"/><stop offset=".6" stop-color="#94601d"/><stop offset="1" stop-color="#fff4bd"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#fff3a9" stop-opacity=".5"/><stop offset="1" stop-color="#fff3a9" stop-opacity="0"/></radialGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="6"/></filter>
+ <pattern id="spark" width="43" height="33" patternUnits="userSpaceOnUse"><circle cx="12" cy="7" r="1" fill="#fff3a9" opacity=".65"/><circle cx="33" cy="26" r=".65" fill="white" opacity=".5"/></pattern>
+</defs>
+ <rect width="480" height="180" fill="url(#bg)"/>
+ <ellipse cx="240" cy="65" rx="230" ry="110" fill="url(#light)"/>
+ <path d="M0 154Q120 123 240 160T480 151V180H0Z" fill="#070b14" opacity=".38"/>
+ <rect width="480" height="180" fill="url(#spark)" opacity=".4"/>
+ <g><circle cx="240" cy="96" r="90" fill="#090b14" stroke="url(#metal)" stroke-width="9"/><path d="M240 96L240.0 19.0A77 77 0 0 1 285.3 33.7Z" fill="#ea403e" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L285.3 33.7A77 77 0 0 1 313.2 72.2Z" fill="#f3bd28" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L313.2 72.2A77 77 0 0 1 313.2 119.8Z" fill="#2999c7" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L313.2 119.8A77 77 0 0 1 285.3 158.3Z" fill="#33b47f" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L285.3 158.3A77 77 0 0 1 240.0 173.0Z" fill="#e77337" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L240.0 173.0A77 77 0 0 1 194.7 158.3Z" fill="#803bca" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L194.7 158.3A77 77 0 0 1 166.8 119.8Z" fill="#e1a13b" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L166.8 119.8A77 77 0 0 1 166.8 72.2Z" fill="#207a86" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L166.8 72.2A77 77 0 0 1 194.7 33.7Z" fill="#e96096" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><path d="M240 96L194.7 33.7A77 77 0 0 1 240.0 19.0Z" fill="#3a965f" stroke="#f9de9a" stroke-opacity=".6" stroke-width="1.6"/><circle cx="240" cy="96" r="15" fill="url(#metal)" stroke="#ffe7af" stroke-width="3"/><path d="M232 2h16l-8 25Z" fill="#fff1b1" stroke="#a78036" stroke-width="2"/></g>
+ <path d="M3 32V12Q3 3 12 3H468Q477 3 477 12v20M3 150v18q0 9 9 9h456q9 0 9-9v-18" fill="none" stroke="url(#metal)" stroke-width="3" opacity=".8"/>
+ </svg>

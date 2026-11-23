@@ -1,0 +1,303 @@
+id,scope,title,acceptance,source,source_status
+A01,cash,"New hand, 10 active seats","Exactly 20 unique hole cards, burn/deal according to rules, at most 5 board cards; all cards unique",original93,NOT_EXECUTED
+A02,cash,Shuffle 100k generated decks (if feasible),"No repeated card within deck; no fixed seat/Hero bias; report statistical test with uncertainty, not proof of perfect fairness",original93,NOT_EXECUTED
+A03,cash,Tests with same deterministic seed and same actions,Exact same dealer state/results in test mode,original93,NOT_EXECUTED
+A04,cash,Production-mode two consecutive hands,"Independent, non-forced random shuffles; seeded fixtures inaccessible from ordinary UI",original93,NOT_EXECUTED
+A05,cash,A-2-3-4-5 vs 2-3-4-5-6,"Six-high straight wins, wheel is five-high",original93,NOT_EXECUTED
+A06,cash,Four cards of one suit on board plus qualifying own suit,"Correct flush, not any five cards of mixed suits",original93,NOT_EXECUTED
+A07,cash,Same top pair but different kicker,Correct kicker winner,original93,NOT_EXECUTED
+A08,cash,Board makes best five-card hand for two players,Correct tie/split/odd chip per configured rules,original93,NOT_EXECUTED
+A09,cash,Two pair vs trips; flush vs straight; full house vs flush; quads vs full house; straight flush,Correct ranking ordering and best-five selection,original93,NOT_EXECUTED
+A10,cash,Hero folds preflop,Hero cards remain hidden by default; future board not scripted for educational outcome,original93,NOT_EXECUTED
+B01,cash,HU button/SB acts preflop,"Button = SB, acts first preflop; BB acts first postflop",original93,NOT_EXECUTED
+B02,cash,3–10 handed,First preflop actor after BB/live straddle; first postflop actor left of button among active players,original93,NOT_EXECUTED
+B03,cash,Several physical seats empty,"Determine button and blinds based on occupied seat sequence, not seat label",original93,NOT_EXECUTED
+B04,cash,Big blind offered option after limpers/calls,BB may check or raise; a preflop call from SB alone does not auto-end the round,original93,NOT_EXECUTED
+B05,cash,Bet 100 → opponent raises to 260,"Prior full raise increment is 160; next minimum full raise-to 420, if stack allows",original93,NOT_EXECUTED
+B06,cash,A bet 100 → B short all-in 150,"A's earlier action is not reopened solely by +50; if another full valid raise occurs, re-evaluate",original93,NOT_EXECUTED
+B07,cash,A bet 100 → B all-in 140 → C all-in 180,"Cumulative +80 is short of a full 100; if A already acted, cannot re-raise under selected rule",original93,NOT_EXECUTED
+B08,cash,A bet 100 → B all-in 150 → C all-in 200,Cumulative reaches full +100; A's raise rights re-open as specified by selected rule profile,original93,NOT_EXECUTED
+B09,cash,Hero owes 20 and has 13 remaining,Exact 13 all-in call permitted; no negative stack; side-pot eligibility correct,original93,NOT_EXECUTED
+B10,cash,Raise-to amount below minimum with enough stack,UI disables/engine rejects; an under-min all-in is allowed if truly entire stack,original93,NOT_EXECUTED
+B11,cash,Legal raise-to 16 at $1/$2,UI shows raise to $16 rather than “raise by $16”; exact total street commitment = $16,original93,NOT_EXECUTED
+B12,cash,Rapid double-click on Call/Jam,Exactly one action recorded and one chip transfer,original93,NOT_EXECUTED
+B13,cash,Hero not actor,All action buttons locked; bot transitions cannot override Hero decision,original93,NOT_EXECUTED
+B14,cash,End of street,Each non-folded/non-all-in actor has matched the valid wager or acted as needed; reset street contributions and advance exactly once,original93,NOT_EXECUTED
+B15,cash,Single eligible player after folds,Award uncontested pot; do not need showdown or force reveal,original93,NOT_EXECUTED
+B16,cash,Every active player all-in,No requests for further player action; complete runout and settle,original93,NOT_EXECUTED
+B17,cash,No-limit raise sequence,No arbitrary limit on number of raises; finite stack prevents illegal infinite loop,original93,NOT_EXECUTED
+B18,cash,"Invalid inputs NaN, negatives, fractions below chip unit, huge amounts",Reject safely; no chip/pot mutation,original93,NOT_EXECUTED
+B19,cash,Switching 9-handed to heads-up after seat exits,Correct button/blind and cash rule profile transitions; no missing blind,original93,NOT_EXECUTED
+C01,cash,"Four active players all-in for 50, 120, 300, 300","Main pot 200 (A/B/C/D eligible); side pot1 210 (B/C/D eligible); side pot2 360 (C/D eligible), prior to rake/returns",original93,NOT_EXECUTED
+C02,cash,"One all-in player loses main, wins separate side?",Enforce eligibility strictly; cannot win pot in which they did not contribute,original93,NOT_EXECUTED
+C03,cash,Player folds after putting chips in,"Contributed chips remain as dead money, not returned",original93,NOT_EXECUTED
+C04,cash,Uncalled excess raise,Return unmatched portion before rake and final pot allocation,original93,NOT_EXECUTED
+C05,cash,Two equal-ranked winners of odd-chip total,Split as defined by rule profile; no creation/loss of a fractional smallest unit,original93,NOT_EXECUTED
+C06,cash,Rake-free 10k mixed-stack hands,"Sum of live stacks after each hand = sum before hand, excluding external wallet moves",original93,NOT_EXECUTED
+C07,cash,Rake-on 10k mixed-stack hands,"Sum(live stacks after) + cumulative rake/drop = sum(live stacks before), with proper adjustments for topups/cashouts",original93,NOT_EXECUTED
+C08,cash,"No-flop-no-drop, everyone folds preflop",No standard flop-triggered rake assessed,original93,NOT_EXECUTED
+C09,cash,Rake 5% capped $5 on postflop $200 pot,$5 rake under standard simple rule; document any rounding/local exceptions,original93,NOT_EXECUTED
+C10,cash,Change rake from no-rake to 5%-cap profile,Old hands retain historical rake and stats; new hands use selected version,original93,NOT_EXECUTED
+C11,cash,Wallet $1200 → buy in $300 → lose $40 → external wallet +$1000 → top up $40,"Wallet $1860, table $300, net poker result −$40, total virtual assets $2160 (before rake already included in loss)",original93,NOT_EXECUTED
+C12,cash,Reset wallet only,Poker hand history and hand profit unchanged; external adjustment logged,original93,NOT_EXECUTED
+C13,cash,Reset session only,Distinct from history deletion and bankroll reset,original93,NOT_EXECUTED
+C14,cash,All-in player remains in main pot,Their chips stay in main pot; cannot bet further; correct showdown,original93,NOT_EXECUTED
+D01,cash,Choose each 2–10 maximum seat count,Visual layout and action order valid,original93,NOT_EXECUTED
+D02,cash,"10 seats, 6 occupied including Hero","Empty seats distinguishable, no empty bot action",original93,NOT_EXECUTED
+D03,cash,Heads-up button position on rotating deals,Correct across at least 20 hands,original93,NOT_EXECUTED
+D04,cash,9-handed $1/$2 with $300 Hero stack,150BB initial stack; correct blinds and min raises,original93,NOT_EXECUTED
+D05,cash,$1/$3 vs $2/$5 vs $50/$100,All pot/stack/BB conversions exact,original93,NOT_EXECUTED
+D06,cash,"Custom SB $3, BB $7 and stacks $350","Correct display, validation and legal min opening bet",original93,NOT_EXECUTED
+D07,cash,"Set five bot types, one Random, one Unknown","Assigned known types display correctly, Unknown hides actual type; Random follows chosen semantics",original93,NOT_EXECUTED
+D08,cash,Reconfigure seat between hands,Next hand uses new seat/stack/profile; prior hand untouched,original93,NOT_EXECUTED
+D09,cash,Attempt reconfigure while active hand,"Safely queued, disabled or requires explicit safe hand end; no silent mid-hand state rewrite",original93,NOT_EXECUTED
+D10,cash,Clone named preset and modify rake,Original preset preserved and new preset saved,original93,NOT_EXECUTED
+E01,both,Inspect `BotObservation`,Only own hole cards + public board/actions/stacks/positions/eligible legal actions; NO Hero cards or future board,original93,NOT_EXECUTED
+E02,both,Replace Hero hole cards without changing public state in isolated test,"Bot decisions have the same conditional distribution, other than changes legitimately caused by card removal if that information is hidden and therefore should not be accessible",original93,NOT_EXECUTED
+E03,both,"Hold bot own cards and public actions constant, reseed future board",Bot action probability invariant to future card order,original93,NOT_EXECUTED
+E04,both,Bot code attempts `gameState.deck`,Not exposed; API rejects or code isolation prevents access,original93,NOT_EXECUTED
+E05,both,Hero folded hidden hand,"Bot cannot retroactively read it, including in opponent memory",original93,NOT_EXECUTED
+E06,both,Unknown opponent identity,True type not revealed to Hero or telemetry shown during hand; user can elect post-session insight,original93,NOT_EXECUTED
+E07,both,Bot policy proposes 3× stack or illegal check,"Engine rejects; safe fallback, logged violation; no malformed pot",original93,NOT_EXECUTED
+E08,both,Optional LLM generated player speech,"Speech receives public context and weak personality cues, not private hidden cards or definitive true opponent belief",original93,NOT_EXECUTED
+F01,cash,TAG UTG vs TAG BTN unopened,"BTN opens materially more weighted combos than UTG, accounting for table format",original93,NOT_EXECUTED
+F02,cash,Nit vs Calling Station: flop naked gutshot facing 25% pot,Station calls more often than nit in ordinary comparable configs,original93,NOT_EXECUTED
+F03,cash,Nit vs Station: same gutshot facing 175% pot,Both call less often than vs 25% in baseline situation; nit especially unlikely,original93,NOT_EXECUTED
+F04,cash,Fit-or-Fold vs LAG: unpaired no-draw air facing reasonable flop bet,Fit-or-Fold folds more often; some position/backdoor exceptions allowed,original93,NOT_EXECUTED
+F05,cash,"Same bot: OESD vs naked gutshot, equal price/street","OESD generally defends more with relevant equity/implied odds, context caveats",original93,NOT_EXECUTED
+F06,cash,Same bot: flop vs river naked gutshot,On river no future draw; cannot count as a draw or call “to hit”,original93,NOT_EXECUTED
+F07,cash,Same bot: 1 opponent vs 4 opponents,"Typical weak-bluff/weak-overcall rates reduce in multiway environment, ceteris paribus",original93,NOT_EXECUTED
+F08,cash,Calling Station vs Strong TAG: weak pair versus medium river bet,"Station often finds more calls, TAG evaluates range and can fold",original93,NOT_EXECUTED
+F09,cash,Maniac vs Nit: opportunity for uncalled preflop open/3bet,"Maniac raises with much higher frequency, but still legal and private-card dependent",original93,NOT_EXECUTED
+F10,cash,Strong reg vs weak recreational: river value hand on dangerous board,"Strong reg adjusts size/line more accurately on average; avoid unconditional ""always best"" claims",original93,NOT_EXECUTED
+F11,cash,Tricky reg with strong set vs straightforward TAG,Tricky reg slowplays at nonzero frequency; TAG may usually bet/raise more for value in suitable conditions,original93,NOT_EXECUTED
+F12,cash,Calling Station with top pair vs no pair,"Must respond meaningfully to own holdings, not ignore cards",original93,NOT_EXECUTED
+F13,cash,Unknown assigned type,"Statistics resemble assigned private type across hand sample, while on-screen label remains hidden",original93,NOT_EXECUTED
+F14,cash,Two stations with same base archetype but distinct personal seeds,Similar population behavior but different stable individual preferences; avoid clones,original93,NOT_EXECUTED
+F15,cash,Small flop bet vs large bet across a smooth call-price curve,Conditional defense responds to price without abrupt impossible discontinuities unless explicitly hard-capped,original93,NOT_EXECUTED
+F16,cash,Turn flush card completes opponent's perceived draws,"Bet/check/call/raise weights respond to board change, not unchanged static sheet",original93,NOT_EXECUTED
+F17,cash,Short vs deep SPR with draw,Changed implied odds/jam options produce plausible action shifts,original93,NOT_EXECUTED
+F18,cash,Opponent becomes aggressive for two observed hands,Memory should not instantly assume reliable long-term type change; uncertainty shrinks as sample grows,original93,NOT_EXECUTED
+F19,cash,Same cards but limped pot vs 3-bet pot,Different ranges and SPR produce different action weights,original93,NOT_EXECUTED
+F20,cash,Opponent policy vs itself and vs adversarial hero,No trivially deterministic auto-profit loop caused by coding error,original93,NOT_EXECUTED
+G01,cash,"At $1/$2, Hero wins $40 over 100 dealt hands",Observed simulated rate = +20 bb/100,original93,NOT_EXECUTED
+G02,cash,"At $2/$5, Hero loses $50 over 100 dealt hands",Observed simulated rate = −10 bb/100,original93,NOT_EXECUTED
+G03,cash,Combine G01 and G02,"Combined net BB = +10 across 200 hands, hence +5 bb/100; never divide −$10 net by currently selected blind size",original93,NOT_EXECUTED
+G04,cash,+10 bb/100 projected at 30 hands/hour,Model-projected +3 BB/hour; labeled projected not measured,original93,NOT_EXECUTED
+G05,cash,Play 100 hands against cartoon station profiles,Warning remains that this result is simulator-population-specific; no real-win claim,original93,NOT_EXECUTED
+G06,cash,Virtual bankroll deposit or rebuy,No change in sum of poker hand results,original93,NOT_EXECUTED
+G07,cash,3bet rate denominator,"3bets divided by genuine 3bet opportunities, not all hands dealt",original93,NOT_EXECUTED
+G08,cash,VPIP/PFR,"Preflop voluntarily put money in / raised, not forced blind/ante",original93,NOT_EXECUTED
+G09,cash,Very small sample,Display N and uncertain estimate; no “verified winning player” green badge,original93,NOT_EXECUTED
+G10,cash,All-in adjusted EV unavailable,UI says NOT IMPLEMENTED; no fabricated EV line,original93,NOT_EXECUTED
+G11,cash,Change opponent model version,Stats segmented/versioned; old results not silently treated as current population,original93,NOT_EXECUTED
+G12,cash,Real poker records uploaded by user (future),"Separate actual-live vs simulated; missing data flagged, never interpolated as certain",original93,NOT_EXECUTED
+R01,both,Keep a bot's private style identity across hands,Same profile/seed stable; randomness changes lines not identity,audit_v2,NOT_EXECUTED
+R02,both,Two individually sampled TAGs,Distributionally same broad archetype; repeatable differences in sizes/lines across independent seed batches,audit_v2,NOT_EXECUTED
+R03,both,Position and prior action jointly affect preflop entry,Same 169-class holding conditional open/limp/cold-call/3bet decisions differ by actual node,audit_v2,NOT_EXECUTED
+R04,both,Multiway vs heads-up calling,"Same holding, bet price, street; rate changes with callers/players left to act; do not use heads-up odds mechanically",audit_v2,NOT_EXECUTED
+R05,both,Deep stack vs shallow stack,Action mixes and sizing change coherently with SPR and implied/reverse-implied risk,audit_v2,NOT_EXECUTED
+R06,both,Flop OESD vs naked gutshot,Correct distinct features and adjustable price responses; no draw class on river,audit_v2,NOT_EXECUTED
+R07,both,Dirty draw vs clean draw,Discounted outs and dangerous runouts change response and are not secretly based on unknown cards,audit_v2,NOT_EXECUTED
+R08,both,Monotone/pairing/completing turn,Persist weighted opponent ranges from public prior lines; no resurrected impossible combos,audit_v2,NOT_EXECUTED
+R09,both,"Bet 25%, 50%, 100%, 200%, 300% pot",Conditional call curves report actual percentages and opportunity count; monotone baseline where applicable and exceptions explained,audit_v2,NOT_EXECUTED
+R10,both,"Tiny raise, overbet, unusual sizes",Policy interpolates or reacts to off-tree sizing without action failure or universal fixed fold,audit_v2,NOT_EXECUTED
+R11,both,Button/UTG frequencies across cash and tournament,Per-opportunity distribution conditioned on position and mode; no fixed VPIP random per hand,audit_v2,NOT_EXECUTED
+R12,both,Calling station vs nit over long test,"Meaningful differences in draw calls, weak pair continuations and response to big raises; no scripted hero advantage",audit_v2,NOT_EXECUTED
+R13,both,Hero replacement with another unrelated hand,Bot with fixed observation and RNG gives same decision distribution; card-removal from hidden Hero cards is prohibited,audit_v2,NOT_EXECUTED
+R14,both,Future deck permutation,Fixed bot observations and RNG give equivalent action distribution; no future board peek,audit_v2,NOT_EXECUTED
+R15,both,Public memory with 2 villain samples,Extreme new classification not treated as certainty; uncertainty recorded and surfaced in diagnostics,audit_v2,NOT_EXECUTED
+R16,both,Public memory with showdown and unrevealed folds,Only revealed cards update exact combos; unrevealed folds remain probabilistic,audit_v2,NOT_EXECUTED
+R17,both,Prior action sequences,"Flop-call→turn-bet and limp-call→river-call distributions checked, not just marginal VPIP/PFR",audit_v2,NOT_EXECUTED
+R18,both,Actual human holdout where data legally available,Player/session/venue-disjoint holdout predictive loss compared against simple baseline; record unavailable if no such data,audit_v2,NOT_EXECUTED
+R19,both,Coverage by context,Report number of independently observed human opportunities per street/size/board/stake; no blind R3/R4 certification,audit_v2,NOT_EXECUTED
+R20,both,Independent strategic benchmarks,Strong profile tested against distinct frozen strategies and validated references without using its own policy as gold standard,audit_v2,NOT_EXECUTED
+R21,both,Exploit probes,"Always minbet, hyper-overbet, limp-all, never bluff, always call, max aggression; report vulnerability cause, not auto-mark all exploitability as unrealistic",audit_v2,NOT_EXECUTED
+R22,both,Uncalibrated high-stakes presets,"Never describe as empirical $50/$100 behaviors; source and priors visible, different stake/rake effective size only if evidenced",audit_v2,NOT_EXECUTED
+R23,both,9-handed table ecology,"Multiway, limps, ISO, folds and stack trends from interactions among ALL bots; bots cannot ignore bot-on-bot actions",audit_v2,NOT_EXECUTED
+R24,both,Timing-tell probe,Card strength cannot be perfectly decoded from think-time; include no-tell setting and bounded noisy cue policy,audit_v2,NOT_EXECUTED
+T01,tournament,9-handed single-table freezeout,User/automated actor can reach a unique winner through real complete NLHE hands,audit_v2,NOT_EXECUTED
+T02,tournament,Blind level schedule,New SB/BB/ante applies at documented hand boundary; no retroactive alteration of in-progress hand,audit_v2,NOT_EXECUTED
+T03,tournament,BB ante with short big blind,Exactly specified ante/blind funding priority and pot eligibility per chosen tournament rule version,audit_v2,NOT_EXECUTED
+T04,tournament,Tournament heads-up transition,Dealer/SB and BB correct when ring collapses to two players,audit_v2,NOT_EXECUTED
+T05,tournament,Elimination standings,Correct rank/order for separate and simultaneous bustouts; tie-break configured,audit_v2,NOT_EXECUTED
+T06,tournament,Virtual entry accounting,Entry fee separated from prize pool; tournament chips not confused with cash wallet,audit_v2,NOT_EXECUTED
+T07,tournament,Payout ladder with bubble,Prize payouts exactly match ladder and prize liabilities; no rounding double pay,audit_v2,NOT_EXECUTED
+T08,tournament,Tournament completion,Final prize awarded once; frozen tournament cannot be resumed for extra payouts,audit_v2,NOT_EXECUTED
+T09,tournament,Re-entry eligibility,"Only post-elimination, within window and remaining entry cap; new event-entry record and fresh stack",audit_v2,NOT_EXECUTED
+T10,tournament,Rebuy eligibility,Only within configured stage/stack limits; not incorrectly treated as a re-entry,audit_v2,NOT_EXECUTED
+T11,tournament,Add-on eligibility,Only defined break/window; single charge/stack grant idempotent,audit_v2,NOT_EXECUTED
+T12,tournament,Late registration,Only before deadline/field stop; new player legal seating and full starting stack as configured,audit_v2,NOT_EXECUTED
+T13,tournament,Background MTT tables,All tables advance real legal hands with separate decks and chip-conserving local pots,audit_v2,NOT_EXECUTED
+T14,tournament,MTT balancing,Reasonable occupancy parity; correct moving-player blind obligations and no duplicate participants,audit_v2,NOT_EXECUTED
+T15,tournament,Final-table creation,"No chip loss, player duplication, incorrect button or missing seat; proper payout stage",audit_v2,NOT_EXECUTED
+T16,tournament,Hand-for-hand synchronization,Bubble payouts cannot be altered by some tables jumping several extra hands ahead,audit_v2,NOT_EXECUTED
+T17,tournament,Turbo/hyper structures,"Scheduler transitions at configured intervals, with correct pause/resume behavior",audit_v2,NOT_EXECUTED
+T18,tournament,Event interruption,"Serializing mid-hand/paused tournament and reopening preserves active players, prize pool, exact clocks and action queue",audit_v2,NOT_EXECUTED
+T19,tournament,KO elimination,"Bounty awarded to correct player(s), shared-elimination case follows chosen ruleset, prize pool reconciles",audit_v2,NOT_EXECUTED
+T20,tournament,PKO update,Cash portion credited once; progressive portion increases collector's bounty; total bounty liabilities conserved,audit_v2,NOT_EXECUTED
+T21,tournament,Tournament opponent adaptation,Short-stack and bubble pressure affect decisions conditional on unchanged own cards/public situation; label approximations,audit_v2,NOT_EXECUTED
+T22,tournament,Tournament results display,"Finish, ITM, cumulative entry+fees, payout, ROI; does not contaminate cash bb/100",audit_v2,NOT_EXECUTED
+T23,tournament,True full-field scoreboard,Field counts are based on simulated eliminations rather than invented background timer collapses,audit_v2,NOT_EXECUTED
+T24,tournament,Tournament rules provenance,Actual rules version and event profile stored for each event and accessible on replay,audit_v2,NOT_EXECUTED
+U01,both,One-click live $1/$2 preset,"Opens 9-handed $300 table and is fully editable; preset called synthetic, not measured venue fact",audit_v2,NOT_EXECUTED
+U02,both,Full mobile 10-seat portrait and landscape,"No invisible players, overlapping controls, clipped cards or mistaken seat buttons",audit_v2,NOT_EXECUTED
+U03,both,Custom bet-amount entry,"Bet, raise-to vs raise-by, pot fractions and legal min/max are correct even facing bet or short stack",audit_v2,NOT_EXECUTED
+U04,both,Quick bet presets,25/33/50/75/100/150/200% pot calculate using documented pot basis; user can edit BB/increment shortcuts,audit_v2,NOT_EXECUTED
+U05,both,Pause and autoresume,Never changes waiting Hero decision or advances street while waiting for input,audit_v2,NOT_EXECUTED
+U06,both,Next-hand/autodeal,Hero can stop at end of hand; no rapid unintended launch after showdown,audit_v2,NOT_EXECUTED
+U07,both,User-selectable card showdown,Reveal only rules-permitted cards; no folded unseen card leak in public player mode,audit_v2,NOT_EXECUTED
+U08,both,Hand history download,"Complete stakes, rule version, player order, contributions, boards, showdowns and policy versions; replays match exactly",audit_v2,NOT_EXECUTED
+U09,both,Preset custom save/load,Saved seat profiles/stack/rake restored exactly without altering unrelated session histories,audit_v2,NOT_EXECUTED
+U10,both,Keyboard and screen reader,Core actions operable and properly announced without animation-only meaning,audit_v2,NOT_EXECUTED
+U11,both,Real device performance,"Measure decision compute P50/P95, 10-seat frame responsiveness and input-to-confirm latency on specified phone/desktop",audit_v2,NOT_EXECUTED
+U12,both,Long-session resource performance,"10,000 simulated hands/sessions under test harness; memory baseline and trend, bounded storage, no runaway timers",audit_v2,NOT_EXECUTED
+U13,both,Instant multiple touch,One and only one betting action per idempotency ID across network retry/race,audit_v2,NOT_EXECUTED
+U14,both,Different browser reload and interrupted save,Transactional snapshot/event log resumes or safely rolls back incomplete action; never duplicates payout,audit_v2,NOT_EXECUTED
+U15,both,Unknown profile editor separation,Reveal/debug hidden type only after session or explicit separate lab mode; active gameplay concealment persists,audit_v2,NOT_EXECUTED
+U16,both,App launch from new Site,"Verified unique project ID + site URL, deployment build, original sites unchanged by all write calls",audit_v2,NOT_EXECUTED
+M01,both,Cash bankroll external edit,Wallet adjusts with external ledger entry; hand results and bb/100 unchanged,audit_v2,NOT_EXECUTED
+M02,both,Cash top-up and payout,"Wallet+table+house drop conserved across buyin, hand, cashout and external adjustment",audit_v2,NOT_EXECUTED
+M03,both,Side pots with folded contribution,Folded money stays in correctly sized tier; only live eligible players can win each pot,audit_v2,NOT_EXECUTED
+M04,both,Multiway all-in + rake edge,"Exact odd chips, refunds and caps under chosen rules; all source-to-destination transfers reconcile",audit_v2,NOT_EXECUTED
+M05,both,Cash vs tournament stats,"Cash $/bb/100/hours and tournament ROI/ITM/finish/fees separate, filterable, no mixed-stakes false displays",audit_v2,NOT_EXECUTED
+M06,both,Confidence communication,Small sample or high variance never implies statistically proven positive live win rate,audit_v2,NOT_EXECUTED
+M07,both,Synthetic all-in adjusted EV,"Until rigorously implemented, display unavailable; if implemented, distinct from decision EV and actual realized net",audit_v2,NOT_EXECUTED
+M08,both,Private server/game boundary,"Client/bot only receives permitted state; if local-only, disclose local deck inspectability",audit_v2,NOT_EXECUTED
+M09,both,Data export/migrations,"Versioned import validation, sanitization, partial corrupted payload recovery, unchanged historical stats",audit_v2,NOT_EXECUTED
+M10,both,Opponent model revisions,Old session labeled with exact frozen bot/rules versions; no silent re-scoring under new versions,audit_v2,NOT_EXECUTED
+M11,both,Cross-mode bankroll ledger,Tournament buy-ins/fees/re-entries/bounties/payouts and cash top-ups are distinct balanced events,audit_v2,NOT_EXECUTED
+M12,both,User data minimization,Explicit opt-in for diagnostic histories/telemetry; export/delete; no user private cards publicly logged,audit_v2,NOT_EXECUTED
+X01,cash,"Raise-to percentage pot: pot $60 before wager, A bets $30, B wants 50%, 100%, 150% pot raise","UI shows the documented pot-after-call basis, exact raise-to street total, minimum/maximum legal raise-to; engine accepts those amounts and rejects wrong conversions. Include existing street commitments.",v3_45,NOT_EXECUTED
+X02,cash,"Invalid size, stale bet prompt, chip granularity, short-stack jam, mixed $1/$3","Bet slider and numeric entry agree; disabled controls if no legal raise; no float drift, duplicate click, or impossible raise allowed.",v3_45,NOT_EXECUTED
+X03,cash,"Three simultaneous all-ins and folded dead money, with top-up and cash-out after hand",Independent ledger oracle proves wallet+uncommitted stacks+pot commitments+house allocation conserved by source/sink at every event.,v3_45,NOT_EXECUTED
+X04,cash,"No rake / %-rake capped / 2-player vs 5-player cap, no flop/no drop; rake before odd-chip splits","Source-versioned rake profile produces expected exact integer drop, respects rules and no double rake; unsupported variants disabled.",v3_45,NOT_EXECUTED
+X05,cash,External wallet edit + new session + mixed stakes + a resumed game,No historical profit/bb/100 is fabricated or mutated by wallet changes; session assets reconcile; epochs and reason codes visible.,v3_45,NOT_EXECUTED
+X06,cash,Earlier bettor faces two separate short all-in raises whose cumulative increase is enough to reopen,Reopening is actor-specific and matches selected verified rule; minimum next full raise remains correct.,v3_45,NOT_EXECUTED
+X07,cash,Earlier bettor faces short all-ins whose cumulative increase is insufficient,Earlier bettor may not re-raise; unacted player may still have permitted raise; hand remains finishable.,v3_45,NOT_EXECUTED
+X08,cash,Optional time-seat collection or fee vs per-pot rake across one hour of virtual live time,"Fee is charged on documented schedule, never on each hand as an accidental hybrid; off by default unless rule sourced; wallet/pots reconcile.",v3_45,NOT_EXECUTED
+X09,cash,Correct published online rake profile (versioned) with changing number of dealt-in players,"Cap is selected using applicable occupancy as specified, not a static table maximum or Hero count; historic rake profile remains attached to hand.",v3_45,NOT_EXECUTED
+X10,cash,"300 simulated hands/hour played in fast mode, $1/$2, 30-hand/h assumption",Display **actual fast-session elapsed time** and separate **10 live-equivalent hours**; no claim that player actually earned the modelled live hourly rate.,v3_45,NOT_EXECUTED
+X11,cash,100 hands each at $1/$2 and $5/$10 with changes in table stack and external wallet,Report stakes-filtered results; optional normalized mixed BB result built from correct per-hand BB and denominator; no hidden averaging of $ wins.,v3_45,NOT_EXECUTED
+X12,cash,"Multiway pre-river lock with 2 side pots, one ineligible folded player, all-in equity display","All-in adjusted stat is N/A until separately verified; if enabled, side pots and eligible cards reconciled. No spurious decision EV or perfect-info recommendation.",v3_45,NOT_EXECUTED
+X13,cash,"All-in on flop, tournament exposure; cash muck policy different","Proper burn/turn/river, eligibility, reveal permissions and return of uncalled excess; viewer never sees unexposed folded hands.",v3_45,NOT_EXECUTED
+X14,cash,Fixed-deck lab fixture vs true RNG session vs replay import,Lab hands excluded from ordinary win-rate and bankroll performance; each hand has immutable mode/source/ruleset tag; normal gameplay never forces an educational outcome.,v3_45,NOT_EXECUTED
+X15,cash,Toggle run-it-twice and bomb pots before implementation,Controls remain disabled with explicit unsupported explanation; no accidental half-enabled alternative pot/deck mechanics.,v3_45,NOT_EXECUTED
+Y01,both,At least eight core profiles on same 2–10-seat settings,Meaningful directional contrasts at sufficiently sampled comparable opportunities; no labels with identical conditional policies without warning.,v3_45,NOT_EXECUTED
+Y02,both,Two distinct bots of the same archetype over repeated sessions,"Stable within-player tendencies but genuine reproducible between-player heterogeneity, without switching labels mid-hand.",v3_45,NOT_EXECUTED
+Y03,both,"Human-action records, if licensed, split by player/session/venue/time","No player or future-session leakage between training and holdout; complete data provenance, strata and censorship recorded; otherwise `NOT_AVAILABLE`.",v3_45,NOT_EXECUTED
+Y04,both,Human holdout bot action log-loss vs simpler baseline in covered state strata,Proper scoring improvement or honest failure reported with confidence and small-N diagnostics; no claim from synthetic-only evaluation.,v3_45,NOT_EXECUTED
+Y05,both,"Human vs bot anonymized full-hand decisions, matched stake/seat/stack/rake",Blinded comparative review and state coverage recorded; differences and failure modes shown; no single unsupported Turing-test certification.,v3_45,NOT_EXECUTED
+Y06,both,Rare river overbet and board-type groups with 0–10 human samples,No numerical high-confidence 'realism' judgment; fallback prior and effective sample size displayed.,v3_45,NOT_EXECUTED
+Y07,both,"Bot faces equivalent public state, same own cards, same bot seed, swapped Hero secret holdings",Exact same sampled action or probability distribution; cannot inspect Hero hidden cards.,v3_45,NOT_EXECUTED
+Y08,both,"Matched preflop→flop→turn→river line, including bluff and thin value","Conditional joint-line likelihoods, correlations and deviations from reference/model reported, not just VPIP and c-bet marginals.",v3_45,NOT_EXECUTED
+Y09,both,"Gutshot vs double-gutshot, two-tone board, 50% and 150% pot, shallow/deep, action behind",Coherent conditional price response; any hard cap must be explicitly lab-only and not leak into human-validated presets.,v3_45,NOT_EXECUTED
+Y10,both,"Bot-vs-bot six- and nine-handed ecology with churn, rebuy and mismatched stack depths","Humanly recognizable pot composition, raise size mix, multiway fraction and no frozen table/stack dynamics; assumptions documented.",v3_45,NOT_EXECUTED
+Y11,both,Unknown opponent receives concealed stable archetype; export/debug/profile editing during active hand,"User-facing payload, notes, statistics, tooltips and exports do not reveal identity or hole cards prior to allowed release; private policy remains stable.",v3_45,NOT_EXECUTED
+Y12,both,Published poker performance research loaded as prospective source,"The system must reject it as an action-frequency calibration dataset absent eligible action-level records, provenance, stratification and license.",v3_45,NOT_EXECUTED
+Y13,both,"Strong profile vs frozen adversarial anti-strategies, matched seats and cards where possible","Show results and uncertainty across always-minbet, exploit oversized call, value-only river, overbluff, nits and random; never call 'GTO' from wins alone.",v3_45,NOT_EXECUTED
+Y14,both,"Time-to-act cues with no-tell and noisy-tell policy, blinded opponent","Hidden hand strength not perfectly inferred from cue; disabling tells does not change policy weights, cards or outcomes.",v3_45,NOT_EXECUTED
+Y15,both,Session/table-clustered outcome data and policy version changes,Uncertainty estimates use clustered units where applicable; results segregated by version/population and do not treat correlated hands as independent validation.,v3_45,NOT_EXECUTED
+Y16,both,Preset/mode display with varying evidence: designer / synthetic / human-fitted / holdout,"Provenance shown accurately per archetype, node and stakes; tests alone cannot silently elevate confidence to human validated.",v3_45,NOT_EXECUTED
+Z01,tournament_or_delivery,"Mobile 10-max table facing a raise, with keyboard/touch amount entry","Every action accessible; minimum, to-call, total raise-to and amount remaining visible; no overlapped/hidden seat control.",v3_45,NOT_EXECUTED
+Z02,tournament_or_delivery,New Site creation with old Poker MaxEV project present,New project/site identity proven and old project unchanged; signed-off deploy SHA and actual browser smoke recorded.,v3_45,NOT_EXECUTED
+Z03,tournament_or_delivery,Deployment/rollback after changes in bankroll schema,Previous working release can be restored with preserved valid user histories and no duplicated money or orphaned event.,v3_45,NOT_EXECUTED
+Z04,tournament_or_delivery,36-player three/four-table tournament with one Hero table slowed 10×,"Background tables only advance via completed legal hands on documented virtual event clock, not arbitrary timer eliminations or CPU speed.",v3_45,NOT_EXECUTED
+Z05,tournament_or_delivery,MTT bubble with two simultaneous all-in hands on different tables,Synchronization/hand-for-hand settles correct tied elimination order and avoids wrong first in-money assignment.,v3_45,NOT_EXECUTED
+Z06,tournament_or_delivery,Freezeout/re-entry/guarantee overlay with fees,"Entrant fees, net contributions, actual funded guarantees, liabilities and prize payouts reconcile without money appearing from nowhere.",v3_45,NOT_EXECUTED
+Z07,tournament_or_delivery,"PKO with multiway side pot, shared knockout winner(s), bounty split and payout retry",Each stake and bounty award tied to single eligible elimination and payable once; economy conserved under chosen documented ruleset.,v3_45,NOT_EXECUTED
+Z08,tournament_or_delivery,Equal hand/stacks in cash and on STT payout bubble,"Difference, if any, attributable to explicit ICM-aware or tournament heuristic state; numerical ICM only if required full-field input and validated calculation exists.",v3_45,NOT_EXECUTED
+Z09,tournament_or_delivery,Multiway ICM prize equity test with a known external reference and payout structure,Payout model checked to reference at documented precision or disabled/estimated; no use of an unexplained global 'bubble multiplier'.,v3_45,NOT_EXECUTED
+Z10,tournament_or_delivery,Browser suspended through multiple blind-level boundaries,"Resume policy preserved; no duplicate scheduled raises, random level jumps or clock running while intentionally paused.",v3_45,NOT_EXECUTED
+Z11,tournament_or_delivery,Offline interruption during showdown/payout/MTT seating transaction,"Atomic replay/rollback restores exact legal next state, same stacks and prizes, only one payout/seat assignment.",v3_45,NOT_EXECUTED
+Z12,tournament_or_delivery,Acceptance-tracker release report,"Every test status has evidence and build, `NOT_EXECUTED`/`NOT_AVAILABLE`/`BLOCKED` recorded honestly; gates check critical applicable tests rather than test count alone.",v3_45,NOT_EXECUTED
+Z13,tournament_or_delivery,Resume on bot's turn with previously queued delayed decision,Old command rejected by turn nonce; one legal bot action applied once; game never deadlocks or double acts.,v3_45,NOT_EXECUTED
+Z14,tournament_or_delivery,"Full session flow, fast replay, favorites and note taking at 2/6/10 players","No compulsory training modal; hand replay and notes respect private-card disclosure; uninterrupted play, touch/keyboard support, bounded storage, no performance regression.",v3_45,NOT_EXECUTED
+V401,cash,Validate production deck unique 52-card Fisher–Yates and unbiased integer selection,Code review confirms CSPRNG and rejection sampling; generated statistical diagnostics report N/seeds and no exposed deterministic production override,V4_new36,NOT_EXECUTED
+V402,cash,Separate deck and bot RNG streams,"With identical deck test stream, changing bot processing delays/action stream does not change which card occupies any deck index; production uses independent sources",V4_new36,NOT_EXECUTED
+V403,cash,Non-cheating bot projection and private data,"Attempt to access Hero cards, unrevealed opponent cards, future board and latent unknown personality from bot projection; denied on every stage including Monte Carlo inputs",V4_new36,NOT_EXECUTED
+V404,cash,Unknown versus Random identity lifecycle,Unknown maintains latent stable profile across hands and reloading without revealing it; Random samples a profile at seat assignment; public statistics only show observations,V4_new36,NOT_EXECUTED
+V405,cash,Multiway unequal stacks and layered side-pot distribution,Independent oracle computes eligible pots for at least 3 different all-in levels; no winner gets a pot ineligible by commitment; chip conservation including rake,V4_new36,NOT_EXECUTED
+V406,cash,Uncalled excess return ordering,Excess wager is returned before rake/pot allocation; returned amount receives no rake; replay same settlement never duplicates transfer,V4_new36,NOT_EXECUTED
+V407,cash,Odd-chip rule with tied hands and 3-way sidepots,Every divisible pot separately splits with the applicable odd-chip award rule and invariant; tournament TDA fixture awards next-left-of-button odd chip,V4_new36,NOT_EXECUTED
+V408,cash,Raise-to pot-fraction with prior street contributions,"For facing bet and previous street commitments, 50/100/150/200% pot controls compute legal total street commitment and display added chips; independently verified fixtures",V4_new36,NOT_EXECUTED
+V409,both,Short all-ins cumulative reopening,TDA 2026 v1.1 example plus separately specified cash profile: actor-specific reopen correctly handles multiple short all-ins and full increments,V4_new36,NOT_EXECUTED
+V410,cash,Live straddle and blind obligation,"UTG and button/Mississippi straddle only when ruleset enables; posts proper live/dead amount, tracks option, opening minraise, and preflop order",V4_new36,NOT_EXECUTED
+V411,tournament,Tournament dead-button and heads-up transition,Apply 2026 TDA dead-button rules through eliminated/empty seats and transition heads-up without duplicate/missed BB; reference fixtures,V4_new36,NOT_EXECUTED
+V412,both,Sit-out and missed blind distinctions,Cash sit-out follows selected wait/post/missed-blind policy; tournament absent player is dealt out but blinded/anted where rules apply; turn/hand counters accurate,V4_new36,NOT_EXECUTED
+V413,tournament,Big-blind ante short stack,"BBA posting priority, insufficient stack and multiway pots follow selected 2026 TDA profile; starting stacks and post-ante elimination order verified",V4_new36,NOT_EXECUTED
+V414,cash,Rake cap depends on number dealt in,"Against declared PokerStars 2026 source fixture, 2, 3–4, and 5+ dealt-in caps and no-flop-no-drop and rounding match source; other venue presets never mislabeled",V4_new36,NOT_EXECUTED
+V415,cash,Cash wallet and table ledger transfers,Buy-in/top-up/cash-out are internal transfers; manual wallet edit is external; per-hand net unaffected by those events; zero negative or phantom balances,V4_new36,NOT_EXECUTED
+V416,cash,Invisible-card counterfactual invariance,"Holding bot observation and independent bot random stream constant, altering only unseen Hero cards or undealt deck cannot alter legal action distribution/sample",V4_new36,NOT_EXECUTED
+V417,both,Calibration labels preserve human evidence status,"Synthetic samples can only earn synthetic matched status; empirical label rejected unless consent/licensing, population match, independent holdout and metrics recorded",V4_new36,NOT_EXECUTED
+V418,cash,Bot response versus table composition and Hero strategy,Same profile plays across three table mixes and two Hero policies; results report node-conditioned deltas and fails if hard-coded VPIP quota destroys rational conditional behavior,V4_new36,NOT_EXECUTED
+V419,both,Multi-street sequence and sizing consistency,"Compare flop→turn→river action transition probabilities and bet-size distributions by board, position and role on held-out data, or explicitly report no human benchmark",V4_new36,NOT_EXECUTED
+V420,both,Observed card censoring and data provenance,Imported observations mark folded/mucked cards unknown and must not infer exact combo or classify player with future cards; consent/license lineage and context recorded,V4_new36,NOT_EXECUTED
+V421,cash,Node-opportunity denominators,VPIP/PFR/3bet/raise/check-raise/fold-to-Cbet reported using eligible opportunities with demonstrable test histories; minimum N and CI or “insufficient sample”,V4_new36,NOT_EXECUTED
+V422,tournament,True hand-for-hand across multiple tables,All tables complete exactly one hand then wait; multiple eliminations share synchronized round and event-specific tie-break; no extra background hands,V4_new36,NOT_EXECUTED
+V423,tournament,Tournament event time versus user latency,"Same strategy/seeds with different browser rendering, tab suspension or user thought time preserves configured event-clock outcomes per pause policy",V4_new36,NOT_EXECUTED
+V424,tournament,Tournament accounting identities,"Starting chips + chips from authorized additional entries/rebuys = live + committed chips; fees, guarantee subsidies, payouts and bounty monetary pools separately reconcile",V4_new36,NOT_EXECUTED
+V425,tournament,KO/PKO split pot and multiple victims,Side-pot eligibility determines who earns each knockout; split knockouts and progressive bounty carryover/paid cash reconcile to payout specification,V4_new36,NOT_EXECUTED
+V426,cash,"bb/100 mixed blind levels, refunds and no double rake","Each dealt hand yields net in own BB, count correct, rake applied once, skip demo/lab; mixed stake views disclose mixing and use independent dollar profit",V4_new36,NOT_EXECUTED
+V427,tournament,Tournament ROI and blind-normalized chips separated,Payout minus total entry/reentry/fee costs computes ROI correctly; tournament chipEV cannot be equated with prize $EV or cash-game bb/100,V4_new36,NOT_EXECUTED
+V428,both,All-in adjusted display is not decision EV,All-in-adjusted only on separately validated eligible locked pots with known cards; unsupported displays N/A; no solver/true-EV badge without reference,V4_new36,NOT_EXECUTED
+V429,cash,Playability of initial vertical slice and game speed,"User completes 100 continuous hands 2–10 seats with zero invalid state; quick/normal/live-like time modes vary animation only, never dealt cards or rules",V4_new36,NOT_EXECUTED
+V430,both,Snapshot recovery and idempotent settlement,"Crash/refresh precisely after bot command, street close, unmatched-return and payout; resulting single valid state equals uninterrupted oracle, no double payout",V4_new36,NOT_EXECUTED
+V431,both,Replay and safe history import,Export/import versioned hand with state hashes; redacted user export excludes future deck/unknown latent profile; malformed source fails safely without changing history,V4_new36,NOT_EXECUTED
+V432,cash,Draw-price profile editor actually affects behavior,Controlled gutshot/OESD/flush/combo draws on each street facing 25–200% pot: configurable response curve shifts relevant action frequencies without overriding legality,V4_new36,NOT_EXECUTED
+V433,cash,Bot archetypes actually differ,Eight initial profiles pass predeclared pairwise conditional-action/sizing diversity metrics in multiple strata; avoid granting any human-like certificate absent human comparison,V4_new36,NOT_EXECUTED
+V434,cash,Opponent adaptive memory stays realistic,"Repeated Hero aggression affects bounded belief updates using only public actions and disclosed cards, with priors/forgetting; impossible immediate perfect read is rejected",V4_new36,NOT_EXECUTED
+V435,both,Mobile and 10-seat UI acceptance,"On actual 360–430 px mobile view and desktop, action labels, min/max sizing, pot, sidepots and turn readable; confirmation blocks accidental jam/double-submit",V4_new36,NOT_EXECUTED
+V436,both,Platform policy and research compliance,Site explicitly states simulator is offline/practice and not real-money or real-time assistance; data ingestion requires right to use; no integration with live poker client,V4_new36,NOT_EXECUTED
+V501,cash,Differential 5/7-card hand-ranking oracle,"Use independent PokerKit (or another separately implemented comparator) to agree on randomized legal hands and targeted wheels, ties, quads, straight flush, board play; record seed/version; comparator disagreement blocks release.",V5_new22,NOT_EXECUTED
+V502,both,Differential hand-state and payout oracle,"Replay identical legal actions against independent reference engine for matched supported rule settings; compare active actor, wagers, refunds, eligible pots, and final awards; mark unsupported rules explicitly.",V5_new22,NOT_EXECUTED
+V503,both,Suit relabel metamorphic property,"Permute suit labels consistently across deck and all hands; winner rankings, legal actions and chip outcomes remain identical, ignoring optional suit-display artwork.",V5_new22,NOT_EXECUTED
+V504,both,Integer chip unit round-trip and stake scaling,All money uses exact smallest integer units. Convert stakes and all payments to units without floating drift; scaled cash fixtures preserve legal/action ratios and reconciliation.,V5_new22,NOT_EXECUTED
+V505,cash,Bet control equivalence including nonzero commitment,"For each faced bet and pre-existing street commitment, `pot`, `half-pot`, custom percent and numeric raise-to map to legal cumulative street totals; no silent minraise clipping.",V5_new22,NOT_EXECUTED
+V506,tournament,Dead-button versus forward-moving divergence,An elimination fixture produces proper button/blind order under 2026 TDA dead-button and PokerStars forward-moving selectable tournament profiles; choices do not silently cross-contaminate.,V5_new22,NOT_EXECUTED
+V507,tournament,TDA BB-ante finishing-order calculation,Two players bust same hand at a BB-ante table and begin with different relevant stack-after-ante amounts; finish order/bounty are calculated per configured 2026 TDA Rule 22.,V5_new22,NOT_EXECUTED
+V508,tournament,All-in card reveal after remaining betting,"All-in main-pot player with two players still able to bet side pot remains concealed until all betting action concludes, then all required hands are tabled under 2026 TDA Rule 17.",V5_new22,NOT_EXECUTED
+V509,both,Unknown HUD never leaks seed or latent profile,"Unknown/Random named identities, private parameters, deck remainder and unrevealed hole cards remain absent from hero projection, HUD tooltips and client-facing analytics.",V5_new22,NOT_EXECUTED
+V510,both,Replay honors reveal/muck rules,Public replay includes only cards legitimately exposed at showdown; mucked cards hidden in hero view. Developer full-state diagnostics are distinctly gated and marked non-training.,V5_new22,NOT_EXECUTED
+V511,both,Export import redaction and integrity,"Player export omits future deck, internal bot profile, unrevealed cards and private seeds; imported player data cannot forge ledger wins and must pass schema/hash validation.",V5_new22,NOT_EXECUTED
+V512,cash,"Two active tabs, one ledger writer","Two browser tabs try to issue action concurrently: only one action commits, losing tab reloads authoritative state with explicit conflict notice; never duplicate winnings.",V5_new22,NOT_EXECUTED
+V513,both,Mobile suspend and resume with pending bot move,Suspend/kill tab while bot thinking or a settlement pending; on recovery state/action revision and payouts match pre-interruption committed events.,V5_new22,NOT_EXECUTED
+V514,cash,Stakes preset provenance shown and persisted,"Default live $1/$2, $1/$3, $2/$5 and higher or online presets disclose synthetic vs human-calibrated status, rake assumptions, rule version, table mix; changes logged in session stats.",V5_new22,NOT_EXECUTED
+V515,cash,Human action benchmark needs held-out scoring,"Where consented dataset exists, score actions and sizes using opportunity-stratified log-loss and calibration on fully held-out players/sessions/venue; no claim for missing stratum.",V5_new22,NOT_EXECUTED
+V516,cash,Human-likeness discrimination baseline,"Blinded experts distinguish human actions vs matched bots with confidence; compare to human-vs-human variation, naive baseline and finite sample uncertainty; disclose failure/unavailable data.",V5_new22,NOT_EXECUTED
+V517,cash,Synthetic skill robustness under matched samples,"Fixed independent naive, balanced, and exploit agents play matched scenarios with independent seeds; report CI and sensitivity to rake/lineup and fail hard on accidental Hero-favoring bias.",V5_new22,NOT_EXECUTED
+V518,both,Performance and accessible table interaction,"Measure p50/p95 bot response, render time, memory and action error rates on declared reference devices during repeated 2/6/10-seat play; check keyboard/screen reader/color-independent card labels.",V5_new22,NOT_EXECUTED
+V519,cash,Bankroll edit with an open hand,"Edit virtual wallet during unsettled pot: external change is appended to ledger without modifying table bets or pot, or safely queued until hand ends; entire transaction reversible by new adjustment.",V5_new22,NOT_EXECUTED
+V520,tournament,Tourney event independent of Hero reading speed,Run same scripted hero decisions and field seeds at different real user think times and UI animation speeds; final tournament event results remain identical when event-time configuration is identical.,V5_new22,NOT_EXECUTED
+V521,both,Scope lock for tempting competitor features,"First release remains NLHE cash plus staged tournament; extra games, RTA, peer multiplayer, run-it-twice, chat, dealer-error floor rulings marked optional and cannot block first vertical slice.",V5_new22,NOT_EXECUTED
+V522,both,Executable evidence pipeline and specification precedence,Every required critical test has runnable command/fixture plus build+seed+evidence; CI blocks errors; canonical V5 document is authority; V4 archive cannot override it.,V5_new22,NOT_EXECUTED
+V601,R1,R1 launch independent from tournaments,"CI and release criteria permit publishing R1 with every T1/T2/T3 still NOT_EXECUTED, provided every R1 critical cash gate passes. R1 is playable 2–10 seats and not scaffold-only.",V6_addition,NOT_EXECUTED
+V602,engine,V5 fixture FIX06 becomes independently executable,"Construct concrete seat/button/bust before/after state, independently approve TDA dead and PokerStars moving-button expected positions and action order, then run under both profiles; old placeholder cannot PASS.",V6_addition,NOT_EXECUTED
+V603,cash,Host Setup known bot but Live Table hides type,"Configure visible host labeled nit or station; enter Live Table before a hand; no seat label/tooltips/state leak reveals type, exact traits or policy while actions and bankroll remain unchanged.",V6_addition,NOT_EXECUTED
+V604,cash,Changing view never changes game or bot policy,"On same frozen seeded state, switch Host/Live/Study views and confirm identical hand state/revisions, legal actions, bot distributions and settled result.",V6_addition,NOT_EXECUTED
+V605,engine,RNG fails closed when secure entropy absent,Mock browser crypto secure random unavailable; normal mode refuses to deal and displays actionable error; no Math.random silent fallback. Lab deterministic RNG remains isolated.,V6_addition,NOT_EXECUTED
+V606,cash,Private production hand snapshot supports exact recovery,"Start genuine CSPRNG hand, suspend after preflop and after bot action, reload from private snapshot/events; resume exactly same remaining cards, stacks, bot policy version with no double charge.",V6_addition,NOT_EXECUTED
+V607,cash,Player export cannot reveal hidden unknown information,"Export midhand and after hand with mucked cards; JSON cannot contain unrevealed villain cards, future deck, private seed, bot latent vector or diagnostics. Import public export cannot forge unpaid/duplicated outcomes.",V6_addition,NOT_EXECUTED
+V608,bot,Opponent editor independent conditional effect,"Matched 100k or enough observable opportunities for 25–300% draw call surfaces: modify OESD turn curve only, and show directional frequency effect on targeted cases without unmotivated global VPIP drift or illegal sizes. Report uncertainty.",V6_addition,NOT_EXECUTED
+V609,bot,Individual bot memory cannot cross-infer private hands,Two villains share a Hero opponent but not private cards; perturb one villain private cards/unknown folded information and validate second villain policy observation and beliefs unchanged.,V6_addition,NOT_EXECUTED
+V610,bot,High-volume unfamiliar lineup transfer audit,"Freeze model cards, run Hero benchmark agents on several heldout table compositions/rake/stack-depths including intentionally counterexploiting bot behavior; report per-lineup sample N, CI and vulnerabilities. No live profit claim.",V6_addition,NOT_EXECUTED
+V611,cash,Wallet external edits and mixed-stakes bb/100 period,"Play cash $1/$2 then $2/$5, edit wallet, rebuy and cash out; verify net profit excludes external edit, per-stake stats computed correctly, mixed metric clearly labeled and old history unchanged.",V6_addition,NOT_EXECUTED
+V612,cash,Large bet mobile preview and double input,"On 360px view facing a 3bet with previous street contribution: pot slider, raise-to dollar amount, additional amount, and exact min/max are legible; rapid double tap only one action is committed.",V6_addition,NOT_EXECUTED
+V613,cash,R1 statistical honesty actual vs hypothetical pace,Complete exactly N hands with fast and live-like animation controls: observed bb/100 independent of animation speed; app-clock $/hr changes with actual duration; hypothetical live-paced estimate is visibly assumption driven.,V6_addition,NOT_EXECUTED
+V614,bot,R1 human behavior label evidence tier,"For every initial persona card status reads DESIGNED/SYNTHETIC_MATCHED (unless external legal data exists); cannot show human-data fitted, calibrated live room or solver-certified without links and heldout evidence.",V6_addition,NOT_EXECUTED
+V615,release,Post-release feature flag stays disabled,"Before R1 verify run-it-twice/bomb pots/extra games not accessible via UI, URL or local flags without new compatible authority and tests; backlog IDs preserved.",V6_addition,NOT_EXECUTED
+V616,tourney,Tournament event admission and prize accounting,"At R2 stage, verified STT ticket splits entry/fee and prize; completing event leaves no unpaid liability or phantom cash pot; replay same seed yields same payout and placement.",V6_addition,NOT_EXECUTED
+V617,tourney,MTT whole-field replay vs hero wall-clock,"At R3 stage, run complete real 18/45/90-player fields with identical field seeds but different Hero think times; elimination and payout agree given same scripted Hero actions and event-time policy.",V6_addition,NOT_EXECUTED
+V618,tourney,Tournament field variant isolation,STT and MTT never apply cash rake or cash wallet stack resets to tournament pot; cash game can be played before and after tournament without altered cash session history.,V6_addition,NOT_EXECUTED
+V619,release,Feature register integrity and priority,"Every deferred item has a stable FUT ID, status, dependency and testable behavior; release build turns cannot silently upgrade into R1 without explicit scope decision and new tests.",V6_addition,NOT_EXECUTED
+V620,release,Source and build provenance pinned for actual QA,"Every passing critical test records commit/build, engine+policy+room versions, test input/seed when applicable, actual expected/observed, runtime environment and artifact path; missing evidence blocks release.",V6_addition,NOT_EXECUTED
+V701,cash,Bot decision idempotence under UI rerender,"Freeze legal observation+decisionId; rerender 100 times, pause/resume then retry bot callback; one action+size draw and exactly one reducer event; no extra RNG/ledger change.",V7_targeted_delta,NOT_EXECUTED
+V702,cash,Late asynchronous bot worker response,"Start hand A decision, change hand/session/revision via valid action; deliver A result after B starts; reject stale response, no cash/pot/policy change.",V7_targeted_delta,NOT_EXECUTED
+V703,cash,Crash between bot policy sample and reducer commit,"Persist pending sealed action, simulate crash before/after dispatch; resume exactly one legal outcome with unchanged deck and wallet total.",V7_targeted_delta,NOT_EXECUTED
+V704,bot,Allowed opponent-memory event taxonomy,"After folded private hand and all-in showdown, assert bots record only public legal actions/revealed hole cards, not mucked/future deck or other bot private vectors.",V7_targeted_delta,NOT_EXECUTED
+V705,bot,Sparse conditional data cannot pass calibration,Provide N<10 legitimate gutshot-vs-200%-pot opportunities; outcome explicitly INSUFFICIENT_DATA with denominator and uncertainty; not 0% or human calibrated.,V7_targeted_delta,NOT_EXECUTED
+V706,cash,Rule-profile freeze across in-progress hand,"Change rake/blinds/straddle/denomination with active action; settled hand uses original version, next hand new version, ledger/hand replay consistent.",V7_targeted_delta,NOT_EXECUTED
+V707,release,Cash interface bet sizing comprehension,"Three new test users on specified mobile/desktop view must locate minraise, raise-to total and call/additional amount, play 25 hands; record each actual misclick and observed ambiguity. No fictional completion.",V7_targeted_delta,NOT_EXECUTED
+V708,release,Browser storage quota failure recovery,"Force private snapshot save failure and cross-tab stale ownership; visible error, controlled pause/export, no reset or duplicated settled event on reload.",V7_targeted_delta,NOT_EXECUTED
+V709,tourney,Tournament level snapshot with H4H boundary,"Advance event timer during active H4H hand, freeze level at hand start for all tables, apply next level to following hands per chosen profile; no partial event payout.",V7_targeted_delta,NOT_EXECUTED
+V710,tourney,MTT background scheduler load and cancel,"On specified phone/desktop seed 18/45/90-player fields, cancel/restart worker during active hand; no phantom elimination, chip creation, stale payouts, report UI latency and resources.",V7_targeted_delta,NOT_EXECUTED

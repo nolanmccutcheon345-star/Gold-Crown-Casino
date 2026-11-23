@@ -1,0 +1,11 @@
+import {it,expect} from 'vitest';
+import {mkdirSync,writeFileSync} from 'node:fs';
+import {gzipSync} from 'node:zlib';
+import {resolve} from 'node:path';
+import {FAMILIES,conditionalFixture,conditionalEvaluation} from './conditional';
+import {analyzeDecision,createProfile} from '../../src/bots/policy';
+import {observeBot} from '../../src/core/engine';
+import type {Model} from './population';
+it('constructs all new complete public prefixes with independently priced contestable pots',()=>{for(const family of FAMILIES)for(let v=0;v<8;v++){const f=conditionalFixture(family,v);expect(f.state.actor).toBe(0);expect(new Set(f.state.deck).size).toBe(52);expect(f.expectedPrice).toBeGreaterThanOrEqual(0);expect(f.expectedPrice).toBeLessThanOrEqual(1);}});
+it('compares fresh short-stack and multiway call prices to independent commitment-tier arithmetic',()=>{for(const family of ['short-price','multiway-price'] as const)for(let v=0;v<8;v++){const f=conditionalFixture(family,v),p=createProfile({selection:'stronger-reg'},4901,'neutral'),o=observeBot(f.state,0,p.policyVersion,'price');expect(analyzeDecision(o,p).context.price).toBeCloseTo(f.expectedPrice!,12);}});
+it('samples larger independent conditional cases and records full legal continuations',()=>{const full=process.env.STEP4C_CONDITIONAL==='1';if(!full){expect(conditionalEvaluation('candidate-1.2',1).rows).toHaveLength(48);return;}const model=(process.env.STEP4C_MODEL??'baseline-1.1') as Model,result=conditionalEvaluation(model,Number(process.env.STEP4C_SAMPLES??128)),dir=resolve(process.env.STEP4C_REPORT_DIR??'tests/step4c/evidence');mkdirSync(dir,{recursive:true});writeFileSync(resolve(dir,`${model}-conditional.json.gz`),gzipSync(JSON.stringify(result)));expect(result.rows).toHaveLength(6*8);console.log(JSON.stringify({model,decisions:result.totalSampledDecisions,completeContinuations:result.examples.length}));},3600000);

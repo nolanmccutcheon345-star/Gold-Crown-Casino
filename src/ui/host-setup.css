@@ -1,0 +1,56 @@
+/* Host setup: a shorter form with the start button always in reach.
+   Loaded last. The table basics (players, blinds, buy-in, capacity, seats) stay open; presets,
+   rake and buy-in limits are collapsible sections that start closed. DOM and tab order are
+   unchanged apart from the three section headers. */
+
+/* ---- Collapsible sections ---- */
+.setup-section{border-top:1px solid #ffffff16;margin:0}
+.setup-section:last-of-type{border-bottom:1px solid #ffffff16}
+.setup-section>summary{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 2px;cursor:pointer;list-style:none;font-size:14px;font-weight:600;color:#dbe6dc}
+.setup-section>summary::-webkit-details-marker{display:none}
+.setup-section>summary::before{content:'';flex:0 0 auto;width:8px;height:8px;border-right:2px solid #9fb5aa;border-bottom:2px solid #9fb5aa;transform:rotate(-45deg);transition:transform .15s}
+.setup-section[open]>summary::before{transform:rotate(45deg)}
+.setup-section>summary:hover{color:#ecdbb7}
+.setup-section[open]{padding-bottom:16px}
+.setup-section>.preset-controls{border:0;margin:0;padding:0 0 4px}
+.setup-section>.preset-controls>h3,.setup-section>.rake-setup>.roster-heading>h3,.setup-section>.roster-heading>h3{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.setup-section>.rake-setup{border:0;padding-bottom:0}
+.setup-section>.rake-setup>.roster-heading,.setup-section>.roster-heading{margin:0 0 12px;justify-content:flex-end}
+@media(prefers-reduced-motion:reduce){.setup-section>summary::before{transition:none}}
+
+/* ---- One line per opponent: name, seat and current style; opens to the controls ---- */
+.opponent-config>.opponent-card{margin-top:0;border-top:0;padding-top:0}
+.opponent-config .opponent-card>summary{list-style:none;cursor:pointer;min-height:48px;margin:0;padding:4px 0;color:inherit;font-size:inherit}
+.opponent-card>summary::-webkit-details-marker{display:none}
+.opponent-card>summary::after{content:'';flex:0 0 auto;width:8px;height:8px;margin:0 4px 0 2px;border-right:2px solid #9fb5aa;border-bottom:2px solid #9fb5aa;transform:rotate(-45deg);transition:transform .15s}
+.opponent-card[open]>summary::after{transform:rotate(45deg)}
+.opponent-config .opponent-card[open]>summary{margin-bottom:12px}
+.opponent-card>summary h4{min-width:0}
+.opponent-card>summary h4 small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.opponent-setup .opponent-config{padding-top:6px;padding-bottom:6px}
+.opponent-card[open]{padding-bottom:10px}
+@media(prefers-reduced-motion:reduce){.opponent-card>summary::after{transition:none}}
+
+/* ---- Start button stays on screen while the form scrolls ---- */
+.setup-start-bar{position:sticky;bottom:0;z-index:6;display:flex;align-items:center;gap:12px;margin:16px -6px 0;padding:10px 6px calc(10px + env(safe-area-inset-bottom));background:#121d22;border-top:1px solid #ffffff1f;box-shadow:0 -10px 18px #0c131799}
+.setup-start-bar .start-button{margin-top:0}
+
+/* ---- Icons drawn as shapes, so they do not depend on the device's fonts ---- */
+.shape-icon{display:inline-block;flex:0 0 auto;vertical-align:-1px}
+.shape-pause{width:9px;height:11px;margin-right:7px;border-left:3px solid currentColor;border-right:3px solid currentColor}
+.shape-play{width:0;height:0;margin-right:7px;border-left:10px solid currentColor;border-top:6px solid transparent;border-bottom:6px solid transparent}
+.shape-arrow{width:9px;height:9px;border-top:2px solid currentColor;border-right:2px solid currentColor}
+
+/* ---- Closed Player notes card on tablet and desktop: no empty band under the label ---- */
+@media(min-width:701px){
+  .view-live .player-notes{padding-top:6px;padding-bottom:6px}
+  .view-live .player-notes summary{padding:12px 0;line-height:20px}
+  .view-live .player-notes details[open]{padding-bottom:12px}
+}
+
+@media(max-width:700px){
+  .setup-panel{padding:16px 14px}
+  .setup-start-bar .start-button{width:100%;min-height:52px;font-size:15px}
+  #setup-form>#quick-start-live{width:100%;margin-top:12px}
+  .opponent-setup .opponent-config{padding:4px 12px}
+}

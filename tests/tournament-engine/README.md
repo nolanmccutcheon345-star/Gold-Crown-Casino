@@ -1,0 +1,11 @@
+# Tournament hand-engine extension
+
+Executable scope: existing authoritative NLHE hand reducer, blind-first big-blind ante, dead button and heads-up transition, correct dead-ante/main-pot accounting, isolated call-price estimate, spectator projection, public replay and freezeout cash-transfer guards. Tournament chip values are integers, not spendable cash cents. No table manager, entry ledger, payout ladder or tournament strategy is implemented in this lane.
+
+Source reference: Poker TDA, 2026 Rules Version 1.1 (21 September 2026), https://www.pokertda.com/view-poker-tda-rules/ , retrieved 15 November 2026. Rules 34/36 specify dead-button use and heads-up adjustment to avoid repeating the BB. Blind-first ante funding is selected explicitly in the profile. Rule 22 ranks simultaneous BBA bustouts using post-ante starting stacks; the tournament controller must apply this using startingStack-deadAnte. This is selected-rule implementation, not a claim of complete TDA coverage or certification.
+
+Physical capacity is frozen in GameState.tournamentSeatCount, survives eliminated seats and is included in public replay. Cash output shapes and cash engine version0.4.0 remain unchanged; new tournament hands identify engine0.5.0. Tournament spectator views reveal only legally shown cards and have no actionable legal-action set.
+
+Executed: npx vitest run tests/tournament-engine tests/core tests/step5a-pricing, 101 PASS / 0 FAIL / 0 SKIP. npm run typecheck and focused ESLint PASS. Results saved in EXECUTED_RESULTS.json. Tests include direct hand-calculated ante/refund/side-pot/short-call expectations, six/nine-seat physical wrap, occupied/dead prior-small-blind marker movement across empty gaps, dead-button odd chips, and nine-player headless all-in completion. No physical-device or human-strategy validation inferred.
+
+Canonical replay helper reconstructs active or completed committed tournament hands from the saved deck and actual forced positions, verifies full private-state equality, and only returns normal public Hero/spectator frames. Unknown engine versions and altered state fail closed. Five added cases cover every street at 2/3/9 players, dead-button spectator replay and corruption.

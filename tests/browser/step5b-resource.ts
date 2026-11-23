@@ -1,0 +1,24 @@
+import {newHandId} from '../../src/identity';
+const frames={a:document.querySelector<HTMLIFrameElement>('#resource-a')!,b:document.querySelector<HTMLIFrameElement>('#resource-b')!},out=document.querySelector('#resource-result')!,evidence=document.querySelector<HTMLTextAreaElement>('#resource-evidence')!;let run='',serial=0,busy=false,popupMode=false;let popup:Window|null=null;const reports:unknown[]=[],readyResolvers=new Map<string,(status:string)=>void>(),pending=new Map<number,{resolve:(result:Record<string,unknown>)=>void;reject:(error:Error)=>void;timer:ReturnType<typeof setTimeout>}>();
+function show(status:string,error?:string){const report={status,error,at:new Date().toISOString(),browser:navigator.userAgent,run,reports};out.textContent=JSON.stringify(report,null,2);evidence.value=JSON.stringify(report);}
+window.addEventListener('message',event=>{if(event.origin!==location.origin||![frames.a.contentWindow,frames.b.contentWindow,popup].includes(event.source as Window))return;const m=event.data;if(m?.kind==='resource-ready'&&m.namespace===`ai-texas-hold-em-step5b-resource-${run}`){readyResolvers.get(m.role)?.(m.status);readyResolvers.delete(m.role);}if(m?.kind==='resource-result'){const p=pending.get(m.id);if(!p)return;clearTimeout(p.timer);pending.delete(m.id);reports.push(m);show('RUNNING');if(m.status==='PASS')p.resolve(m.result);else p.reject(Error(m.error));}});
+function load(role:'a'|'b'){return new Promise<string>((resolve,reject)=>{const timer=setTimeout(()=>reject(Error(`Frame ${role} load timeout`)),60000);readyResolvers.set(role,status=>{clearTimeout(timer);resolve(status);});frames[role].src=`./step5b-resource-frame.html?run=${run}&role=${role}&runItTwice=true&bombPots=true`;});}
+function command(role:'a'|'b',name:string){return new Promise<Record<string,unknown>>((resolve,reject)=>{const id=++serial,timer=setTimeout(()=>reject(Error(`${role}/${name} timeout`)),60000);pending.set(id,{resolve,reject,timer});const target=role==='b'&&popupMode?popup:frames[role].contentWindow;if(!target){clearTimeout(timer);pending.delete(id);reject(Error('Second QA tab is unavailable'));return;}target.postMessage({kind:'resource-command',id,name},location.origin);});}
+document.querySelector('#run-resource')!.addEventListener('click',()=>{if(busy)return;busy=true;popupMode=false;run=newHandId();reports.length=0;frames.b.src='about:blank';void(async()=>{try{show('LOADING');await load('a');await command('a','quota');await command('a','lost-ack');await command('a','prepare-stale');const second=await load('b');if(second!=='readonly')throw Error('Second frame unexpectedly writable');await command('b','take-over');await command('a','stale');const owner=await command('b','settle-owned');const recovered=await command('a','recover-owner');if(owner.financialDigest!==recovered.financialDigest||recovered.settlementEvents!==1)throw Error('Ownership recovery changed payout/history');show('PASS');}catch(error){show('FAIL',String(error));}finally{busy=false;}})();});
+
+function loadPopup(){return new Promise<string>((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('Second browser tab load timeout')),60000);readyResolvers.set('b',status=>{clearTimeout(timer);resolve(status);});popup!.location.href=`./step5b-resource-frame.html?run=${run}&role=b&popup=1`;});}
+document.querySelector('#run-popup-poker')!.addEventListener('click',()=>{
+ if(busy)return;busy=true;popupMode=true;run=newHandId();reports.length=0;frames.b.src='about:blank';
+ // Must happen synchronously inside the real user's click to preserve popup permission.
+ popup=window.open('about:blank','_blank');
+ void(async()=>{try{
+  if(!popup)throw Error('Browser blocked the second QA tab. Allow this explicit test tab and retry.');
+  show('LOADING_ACTUAL_SECOND_TAB');await load('a');const start=await command('a','prepare-stale');
+  const second=await loadPopup();if(second!=='readonly')throw Error('Second actual tab was writable before takeover');
+  await command('b','take-over');await command('b','arm-concurrent');
+  const sentAt=new Date().toISOString(),[oldWriter,newWriter]=await Promise.all([command('a','concurrent-fold'),command('b','concurrent-fold')]);
+  if(oldWriter.outcome!=='FENCED'||newWriter.outcome!=='COMMITTED'||newWriter.handId!==start.handId||newWriter.actionDelta!==1||newWriter.settlementEvents!==1)throw Error('Concurrent poker submissions did not produce exactly one committed action and one settlement');
+  const recovered=await command('a','recover-owner');if(recovered.financialDigest!==newWriter.financialDigest||recovered.settlementEvents!==1)throw Error('Two-tab recovery changed the winning commit');
+  reports.push({check:'actual second tab concurrent poker actions',status:'PASS',sentAt,browsingContexts:'Original application iframe in this tab plus an independently opened browser tab',oldWriter,newWriter,recovered});show('PASS');
+ }catch(error){show('FAIL',String(error));}finally{busy=false;}})();
+});

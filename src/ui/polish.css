@@ -1,0 +1,791 @@
+/* Patch 51: appearance and motion polish. Display only: nothing here changes cards, rules, timing or results.
+   Animations use the individual translate/scale/rotate properties so they never fight a layout transform. */
+
+/* ---------- Table motion ---------- */
+@keyframes pna-deal-a{from{opacity:0;translate:0 -18px;scale:.82;rotate:-8deg}to{opacity:1;translate:0 0;scale:1;rotate:0deg}}
+@keyframes pna-deal-b{from{opacity:0;translate:0 -18px;scale:.82;rotate:8deg}to{opacity:1;translate:0 0;scale:1;rotate:0deg}}
+@keyframes pna-board{from{opacity:0;translate:0 -10px;scale:.9}60%{opacity:1}to{opacity:1;translate:0 0;scale:1}}
+@keyframes pna-flip{from{transform:perspective(300px) rotateY(90deg)}to{transform:perspective(300px) rotateY(0deg)}}
+@keyframes pna-chip{from{opacity:0;translate:0 -12px;scale:.6}to{opacity:1;translate:0 0;scale:1}}
+@keyframes pna-award{0%{opacity:0;scale:.5}55%{opacity:1;scale:1.18}100%{scale:1}}
+@keyframes pna-turn{0%,100%{box-shadow:0 0 0 2px #79c9a926,0 6px 15px #04151180}50%{box-shadow:0 0 0 6px #79c9a91f,0 0 18px #79c9a94d}}
+@keyframes pna-win{0%{box-shadow:0 0 0 0 #e8c58b00}35%{box-shadow:0 0 0 7px #e8c58b55,0 0 26px #e8c58b66}100%{box-shadow:0 0 0 2px #e8c58b59,0 6px 15px #04151180}}
+@keyframes pna-pot{0%{scale:1}40%{scale:1.1;box-shadow:0 0 22px #e8c58b55}100%{scale:1}}
+@keyframes pna-rise{from{translate:0 18px}to{translate:0 0}}
+@keyframes pna-fade{from{opacity:0}to{opacity:1}}
+
+.board-cards .playing-card{animation:pna-board .32s cubic-bezier(.2,.8,.2,1) both}
+.board-cards .playing-card:nth-child(2){animation-delay:.08s}
+.board-cards .playing-card:nth-child(3){animation-delay:.16s}
+.hole-cards.deal-0 .playing-card{animation:pna-deal-a .3s cubic-bezier(.2,.8,.2,1) both}
+.hole-cards.deal-1 .playing-card{animation:pna-deal-b .3s cubic-bezier(.2,.8,.2,1) both}
+.hole-cards .playing-card+.playing-card{animation-delay:.07s}
+/* Cards turned face up at showdown flip over. */
+.hole-cards.shown-hand .playing-card{animation:pna-flip .34s ease-out both}
+.hole-cards.shown-hand .playing-card+.playing-card{animation-delay:.06s}
+.seat-bet:not(.empty-bet){animation:pna-chip .24s ease-out both}
+.seat-bet.award-bet{animation:pna-award .5s cubic-bezier(.2,.8,.2,1) both;color:#f3dca8}
+.seat-bet.award-bet i{background:#e8c58b}
+.acting .seat-label{animation:pna-turn 1.6s ease-in-out infinite}
+.winner .seat-label{border-color:#e8c58b9e;animation:pna-win 1.1s ease-out both}
+.pot-display.awarded{animation:pna-pot .7s ease-out both;border-color:#e8c58b4d}
+.seat .seat-cards,.seat .seat-label{transition:opacity .3s ease}
+.folded .hole-cards{translate:0 3px;transition:translate .3s ease}
+.action-panel.your-action,.action-panel.complete-action,.t-action-panel.your-action{animation:pna-rise .22s ease-out both}
+.activity-list .activity-item:first-child{animation:pna-fade .3s ease-out}
+.speech-bubble,.table-talk-line{transition:opacity .25s ease}
+
+/* The player can turn animations off; the device setting turns them off too. */
+.motion-off *,.motion-off *::before,.motion-off *::after{animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){
+  .board-cards .playing-card,.hole-cards .playing-card,.seat-bet,.acting .seat-label,.winner .seat-label,.pot-display.awarded,.action-panel,.t-action-panel{animation:none!important}
+}
+
+/* ---------- Session details ---------- */
+.provenance-details{margin-top:10px}
+.provenance-details>summary{cursor:pointer;font-size:12px;color:var(--muted);list-style:none;display:flex;align-items:center;gap:6px;min-height:32px}
+.provenance-details>summary::-webkit-details-marker{display:none}
+.provenance-details>summary::before{content:'▸';font-size:10px;transition:rotate .15s}
+.provenance-details[open]>summary::before{rotate:90deg}
+.stack-line{gap:12px;align-items:baseline}
+.stack-line b{white-space:nowrap}
+
+/* ---------- Phone layout fixes ---------- */
+@media(max-width:950px){
+  /* The footer note had a two-column grid built for a tag it no longer has, which squeezed it into one word per line. */
+  .build-note{display:block}
+  .build-note h3{margin:0 0 8px}
+}
+@media(max-width:700px){
+  /* One column on a phone: the two half-width cards were too narrow to read. */
+  .session-rail,.view-live.has-game .session-rail{display:flex;flex-direction:column;gap:12px}
+  .view-live.has-game .activity-card{order:-1}
+  .activity-card .empty-activity{padding:14px 0 4px}
+  .main-stat>strong{font-variant-numeric:tabular-nums}
+}
+
+/* ---------- Patch 52: table themes ---------- */
+.felt-blue .table-panel .felt,.felt-blue .tournament-play .felt{background:radial-gradient(ellipse at 50% 35%,#2a6496,#173a5c 75%);box-shadow:inset 0 0 60px #0a1e33,0 0 0 1px #0a1a2b}
+.felt-burgundy .table-panel .felt,.felt-burgundy .tournament-play .felt{background:radial-gradient(ellipse at 50% 35%,#7a2a3c,#4a1724 75%);box-shadow:inset 0 0 60px #2a0b13,0 0 0 1px #24090f}
+.felt-charcoal .table-panel .felt,.felt-charcoal .tournament-play .felt{background:radial-gradient(ellipse at 50% 35%,#475158,#262d32 75%);box-shadow:inset 0 0 60px #111618,0 0 0 1px #101416}
+.felt-burgundy .felt-line,.felt-blue .felt-line,.felt-charcoal .felt-line{border-color:#ffffff1f}
+.back-red .playing-card.card-back{background:repeating-linear-gradient(45deg,#7a2733,#7a2733 3px,#65202a 3px,#65202a 5px);border-color:#d39a9a73}
+.back-red .playing-card.card-back>span{color:#f0c4c45c}
+.back-black .playing-card.card-back{background:repeating-linear-gradient(45deg,#2a2e33,#2a2e33 3px,#1d2024 3px,#1d2024 5px);border-color:#9aa1a873}
+.back-black .playing-card.card-back>span{color:#c9ced35c}
+/* Four-color deck: spades black, hearts red, diamonds blue, clubs green. */
+.four-color .playing-card.suit-d{color:#2f6fd0}
+.four-color .playing-card.suit-c{color:#23864a}
+
+/* ---------- Patch 52: chip stacks ---------- */
+.seat-bet i.chip-stack,.pot-display i.chip-stack{width:auto;height:auto;background:none;border:0;border-radius:0;display:inline-flex;flex-direction:column-reverse;align-items:center;padding-top:2px}
+.chip{display:block;width:12px;height:5px;border-radius:50%;margin-top:-2px;border:1px dashed #ffffffb3;box-shadow:0 1px 0 #0006}
+.chip-white{background:#ecebe4;border-color:#8c8a80}
+.chip-red{background:#c8463e}
+.chip-green{background:#2f9a63}
+.chip-black{background:#2b2f33;border-color:#e8c58b}
+.chip-blue{background:#3f7fc8}
+.pot-chips .chip{width:16px;height:6px;margin-top:-3px}
+.no-chips .chip-stack .chip,.no-chips .pot-chips{display:none}
+.no-chips .seat-bet i.chip-stack{height:8px;width:8px;border-radius:50%;background:#c5a96e;border:2px dashed #ecd9ad;padding:0}
+
+/* ---------- Patch 52: style panel and hand label ---------- */
+.table-style{border-top:1px solid #ffffff07;padding:4px 21px 12px}
+.table-style>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:7px;min-height:40px;font-size:12px;color:#a9bdb4}
+.table-style>summary::-webkit-details-marker{display:none}
+.table-style>summary::before{content:'▸';font-size:10px;color:var(--gold);transition:rotate .15s}.table-style[open]>summary::before{rotate:90deg}
+.table-style-grid{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:6px 0 10px}
+.style-select{display:flex;align-items:center;gap:8px;font-size:12px;color:#9fb0a9}
+.style-select select{background:#0f1b20;border:1px solid #34473d;border-radius:6px;color:#d1d9cf;padding:8px;min-height:38px;font-size:12px}
+.table-style .auto-deal-toggle{min-height:38px}
+.table-style .muted{margin:0}
+.tournament-play+.table-style{margin-top:12px;border:1px solid #ffffff0d;border-radius:12px;background:#142026}
+.hero-hand-label{display:inline-block;margin-top:5px;font-size:12px;font-weight:600;color:#e8c58b;letter-spacing:.2px}
+@media(max-width:700px){.table-style{padding:2px 12px 10px}.table-style-grid{gap:8px 14px}}
+
+/* ---------- Patch 53: home screen ---------- */
+.home-start{display:block!important;padding:24px!important}
+.home-intro h2{margin-top:2px}
+.home-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:18px}
+.home-card{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;padding:16px;min-height:118px;border:1px solid #ffffff12;border-radius:12px;background:linear-gradient(160deg,#1b2b30,#132024);color:#cfd9d4;transition:translate .15s ease,border-color .15s ease,background .15s ease}
+.home-card:hover:not(:disabled){translate:0 -2px;border-color:#e8c58b55}
+.home-card:active:not(:disabled){translate:0 1px}
+.home-card b{font-family:'Manrope',system-ui,sans-serif;font-size:15px;color:#eef1ec}
+.home-card>span:last-child{font-size:12px;line-height:1.5;color:#8fa39b}
+.home-card-icon{font-size:22px;line-height:1;color:#dfe6e1}
+.home-card-icon.red-suit{color:#d9666c}
+.home-card-main{background:linear-gradient(160deg,#3b3524,#22261d);border-color:#e8c58b66}
+.home-card-main b{color:var(--gold)}
+.home-card-main>span:last-child{color:#c9b98f}
+.home-fine-print{margin-top:14px!important}
+@media(max-width:950px){.home-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.home-start{padding:18px 14px!important}.home-card{min-height:104px;padding:14px 12px}.home-card-main{grid-column:1/-1;min-height:0;flex-direction:row;flex-wrap:wrap;align-items:center;column-gap:10px}.home-card-main>span:last-child{flex-basis:100%}}
+
+/* ---------- Patch 53: table moments ---------- */
+@keyframes pna-moment{0%{opacity:0;scale:.85}10%{opacity:1;scale:1.04}16%{scale:1}82%{opacity:1}100%{opacity:0;visibility:hidden}}
+.table-moment{position:absolute;left:50%;top:30%;translate:-50% -50%;z-index:20;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 20px;border-radius:14px;text-align:center;max-width:78%;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);animation:pna-moment 3.4s ease-out forwards}
+.table-moment strong{font-family:'Manrope',system-ui,sans-serif;font-size:26px;letter-spacing:-.5px}
+.table-moment span{font-size:12px;line-height:1.4}
+.moment-win{background:#2b2a1efa;border:1px solid #e8c58b99;box-shadow:0 0 30px #e8c58b40;color:#f3dca8}
+.moment-bust{background:#2a1a1cfa;border:1px solid #de959188;box-shadow:0 10px 30px #0008;color:#f0c9c6}
+/* With motion off the overlay would sit on the board; the settled-hand panel already says the same thing. */
+.motion-off .table-moment{display:none}
+@media(prefers-reduced-motion:reduce){.table-moment{display:none}}
+
+/* ---------- Patch 53: cash-out summary ---------- */
+.cashout-summary{padding:20px 22px;margin-bottom:18px;border-color:#e8c58b4d;background:linear-gradient(150deg,#1d2a24,#142026);animation:pna-rise .3s ease-out both}
+.cashout-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.cashout-head h2{font-size:30px;margin:4px 0 6px}
+.cashout-head p{font-size:12px;color:#9fb0a9}
+.cashout-summary dl{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 10px}
+.cashout-summary dl>div{background:#0f1a1f;border-radius:8px;padding:10px 12px}
+.cashout-summary dt{font-size:12px;color:#8fa39b}
+.cashout-summary dd{margin:4px 0 0;font-size:15px;font-weight:600;white-space:nowrap}
+
+/* ---------- Patch 53: charts ---------- */
+.chart-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+.chart{margin:0;padding:16px;border:1px solid #ffffff0d;border-radius:12px;background:#101b20;min-width:0}
+.chart figcaption{display:flex;justify-content:space-between;gap:10px;align-items:baseline;font-size:12px;color:#9fb0a9;margin-bottom:10px;flex-wrap:wrap}
+.chart figcaption b{color:#e8eae6;font-weight:600}
+.chart-frame{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}
+.chart-axis{display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:#82918f;text-align:right;padding:4px 0;font-variant-numeric:tabular-nums}
+.chart-plot{position:relative;height:170px;touch-action:pan-y;outline-offset:3px}
+.chart-plot svg{display:block;width:100%;height:100%;overflow:visible}
+.chart-grid{stroke:#ffffff10;stroke-width:1;vector-effect:non-scaling-stroke}
+.chart-zero{stroke:#ffffff3a;stroke-width:1;stroke-dasharray:3 3;vector-effect:non-scaling-stroke}
+.chart-line{fill:none;stroke:var(--gold);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.chart-cross{position:absolute;top:0;bottom:0;width:1px;background:#ffffff40;translate:-.5px 0;pointer-events:none}
+.chart-dot{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid #101b20;translate:-50% -50%;pointer-events:none}
+.chart-tip{position:absolute;translate:-50% 0;background:#1d2b30;border:1px solid #ffffff1f;border-radius:6px;padding:5px 8px;font-size:12px;color:#e8eae6;white-space:nowrap;pointer-events:none;box-shadow:0 4px 12px #0007}
+.chart [hidden]{display:none}
+.chart-table{margin-top:10px;font-size:12px;color:#9fb0a9}
+.chart-table summary{cursor:pointer;min-height:32px;display:flex;align-items:center}
+.chart-table td{padding:3px 0;font-variant-numeric:tabular-nums}
+@media(max-width:950px){.chart-row{grid-template-columns:1fr}}
+
+/* ---------- Patch 53: amount slider ---------- */
+.amount-slider{display:flex;align-items:center;gap:10px;font-size:11px;color:#8fa39b;margin-top:10px}
+.amount-slider input{flex:1;accent-color:var(--gold);min-height:32px}
+.view-live.has-game .amount-slider{order:3;margin:0}
+.tournament-play .amount-slider{flex-basis:100%}
+@media(max-width:700px){.home-cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.home-card:not(.home-card-main){min-height:0;padding:12px 10px;gap:4px}.home-card:not(.home-card-main) b{font-size:13px;line-height:1.25}.home-card:not(.home-card-main)>span:last-child{font-size:11px;line-height:1.35}.home-card:not(.home-card-main) .home-card-icon{font-size:18px}}
+
+/* Patch 54 thinking ring: replaced by the think bar in patch 60. */
+
+/* ---------- Patch 54: getting-started tour ---------- */
+.welcome-tour{margin-top:16px;padding:16px 18px;border:1px solid #69c8a84d;border-radius:12px;background:linear-gradient(150deg,#16302a,#132226);animation:pna-rise .3s ease-out both}
+.welcome-tour h3{font-size:16px;margin:2px 0 6px;color:#eef1ec}
+.welcome-tour p{font-size:13px!important;line-height:1.6!important;color:#b8c7c1!important;margin:0!important}
+.tour-dots{display:flex;gap:6px;float:right}
+.tour-dots i{width:7px;height:7px;border-radius:50%;background:#ffffff26}
+.tour-dots i.on{background:var(--green)}
+.tour-buttons{display:flex;gap:10px;margin-top:14px;justify-content:flex-end}
+.tour-buttons .button{min-width:96px;width:auto!important}
+
+/* ---------- Patch 54: milestones ---------- */
+.milestones{margin:18px 0}
+.streaks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.streaks>div{background:#0f1a1f;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.streaks span{font-size:12px;color:#8fa39b}
+.streaks b{font-size:22px;font-family:'Manrope',system-ui,sans-serif}
+.milestone-group{font-size:12px!important;letter-spacing:.5px;color:#8fa39b;margin:14px 0 8px;text-transform:uppercase}
+.milestone-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.milestone{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid #ffffff0d;border-radius:10px;background:#0f1a1f;opacity:.72}
+.milestone.earned{opacity:1;border-color:#e8c58b55;background:linear-gradient(150deg,#2a281c,#141f22)}
+.milestone-mark{font-size:20px;line-height:1;color:#5d6e69}
+.milestone.earned .milestone-mark{color:var(--gold)}
+.milestone b{display:block;font-size:13px}
+.milestone small{display:block;font-size:12px;color:#8fa39b;margin-top:3px;line-height:1.45}
+.milestone-bar{display:block;height:4px;border-radius:2px;background:#ffffff14;margin-top:8px;overflow:hidden}
+.milestone-bar i{display:block;height:100%;background:var(--green)}
+@media(max-width:700px){.streaks b{font-size:18px}.streaks span{font-size:11px}}
+
+/* ---------- Patch 54: theme toggle ---------- */
+.theme-toggle{border:1px solid #ffffff1a;background:#19252a;color:#e8c58b;border-radius:7px;width:44px;height:44px;flex-shrink:0;font-size:16px;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+
+
+/* ---------- Patch 54: light theme ----------
+   Pages, panels and controls turn light. The felt, seats and cards keep the table look the player chose. */
+.theme-light{--muted:#5c6c69;--line:#00000014;--panel:#ffffff;color:#1c2a2e;background:#eef1ec}
+.theme-light.app-shell{background:#eef1ec}
+.theme-light .app-header,.theme-light .subnav,.theme-light .subnav-overlay{background:#f8f9f6;border-color:#00000014}
+.theme-light .brand,.theme-light .brand b{color:#1c2a2e}
+.theme-light .nav-button{color:#55625f}
+.theme-light .nav-button.selected{background:#e6ebe2;color:#6b4e12}
+.theme-light .subnav-button{color:#3f4d4a;border-color:#00000024}
+.theme-light .subnav-button.selected{background:#e6ebe2;color:#6b4e12;border-color:#b8954f}
+.theme-light .theme-toggle{color:#6b4e12;border-color:#00000024}
+.theme-light .outline-tag{color:#7a5a18;border-color:#7a5a1840}
+.theme-light :is(.panel,.table-panel,.action-panel,.home-card,.chart,.cashout-summary,.milestone,.streaks>div,.cashout-summary dl>div,.pot-tier,.welcome-tour){background:#ffffff;border-color:#00000017;box-shadow:0 1px 2px #0000000d}
+.theme-light .view-live.has-game .action-panel,.theme-light.view-live.has-game .action-panel{background:#ffffff;border-top-color:#00000020;box-shadow:0 -6px 20px #0000001f}
+.theme-light :is(h1,h2,h3,b,strong,dd,figcaption b,.home-card b,.milestone b,label,summary):not(.table-scene *):not(button *):not(.positive):not(.negative){color:#1c2a2e}
+.theme-light :is(p,small,span,dt,td,li,.muted,figcaption,.chart-axis):not(.table-scene *):not(button *):not(.positive):not(.negative):not(.eyebrow):not(.outline-tag):not(.sr-only):not(.home-card-icon):not(.milestone-mark):not(.live-dot):not(.status-dot):not(.activity-marker){color:#55625f}
+.theme-light .eyebrow,.theme-light .home-card-main b,.theme-light .hero-hand-label{color:#8a6420!important}
+.theme-light .positive{color:#1f7a50!important}
+.theme-light .negative{color:#b23b35!important}
+.theme-light .home-card-main{background:linear-gradient(160deg,#fbf2df,#f4ead3);border-color:#d9b46a}
+.theme-light .home-card-icon{color:#26343a}
+.theme-light .home-card-icon.red-suit{color:#c0393f}
+.theme-light .milestone.earned{background:linear-gradient(150deg,#fbf2df,#ffffff);border-color:#d9b46a}
+.theme-light .milestone.earned .milestone-mark{color:#b07d16}
+.theme-light .milestone-bar{background:#0000001a}
+.theme-light .button.secondary,.theme-light .secondary,.theme-light .icon-button,.theme-light .size-presets button,.theme-light .step-button,.theme-light .fold-button{background:#eef1ec;color:#22302f;border-color:#00000024}
+.theme-light :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea){background:#ffffff;color:#1c2a2e;border-color:#b9c4bf}
+.theme-light .table-toolbar,.theme-light .table-toolbar select{color:#3f4d4a}
+.theme-light .chart-grid{stroke:#00000014}
+.theme-light .chart-zero{stroke:#00000040}
+.theme-light .chart-line{stroke:#9a6f12}
+.theme-light .chart-dot{background:#9a6f12;border-color:#ffffff}
+.theme-light .chart-tip{background:#1c2a2e;color:#ffffff!important}
+.theme-light .welcome-tour{background:linear-gradient(150deg,#e3f3ec,#ffffff);border-color:#69c8a880}
+.theme-light .welcome-tour p{color:#3f4d4a!important}
+.theme-light footer,.theme-light .practice-disclosure{color:#55625f}
+.theme-light .error-banner{background:#fff4e0;color:#6b4e12;border-color:#d9b46a}
+body:has(.theme-light){background:#eef1ec}
+/* Light theme: the table keeps its own (dark) look and text colors. */
+.theme-light .table-scene,.theme-light .tournament-play .table-scene{color:#e8eae6}
+.theme-light .home-card{color:#3f4d4a}
+.theme-light .home-card b{color:#1c2a2e}
+.theme-light .home-card>span:last-child,.theme-light .home-card-main>span:last-child{color:#55625f}
+.theme-light .theme-toggle{background:#ffffff}
+.theme-light .pot-levels,.theme-light .pot-tiers{background:#f4f6f2}
+.theme-light .sizing-more>summary,.theme-light .pre-action{background:#eef1ec;color:#22302f;border-color:#00000024}
+.theme-light .size-presets small,.theme-light .size-presets button small{color:#6b4e12}
+.theme-light .size-presets button{color:#22302f}
+.theme-light .call-button{color:#eaf5ea}
+.theme-light .amount-slider input{accent-color:#9a6f12}
+.theme-light .pot-breakdown{background:#f4f6f2;border-color:#00000012}
+.theme-light .view-live.has-game .sizing-more>summary,.theme-light.view-live.has-game .sizing-more>summary{background:#eef1ec;color:#22302f;border:1px solid #00000024}
+/* The felt sits in a dark inset so seat labels that hang past the rail stay readable. */
+.theme-light .table-scene{background:#13201f;border-radius:16px}
+/* Light theme, broad pass: every page text is dark unless it is part of a table felt, a card, a button or a
+   colour that carries meaning. Muted text is a mid grey that still passes 4.5:1 on white. */
+.theme-light main *:not(.table-scene,.table-scene *,.bj-felt,.bj-felt *,.bj-strip,.bj-strip *,button,button *,svg,svg *,.playing-card,.playing-card *,.positive,.negative,.eyebrow,.outline-tag,.home-card-icon,.milestone-mark,.chart-tip,.status-dot,.live-dot,.activity-marker){color:#1c2a2e}
+.theme-light main :is(.muted,small,figcaption,dt,.stat-disclaimer,.practice-disclosure,.chart-axis,.save-status,.room-details small):not(.table-scene *):not(button *){color:#55625f}
+.theme-light main .outline-tag{color:#7a5a18}
+.theme-light :is(.money-cards>div,.opponent-config,.opponent-hero,.lobby-facts>div,.bj-side-info,.lineup-row,.observed-opponent,.replay-panel,.showdown-list>div,.setup-start-bar,.level-strip,.t-action-panel,.tournament-banner,.metric-card,.result-row,.hand-record,.player-notes){background:#f6f8f4;border-color:#00000014}
+.theme-light .storage-banner{background:#fff4e0;border-color:#d9b46a}
+.theme-light main :is(.storage-banner,.storage-banner *){color:#5a4210}
+
+/* ---------- Patch 55: seat anchors (positioned exactly like seats) ---------- */
+.perimeter-table .seat-anchor{--seat-x:var(--wide-x);--seat-y:var(--wide-y);position:absolute;left:calc(var(--table-inset-x) + (100% - var(--table-inset-x) * 2) * var(--seat-x));top:calc(var(--table-inset-y) + (100% - var(--table-inset-y) * 2) * var(--seat-y));pointer-events:none}
+@media(max-width:700px){.perimeter-table .seat-anchor{--seat-x:var(--compact-x);--seat-y:var(--compact-y)}}
+@media(min-width:701px) and (max-width:1180px) and (max-height:1029px),(min-width:1181px) and (max-height:869px){.view-live.has-game .perimeter-table .seat-anchor{--seat-x:var(--short-x);--seat-y:var(--short-y)}}
+@media(min-width:701px) and (max-height:870px){.tournament-table .perimeter-table .seat-anchor{--seat-x:var(--short-x);--seat-y:var(--short-y)}}
+
+/* Dealer button: one chip for the table that glides to the next button seat each hand, set in toward the felt. */
+.has-dealer-glide .seat .dealer-button{visibility:hidden}
+.dealer-glide{z-index:5;width:20px;height:20px;border-radius:50%;background:#e9e7d9;color:#26352e;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 4px #0006;border:2px solid #cecfc3;translate:calc((.5 - var(--seat-x)) * 120px - 50%) calc((.5 - var(--seat-y)) * 90px - 50%);transition:left .7s cubic-bezier(.45,0,.2,1),top .7s cubic-bezier(.45,0,.2,1),translate .7s cubic-bezier(.45,0,.2,1)}
+@media(max-width:700px){.dealer-glide{width:18px;height:18px;font-size:8px;translate:calc((.5 - var(--seat-x)) * 70px - 50%) calc((.5 - var(--seat-y)) * 70px - 50%)}}
+
+/* Pot chips slide from the middle of the felt to each winner. */
+@keyframes pna-fly{from{left:50%;top:46%;opacity:0}12%{opacity:1}80%{opacity:1}to{opacity:0}}
+.pot-fly{z-index:6;translate:-50% -50%;opacity:0;animation:pna-fly .85s cubic-bezier(.4,0,.2,1) .2s both}
+.pot-fly .chip-stack{display:inline-flex}
+.no-chips .pot-fly,.motion-off .pot-fly{display:none}
+@media(prefers-reduced-motion:reduce){.pot-fly{display:none}}
+
+/* ---------- Patch 55: session clock and break reminder ---------- */
+.session-clock{display:inline-flex;align-items:center;gap:4px;font-variant-numeric:tabular-nums;color:#a9bdb4;white-space:nowrap}
+.break-reminder{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 21px 12px;padding:12px 14px;border:1px solid #69c8a84d;border-radius:10px;background:#16302a;animation:pna-rise .3s ease-out both}
+.break-reminder>span{font-size:20px}
+.break-reminder p{flex:1;min-width:180px;font-size:13px;line-height:1.5;color:#c9d8d1;margin:0}
+.break-reminder b{color:#eef1ec}
+.break-reminder>div{display:flex;gap:8px}
+.theme-light .break-reminder{background:#e3f3ec}
+@media(max-width:700px){.break-reminder{margin:0 10px 10px}.break-reminder>div{width:100%}.break-reminder .button{flex:1}}
+
+/* ---------- Patch 55: text size ---------- */
+.text-large{zoom:1.12}
+.text-larger{zoom:1.25}
+.dealer-glide{translate:calc((.5 - var(--seat-x)) * 260px - 50%) calc((.5 - var(--seat-y)) * 195px - 50%)}
+@media(max-width:700px){.dealer-glide{translate:calc((.5 - var(--seat-x)) * 140px - 50%) calc((.5 - var(--seat-y)) * 150px - 50%)}}
+
+/* ---------- Patch 55: drawn avatars and the thinking ring sit on the name-plate row of the seat grid ---------- */
+.face-badge{position:absolute;grid-row:2/3;grid-column:1/2;left:-9px;top:-9px;width:24px;height:24px;border-radius:50%;overflow:hidden;z-index:4;border:2px solid #17252b;background:color-mix(in srgb,var(--avatar,#69c8a8) 22%,#1b2a30);box-shadow:0 2px 4px #0005;pointer-events:none}
+.face-badge .face{display:block;width:100%;height:100%}
+.hero-seat .face-badge{border-color:#b29764}
+@media(max-width:700px){.face-badge{width:20px;height:20px;left:-7px;top:-8px}}
+
+/* ---------- Patch 56: player cards ---------- */
+.seat-profile-hit{position:absolute;grid-row:2/3;grid-column:1/2;inset:0;z-index:5;background:none;border:0;border-radius:8px;padding:0;cursor:pointer}
+.seat-profile-hit:hover{box-shadow:0 0 0 1px #e8c58b66}
+.seat-profile-hit:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@keyframes pna-pop{from{opacity:0;translate:-50% 12px;scale:.96}to{opacity:1;translate:-50% 0;scale:1}}
+.profile-card{position:fixed;left:50%;bottom:24px;translate:-50% 0;z-index:60;width:min(420px,calc(100vw - 24px));max-height:calc(100dvh - 120px);overflow:auto;padding:18px 18px 14px;border:1px solid #e8c58b4d;border-radius:16px;background:#142026f7;box-shadow:0 18px 50px #000b;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);animation:pna-pop .22s ease-out both}
+.view-live.has-game .profile-card{bottom:auto;top:calc(env(safe-area-inset-top) + 64px)}
+@keyframes pna-drop{from{opacity:0;translate:-50% -12px}to{opacity:1;translate:-50% 0}}
+.view-live.has-game .profile-card{animation-name:pna-drop}
+.profile-close{position:absolute;top:8px;right:8px;width:40px;height:40px;border:0;border-radius:50%;background:none;color:#a9bdb4;font-size:24px;line-height:1}
+.profile-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-right:36px}
+.profile-face{width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid #e8c58b66;background:#1b2a30}
+.profile-face .face{display:block;width:100%;height:100%}
+.profile-head h3{font-size:18px;margin:0}
+.profile-head p{font-size:12px;color:#9fb0a9;margin:4px 0 0}
+.profile-rates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0 0 10px}
+.profile-rates>div{background:#0f1a1f;border-radius:8px;padding:9px 10px;display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:2px 8px}
+.profile-rates dt{font-size:12px;color:#9fb0a9;grid-column:1/-1}
+.profile-rates dd{margin:0;font-size:18px;font-weight:600;font-family:'Manrope',system-ui,sans-serif}
+.profile-rates small{font-size:11px;color:#7f928c;text-align:right}
+.profile-shown{display:flex;align-items:center;gap:4px;flex-wrap:wrap;font-size:12px;color:#9fb0a9;margin:0 0 10px}
+.profile-shown .mini-card{display:inline-flex}
+.profile-note{border-top:1px solid #ffffff10;padding-top:10px}
+.profile-note p{font-size:13px;line-height:1.5;margin:4px 0 10px;white-space:pre-wrap}
+.profile-foot{margin:10px 0 0!important;font-size:11px!important}
+.theme-light .profile-card{background:#fffffff7;border-color:#d9b46a}
+.theme-light .profile-rates>div{background:#f4f6f2}
+@media(prefers-reduced-motion:reduce){.profile-card{animation:none}}
+
+/* ---------- Patch 56: seat emotes ---------- */
+@keyframes pna-emote{0%{opacity:0;translate:-50% 8px;scale:.6}12%{opacity:1;translate:-50% 0;scale:1.15}20%{scale:1}80%{opacity:1}100%{opacity:0;translate:-50% -10px}}
+.seat-emote{position:absolute;grid-row:1/2;grid-column:1/2;left:50%;top:-14px;z-index:7;font-size:24px;line-height:1;pointer-events:none;filter:drop-shadow(0 2px 3px #0008);translate:-50% 0;animation:pna-emote 3.2s ease-out .5s both}
+.motion-off .seat-emote{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.seat-emote{animation:none;opacity:1}}
+
+/* ---------- Patch 56: bet chips stack up ---------- */
+@keyframes pna-chip-drop{from{opacity:0;translate:0 -9px}to{opacity:1;translate:0 0}}
+.seat-bet .chip-stack .chip{animation:pna-chip-drop .22s ease-out both}
+.seat-bet .chip-stack .chip:nth-child(2){animation-delay:.05s}
+.seat-bet .chip-stack .chip:nth-child(3){animation-delay:.1s}
+.seat-bet .chip-stack .chip:nth-child(4){animation-delay:.15s}
+.seat-bet .chip-stack .chip:nth-child(5){animation-delay:.2s}
+
+/* ---------- Patch 56: install ---------- */
+.install-app{margin-top:14px;width:100%}
+
+/* ---------- Patch 57: all-in spotlight ---------- */
+@keyframes pna-dim{from{opacity:0}to{opacity:1}}
+@keyframes pna-allin{0%{opacity:0;scale:.7}20%{opacity:1;scale:1.12}30%{scale:1}100%{opacity:1}}
+.allin-spotlight .felt::before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 50% 50%,#0000 30%,#000a 100%);animation:pna-dim .5s ease-out both;pointer-events:none}
+.allin-spotlight .seat.folded{opacity:.4;transition:opacity .4s}
+.allin-spotlight .seat:not(.folded) .seat-label{border-color:#e8c58b;box-shadow:0 0 0 2px #e8c58b55,0 0 22px #e8c58b44}
+.allin-badge{display:block;width:max-content;margin:8px auto 0;white-space:nowrap;padding:2px 8px;border-radius:999px;background:#c8463e;color:#fff;font-size:10px;font-weight:800;letter-spacing:1.2px;animation:pna-allin .45s ease-out both;vertical-align:middle}
+@media(prefers-reduced-motion:reduce){.allin-spotlight .felt::before,.allin-badge{animation:none}}
+
+/* ---------- Patch 57: stack trend arrows ---------- */
+.stack-trend{font-style:normal;font-size:.62em;margin-left:3px;vertical-align:.12em}
+.stack-trend.up{color:#7bcca4}
+.stack-trend.down{color:#e0928d}
+
+/* ---------- Patch 57: session recap ---------- */
+.session-recap{margin-top:12px;border-top:1px solid #ffffff12;padding-top:10px}
+.session-recap>summary{cursor:pointer;min-height:36px;display:flex;align-items:center;font-weight:600;font-size:14px}
+.recap-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:10px;margin:6px 0 10px}
+.recap-curve{background:#0f1a1f;border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.recap-curve>span{font-size:12px;color:#8fa39b}
+.recap-spark{width:100%;height:44px}
+.spark-line{fill:none;stroke:var(--gold);stroke-width:1.6;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.spark-zero{stroke:#ffffff30;stroke-dasharray:2 2;vector-effect:non-scaling-stroke}
+.recap-facts{display:grid;gap:8px;margin:0}
+.recap-facts>div{background:#0f1a1f;border-radius:8px;padding:8px 12px}
+.recap-facts dt{font-size:12px;color:#8fa39b}
+.recap-facts dd{margin:2px 0 0;font-size:16px;font-weight:600}
+.session-recap h4{font-size:12px;letter-spacing:.5px;text-transform:uppercase;color:#8fa39b;margin:12px 0 6px}
+.recap-hands,.recap-rivals{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.recap-hand{width:100%;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;text-align:left;padding:10px 12px;min-height:44px;border:1px solid #ffffff10;border-radius:8px;background:#0f1a1f;color:inherit;font-size:13px}
+.recap-hand:hover{border-color:#e8c58b55}
+.recap-replay{font-size:12px;color:var(--gold)}
+.recap-rivals li{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:6px 2px;border-bottom:1px solid #ffffff0a}
+.theme-light :is(.recap-curve,.recap-facts>div,.recap-hand){background:#f4f6f2;border-color:#00000014}
+.theme-light .spark-line{stroke:#9a6f12}
+.theme-light .recap-replay{color:#8a6420}
+@media(max-width:700px){.recap-grid{grid-template-columns:1fr}.recap-facts{grid-template-columns:1fr 1fr}}
+
+/* ---------- Patch 58: richer avatars ---------- */
+.face-badge{width:30px;height:30px;left:-12px;top:-12px}
+@media(max-width:700px){.face-badge{width:24px;height:24px;left:-9px;top:-10px}}
+@keyframes pna-face-pop{0%{scale:1}35%{scale:1.22}60%{scale:.96}100%{scale:1}}
+@keyframes pna-face-sag{0%{translate:0 0}40%{translate:0 2px}100%{translate:0 0}}
+.face-badge .face.mood-happy{animation:pna-face-pop .55s ease-out both}
+.face-badge .face.mood-sad{animation:pna-face-sag .7s ease-out both}
+.profile-face{width:64px;height:64px}
+
+/* ---------- Patch 58: talk bubbles ---------- */
+@keyframes pna-talk-in{from{opacity:0;scale:.85}to{opacity:1;scale:1}}
+@keyframes pna-dots-out{0%,99%{opacity:1}100%{opacity:0;visibility:hidden}}
+@keyframes pna-dot{0%,80%,100%{opacity:.25;translate:0 0}40%{opacity:1;translate:0 -2px}}
+@keyframes pna-words-in{from{opacity:0}to{opacity:1}}
+.perimeter-table .seat-talk,.seat-talk{border-radius:12px;background:#f7f4ea;color:#1d2a2e;font-style:italic;box-shadow:0 3px 10px #0006;padding:4px 9px;overflow:visible;animation:pna-talk-in .28s cubic-bezier(.2,.8,.2,1) calc(var(--talk-i,0) * .9s) both;transform:none;translate:calc(-50% - max(0px,(var(--seat-x,.5) - .72) * 220px) + max(0px,(.28 - var(--seat-x,.5)) * 220px)) 0}
+.seat-talk::before{content:'';position:absolute;left:calc(50% + max(0px,(var(--seat-x,.5) - .72) * 220px) - max(0px,(.28 - var(--seat-x,.5)) * 220px));top:-5px;translate:-50% 0;border:5px solid transparent;border-top:0;border-bottom:6px solid #f7f4ea}
+.talk-dots{position:absolute;inset:0;display:flex;gap:4px;align-items:center;justify-content:center;animation:pna-dots-out .01s linear calc(var(--talk-i,0) * .9s + .75s) both}
+.talk-dots b{width:4px;height:4px;border-radius:50%;background:#55625f;animation:pna-dot .9s ease-in-out infinite}
+.talk-dots b:nth-child(2){animation-delay:.15s}.talk-dots b:nth-child(3){animation-delay:.3s}
+.talk-text{animation:pna-words-in .3s ease-out calc(var(--talk-i,0) * .9s + .75s) both}
+.motion-off .seat-talk,.motion-off .talk-text{animation:none}.motion-off .talk-dots{display:none}
+@media(prefers-reduced-motion:reduce){.seat-talk,.talk-text{animation:none!important}.talk-dots{display:none}}
+
+/* ---------- Patch 58: board cards flip, folded cards are tossed in ---------- */
+@keyframes pna-flip-in{0%{opacity:0;transform:perspective(500px) rotateY(-100deg) translateY(-6px)}55%{opacity:1}100%{opacity:1;transform:perspective(500px) rotateY(0) translateY(0)}}
+.board-cards .playing-card{animation:pna-flip-in .5s cubic-bezier(.2,.75,.25,1) both}
+@keyframes pna-toss{0%{opacity:1;translate:0 0;rotate:0deg}100%{opacity:0;translate:calc((.5 - var(--seat-x,.5)) * 140px) calc((.5 - var(--seat-y,.5)) * 110px);rotate:24deg}}
+.seat.folded:not(.hero-seat) .hole-cards .playing-card{animation:pna-toss .55s cubic-bezier(.4,0,.6,1) forwards}
+.seat.folded:not(.hero-seat) .hole-cards .playing-card+.playing-card{animation-delay:.06s}
+.motion-off .seat.folded:not(.hero-seat) .hole-cards .playing-card{animation:none;opacity:.35}
+@media(prefers-reduced-motion:reduce){.seat.folded:not(.hero-seat) .hole-cards .playing-card{animation:none!important;opacity:.35}}
+
+/* ---------- Patch 58: felt and rail ---------- */
+.table-rail{background:linear-gradient(180deg,#5a3e2b 0%,#3b2719 45%,#2a1b11 100%);box-shadow:0 22px 40px #020a09a0,inset 0 2px 0 #a07a5a66,inset 0 -3px 6px #0008,0 0 0 4px #0b0705}
+.table-rail::after{content:'';position:absolute;inset:4px;border-radius:inherit;border:1px dashed #d8b07a40;pointer-events:none}
+.felt{box-shadow:inset 0 0 0 2px #0006,inset 0 0 60px #04201b,0 0 0 1px #061e1c}
+.felt-line{background:radial-gradient(ellipse at 50% 42%,#ffffff16 0%,#ffffff08 30%,transparent 62%);border-color:#d8c08a2e}
+.table-watermark{text-shadow:0 1px 0 #ffffff14,0 -1px 0 #00000060}
+.theme-light .table-rail{background:linear-gradient(180deg,#6b4a33,#45301f 55%,#2f2015)}
+
+/* ---------- Patch 58: pot pile and bets sweeping in ---------- */
+.pot-display{gap:10px}
+.pot-pile{display:inline-flex;align-items:flex-end;gap:2px;font-style:normal;min-height:18px}
+.pile-stack{display:inline-flex;flex-direction:column-reverse;align-items:center;padding-top:3px}
+.pot-pile .chip{width:14px;height:5px;margin-top:-2px}
+@keyframes pna-pile-drop{from{opacity:0;translate:0 -10px}to{opacity:1;translate:0 0}}
+.pot-pile .chip{animation:pna-pile-drop .25s ease-out both}
+.no-chips .pot-pile{display:none}
+@keyframes pna-sweep{from{opacity:1}75%{opacity:1}to{left:50%;top:50%;opacity:0}}
+.pot-sweep{z-index:6;translate:-50% -50%;animation:pna-sweep .5s cubic-bezier(.5,0,.5,1) both;pointer-events:none}
+.no-chips .pot-sweep,.motion-off .pot-sweep{display:none}
+@media(prefers-reduced-motion:reduce){.pot-sweep{display:none}}
+
+/* ---------- Patch 58: winning hand highlight ---------- */
+@keyframes pna-win-lift{to{translate:0 -6px;box-shadow:0 0 0 2px #e8c58b,0 8px 18px #e8c58b55}}
+.board-cards.has-winner .playing-card{transition:filter .4s ease}
+.board-cards.has-winner .playing-card:not(.win-card){filter:brightness(.5) saturate(.6)}
+.playing-card.win-card{animation:pna-flip-in .5s cubic-bezier(.2,.75,.25,1) both,pna-win-lift .35s ease-out .6s forwards}
+.small-card.win-card{animation:pna-win-lift .35s ease-out .6s forwards}
+.motion-off .playing-card.win-card,.motion-off .small-card.win-card{animation:none;box-shadow:0 0 0 2px #e8c58b}
+@media(prefers-reduced-motion:reduce){.playing-card.win-card,.small-card.win-card{animation:none!important;box-shadow:0 0 0 2px #e8c58b}}
+
+/* Review safeguard: honor device reduce-motion for all new Patch 58 reactions and pot chips. */
+@media(prefers-reduced-motion:reduce){.face-badge .face.mood-happy,.face-badge .face.mood-sad,.pot-pile .chip{animation:none!important}}
+
+/* ---------- Patch 59: mid-hand quips ---------- */
+@keyframes pna-quip-a{0%{opacity:0;translate:-50% 6px;scale:.8}10%{opacity:1;translate:-50% 0;scale:1}80%{opacity:1}100%{opacity:0}}
+@keyframes pna-quip-b{0%{opacity:0;translate:-50% 6px;scale:.8}10%{opacity:1;translate:-50% 0;scale:1}80%{opacity:1}100%{opacity:0}}
+.seat-quip{position:absolute;grid-row:1/2;grid-column:1/2;left:50%;top:-8px;translate:-50% 0;z-index:8;max-width:120px;width:max-content;padding:3px 8px;border-radius:10px;background:#f7f4ea;color:#1d2a2e;font-size:11px;font-style:italic;line-height:1.3;box-shadow:0 3px 8px #0006;pointer-events:none;opacity:0}
+.seat-quip::after{content:'';position:absolute;left:50%;bottom:-5px;translate:-50% 0;border:5px solid transparent;border-bottom:0;border-top:6px solid #f7f4ea}
+.seat-quip.quip-0{animation:pna-quip-a 2.6s ease-out both}
+.seat-quip.quip-1{animation:pna-quip-b 2.6s ease-out both}
+.motion-off .seat-quip{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.seat-quip{animation:none!important;opacity:1}}
+
+/* ---------- Patch 59: dealer pitch (hole cards fly from the button, in deal order) ---------- */
+.perimeter-table .seat-layer.pitch{container-type:size;--dealer-x:var(--dealer-wide-x);--dealer-y:var(--dealer-wide-y)}
+@media(max-width:700px){.perimeter-table .seat-layer.pitch{--dealer-x:var(--dealer-compact-x);--dealer-y:var(--dealer-compact-y)}}
+@media(min-width:701px) and (max-width:1180px) and (max-height:1029px),(min-width:1181px) and (max-height:869px){.view-live.has-game .perimeter-table .seat-layer.pitch{--dealer-x:var(--dealer-short-x);--dealer-y:var(--dealer-short-y)}}
+@keyframes pna-pitch-a{from{opacity:0;translate:calc((var(--dealer-x) - var(--seat-x)) * (100cqw - 2 * var(--table-inset-x,0px))) calc((var(--dealer-y) - var(--seat-y)) * (100cqh - 2 * var(--table-inset-y,0px)));rotate:-200deg;scale:.5}12%{opacity:1}to{opacity:1;translate:0 0;rotate:0deg;scale:1}}
+@keyframes pna-pitch-b{from{opacity:0;translate:calc((var(--dealer-x) - var(--seat-x)) * (100cqw - 2 * var(--table-inset-x,0px))) calc((var(--dealer-y) - var(--seat-y)) * (100cqh - 2 * var(--table-inset-y,0px)));rotate:200deg;scale:.5}12%{opacity:1}to{opacity:1;translate:0 0;rotate:0deg;scale:1}}
+.seat-layer.pitch .seat:not(.folded) .hole-cards.deal-0:not(.shown-hand):not(.revealed) .playing-card{animation:pna-pitch-a .45s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--deal-i,0) * 70ms)}
+.seat-layer.pitch .seat:not(.folded) .hole-cards.deal-1:not(.shown-hand):not(.revealed) .playing-card{animation:pna-pitch-b .45s cubic-bezier(.2,.7,.3,1) both;animation-delay:calc(var(--deal-i,0) * 70ms)}
+.seat-layer.pitch .seat:not(.folded) .hole-cards:not(.shown-hand):not(.revealed) .playing-card+.playing-card{animation-delay:calc((var(--deal-i,0) + var(--deal-n,1)) * 70ms)}
+
+/* ---------- Patch 59: bet slides out from the name plate ---------- */
+@keyframes pna-chip{from{opacity:0;translate:0 -30px;scale:.5}60%{opacity:1}to{opacity:1;translate:0 0;scale:1}}
+.seat-bet:not(.empty-bet){animation:pna-chip .35s cubic-bezier(.2,.75,.3,1) both}
+
+/* ---------- Patch 59: faces on the action bar ---------- */
+.bar-face{display:inline-flex;width:28px;height:28px;border-radius:50%;overflow:hidden;vertical-align:middle;margin-right:8px;border:2px solid #e8c58b66;background:#1b2a30;flex-shrink:0}
+.bar-face .face{width:100%;height:100%;display:block}
+.hero-stack-label{flex-direction:row!important;align-items:center!important;gap:6px}
+.hero-stack-label .bar-face{margin-right:2px}
+.bar-face-actor{border-color:#91d4b499}
+@media(max-width:700px){.bar-face{width:24px;height:24px;margin-right:6px}}
+
+/* ---------- Patch 59: ambient table light ---------- */
+.table-scene{background:radial-gradient(ellipse 70% 45% at 50% 0%,#ffe7b012,transparent 70%)}
+.felt-line::after{content:'';position:absolute;inset:-20px;border-radius:inherit;background:radial-gradient(ellipse at 50% 40%,#fff2cc 0%,transparent 58%);opacity:.05;transition:opacity 1.2s ease;pointer-events:none}
+.pot-big .felt-line::after{opacity:.15}
+.pot-big .felt{box-shadow:inset 0 0 0 2px #0006,inset 0 0 50px #04201b,0 0 30px #e8c58b22}
+
+/* ---------- Patch 60: think bar (replaces the ring) ---------- */
+@keyframes pna-think-bar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.seat>.think-bar{position:absolute;grid-row:2/3;grid-column:1/2;left:8px;right:8px;bottom:-5px;height:3px;border-radius:2px;background:#91d4b4;transform-origin:left center;animation:pna-think-bar var(--think-ms,1s) linear forwards;z-index:6;box-shadow:0 0 6px #91d4b480;pointer-events:none}
+.motion-off .think-bar{display:none}
+@media(prefers-reduced-motion:reduce){.think-bar{display:none}}
+
+/* ---------- Patch 60: faces blink and tilt now and then ---------- */
+@keyframes pna-blink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+@keyframes pna-tilt{0%,70%,100%{transform:rotate(0)}78%{transform:rotate(-4deg)}88%{transform:rotate(3deg)}}
+.face .eyes{transform-box:fill-box;transform-origin:center;animation:pna-blink 4.6s ease-in-out var(--blink-delay,0s) infinite}
+.face .head{transform-box:view-box;transform-origin:20px 28px;animation:pna-tilt 9s ease-in-out var(--tilt-delay,0s) infinite}
+.motion-off .face .eyes,.motion-off .face .head{animation:none}
+@media(prefers-reduced-motion:reduce){.face .eyes,.face .head{animation:none}}
+
+/* ---------- Patch 60: showdown reveal sequence ---------- */
+@keyframes pna-reveal{0%{transform:perspective(300px) rotateY(90deg);filter:brightness(.6)}100%{transform:perspective(300px) rotateY(0);filter:none}}
+.hole-cards.revealed .playing-card{animation:pna-reveal .38s ease-out both;animation-delay:calc(var(--reveal-i,0) * .55s)}
+.hole-cards.revealed .playing-card+.playing-card{animation-delay:calc(var(--reveal-i,0) * .55s + .08s)}
+/* Winners are celebrated once every hand is face up. */
+.playing-card.win-card{animation:pna-flip-in .5s cubic-bezier(.2,.75,.25,1) both,pna-win-lift .35s ease-out calc(var(--reveal-n,0) * .55s + .4s) forwards}
+.small-card.win-card{animation:pna-win-lift .35s ease-out calc(var(--reveal-n,0) * .55s + .4s) forwards}
+.hole-cards.revealed .small-card.win-card{animation:pna-reveal .38s ease-out calc(var(--reveal-i,0) * .55s) both,pna-win-lift .35s ease-out calc(var(--reveal-n,0) * .55s + .4s) forwards}
+.winner .seat-label{animation-delay:calc(var(--reveal-n,0) * .55s)}
+.seat-bet.award-bet{animation-delay:calc(var(--reveal-n,0) * .55s)}
+.pot-fly{animation-delay:calc(var(--reveal-n,0) * .55s + .2s)}
+.table-moment{animation-delay:calc(var(--reveal-n,0) * .55s)}
+
+/* ---------- Patch 60: talk history ---------- */
+.talk-log{border-top:1px solid #ffffff07;padding:2px 21px 10px}
+.talk-log>summary{cursor:pointer;list-style:none;min-height:40px;display:flex;align-items:center;gap:7px;font-size:12px;color:#a9bdb4}
+.talk-log>summary::-webkit-details-marker{display:none}
+.talk-log>summary::before{content:'💬';font-size:13px}
+.talk-log ol{list-style:none;margin:0;padding:0;max-height:220px;overflow:auto;display:grid;gap:6px}
+.talk-log li{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:baseline;font-size:13px;padding:6px 8px;border-radius:8px;background:#0f1a1f}
+.talk-log li span{font-style:italic}
+.talk-log li small{font-size:11px;color:#7f928c}
+.theme-light .talk-log li{background:#f4f6f2}
+@media(max-width:700px){.talk-log{padding:2px 12px 10px}}
+
+/* ---------- Patch 60: table looks — Casino night and Kitchen table ---------- */
+.felt-casino .table-panel .felt,.felt-casino .tournament-play .felt{background:radial-gradient(ellipse at 50% 38%,#8e2433,#5a1220 72%)}
+.felt-casino .table-rail{background:linear-gradient(180deg,#2b2b30,#141417 60%,#0a0a0c);box-shadow:0 22px 40px #000b,inset 0 2px 0 #e8c58b66,inset 0 -2px 0 #e8c58b33,0 0 0 3px #b9934f}
+.felt-casino .table-rail::after{border:1px solid #e8c58b55;border-style:solid}
+.felt-casino .felt-line{border-color:#e8c58b55}
+.felt-casino .table-watermark{color:#f3dca82a}
+.felt-kitchen .table-panel .felt,.felt-kitchen .tournament-play .felt{background:repeating-linear-gradient(92deg,#8a5a34 0 14px,#93623b 14px 26px,#7f5230 26px 33px),radial-gradient(ellipse at 50% 40%,#a26d42,#6f4527);background-blend-mode:multiply}
+.felt-kitchen .table-rail{background:linear-gradient(180deg,#4a2f1b,#2e1c10);box-shadow:0 18px 30px #000a,inset 0 2px 0 #8a634466}
+.felt-kitchen .table-rail::after{display:none}
+.felt-kitchen .felt-line{border:2px dashed #f4ecdc33;border-radius:30%}
+.felt-kitchen .table-watermark{display:none}
+.felt-kitchen .board-slot{background:#0003;border-color:#f4ecdc22}
+.felt-kitchen .pot-display{background:#2b1a0ecc}
+
+/* ---------- Patch 60: stacks count to their new value ---------- */
+.seat-label strong[data-tick]{position:relative;color:transparent}
+.seat-label strong[data-tick] .stack-trend{visibility:hidden}
+.seat-label strong[data-tick]::after{content:attr(data-tick);position:absolute;inset:0;color:#f1f4f0;text-align:inherit;font-variant-numeric:tabular-nums}
+/* Do not hint at the winner before every hand is turned over. */
+.board-cards.has-winner .playing-card{transition:filter .4s ease calc(var(--reveal-n,0) * .55s + .3s)}
+
+/* ---------- Patch 61: river sweat ---------- */
+@keyframes pna-sweat{0%{opacity:0;transform:perspective(500px) rotateY(-180deg) translateY(-8px)}20%{opacity:1;transform:perspective(500px) rotateY(-160deg) translateY(0)}55%{transform:perspective(500px) rotateY(-150deg)}100%{opacity:1;transform:perspective(500px) rotateY(0)}}
+@keyframes pna-sweat-glow{0%,100%{box-shadow:0 3px 6px #0002}50%{box-shadow:0 0 0 2px #e8c58b,0 0 22px #e8c58b88}}
+.board-cards.sweat .playing-card:nth-child(5){animation:pna-sweat 1.3s cubic-bezier(.5,0,.2,1) .4s both,pna-sweat-glow .8s ease-in-out 1.6s 1;backface-visibility:hidden}
+.board-cards.sweat-turn .playing-card:nth-child(4){animation-delay:.05s}
+/* Everything after the river waits for it. */
+.hole-cards.revealed .playing-card{animation-delay:calc(var(--sweat,0s) + var(--reveal-i,0) * .55s)}
+.hole-cards.revealed .playing-card+.playing-card{animation-delay:calc(var(--sweat,0s) + var(--reveal-i,0) * .55s + .08s)}
+.playing-card.win-card{animation:pna-flip-in .5s cubic-bezier(.2,.75,.25,1) both,pna-win-lift .35s ease-out calc(var(--sweat,0s) + var(--reveal-n,0) * .55s + .4s) forwards}
+.board-cards.sweat .playing-card.win-card:nth-child(5){animation:pna-sweat 1.3s cubic-bezier(.5,0,.2,1) .4s both,pna-win-lift .35s ease-out calc(var(--sweat,0s) + var(--reveal-n,0) * .55s + .4s) forwards}
+.small-card.win-card{animation:pna-win-lift .35s ease-out calc(var(--sweat,0s) + var(--reveal-n,0) * .55s + .4s) forwards}
+.hole-cards.revealed .small-card.win-card{animation:pna-reveal .38s ease-out calc(var(--sweat,0s) + var(--reveal-i,0) * .55s) both,pna-win-lift .35s ease-out calc(var(--sweat,0s) + var(--reveal-n,0) * .55s + .4s) forwards}
+.board-cards.has-winner .playing-card{transition:filter .4s ease calc(var(--sweat,0s) + var(--reveal-n,0) * .55s + .3s)}
+.winner .seat-label{animation-delay:calc(var(--sweat,0s) + var(--reveal-n,0) * .55s)}
+.seat-bet.award-bet{animation-delay:calc(var(--sweat,0s) + var(--reveal-n,0) * .55s)}
+.pot-fly{animation-delay:calc(var(--sweat,0s) + var(--reveal-n,0) * .55s + .2s)}
+.table-moment{animation-delay:calc(var(--sweat,0s) + var(--reveal-n,0) * .55s)}
+.motion-off .board-cards.sweat .playing-card{animation:none}
+@media(prefers-reduced-motion:reduce){.board-cards.sweat .playing-card{animation:none!important}}
+
+/* ---------- Patch 61: smoother page and panel changes ---------- */
+/* Opacity only: a transform here would become the containing block for fixed bars inside the page. */
+@keyframes pna-view-a{from{opacity:.001}to{opacity:1}}
+@keyframes pna-view-b{from{opacity:.001}to{opacity:1}}
+main.view-anim-0>:not(.game-layout){animation:pna-view-a .24s ease-out backwards}
+main.view-anim-1>:not(.game-layout){animation:pna-view-b .24s ease-out backwards}
+@keyframes pna-panel-open{from{opacity:0;translate:0 -4px}to{opacity:1;translate:0 0}}
+:is(.table-style,.talk-log,.session-recap,.provenance-details,.sizing-more,.hand-record)[open]>:not(summary){animation:pna-panel-open .2s ease-out backwards}
+.motion-off main>*,.motion-off details[open]>*{animation:none}
+@media(prefers-reduced-motion:reduce){main>*,details[open]>*{animation:none!important}}
+
+/* ---------- Patch 61: your face picker ---------- */
+.face-picker{flex-basis:100%;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;align-items:start;margin:4px 0 0;padding:10px 12px;border:1px solid #ffffff14;border-radius:10px}
+.face-picker legend{font-size:12px;color:#a9bdb4;padding:0 4px}
+.face-preview{grid-row:1/3;width:72px;height:72px;border-radius:50%;overflow:hidden;border:2px solid #e8c58b66;background:#1b2a30}
+.face-preview .face{display:block;width:100%;height:100%}
+.face-parts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px 12px}
+.face-part{justify-content:space-between}
+.face-part select{min-width:0;max-width:130px}
+.face-picker #face-reset{justify-self:start;min-height:36px}
+.theme-light .face-picker{border-color:#00000020}
+@media(max-width:700px){.face-picker{grid-template-columns:1fr}.face-preview{grid-row:auto;justify-self:center}.face-parts{grid-template-columns:1fr 1fr}.face-part{flex-direction:column;align-items:stretch;gap:3px}.face-part select{max-width:none}}
+.table-moment{animation-fill-mode:both}
+
+/* ===== Patch 63: illustrated portrait avatars ===== */
+.portrait{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#0d1b20;transition:filter .45s ease,transform .45s ease}
+.portrait img{display:block;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none}
+/* Bigger seat badges when they carry a portrait: the picture should read at a glance. */
+/* The portrait sits in the left end of the name plate, overlapping its edges a little, and the text moves over. */
+.seat:has(.face-badge .portrait){--pface:44px}
+.face-badge:has(.portrait){width:var(--pface);height:var(--pface);left:-6px;top:50%;translate:0 -50%;border-width:2px;box-shadow:0 3px 10px #0009}
+.perimeter-table .seat:has(.face-badge .portrait) .seat-label{padding-left:calc(var(--pface) - 4px)}
+@media(max-width:700px){.seat:has(.face-badge .portrait){--pface:36px}}
+.hero-seat .face-badge:has(.portrait){box-shadow:0 0 0 1px #e8c58b55,0 3px 10px #0009}
+.seat.acting .face-badge:has(.portrait){border-color:#91d4b4;box-shadow:0 0 0 2px #91d4b455,0 0 14px #91d4b466}
+.seat.winner .face-badge:has(.portrait){border-color:#e8c58b;box-shadow:0 0 0 2px #e8c58b77,0 0 18px #e8c58baa}
+.seat.folded .face-badge .portrait{filter:grayscale(.75) brightness(.6)}
+.profile-face:has(.portrait){width:84px;height:84px}
+.bar-face:has(.portrait){width:34px;height:34px}
+@media(max-width:700px){.bar-face:has(.portrait){width:30px;height:30px}}
+/* Moods: a portrait can't change expression, so it reacts with light and posture. */
+.portrait[data-mood=happy],.portrait[data-mood=content]{filter:saturate(1.12) brightness(1.06)}
+.portrait[data-mood=sad],.portrait[data-mood=grumpy],.portrait[data-mood=sigh]{filter:grayscale(.3) brightness(.86)}
+.portrait[data-mood=smirk]{transform:rotate(-4deg)}
+.face-badge .portrait[data-mood=happy]{animation:pna-portrait-pop .6s ease-out both}
+.face-badge .portrait[data-mood=sad]{animation:pna-portrait-sag .8s ease-out both}
+.face-badge .portrait[data-mood=surprised]{animation:pna-portrait-jolt .45s ease-out both}
+@keyframes pna-portrait-pop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes pna-portrait-sag{0%{transform:none}100%{transform:translateY(2px) rotate(3deg)}}
+@keyframes pna-portrait-jolt{0%,100%{transform:none}30%{transform:scale(1.1) translateY(-1px)}}
+@media(prefers-reduced-motion:reduce){.portrait{transition:none;animation:none!important}}
+.portrait-picker{flex-basis:100%;min-width:0;border:1px solid #ffffff1f;border-radius:12px;padding:10px;margin:4px 0 0}
+.theme-light .portrait-picker{border-color:#00000020}
+.portrait-picker legend{padding:0 6px;font-weight:600}
+.portrait-grid{display:grid;grid-template-columns:repeat(auto-fill,52px);justify-content:space-between;gap:8px;max-height:244px;overflow-y:auto;padding:4px}
+.portrait-choice{padding:0;width:52px;height:52px;border:2px solid transparent;border-radius:50%;background:none;cursor:pointer}
+.portrait-choice.chosen{border-color:#e8c58b;box-shadow:0 0 0 2px #e8c58b55}
+.portrait-choice:focus-visible{outline:2px solid #91d4b4;outline-offset:2px}
+
+/* ===== Patch 64: tells ===== */
+.tell-cue{font-style:italic;color:#e8d3a7;white-space:nowrap}
+.theme-light .tell-cue{color:#7a5a20}
+.face-badge[class*=" cue-"]>*{animation-duration:1.4s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+.face-badge.cue-s0>*{animation-name:pna-cue-glance}
+.face-badge.cue-s1>*{animation-name:pna-cue-shake;animation-duration:.18s}
+.face-badge.cue-s2>*{animation-name:pna-cue-away;animation-duration:2.4s}
+.face-badge.cue-s3>*{animation:none;filter:saturate(.85)}
+.face-badge.cue-w0>*{animation-name:pna-cue-stare;animation-duration:2s}
+.face-badge.cue-w1>*{animation-name:pna-cue-lean;animation-duration:1.8s}
+.face-badge.cue-w2>*{animation-name:pna-cue-shrug;animation-duration:1.2s}
+.face-badge.cue-w3>*{animation-name:pna-cue-tap;animation-duration:.5s}
+@keyframes pna-cue-glance{0%,100%{transform:none}50%{transform:translateY(3px) scale(.97)}}
+@keyframes pna-cue-shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-.8px) rotate(-1deg)}75%{transform:translateX(.8px) rotate(1deg)}}
+@keyframes pna-cue-away{0%,100%{transform:none}30%,70%{transform:rotate(-12deg) translateX(-2px)}}
+@keyframes pna-cue-stare{0%,100%{transform:scale(1)}40%,80%{transform:scale(1.09)}}
+@keyframes pna-cue-lean{0%,100%{transform:none}50%{transform:scale(1.1) translateY(-2px)}}
+@keyframes pna-cue-shrug{0%,100%{transform:none}35%{transform:translateY(-3px)}}
+@keyframes pna-cue-tap{0%,100%{transform:none}50%{transform:translateY(1.5px)}}
+@media(prefers-reduced-motion:reduce){.face-badge[class*=" cue-"]>*{animation:none!important}}
+.recap-tells{list-style:none;margin:6px 0;padding:0;display:grid;gap:6px}
+.recap-tells li.missed .recap-hand{border-left:3px solid #e8c58b}
+.recap-tells li.fake .recap-hand{border-left:3px solid #8fb7e8}
+
+/* ===== Patch 65: leak finder and spot drills ===== */
+.leak-list{list-style:none;margin:10px 0;padding:0;display:grid;gap:10px}
+.leak{border:1px solid #ffffff1a;border-radius:12px;padding:12px;background:#ffffff08}
+.theme-light .leak{border-color:#0000001a;background:#00000005}
+.leak p{margin:6px 0}
+.leak-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.leak-head .neg{color:#f0a39a;font-weight:700;white-space:nowrap}.leak-head .pos{color:#8fd6ad;font-weight:700;white-space:nowrap}
+.theme-light .leak-head .neg{color:#a3392c}.theme-light .leak-head .pos{color:#1f7a47}
+.leak-hands{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:6px}
+.chip-button{border:1px solid #ffffff2a;background:none;color:inherit;border-radius:999px;padding:6px 12px;min-height:36px;font:inherit;font-size:.9em;cursor:pointer}
+.theme-light .chip-button{border-color:#00000030}
+.chip-button:focus-visible{outline:2px solid #91d4b4;outline-offset:2px}
+.drill{border:1px solid #ffffff1a;border-radius:14px;padding:14px;margin-top:10px;background:#0f2a24}
+.theme-light .drill{background:#eef5f1;border-color:#0000001a}
+.drill-top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.drill-who{margin:10px 0 4px;font-weight:600}
+.drill-cards{display:flex;gap:6px}
+.drill-prompt{font-size:1.05em;margin:12px 0 4px}
+.drill-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.drill-choices .button{min-height:48px}
+.drill-result{margin-top:12px;padding:12px;border-radius:10px;border-left:4px solid #e8c58b;background:#00000026}
+.drill-result.right{border-left-color:#8fd6ad}
+.theme-light .drill-result{background:#ffffff}
+.drill-result p{margin:6px 0}
+.drill-result .playing-card{vertical-align:middle}
+.drill-nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+/* ===== Patch 66: leak trends, results by game ===== */
+.trend-list{list-style:none;margin:8px 0;padding:0;display:grid;gap:8px}
+.trend{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:4px 10px;align-items:center;border:1px solid #ffffff1a;border-radius:12px;padding:10px}
+.theme-light .trend{border-color:#0000001a}
+.trend>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.trend svg{grid-row:1/3;grid-column:2}
+.trend-band{fill:#8fd6ad22}.trend-line{fill:none;stroke:#e8c58b;stroke-width:2}.trend-dot{fill:#e8c58b}
+.theme-light .trend-line{stroke:#9a6b12}.theme-light .trend-dot{fill:#9a6b12}.theme-light .trend-band{fill:#1f7a4722}
+.trend-verdict{font-size:.85em;font-weight:700}.trend-verdict.ok{color:#8fd6ad}.trend-verdict.up{color:#e8c58b}.trend-verdict.off{color:#f0a39a}
+.theme-light .trend-verdict.ok{color:#1f7a47}.theme-light .trend-verdict.up{color:#8a5a00}.theme-light .trend-verdict.off{color:#a3392c}
+.drill-choices.two{grid-template-columns:repeat(2,1fr)}
+.game-grid{display:grid;gap:10px;margin:10px 0}
+@media(min-width:760px){.game-grid{grid-template-columns:repeat(3,1fr)}}
+.game-card{border:1px solid #ffffff1a;border-radius:14px;padding:14px;background:#ffffff08}
+.theme-light .game-card{border-color:#0000001a;background:#00000005}
+.game-card p{margin:6px 0}
+.game-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.game-head h3{margin:0}
+.game-verdict{font-size:.85em;font-weight:700;color:#e8c58b;white-space:nowrap}
+.game-card.winning .game-verdict{color:#8fd6ad}.game-card.losing .game-verdict{color:#f0a39a}
+.theme-light .game-verdict{color:#8a5a00}.theme-light .game-card.winning .game-verdict{color:#1f7a47}.theme-light .game-card.losing .game-verdict{color:#a3392c}
+.game-rate{font-size:1.15em}
+.game-card .pos{color:#8fd6ad}.game-card .neg{color:#f0a39a}
+.theme-light .game-card .pos{color:#1f7a47}.theme-light .game-card .neg{color:#a3392c}
+
+/* ===== Patch 67: card room life, faster flow ===== */
+.table-list{list-style:none;margin:10px 0;padding:0;display:grid;gap:8px}
+.table-choice{width:100%;text-align:left;display:grid;gap:4px;padding:12px;border-radius:12px;border:1px solid #ffffff22;background:#ffffff08;color:inherit;font:inherit;cursor:pointer;min-height:48px}
+.theme-light .table-choice{border-color:#00000022;background:#00000005}
+.table-choice:focus-visible{outline:2px solid #91d4b4;outline-offset:2px}
+.table-name{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.table-full{color:#e8c58b;font-size:.85em;font-weight:700}.table-open{color:#8fd6ad;font-size:.85em;font-weight:700}
+.theme-light .table-full{color:#8a5a00}.theme-light .table-open{color:#1f7a47}
+.seat-order{margin:8px 0;padding-left:22px;display:grid;gap:2px}
+.seat-order li.regular{font-weight:700}
+.change-table{margin-top:8px;width:100%}
+#skip-to-turn{margin-right:6px}
+.hub-balances{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.hub-balances>div{border:1px solid #ffffff1a;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.theme-light .hub-balances>div{border-color:#0000001a}
+.hub-balances b{font-size:1.1em;overflow-wrap:anywhere}
+.hub-balances .eyebrow{font-size:.68em}
+.home-hub .home-cards{margin:8px 0 12px}
+.hub-block{border-top:1px solid #ffffff14;padding-top:10px;margin-top:10px}
+.theme-light .hub-block{border-top-color:#00000014}
+.hub-block h3{margin:0 0 6px}
+.hub-list{margin:6px 0;padding-left:18px;display:grid;gap:6px}
+/* Patch 68: career */
+.career-bar{margin:8px 0}
+.career-bar-head{display:flex;justify-content:space-between;gap:8px;font-size:.92em}
+.career-track{height:8px;border-radius:999px;background:#ffffff14;overflow:hidden;margin-top:4px}
+.theme-light .career-track{background:#00000014}
+.career-track i{display:block;height:100%;background:#e8c58b;border-radius:999px}
+.theme-light .career-track i{background:#9a6b12}
+.career-warn{border-left:4px solid #f0a39a;padding:8px 10px;background:#00000026;border-radius:8px}
+.career-story{display:grid;gap:6px;padding-left:20px}
+
+/* ---------- Patch 94: longer quips, gestures, quick chat ---------- */
+.seat-quip.quip-0{animation:pna-quip-a 4.4s ease-out both}
+.seat-quip.quip-1{animation:pna-quip-b 4.4s ease-out both}
+@keyframes pna-quip-a{0%{opacity:0;translate:-50% 6px;scale:.8}6%{opacity:1;translate:-50% 0;scale:1}88%{opacity:1}100%{opacity:0}}
+@keyframes pna-quip-b{0%{opacity:0;translate:-50% 6px;scale:.8}6%{opacity:1;translate:-50% 0;scale:1}88%{opacity:1}100%{opacity:0}}
+.seat-quip.quip-gesture,.talk-gesture i{background:transparent;color:inherit}
+.seat-quip.quip-gesture{background:#1d2a2ee6;color:#e9e3cf;font-style:italic}
+.seat-quip.quip-gesture::after{border-top-color:#1d2a2ee6}
+.talk-gesture i{font-style:italic;opacity:.85}
+.seat-quip.hero-say{background:#e8c58b;color:#1d2a2e;font-style:normal;font-weight:600;animation:pna-quip-a 4.6s ease-out both}
+.seat-quip.hero-say::after{border-top-color:#e8c58b}
+.seat-quip.hero-reply{animation:pna-quip-b 4s ease-out 1s both}
+.quick-chat{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px;justify-content:center}
+.quick-chat-btn{font:inherit;font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid #ffffff2e;background:#ffffff12;color:inherit;cursor:pointer;min-height:32px}
+.quick-chat-btn:hover{background:#ffffff22}
+.quick-chat-btn:active{scale:.96}
+.motion-off .seat-quip.hero-say,.motion-off .seat-quip.hero-reply{animation:none;opacity:1}
+/* Keep quips on screen at the edge seats, the same way end-of-hand talk is. */
+.perimeter-table .seat-quip{margin-left:calc(max(0px,(.28 - var(--seat-x,.5)) * 220px) - max(0px,(var(--seat-x,.5) - .72) * 220px))}
+
+/* ---------- Patch 95: quick chat in every mode ---------- */
+.quick-chat-said{flex-basis:100%;text-align:center;font-size:12px;font-style:italic;opacity:.8}
+.plo-say.plo-gesture,.bj-say.bj-gesture{background:#1d2a2ee6;color:#e9e3cf}
+.plo-say.plo-hero-say{background:#e8c58b;color:#1d2a2e;font-weight:600}
+.plo-say.plo-reply{animation:pna2-pop .28s ease-out 1s backwards}
+.t-play-grid .quick-chat,.plo .quick-chat{padding:0 8px 8px}
+
+/* ---------- Patch 96: what folded players are doing ---------- */
+.seat:has(.idle-act){overflow:visible}
+.idle-act{position:absolute;left:50%;bottom:-14px;translate:-50% 0;z-index:5;font-size:10px;line-height:13px;font-style:italic;color:#e9e3cf;opacity:.6;white-space:nowrap;pointer-events:none;animation:pna2-pop .3s ease-out backwards}
+.theme-light .idle-act{color:#3d3a30}
+.seat:has(.side-tell) .idle-act,.seat:has(.seat-talk) .idle-act{display:none}
+.plo-idle{bottom:auto;top:100%;margin-top:2px}
+@media (prefers-reduced-motion:reduce){.idle-act{animation:none}}
+
+/* ---------- Patch 97: conversations that go back and forth ---------- */
+.perimeter-table .seat-talk,.seat-talk{animation-delay:calc(var(--talk-i,0) * var(--talk-step,.9s))}
+.talk-dots{animation-delay:calc(var(--talk-i,0) * var(--talk-step,.9s) + .75s)}
+.talk-text{animation-delay:calc(var(--talk-i,0) * var(--talk-step,.9s) + .75s)}
+.talk-seq{display:grid}
+.talk-seq>.talk-text{grid-area:1/1}
+@keyframes pna-words-out{to{opacity:0;visibility:hidden}}
+.talk-seq>.talk-text.talk-earlier{animation:pna-words-in .3s ease-out calc(var(--talk-i,0) * var(--talk-step,.9s) + .75s) both,pna-words-out .2s ease-in calc(var(--talk-next,0) * var(--talk-step,.9s) + .75s) forwards}
+.motion-off .talk-seq>.talk-text.talk-earlier{display:none}
+@media(prefers-reduced-motion:reduce){.talk-seq>.talk-text.talk-earlier{display:none}}
+.quick-answers{margin-bottom:0}
+.quick-answers-label{flex-basis:100%;text-align:center;font-size:12px;opacity:.8}
+.answer-btn{border-color:#e8c58b88;background:#e8c58b1f}

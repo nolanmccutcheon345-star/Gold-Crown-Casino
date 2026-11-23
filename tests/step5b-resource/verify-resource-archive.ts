@@ -1,0 +1,12 @@
+import {createReadStream,readFileSync,writeFileSync} from 'node:fs';
+import {createGunzip} from 'node:zlib';
+import {createInterface} from 'node:readline';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+import {restoreSegments,type SegmentedEnvelope} from '../../src/storage/segments';
+import {canonical} from '../../src/storage/integrity';
+const directory=process.argv[2]??'tests/step5b-resource/evidence/full',report=JSON.parse(readFileSync(`${directory}/report.json`,'utf8')) as {completedHands:number;canonicalSHA256:string;finalWallet:number};
+const records=new Map<string,unknown>(),start=performance.now();
+for await(const line of createInterface({input:createReadStream(`${directory}/canonical-segments.jsonl.gz`).pipe(createGunzip()),crlfDelay:Infinity})){if(!line)continue;const entry=JSON.parse(line) as {key:string;value:unknown};assert.equal(records.has(entry.key),false,'Duplicate archived storage key');records.set(entry.key,entry.value);}
+const manifest=records.get('current') as SegmentedEnvelope,data=await restoreSegments(manifest,async keys=>keys.map(k=>records.get(k))),hash=createHash('sha256').update(canonical(data)).digest('hex');assert.equal(hash,report.canonicalSHA256);assert.equal(data.hands.length,report.completedHands);assert.equal(data.wallet,report.finalWallet);assert.equal(data.active,null);assert.equal(new Set(data.hands.map(h=>h.id)).size,data.hands.length);assert.equal(data.ledger.filter(e=>e.kind==='hand-net').length,data.hands.length);assert.equal(data.sessions.filter(s=>s.endedAt===null).length,0);assert.equal(data.sessions.reduce((n,s)=>n+s.handIds.length,0),data.hands.length);assert.equal(data.ledger.reduce((n,e)=>n+e.walletDelta,0),data.wallet);assert.equal(data.ledger.reduce((n,e)=>n+e.tableDelta,0),0);assert.equal(data.hands.reduce((n,h)=>n+h.net,0),data.ledger.reduce((n,e)=>n+e.pokerNet,0));
+const evidence={status:'PASS',completedHands:data.hands.length,sessions:data.sessions.length,records:records.size,ledgerEvents:data.ledger.length,canonicalSHA256:hash,wallet:data.wallet,tableBalance:0,elapsedMs:performance.now()-start,method:'Independent process streamed archived records, reconstructed with production full integrity audit, matched complete canonical SHA256 and independently reconciled hand count, session membership, unique IDs and wallet/table/poker deltas. Node only.'};writeFileSync(`${directory}/archive-verification.json`,JSON.stringify(evidence,null,2));process.stdout.write(JSON.stringify(evidence)+'\n');

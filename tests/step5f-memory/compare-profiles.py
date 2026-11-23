@@ -1,0 +1,20 @@
+import json,pathlib,statistics,hashlib,subprocess
+root=pathlib.Path(__file__).resolve().parents[2];directory=root/'tests/step5f-memory'
+read=lambda p:json.loads(p.read_text())
+a=read(directory/'evidence/baseline-exact/source.json');b=read(directory/'evidence/final-exact/source.json')
+assert not a['dirtyTrackedInputs'] and not b['dirtyTrackedInputs']
+changed=[p for p in a['inputs'] if a['inputs'][p]!=b['inputs'].get(p)];assert changed==['src/storage/verified.ts']
+assert set(a['inputs'])==set(b['inputs'])
+rows=[]
+for count in [1000,10000]:
+ before=[read(directory/f'evidence/baseline-exact/{count}-{i}/report.json') for i in [1,2,3]];after=[read(directory/f'evidence/final-exact/{count}-{i}/report.json') for i in [1,2,3]]
+ assert len({r['canonicalSHA256'] for r in before+after})==1
+ assert len({r['sourceSHA256'] for r in before+after})==1
+ assert len({r['graphObjects'] for r in before+after})==1
+ assert all(not any(r['samples'][-1]['reachable'].values()) for r in before+after)
+ def summary(reports,label):
+  h=read(directory/f'evidence/{label}/{count}-1/heap-retainers.json');tables=h['modulePrivateFrozenTables'];assert len(tables)==1
+  return {'sourceCommit':a['sourceCommit'] if label=='baseline-exact' else b['sourceCommit'],'samples':3,'freezeTotalMs':[r['initialFreezeMs'] for r in reports],'freezeTotalMedianMs':statistics.median(r['initialFreezeMs'] for r in reports),'perRecordLatencyMs':[r['latency'] for r in reports],'baselineHeapBytes':[r['baseline']['heapUsed'] for r in reports],'afterCollectionHeapBytes':[r['samples'][-1]['memory']['heapUsed'] for r in reports],'privateFrozenBackingTableBytes':tables[0]['cacheToTable']['to']['selfBytes'],'sharedPrefixFreezeMs':[r['repeated'] for r in reports],'weakRootsCollected':True,'canonicalBytesEqual':True,'artifacts':[f'tests/step5f-memory/evidence/{label}/{count}-{i}' for i in [1,2,3]]}
+ rows.append({'hands':count,'uniqueGraphObjects':before[0]['graphObjects'],'canonicalSHA256':before[0]['canonicalSHA256'],'inputArchiveSHA256':before[0]['sourceSHA256'],'before':summary(before,'baseline-exact'),'after':summary(after,'final-exact')})
+result={'status':'PASS','format':'step5f-matched-private-freezer-profile','baselineSource':a['sourceCommit'],'candidateSource':b['sourceCommit'],'productionFix':'0de14f2','changedBundledInputs':changed,'matchedBundledInputs':len(a['inputs'])-1,'method':{'countPerCell':3,'runtime':'Node24.22.1 Linux x64, --expose-gc, inspector CPU and32768-byte allocation sampling','hardware':'AMD EPYC9V74;8available reference CPUs; approximately10.45GB memory','dataset':'First1000 or all10000 actual canonical stored-hand segments from the retained Step5E resource archive','scope':'Read/parse separately; freeze measured per segment; independent every-descendant freeze and unchanged JSON checks;5 repeated immutable-prefix freezes;8 event-loop/explicit-GC cycles;heap snapshot first sample in each cell.','concurrency':'Reference container also hosted independent work;1k before/after processes overlapped.10k before and after trios ran sequentially; no physical device or dedicated-host guarantee.','sampledAllocationMeaning':'V8 sampled live allocation profile at end of phase; not total lifetime allocations.'},'rows':rows,'limitations':['Not an application/browser recovery or bot-decision benchmark.','Does not attribute the historical10.072-second preparation sample.','Global provenance table cardinality is not absolutely capped: only shallow roots/structural boundaries are retained.','Copied collection arrays still inspect existing reference descriptors; deep prior record bodies are skipped by private provenance.','Packed-hand immutableNodes is a separate unchanged provenance cache; no global leak-free claim.','Whole-application steady state, storage bytes and native browser behavior are measured separately.']}
+(directory/'comparison.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({'status':'PASS','changedInputs':changed,'cells':len(rows),'observations':12,'tableBytes':[(r['hands'],r['before']['privateFrozenBackingTableBytes'],r['after']['privateFrozenBackingTableBytes']) for r in rows]}))

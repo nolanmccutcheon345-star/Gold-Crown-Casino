@@ -1,0 +1,227 @@
+/* Patch 107 — the real, interactive four-game casino floor joins The Card Room.
+   Presentation only. All bets, chips, payouts, game phases, histories and odds are
+   rendered by existing controllers; nothing is replaced by a concept screenshot. */
+:root {
+ --cz-107-onyx:#081217;
+ --cz-107-panel:#14282b;
+ --cz-107-green:#0b503e;
+ --cz-107-brass:#d7b479;
+ --cz-107-ivory:#f6f1e6;
+ --cz-107-line:#d6b37665;
+}
+/* The hierarchy is deliberately compact on phones: casino heading, wallet, dealer, live
+   game, then actions. Artwork never overlays an input or takes pointer events. */
+.cz-game {
+ --gold:#e8cb92;
+ --gold2:#b88b50;
+ --felt:#0c6249;
+ --felt2:#07342b;
+ color:var(--cz-107-ivory);
+ isolation:isolate;
+ min-width:0;
+ border:1px solid #cba46852;
+ border-radius:18px;
+ padding:clamp(12px,2vw,23px);
+ background:
+   radial-gradient(ellipse 90% 35% at 50% 0%,#c29d5830,transparent 86%),
+   radial-gradient(ellipse 85% 60% at 50% 75%,#075f4a2b,transparent),
+   linear-gradient(160deg,#182b2e,#0b171e 68%,#090e15);
+ box-shadow:inset 0 1px #f6d6a628,0 14px 35px #0009;
+}
+.cz-game::before {content:'';display:block;height:3px;border-radius:3px;
+ background:linear-gradient(90deg,transparent 5%,#91602c 24%,#ffebbc 48%,#9b662f 76%,transparent 96%);
+ box-shadow:0 2px 13px #cb9b5970;pointer-events:none}
+.cz-game:is(.roulette,.craps,.baccarat,.races) .cz-felt {
+ min-width:0;
+ border-radius:clamp(16px,2.7vw,32px);
+ border:1px solid #fce5a37c;
+ background:
+   repeating-linear-gradient(65deg,transparent 0 5px,#ffffff04 5px 6px),
+   radial-gradient(ellipse 100% 88% at 52% 23%,#297d5d,#0e503e 49%,#062b27 91%);
+ box-shadow:inset 0 0 0 3px #06180f,inset 0 0 0 5px #c59c6150,
+            inset 0 14px 28px #ffffff08,inset 0 -18px 30px #02150f94,
+            0 0 0 3px #382718,0 0 0 5px #b48b51,0 9px 29px #0009;
+ margin:6px 5px 9px;
+}
+.cz-wallet {gap:11px 15px;border-radius:13px;padding:10px 12px;
+ background:linear-gradient(150deg,#0c1b20e6,#243532b5);
+ border:1px solid #bfa47259;box-shadow:inset 0 1px #ead6ac27}
+.cz-balance {background:linear-gradient(150deg,#223b36,#101b23);border:1px solid #c79d5f6b;
+ padding:10px 16px;min-width:146px;box-shadow:inset 0 1px #ffe6b335,0 3px 12px #0006}
+.cz-balance span {font-size:10px;font-weight:750;letter-spacing:.16em;color:#ded2b9;opacity:1}
+.cz-balance b {font:700 clamp(20px,2.5vw,27px)/1.2 Georgia,serif;color:#fbe3ae;font-variant-numeric:tabular-nums}
+.cz-balance small {color:#d8ddd3;opacity:1}
+.cz-record {color:#bdcfc5;opacity:1;line-height:1.45}
+.cz-chip-pick {position:relative;border:2px solid #e8d7b5;min-height:46px;min-width:46px;
+ box-shadow:0 0 0 2px #162124,0 3px 12px #000a,inset 0 0 0 2px #ffffff2e;
+ transition:transform .16s ease,box-shadow .16s ease}
+.cz-chip-pick.on {box-shadow:0 0 0 3px #eacc81,0 0 0 6px #105e47,0 0 17px #50ecb4b9;
+ transform:translateY(-3px) scale(1.025)}
+.cz-chip-pick:focus-visible,.cz-game :is(button,select,input,summary):focus-visible {
+ outline:3px solid #ffedc1;outline-offset:3px}
+.cz-seg {border:1px solid #e2ba7655;background:#061918a8;border-radius:12px;flex-wrap:wrap;max-width:100%}
+.cz-seg button {border-radius:9px;min-height:40px;color:#e2e8df;white-space:normal}
+.cz-seg button.on {background:linear-gradient(140deg,#fae8b8,#c79753);color:#221609;box-shadow:inset 0 1px #fff7d6}
+.cz-call {font:600 clamp(14px,1.8vw,18px)/1.4 Georgia,serif;letter-spacing:.015em;
+ text-shadow:0 2px 7px #000b}
+.cz-result {color:#f2e9d6;border:1px solid #b8ac866b;background:#0b171bbd;padding:7px 12px;
+ border-radius:12px;font-variant-numeric:tabular-nums}
+.cz-result.up {border-color:#7fdabb84;color:#b5ffe1}
+.cz-result.down {border-color:#d59b887d;color:#ffd1c8}
+.cz-fine {color:#cbd8ce;opacity:1;font-size:12px;line-height:1.5}
+.cz-actions {padding-top:4px;align-items:center;gap:9px}
+.cz-actions .button,.cz-actions .cz-go {min-height:46px;border-radius:10px;padding:10px 15px}
+.cz-actions .cz-go {background:linear-gradient(170deg,#fff1cd,#e5b96f 50%,#bd8540);
+ box-shadow:inset 0 2px #fff8df,0 3px 0 #553618,0 6px 13px #0007;
+ border:1px solid #fce6ae;letter-spacing:.04em;color:#21170a;font-weight:800}
+.cz-actions .cz-go:hover:not(:disabled) {filter:brightness(1.08)}
+.cz-actions .cz-go:disabled {opacity:.65;filter:saturate(.45)}
+.cz-game :where(.cz-chip,.cr-spot .cz-chip) {font-variant-numeric:tabular-nums;
+ box-shadow:inset 0 0 0 2px #fff8c38c,inset 0 0 0 5px #9b6d2e70,
+  0 2px 6px #000b;}
+/* Every guest is framed like a seated card-room regular, not a loose initial bubble. */
+.cz-patrons {padding:8px 10px;gap:10px;min-width:0;border-radius:14px;
+ border:1px solid #d1ad6b47;background:linear-gradient(170deg,#182d30,#101d21)}
+.cz-patron {min-width:0;max-width:140px;display:flex;align-items:center;gap:7px;
+ border-radius:12px;padding:6px 9px;border:1px solid #e5bb7747;
+ background:linear-gradient(150deg,#31443fc9,#0c1a21ed);box-shadow:0 4px 10px #0004}
+.cz-patron-face {border-radius:10px;border:2px solid #eac586a6;
+ background:radial-gradient(circle at 34% 23%,#ffefc285,var(--c,#405e55) 65%,#0d1a20);
+ box-shadow:0 2px 10px #0007,0 0 0 2px #172022}
+.cz-patron small {color:#f1e6cb;opacity:1;font-size:11px;overflow-wrap:anywhere}
+.cz-patron.says .cz-patron-face {box-shadow:0 0 0 2px #e5c184,0 0 14px #d4b0646b}
+.cz-patron-talk {background:#0c1d21f0;border:1px solid #c4a37468;border-radius:13px}
+.cz-patron-talk p {color:#e8f1e9}
+/* Roulette: keep the real SVG wheel and functional felt layout. A ring of satin brass
+   surrounds the wheel and the result is signaled by the existing pockets and chips. */
+.roulette .rl-top {gap:clamp(12px,2vw,24px);padding:clamp(15px,2.4vw,27px)}
+.rl-wheel-col {min-width:0}
+.rl-wheel-wrap {border-radius:50%;padding:6px;
+ background:conic-gradient(from 20deg,#70451b,#fff0be,#95642f,#e7b76b,#4c321b,#dfb06c,#70451b);
+ border:3px solid #362515;box-shadow:0 0 0 3px #0d1c1c,0 0 0 5px #f7dc9973,0 12px 24px #0009}
+.rl-wheel {filter:drop-shadow(0 3px 7px #0008)}
+.rl-pointer {filter:drop-shadow(0 2px 4px #000c)}
+.rl-side {min-width:0;max-width:100%}
+.rl-layout {border:3px solid #c89e5d;box-shadow:inset 0 0 0 1px #e9d0946d,
+  0 3px 14px #0008;border-radius:9px;overflow:hidden;max-width:100%}
+.rl-cell,.rl-out {border-color:#eddfb69a}
+.rl-num,.rl-ob {min-height:42px;touch-action:manipulation}
+.rl-history {border-radius:12px;border:1px solid #bb985f5a;padding:9px}
+.rl-history span {border:1px solid #f6e4c56b;box-shadow:0 2px 5px #0007}
+.rt,.rl-stats,.rl-options,.rl-favourites {min-width:0;border:1px solid #cba86951;border-radius:13px;
+ padding:clamp(8px,1.5vw,14px);background:#0c201bc0}
+.rt-ring {margin-inline:auto}
+.rt-n,.rt-sec,.rt-finals button {min-height:36px}
+.rt-n:focus-visible,.rt-sec:focus-visible {outline-color:#fff0bc;outline-offset:2px}
+.roulette :is(.rt-secs,.rt-finals,.rt-width) {max-width:100%;flex-wrap:wrap}
+.rl-stats summary,.cz-rounds summary {color:#ffe6b4;font-weight:750}
+/* Craps: carved wooden rail, red backwall, metallic point puck and dice in a clear
+   throwing lane; all the betting cells remain accessible buttons. */
+.craps .cr-felt {padding:clamp(14px,2vw,28px)}
+.cr-head {border-bottom:1px solid #e8c88d5b;padding-bottom:11px}
+.cr-puck {border:2px solid #e8d5a8;box-shadow:inset 0 2px #fff8dc52,0 3px 9px #0008}
+.cr-puck.on {border-color:#ffedac;color:#fcf1da}
+.cr-dice {padding:10px;border-radius:19px;border:1px solid #ecc3874a;
+ background:radial-gradient(ellipse at 50% 10%,#b0473945,transparent 75%)}
+.cz-die {border:1px solid #e3d8c1;box-shadow:0 3px 8px #0008,inset 0 1px 2px #fff}
+.cr-numbers {gap:clamp(4px,.8vw,11px);min-width:0}
+.cr-num,.cr-spot,.cr-come,.cr-pass,.cr-prop {box-shadow:inset 0 1px #fef9df24;background-color:#092b266b;
+ border-color:#efd49a7a;min-height:43px}
+.cr-num.is-point {outline:2px solid #ffe7ad;outline-offset:2px}
+.cr-num:focus-visible,.cr-spot:focus-visible {outline:3px solid #ffebb6}
+.cr-place,.cr-row,.cr-props {min-width:0}
+.cr-history {background:#0d241f9c;border-radius:11px;padding:8px}
+.cr-history span {font-variant-numeric:tabular-nums}
+/* Baccarat: felt table with matched dealing zones. The roads stay live data, not
+   a decorative fake scoreboard; the dealer's cards always sit above the mat. */
+.baccarat .bc-felt {padding:clamp(18px,2.8vw,34px);border-radius:40% 40% 22px 22px/17% 17% 22px 22px}
+.bc-arc {font:700 clamp(10px,1.2vw,14px) Georgia,serif;letter-spacing:.12em;color:#f0d9a4}
+.bc-hands {gap:clamp(9px,1.8vw,22px)}
+.bc-hand {padding:clamp(10px,1.4vw,20px);min-width:0;
+ border:1px solid #dfbf8066;border-radius:16px;background:#0319174d;
+ box-shadow:inset 0 1px #ffffff19,0 3px 12px #0003}
+.bc-hand.winner {border-color:#cceec2;box-shadow:0 0 0 2px #b5e6bd,0 0 18px #9de3b469}
+.bc-hand-name {color:#f5e0ad;letter-spacing:.1em;font-weight:750}
+.bc-cards {gap:5px;min-width:0}
+.cz-card {border:1px solid #e2d9c5;box-shadow:0 2px 5px #0008,0 0 0 1px #805f39;
+ background:linear-gradient(130deg,#fffef8,#eee8dc)}
+.cz-card.down {background:repeating-linear-gradient(45deg,#123f46 0 5px,#e9d6a2 6px 7px,#173c43 8px 13px)}
+.bc-total {font-variant-numeric:tabular-nums;color:#fff0d5}
+.bc-spot {min-height:46px;border:2px solid #dec3899e;box-shadow:inset 0 1px #fff2be2b}
+.bc-spot.won {box-shadow:0 0 0 2px #ffebbc,0 0 13px #f5d18b88}
+.bc-road,.big-road,.bead-plate {min-width:0;max-width:100%}
+.bc-road {border-radius:15px;background:#111d22;border:1px solid #c59b5c66;padding:10px}
+.bead-plate,.big-road {background:#f3eee1;border:2px solid #c6a76a;border-radius:7px}
+/* Racing: preserved eight real runners and the running-order board. The track is
+   scenic but not a static image, so scratches, replays and the race caller stay live. */
+.races .rc-card-head {border-bottom:1px solid #e1c18c68;padding-bottom:9px}
+.rc-track {min-width:0;border:4px solid #cda870;border-radius:14px;
+ background:
+  repeating-linear-gradient(0deg,#f2cc8a0a 0 20px,#664d310c 20px 21px),
+  linear-gradient(180deg,#634d2d,#926e42 36%,#674827 72%,#4b3d26);
+ box-shadow:inset 0 0 0 4px #31261a,0 8px 18px #0007;overflow:hidden}
+.rc-rail,.rc-finish {filter:drop-shadow(0 2px 2px #0007)}
+.rc-lane {border-color:#ead8b585}
+.rc-runner {filter:drop-shadow(1px 2px 2px #0009)}
+.rc-caller {padding:10px 15px;border:1px solid #ecc38188;border-radius:13px;
+ background:linear-gradient(160deg,#263b32,#101d20);color:#fff1d2;
+ font:600 clamp(13px,1.7vw,17px)/1.4 Georgia,serif}
+.rc-result {border:1px solid #e7c18c7d;border-radius:14px;background:#101f22;padding:10px}
+.rc-table {width:100%;min-width:0;border-collapse:separate;border-spacing:0 4px}
+.rc-table th {color:#f7dfb0}
+.rc-table td {background:#162c2d;border-top:1px solid #b99b6555;border-bottom:1px solid #b99b6555}
+.rc-table tr.sel td {background:#254d3e;border-color:#efddaf}
+.rc-bet,.rc-kinds button {min-height:42px}
+.rc-slip {background:#102221;border:1px solid #b798606c;border-radius:12px;padding:10px}
+.rc-photo {font:800 clamp(21px,3vw,36px) Georgia,serif;color:#ffe3a6;text-shadow:0 3px 7px #000c}
+/* Session stats and player round histories—readable without squeezing the tables. */
+.cz-rounds {margin-top:4px;min-width:0;border:1px solid #d2ac7059;border-radius:12px;
+ padding:7px 12px;background:linear-gradient(155deg,#203735,#101d24)}
+.cz-rounds summary {min-height:42px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;cursor:pointer}
+.cz-rounds summary small {color:#bfd2c8}
+.cz-trend {max-width:100%;overflow-x:auto}
+.cz-trend svg {max-width:100%;height:auto;display:block}
+.cz-round-list {max-width:100%;overflow:auto}
+/* Touch layouts. Avoid changing established game positioning or forced scrollbars. */
+@media (max-width:760px) {
+ .cz-game {padding:11px;border-radius:12px;gap:12px}
+ .cz-game:is(.roulette,.craps,.baccarat,.races) .cz-felt {margin:6px 4px 9px;padding:12px}
+ .cz-wallet {padding:9px;gap:9px}
+ .cz-balance {flex:1 1 132px;padding:9px}
+ .cz-actions {justify-content:stretch}
+ .cz-actions .button {flex:1 1 auto}
+ .cz-actions .cz-go {flex:1 1 100%;order:2}
+ .roulette .rl-top {grid-template-columns:minmax(0,1fr)}
+ .rl-wheel-col {width:min(260px,85vw);margin-inline:auto}
+ .rl-side {width:100%;overflow-wrap:anywhere}
+ .rl-history {max-width:100%;overflow-x:auto}
+ .baccarat .bc-felt {border-radius:18px}
+ .bc-hands {grid-template-columns:repeat(2,minmax(0,1fr))}
+ .bc-hand {padding:7px}
+ .bc-cards {flex-wrap:wrap}
+ .races .rc-track {max-width:100%;overflow:hidden}
+ .rc-table {font-size:12px}
+ .cz-patrons {flex-wrap:wrap}
+}
+@media (max-width:390px) {
+ .cz-game {padding:8px}
+ .cz-game:is(.roulette,.craps,.baccarat,.races) .cz-felt {padding:8px;margin:6px 5px 8px}
+ .cz-wallet {padding:7px}
+ .cz-actions .button {font-size:12px;min-width:0}
+ .cz-seg button {padding:7px 9px}
+ .cz-chip-pick {width:44px;height:44px;min-width:44px}
+ .rl-wheel-col {width:min(228px,76vw)}
+ .bc-hand-name {font-size:10px}
+ .bc-spot {min-height:42px}
+ .rc-table {font-size:11px}
+}
+@media (prefers-reduced-motion:reduce) {
+ .cz-chip-pick,.cz-actions .cz-go,.cz-game .cz-patron-face {transition:none!important;animation:none!important}
+}
+.motion-off .cz-game :is(.cz-chip-pick,.cz-patron-face) {transition:none!important;animation:none!important}
+@media (forced-colors:active) {
+ .cz-game,.cz-wallet,.cz-felt,.cz-balance,.cz-patron,.rc-track,
+ .cz-chip-pick,.rl-wheel-wrap,.bc-hand,.cz-actions .cz-go {background:Canvas!important;
+ color:CanvasText!important;border:2px solid CanvasText!important;box-shadow:none!important}
+ .cz-game button:focus-visible {outline:3px solid Highlight!important}
+}

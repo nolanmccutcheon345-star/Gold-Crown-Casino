@@ -1,0 +1,19 @@
+# Step5C independent conditional validation — protocol frozen before outcomes
+
+No production policy edits in this lane. Source starts at f54cacfb0aa3c861313b691e773a6716379c50a0, synthetic-cash-1.6.0. This is a synthetic functional/strategic diagnostic, not a human dataset, expert certification or solver result.
+
+## F10 dangerous river comparison
+
+Eight fixed dangerous-board/value-hand fixtures: third-nut flush, overpair on four-flush, K-high straight on four-straight, trips on flush board, overpair on paired board, full house, low flush and set on four-straight. Each is tested checked-to in position and facing a 150% pot river bet. Public prefixes are engine-executed: open to5BB, call, flop check/check, turn check/check, river check or bet. Four stable identities per archetype, 64 paired decision seeds each. Compare stronger-reg(skill.9) against passive-reg(skill.25). No changing seeds, fixtures, weights or thresholds after seeing outcomes.
+
+Independent utility: enumerate all 990 compatible opponent two-card combinations, evaluate seven-card ranks with a separately written exhaustive five-card evaluator. Three stipulated opponent ranges weight high-card/pair/two-pair/trips/straight/flush/boat/quads/straight-flush categories: value-heavy [0.1,0.5,1,2,4,5,6,7,8], broad [1,2,3,4,5,6,7,8,9], recreational [2,6,5,4,3,3,3,3,3]. These are artificial conditional opponent ranges, not the production inferred range or measured real-player frequencies. Opponent calls use a stipulated category/sizing schedule (documented in executable reference); opponent never re-raises. The resulting EV is of this one-node response model, not full poker decision EV. It is inappropriate to treat a failure against an undisclosed prior as a production mechanical defect.
+
+Exact call/check/fold/raise utility includes current pot, actual call cost, committed contribution, folds, ties and loss of added chips. No rake in these fixtures. All emitted actions must be accepted by authoritative engine. Best-available action comparison uses all actually emitted actions plus check/fold/call and nine legal sizes(.25/.5/.75/1/1.5/2/3pot,minraise,allin). Aggregate each fixture/range equally; within fixture average identities then seeds. Report paired differences and per-fixture regressions without discarding bad cases. Requirement F10 is not promoted from merely distinct frequencies; review average utility and sensitivity plus the synthetic-reference limitations. No arbitrary continuation quotas.
+
+## Y10 continuous ecology
+
+Eight independent blocks per configuration, 50 hands each, six-seat loose-passive and nine-seat mixed populations. Stable identities, dealer rotation, actual carry-forward stacks, bounded public history and mismatched initial depths [25,40,65,100,150,200]BB cycling by seat. Engine top-ups from explicit separate simulation wallets when a seat falls below20BB, restoring its initial target, only between hands. Assert event-by-event and aggregate wallet/table/rake conservation, stable personalities and 50 uninterrupted completed hands per block. No per-hand stack resets. Record every hand and top-up. Measure action counters with opportunity denominators, flop and multiway fraction, raise sizes, depth evolution and concentration. This does not implement or certify deferred automatic population churn; whole Y10 remains unexecuted until its complete later-scope criterion and independent plausibility evidence exist. R1 cash-component evidence is recorded without fabricating a human calibration claim.
+
+## Evidence
+
+Commit protocol and runnable fixtures before running outcomes. Save source commit, source-file hashes, engine/policy/room versions, fixed seeds, runtime, executed commands, expected assertions and observed raw results. Full integrated/browser execution is the integration owner's responsibility.

@@ -1,0 +1,56 @@
+import { describe, expect, it } from 'vitest';
+import { BLACKJACK_TABLES, type BlackjackTable } from '../../src/blackjack/presets';
+import { applyBlackjack, assertAccounting, blackjackLegalActions, blackjackTotal, blackjackView, createBlackjackState, orderedBlackjackShoe, restoreBlackjack, secureBlackjackShoe, type BlackjackCommand, type BlackjackState, type ShoeCard } from '../../src/blackjack/engine';
+const table = (id = 'casino-5'): BlackjackTable => BLACKJACK_TABLES.find(t => t.id === id)!;
+function stacked(faces: string[], decks = 6): ShoeCard[] {
+ const left = orderedBlackjackShoe(decks), first: ShoeCard[] = [];
+ for (const face of faces) { const at = left.findIndex(card => card.split(':')[1] === face); if (at < 0) throw Error('Invalid fixture'); first.push(...left.splice(at, 1)); }
+ return [...first, ...left];
+}
+function start(faces: string[], profile: BlackjackTable = table(), balance = 200_000, bet = profile.minBet): BlackjackState {
+ return applyBlackjack(createBlackjackState(profile, stacked(faces, profile.decks), { balance }), { id: 'deal-1', revision: 0, type: 'deal', bet });
+}
+const act = (s: BlackjackState, type: BlackjackCommand['type']): BlackjackState => applyBlackjack(s, { id: 'action-' + s.revision, revision: s.revision, type });
+
+describe('B1 classic blackjack authoritative reducer', () => {
+ it('starts a separate $2,000 balance and charges one 50-cent ante per round', () => {
+  const s = start(['9c','6c','7d','Td']); expect(s.balance).toBe(199450); expect(s.ledger.map(e => [e.kind,e.amount])).toEqual([['bet',-500],['ante',-50]]);expect(s.ante).toBe(50);
+ });
+ it('home tables have no ante and reject an imposed ante', () => { const p=table('home-1');const s=createBlackjackState(p,orderedBlackjackShoe(2));expect(s.ante).toBe(0);expect(()=>createBlackjackState(p,orderedBlackjackShoe(2),{ante:50})).toThrow('ante'); });
+ it.each([1,2,6,8])('builds and shuffles exactly %i unique decks', decks => { const a=orderedBlackjackShoe(decks),b=secureBlackjackShoe(decks);expect(a).toHaveLength(decks*52);expect(new Set(b).size).toBe(a.length);expect([...b].sort()).toEqual([...a].sort()); });
+ it('rejects duplicated physical cards', () => {const shoe=orderedBlackjackShoe(6);shoe[1]=shoe[0];expect(()=>createBlackjackState(table(),shoe)).toThrow('duplicated');});
+ it.each([
+  [['0:Ac','0:6c'],17,true], [['0:Ac','0:Ac','0:5c'],17,true], [['0:Ac','0:6c','0:Kc'],17,false], [['0:Ac','0:Ac','0:9c'],21,true], [['0:Kc','0:Qc','0:2c'],22,false],
+ ] as [ShoeCard[],number,boolean][])('evaluates aces in %j', (cards,total,soft)=>expect(blackjackTotal(cards)).toEqual({total,soft}));
+ it.each([['casino-5',500,750],['casino-15-six-five',1500,1800]] as const)('pays a %s natural exactly', (id,bet,profit)=>{const s=start(['Ac','6c','Kd','Td'],table(id),200000,bet);expect(s.round!.phase).toBe('settled');expect(s.round!.net).toBe(profit-50);expect(s.balance).toBe(200000+profit-50);expect(s.ledger.filter(e=>e.kind==='settle')).toHaveLength(1);});
+ it('pushes two naturals and charges only the ante',()=>{let s=start(['Ac','Ad','Kd','Kh']);expect(s.round!.phase).toBe('insurance');s=act(s,'decline-insurance');expect(s.round!.net).toBe(-50);expect(s.round!.hands[0].result).toBe('push');});
+ it('peeks under a ten before offering doubles or splits',()=>{const s=start(['8c','Tc','8d','Ah']);expect(s.round!.phase).toBe('settled');expect(s.round!.net).toBe(-550);expect(blackjackLegalActions(s)).toEqual([]);});
+ it('does not reveal hole card or future shoe through the public view',()=>{const s=start(['9c','6c','7d','Td']);const v=blackjackView(s);expect(v.round!.dealer).toEqual(['6c',null]);expect(JSON.stringify(v)).not.toContain('Td');expect(v).not.toHaveProperty('shoe');expect(v).not.toHaveProperty('commands');});
+ it('insurance pays 2:1 plus its returned wager when the dealer has blackjack',()=>{let s=start(['9c','Ac','7d','Td']);s=act(s,'insurance');expect(s.round!.insuranceBet).toBe(250);expect(s.round!.insuranceReturn).toBe(750);expect(s.round!.net).toBe(-50);expect(s.balance).toBe(199950);});
+ it('lost insurance is a separate debit from a player win',()=>{let s=start(['Ac','Ad','Kd','6c','Tc']);s=act(s,'insurance');expect(s.round!.insuranceReturn).toBe(0);expect(s.round!.net).toBe(450);});
+ it('offers even money only for 3:2 naturals, with no additional stake required',()=>{let s=start(['Ac','Ad','Kd','6c'],table(),550);expect(blackjackLegalActions(s)).toContain('even-money');expect(blackjackLegalActions(s)).not.toContain('insurance');s=act(s,'even-money');expect(s.balance).toBe(1000);expect(s.round!.net).toBe(450);const sixfive=start(['Ac','Ad','Kd','6c'],table('casino-15-six-five'));expect(blackjackLegalActions(sixfive)).not.toContain('even-money');});
+ it('reveals dealer blackjack without dealing further cards',()=>{let s=start(['9c','Ac','7d','Td']);s=act(s,'decline-insurance');expect(s.cursor).toBe(4);expect(blackjackView(s).round!.dealer).toEqual(['Ac','Td']);});
+ it('hits soft17 but stands on hard17 and on S17 tables',()=>{let h=start(['Tc','Ac','8d','6c','2c']);h=act(h,'decline-insurance');h=act(h,'stand');expect(h.round!.dealer).toHaveLength(3);expect(h.round!.hands[0].result).toBe('loss');let s=start(['Tc','Ac','8d','6c','2c'],table('high-100'));s=act(s,'decline-insurance');s=act(s,'stand');expect(s.round!.dealer).toHaveLength(2);expect(s.round!.hands[0].result).toBe('win');});
+ it('bust ends the only hand without unnecessary dealer draws',()=>{let s=start(['Tc','6c','8d','5c','9s']);s=act(s,'hit');expect(s.round!.phase).toBe('settled');expect(s.round!.dealer).toHaveLength(2);expect(s.round!.hands[0].status).toBe('busted');expect(s.round!.net).toBe(-550);});
+ it('double debits exactly the bet, deals one card and stands',()=>{let s=start(['5c','6c','6d','Tc','Th','8s']);s=act(s,'double');expect(s.round!.hands[0].cards).toHaveLength(3);expect(s.round!.hands[0].bet).toBe(1000);expect(s.round!.net).toBe(950);expect(s.ledger.filter(e=>e.kind==='ante')).toHaveLength(1);});
+ it('late surrender returns half with no dealer draw, only before any player hit',()=>{let s=start(['Tc','6c','6d','Tc'],table('high-100'));s=act(s,'surrender');expect(s.round!.net).toBe(-5050);expect(s.cursor).toBe(4);let h=start(['5c','6c','6d','Tc','2c'],table('high-100'));h=act(h,'hit');expect(blackjackLegalActions(h)).not.toContain('surrender');expect(blackjackLegalActions(h)).not.toContain('double');});
+ it('splits in order, drawing to the second hand only when its turn starts',()=>{let s=start(['8c','6c','8d','Tc','3c','Th','2c','9s']);s=act(s,'split');expect(s.round!.hands[0].cards).toHaveLength(2);expect(s.round!.hands[1].cards).toHaveLength(1);expect(s.cursor).toBe(5);s=act(s,'double');expect(s.round!.actor).toBe(1);expect(s.round!.hands[1].cards.map(c=>c.split(':')[1])).toEqual(['8d','2c']);s=act(s,'stand');expect(s.round!.phase).toBe('settled');expect(s.ledger.filter(e=>e.kind==='ante')).toHaveLength(1);expect(s.round!.net).toBe(1450);});
+ it('split aces receive one card and 21 pays ordinary 1:1',()=>{const s=act(start(['Ac','6c','Ad','Tc','Kh','Qh','8s']),'split');expect(s.round!.phase).toBe('settled');expect(s.round!.hands.map(h=>h.payout)).toEqual([1000,1000]);expect(s.round!.hands.every(h=>h.result==='win')).toBe(true);expect(s.round!.net).toBe(950);});
+ it('resplits aces only when enabled, stops at four hands, never doubles them',()=>{let s=start(['Ac','6c','Ad','Tc','Ah','As','Ac','Ad','9c','8s'],table('high-100'));s=act(s,'split');expect(blackjackLegalActions(s)).toEqual(['stand','split']);s=act(s,'split');s=act(s,'split');expect(s.round!.hands).toHaveLength(4);expect(blackjackLegalActions(s)).not.toContain('split');expect(s.ledger.filter(e=>e.kind==='ante')).toHaveLength(1);});
+ it('rejects insufficient double/split/insurance and DAS-disabled double',()=>{let s=start(['8c','6c','8d','Tc'],table(),550);expect(blackjackLegalActions(s)).not.toContain('split');expect(blackjackLegalActions(s)).not.toContain('double');expect(()=>act(s,'split')).toThrow('Illegal');s=start(['8c','6c','8d','Tc','3c'],{...table(),doubleAfterSplit:false});s=act(s,'split');expect(blackjackLegalActions(s)).not.toContain('double');});
+ it('rejects out-of-range, fractional, uncovered or side bets',()=>{const s=createBlackjackState(table(),orderedBlackjackShoe(6));for(const bet of [0,499,501,50001,NaN,Infinity])expect(()=>applyBlackjack(s,{id:'bad',revision:0,type:'deal',bet})).toThrow();expect(()=>applyBlackjack(s,{id:'bad',revision:0,type:'deal',bet:500,sideBets:{}})).toThrow('Side bets');expect(()=>createBlackjackState(table('casino-5-free-bet'),orderedBlackjackShoe(6))).toThrow('Free Bet');});
+ it('rejects stale commands, makes exact retries inert and rejects identity reuse',()=>{const s=start(['9c','6c','7d','Td']);const cmd={id:'stand',revision:s.revision,type:'stand'} as const;const a=applyBlackjack(s,cmd);expect(applyBlackjack(a,cmd)).toBe(a);expect(()=>applyBlackjack(a,{...cmd,id:'other'})).toThrow('Stale');expect(()=>applyBlackjack(a,{...cmd,type:'hit'})).toThrow('identity');expect(s.round!.phase).toBe('player');});
+ it('restores exact insurance, player, split and settled states with deterministic replay',()=>{let s=start(['Ac','Ad','8d','6c']);expect(restoreBlackjack(JSON.parse(JSON.stringify(s)))).toEqual(s);s=act(s,'decline-insurance');expect(restoreBlackjack(s)).toEqual(s);s=act(s,'stand');expect(restoreBlackjack(s)).toEqual(s);const split=act(start(['8c','6c','8d','Tc','3c']),'split');expect(restoreBlackjack(split)).toEqual(split);});
+ it.each(['balance','hole','ledger','missing','reordered','version'])('fails closed for %s corruption',kind=>{const s=act(start(['9c','6c','7d','Td']),'stand');if(kind==='balance')s.balance++;if(kind==='hole')s.round!.dealer[1]='0:Ac';if(kind==='ledger')s.ledger[0].amount++;if(kind==='missing')s.commands.splice(0,1);if(kind==='reordered')s.commands.reverse();if(kind==='version')(s as {version:string}).version='future';expect(()=>restoreBlackjack(s)).toThrow();});
+ it('replays repeated deterministic rounds across shoes with exact financial conservation',()=>{
+  let seed=741;const shoe=()=>{const s=orderedBlackjackShoe(2);for(let i=s.length-1;i>0;i--){seed=(Math.imul(seed,1664525)+1013904223)>>>0;const j=seed%(i+1);[s[i],s[j]]=[s[j],s[i]];}return s;};
+  let s=createBlackjackState(table('home-1'),shoe(),{balance:2_000_000});let commands=0;
+  for(let n=0;n<250;n++){
+   if(blackjackView(s).shuffleRequired)s=applyBlackjack(s,{id:'shuffle-'+n,revision:s.revision,type:'shuffle',shoe:shoe()});
+   s=applyBlackjack(s,{id:'deal-'+n,revision:s.revision,type:'deal',bet:100});
+   while(s.round!.phase!=='settled'){const legal=blackjackLegalActions(s),h=s.round!.hands[s.round!.actor];const type=legal.includes('decline-insurance')?'decline-insurance':blackjackTotal(h.cards).total<17&&legal.includes('hit')?'hit':'stand';s=applyBlackjack(s,{id:'play-'+commands++,revision:s.revision,type});}
+   expect(s.round!.net).toBe(s.ledger.filter(e=>e.roundId===s.round!.id).reduce((sum,e)=>sum+e.amount,0));assertAccounting(s);
+  }
+  expect(s.completed).toHaveLength(250);expect(restoreBlackjack(s)).toEqual(s);expect(s.balance).toBe(s.initialBalance+s.completed.reduce((sum,r)=>sum+r.net!,0));expect(s.shoeNumber).toBeGreaterThan(1);
+ },20_000);
+});

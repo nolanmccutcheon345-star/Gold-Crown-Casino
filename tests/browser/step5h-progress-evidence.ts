@@ -1,0 +1,18 @@
+/** Test-page evidence only. Never writes to the game database or retains canonical bodies. */
+export type PhaseWindow={phase:string;start:number;end:number;ms:number};
+type RecordValue=Record<string,unknown>;
+const object=(value:unknown):RecordValue=>value&&typeof value==='object'&&!Array.isArray(value)?value as RecordValue:{};
+const scalar=(value:unknown)=>typeof value==='string'?value.slice(0,1200):typeof value==='number'?Number.isFinite(value)?value:null:typeof value==='boolean'||value===null?value:undefined;
+const select=(value:unknown,keys:readonly string[])=>Object.fromEntries(keys.flatMap(key=>{const item=scalar(object(value)[key]);return item===undefined?[]:[[key,item]];}));
+const finance=(value:unknown)=>select(value,['wallet','table','net','hands','events']);
+const origin=(value:unknown)=>select(value,['status','api','usage','quota','persisted','deprecated','nonstandard','scope','error']);
+const inventory=(value:unknown)=>({ ...select(value,['records','valueBytes','keyBytes','rowBytes','scope']),groups:Object.fromEntries(Object.entries(object(object(value).groups)).slice(0,20).map(([key,item])=>[key.slice(0,80),select(item,['records','valueBytes','keyBytes','rowBytes'])])) });
+export function progressReceipt(input:{phase:string;result:RecordValue;windows:readonly PhaseWindow[];checks:readonly string[];heap:unknown;at:string}){
+ const r=input.result,recovery=object(r.recovery),gameplay=object(r.gameplay),runtime=object(r.runtimeSource),sums:Record<string,{calls:number;totalMs:number;maxMs:number}>={};
+ for(const w of input.windows){const label=w.phase.slice(0,80);if(!sums[label]&&Object.keys(sums).length===40)continue;const item=sums[label]??={calls:0,totalMs:0,maxMs:0};item.calls++;item.totalMs+=w.ms;item.maxMs=Math.max(item.maxMs,w.ms);}
+ const receipt={format:'ai-texas-step5h-partial-evidence',version:1,status:'PARTIAL',execution:'RUNNING',phase:input.phase.slice(0,80),at:input.at.slice(0,80),scope:'Only completed checks and measurements at this checkpoint. Final audit, cleanup and overall outcome are not inferred. A later failure or stalled page does not turn this partial receipt into a passing run.',args:select(r.args,['run','hands','reader','decisions','path']),source:select(runtime,['sourceCommit','name','format','version','productionDirty']),runtimeArtifacts:Array.isArray(runtime.artifacts)?runtime.artifacts.slice(0,4).map(value=>select(value,['path','bytes','sha256'])):[],productionDatabaseAccessed:false,
+  executedChecks:input.checks.slice(0,24).map(check=>({check:check.slice(0,240),outcome:'VERIFIED'})),recovery:{...select(recovery,['shellMs','shellPaintMs','safeGameplayReadyMs','readyPaintProxyMs','loadedBodies','totalHands','archiveAudit']),accounting:finance(recovery.accounting),heap:select(recovery.heap,['jsHeapSizeLimit','totalJSHeapSize','usedJSHeapSize'])},
+  compaction:select(r.compaction,['financialRevisionUnchanged','scope']),storageAtReady:inventory(r.storageAtReady),storageAfterCompaction:inventory(r.storageAfterCompaction),originAfterInstall:origin(r.originAfterInstall),originBeforeCompaction:origin(r.originBeforeCompaction),originAfterCompaction:origin(r.originAfterCompaction),
+  gameplay:{...select(gameplay,['decisions','completedHands','sessions','scope']),preparation:select(gameplay.preparation,['n','p50','p95','p99','max','method'])},finalCompactFinancial:finance(r.finalCompactFinancial),originalHistoryAgreement:scalar(r.originalHistoryAgreement),phaseTimings:sums,heap:select(input.heap,['jsHeapSizeLimit','totalJSHeapSize','usedJSHeapSize'])};
+ const json=JSON.stringify(receipt,null,2);if(new TextEncoder().encode(json).length>65536)throw Error('Bounded progress receipt exceeded 64 KiB');return{receipt,json};
+}

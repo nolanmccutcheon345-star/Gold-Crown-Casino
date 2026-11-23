@@ -1,0 +1,10 @@
+import {build} from 'esbuild';
+import process from 'node:process';
+import {execFileSync} from 'node:child_process';
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import path from 'node:path';
+const out=process.argv[2];if(!out)throw Error('Specify a scratch build output folder');mkdirSync(out,{recursive:true});
+const baseline='e67f65b',old=execFileSync('git',['show',`${baseline}:src/session/controller.ts`],{encoding:'utf8'}),source='src/session/controller.ts';
+for(const mode of ['baseline','candidate'])await build({entryPoints:['tests/step5h-residency/retention.ts'],outfile:path.join(out,`${mode}.mjs`),bundle:true,platform:'node',format:'esm',target:'node24',plugins:mode==='baseline'?[{name:'frozen-controller',setup(b){b.onLoad({filter:/\/src\/session\/controller\.ts$/},args=>({contents:old,loader:'ts',resolveDir:path.dirname(args.path)}));}}]:[]});
+writeFileSync(path.join(out,'source.json'),JSON.stringify({baseline,sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),baselineControllerSHA256:createHash('sha256').update(old).digest('hex'),candidateControllerSHA256:createHash('sha256').update(readFileSync(source)).digest('hex'),harnessSHA256:createHash('sha256').update(readFileSync('tests/step5h-residency/retention.ts')).digest('hex')},null,2)+'\n');

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 180" role="img" aria-hidden="true">
+ <defs>
+ <linearGradient id="bg" x2=".9" y2="1"><stop stop-color="#081b47"/><stop offset=".55" stop-color="#288edb"/><stop offset="1" stop-color="#081b47"/></linearGradient>
+ <linearGradient id="metal" x2=".35" y2="1"><stop stop-color="#fff5d5"/><stop offset=".33" stop-color="#b0f3ff"/><stop offset=".6" stop-color="#94601d"/><stop offset="1" stop-color="#fff4bd"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#b0f3ff" stop-opacity=".5"/><stop offset="1" stop-color="#b0f3ff" stop-opacity="0"/></radialGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="6"/></filter>
+ <pattern id="spark" width="43" height="33" patternUnits="userSpaceOnUse"><circle cx="12" cy="7" r="1" fill="#b0f3ff" opacity=".65"/><circle cx="33" cy="26" r=".65" fill="white" opacity=".5"/></pattern>
+</defs>
+ <rect width="480" height="180" fill="url(#bg)"/>
+ <ellipse cx="240" cy="65" rx="230" ry="110" fill="url(#light)"/>
+ <path d="M0 154Q120 123 240 160T480 151V180H0Z" fill="#070b14" opacity=".38"/>
+ <rect width="480" height="180" fill="url(#spark)" opacity=".4"/>
+ <g><g stroke="#7fe8ff" stroke-width="5" fill="none" filter="url(#glow)"><path d="M118 12l-27 62 30-9-40 71 78-88-33 8 20-44M341 7l-31 68 24-7-29 83 67-95-32 6 26-55"/></g><g fill="url(#metal)" stroke="#a5f2ff" stroke-width="3"><path d="M246 10l-71 78h58l-35 82 100-102h-58l38-58Z"/><circle cx="117" cy="113" r="28"/><circle cx="359" cy="104" r="29"/></g><path d="M117 89v48m-17-24h34m225-24v48m-17-24h34" stroke="#173d71" stroke-width="5"/></g>
+ <path d="M3 32V12Q3 3 12 3H468Q477 3 477 12v20M3 150v18q0 9 9 9h456q9 0 9-9v-18" fill="none" stroke="url(#metal)" stroke-width="3" opacity=".8"/>
+ </svg>

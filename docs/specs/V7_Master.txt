@@ -1,0 +1,2527 @@
+
+--- PAGE 1 ---
+AI TEXAS HOLD EM — V7 COMPLETE MASTER HANDOFF
+Authority: V7 provisions first. The V6 master follows as subordinate baseline and cannot override V7. For
+original test content use the CSV tracker and accompanying unchanged V6 archive.
+AI TEXAS HOLD EM — V7 INDEPENDENT AUDIT & EXECU-
+TION HANDOFF
+Date: 2026-10-31. Project: NEW standalone ChatGPT Site called AI Texas Hold Em; do not access or modify
+Poker MaxEV, do not use Lovable.
+Decision
+V6 is substantially complete as a design. V7 provides narrowly scoped corrections and independently inspectable
+implementation readiness. Do not restart conceptual planning. Build a real playable poker table and demon-
+strate passing tests.
+Authority and backward compatibility
+1. V7 canonical master directive (02) plus 03_V7_IMPLEMENTATION_PROMPT.md, 04_V7_ROADMAP_AND_ESTIMATES.md,
+05_V7_ENGINE_AND_BOT_RELIABILITY_PATCH.md, 06_V7_TEST_AND_CALIBRATION_PLAN.md, and 07_V7_RELEASE_EVIDENC
+control only where they explicitly supplement/supersede V6.
+2. All V6 and V5 original detailed poker requirements remain normative where no V7 conflict. Source is included
+unchanged as REFERENCE_V6_HANDOFF.zip.
+3. All 292 baseline V6 tests retained unchanged; 10 new V7 tests appended for 302 total. None of these 302
+acceptance tests is marked passing without executable evidence. Future R2/R3 tests remain deferred for R1,
+not dropped.
+4. All 86 existing future feature IDs preserved unchanged in the included register; additions require value
+justification and new stable IDs, not arbitrary feature inflation.
+5. Execution and source of truth: code, immutable game events, tests and recorded evidence—not this text
+alone.
+Start with these files in ChatGPT Work
+Attach this ZIP. Paste 03_V7_IMPLEMENTATION_PROMPT.md. Refer to 02 for permanent instructions, 04 for mile-
+stones, 05 for diﬀicult race conditions, 06 for realism evaluation, and 07 for evidence standards. Import the CSV
+or XLSX tracker to record actual results. Bring forward REFERENCE_V6_HANDOFF.zip as the historical detailed
+baseline.
+Audit limitations
+This is a DOCUMENT, schema and specification audit.
+No live ChatGPT Site was modified, no production
+engine tests ran, and no human hand-history database was provided. Primary-source poker rules and publicly
+documented competitor features were checked; private site algorithms and real population frequencies remain
+unknown. Structural artifact checks are described in 12_AUDIT_VERIFICATION.json.
+V7 independent audit — actionable findings (no speculative padding)
+Method:
+inspected
+actual
+V6
+master
+directive,
+implementation
+prompt,
+roadmap/effort
+ranges,
+en-
+gine/bot/tournament/UI patches, 292-row CSV, 86-item feature register, 7 reference fixture entries, and
+archive. Checked primary-source 2026 Poker TDA rules (v1.1), PokerStars cash and tournament rules, PokerStars
+Live cash rules, Poker Now feature list, PokerKit metadata, GGPoker PokerCraft, and Advanced Poker Training
+product information. Public sources do not establish a universally realistic human poker policy.
+1
+
+
+--- PAGE 2 ---
+ID
+Severity
+Finding
+supported by V6
+inspection
+Corrective
+action
+Gate
+Classification
+F701
+CRITICAL
+V6 specifies
+revision guards
+but does not
+explicitly pin a
+bot’s sampled
+choice while a
+pending action
+crosses a
+rerender, pause
+or reload.
+Atomically
+allocate
+decisionID,
+sample policy
+once (private
+RNG), persist
+sealed result;
+retries return
+same choice.
+R1
+NEW precision
+F702
+CRITICAL
+V6 mentions
+rejection of stale
+requests, but
+not cancella-
+tion/reconciliation
+when
+asynchronous
+workers finish in
+a different hand.
+Hand/revision/policy
+ID tokens;
+ignore late
+worker replies
+and duplicate
+callbacks; no
+financial side
+effects from
+planning
+workers.
+R1
+NEW precision
+F703
+HIGH
+V6 describes
+browser-only
+confidentiality
+caveat but not
+the exact
+user-facing
+mode claim.
+Label client-side
+hidden cards as
+honest engine
+isolation, not
+cryptographic
+secrecy from
+devtools; server
+authority only
+when warranted.
+R1
+CLARIFY
+F704
+HIGH
+Privacy and
+player memory
+rules are
+comprehensive,
+but events that
+can affect
+memory are not
+enumerated.
+Memory write
+allowlist: public
+ac-
+tions/position/sizing,
+observable
+showdowns,
+permitted player
+notes; folded
+muck and future
+cards never
+update belief
+state.
+R1
+NEW precision
+2
+
+
+--- PAGE 3 ---
+ID
+Severity
+Finding
+supported by V6
+inspection
+Corrective
+action
+Gate
+Classification
+F705
+HIGH
+V6 policy
+testing refers to
+100k
+opportunities for
+rare situations;
+fixed volume
+risks false passes
+in sparse nodes
+and wasted
+simulation.
+Pre-register
+target
+conditional bins,
+sample
+denominators,
+interval-width
+targets, min
+relevant
+opportunity
+counts and
+explicit
+INSUFFI-
+CIENT_DATA
+outcomes.
+R1+
+REFINEMENT
+F706
+HIGH
+V6 has no
+explicit
+target-level
+browser
+performance
+contract for
+concurrent
+tournament
+background
+hands.
+Per-device
+long-task /
+latency /
+memory
+budgets,
+cancellation,
+backpressure,
+deterministic
+job replay;
+benchmark
+18,45,90 fields.
+R3
+REFINEMENT
+F707
+HIGH
+FIX06 and
+FIX06B are not
+verified full
+passing
+reference oracles.
+V6
+acknowledges
+this correctly;
+gap remains.
+Keep
+BLOCKED;
+build verified
+seat progression
+fixtures for TDA
+rule 34/36 vs
+PokerStars
+tournament
+2.4/2.5, and
+heads-up
+transition.
+R2
+UNRESOLVED
+blocker
+F708
+HIGH
+Tournament
+blind-level
+timing must
+preserve hands
+already started
+at old limits,
+with H4H
+grouping and
+reentry
+windows.
+Persist event
+hand-start clock,
+effective limit
+snapshot and
+H4H cycle ID;
+changes next
+hand, never
+retroactively.
+R2/R3
+REFINEMENT
+3
+
+
+--- PAGE 4 ---
+ID
+Severity
+Finding
+supported by V6
+inspection
+Corrective
+action
+Gate
+Classification
+F709
+HIGH
+Optimistic R1
+active-hours
+range bundles
+polished product
+and human
+realism despite
+no legal hand
+dataset.
+Three separate
+milestones:
+playable demo,
+polished
+synthetic R1 and
+independently
+human-validated
+product;
+explicitly
+indeterminate
+calibration time.
+Planning
+SCOPE
+correction
+F710
+MED
+Competitor
+inspirations are
+present, but no
+practical
+outcome
+comparison.
+Standardized
+mystery-user
+walkthrough:
+configure table,
+play 25 hands,
+locate history,
+inspect action
+semantics,
+recover after
+reload; compare
+only publicly
+observable UX.
+R1
+NEW validation
+F711
+HIGH
+A public
+browser client
+can lose local
+state to quota
+eviction or user
+settings; V6
+mentions
+recovery but
+export cadence
+and diagnostics
+are not explicit.
+Recovery
+warning, safe
+import/export,
+capped event
+snapshots,
+storage error
+fallback; zero
+silent bankroll
+resets, no
+duplicate
+settlements.
+R1
+REFINEMENT
+F712
+HIGH
+Per-stake rates
+could still be
+misread if very
+different hand
+counts and rake
+models are
+mixed.
+Report
+per-stake
+bb/100,
+weighted across
+hands only with
+complete basis
+disclosure;
+divide realized
+total BB won by
+correct hand
+exposure. No
+fabricated $/hr
+live equivalent.
+R1
+REFINEMENT
+4
+
+
+--- PAGE 5 ---
+ID
+Severity
+Finding
+supported by V6
+inspection
+Corrective
+action
+Gate
+Classification
+F713
+MED
+Many optional
+formats are
+already
+explicitly
+registered, but
+they may be lost
+if the Work chat
+starts only from
+a prompt.
+Include
+unchanged
+86-ID backlog
+and a gate in
+IMPLEMENTATION_STATUS.md
+to preserve it
+across chats.
+R4+
+PRESERVE
+F714
+MED
+Rules and game
+features are
+already
+wide-ranging,
+but
+undocumented
+changes to
+RuleProfile
+while a hand is
+running could
+alter outcome.
+Freeze versioned
+room profile at
+hand start; edits
+apply next
+hand/event;
+replay resolves
+version.
+R1
+REFINEMENT
+Findings rejected as redundant or unjustified
+• Do not add another 50 bot archetype labels: V6 already has a scalable persona-vector approach.
+• Do not add solver coaching/ICM study to R1: they are already deferred with dependencies.
+• Do not assert any fixed live $1/$2, $2/$5, $5/$10 or $50/$100 population frequencies without representative
+records.
+• Do not copy a competitor’s private opponent implementation, UI artwork or misleading performance market-
+ing.
+• Do not use table profits as a proxy for real-world player skill, or claim human fidelity from head-to-head bot
+play alone.
+Source anchors
+• 2026 Poker TDA v1.1 (dead button, ante, short raises, next-hand levels): https://www.pokertda.com/view-
+poker-tda-rules/
+• PokerStars tournament forward button / H4H: https://www.pokerstars.com/poker/tournaments/rules/
+• PokerStars rake per players dealt in + no-flop-no-drop: https://www.pokerstars.com/poker/room/rake/
+• PokerStars Live cash-room variations: https://www.pokerstarslive.com/poker/cashgamerules/
+• Poker Now publicly documented product features: https://www.pokernow.com/
+• GGPoker hand history/analytics UX: https://ggpoker.com/poker-games/pokercraft/
+• Advanced Poker Training product overview: https://www.pokertraining.com/
+• PokerKit independent reference engine library: https://pypi.org/project/pokerkit/
+AI TEXAS HOLD EM — Permanent Master Directive V7.0
+Identity and non-negotiable goal
+Build a new, standalone, virtual-chip ChatGPT Site named AI Texas Hold Em. Never modify or connect to
+Poker MaxEV; do not use Lovable. People must be able to play genuine NLHE cash hands against distinctive,
+5
+
+
+--- PAGE 6 ---
+believable bots, then complete real NLHE single-table and multi-table tournaments.
+The primary output is a
+responsive working game, not documents, fake button demos or a strategy quiz.
+Preserve V6, add only V7 normative rules
+V6’s canonical NLHE authority, isolated 52-card CSPRNG shuffle, per-seat hidden-data-limited bots, integer
+chip/side-pot/rake accounting, configurable cash stakes 2–10 seats, clean host/live/study separation, banked re-
+sults, replay and tournament lifecycle remain mandatory. V7 corrections:
+1. Single source of decisions.
+Every bot action has handId, revision, actingSeat, policyVersion,
+decisionId, and sealed sampled action+size. Sampling happens once for the exact decision; rerenders,
+network retries, device sleeps and callbacks cannot draw a second action or award a second pot. A policy
+calculation is advisory until the authoritative reducer accepts exactly one legal action.
+2. Strict opponent observation. Bot’s input = own hole cards, public board, legal bets/stack/position/action
+history, permitted observations. Only public action and legal revealed showdown update durable memory;
+folded muck, undisclosed hands, future boards, other bot private ranges and Hero private cards are forbidden.
+3. Stakes and room semantics. RuleProfile and BotPolicy are versioned and frozen per hand; configurable
+denominators, chip precision, dealt-in rake caps, no-flop-no-drop, cash seat eligibility, optional straddle/ante,
+legal raise-to math, split and odd-chip order. A config edit never changes current hand settlement retroactively.
+4. Honest realism.
+Human-like means credible behavior over complete sequences and conditional ac-
+tion/sizing given opponent ranges, board, position, effective stacks and price—not universal thresholds or
+total VPIP alone.
+Independent reference strategies measure strength.
+Human behavioral claims require
+licensed/consented human holdouts with sampling, missing-data and uncertainty reports.
+If unavailable,
+label the environment SYNTHETIC / NOT HUMAN-VALIDATED.
+5. Financial truth. Distinguish virtual wallet external edits from session P&L, transfers, rakes, bankroll, cash-
+out, per-stake BB won and actual elapsed app hours. Mixed stake bb/100 always reports the aggregation
+basis. All-in-adjusted equity, if later calculated, is not decision EV and is absent instead of fabricated.
+6. Tournament truth. TDA 2026 v1.1 and PokerStars online rules are separate profile versions. R2 single-
+table freezeout completes actual hands/placements/prizes; R3 multi-table background tables play real hands,
+synchronized H4H, accurate table movement and all prize obligations; no synthetic elimination. Each hand
+uses rules and blind level effective at its start. No cash-rake contamination.
+7. Reliability.
+Persistent immutable canonical events, privacy-redacted public hand history, sealed private
+restore snapshots, idempotent ledger events, multi-tab ownership, safe backups and honest storage warnings.
+Bot execution cannot block UI or settle a hand without a matching authoritative revision.
+8. Delivery. Release G0–G5 cash R1 first, T1 STT R2, then T2+ MTT R3. Critical tests must have actual
+source revision, command, result and evidence. A user can follow 25 consecutive hands on a phone and under-
+stand bet/raise amounts without mistakes. Never declare PASS based on a file containing a test description.
+Report blockers clearly. Public ChatGPT Site URL only if actually published and verified.
+9. Deferred
+features
+never
+forgotten.
+Preserve all 86 entries,
+stable IDs and dependencies in
+09_POST_RELEASE_FEATURE_REGISTER.csv:
+run-it-twice/three-times, bomb pots, double boards, strad-
+dles, hundreds of coherent personas, prop games, PLO/Short Deck/etc, deeper tournaments, coaching, player
+HUD, social. They are NOT R1 blockers. Implement only after relevant game authority and validations
+exist.
+Precedence
+This V7 directive + its explicitly cited V7 patches supersede conflicting V6 wording. Otherwise the V6 handoff
+remains normative. Older versions are archival. Do not silently reinterpret rules; write a versioned decision and
+regression fixture.
+Evidence statuses
+SPECIFIED, NOT_EXECUTED, PASS (with logs), FAIL, BLOCKED, DEFERRED, NOT_HUMAN_VALIDATED. Never convert
+missing sample coverage or bot self-play into proof of human realism. No real-money platform integrations, RTA,
+unauthorized datamining, manipulated Hero outcomes or claims of guaranteed live profits.
+6
+
+
+--- PAGE 7 ---
+COPY INTO CHATGPT WORK — AI TEXAS HOLD EM V7 IM-
+PLEMENTATION PROMPT
+Create a brand-new ChatGPT Site AI Texas Hold Em from scratch. Do not fork, connect to, modify or replace
+any Poker MaxEV project. Do not use Lovable. Read and adopt the V7 permanent directive and patch documents,
+the preserved V6 handoff as subordinate baseline, 302 acceptance-test rows, and the unchanged 86-item deferred
+feature register.
+Build now, not another planning essay. Create a repository with an independently tested pure No-Limit
+Hold’em rules/state reducer; implement unbiased secure production dealing, deterministic test-only deck control,
+correct button/blinds, betting, legal action sizing, all-in/side pots/refunds/rake/splits/showdown and durable event
+ledger. Differentially compare with a separately implemented library when behavior matches (PokerKit is a candi-
+date); document unsupported rule differences rather than fabricating comparisons.
+Deliver R1, a genuinely playable responsive cash-game browser table: choose $1/$2, $1/$3, $2/$5, $5/$10, $10/$20,
+$20/$40, $50/$100 or custom; configure buy-ins, active seats from 2–10, live-room rules/straddle/ante/rake; assign
+each bot a distinct archetype, Random, Unknown or customizable policy. Each bot makes stochastic but coher-
+ent, legally valid decisions based only on permitted own and observed information. The per-seat editor controls
+actual response distributions, including gutshot/OESD/flush draws and 25–300% pot sizing across streets; avoid
+deterministic all-or-nothing heuristics. Sample and commit one bot action per decision ID; rerenders, reloads or
+stale workers cannot re-roll it. Provide Host Setup, Live Table (no omniscient profile display), and post-hand
+Study. Real wallet edits, buy-ins, top-ups, rebuy, cash-out, per-stake results, browser save/recovery, hand replay
+and export must work.
+Demonstrate an actual 100+ consecutive-hand browser run with legal state and chip conservation, plus
+2/6/9/10-seat edge cases, multiple tab, restart, low-storage and mobile tests. Provide source revision, commands
+and reports for every passing release blocker. Prove at least eight conditionally distinct bot personalities; label
+realism SYNTHETIC / NOT HUMAN-VALIDATED until genuine held-out human data exists. Do not present a high
+simulated win rate or an all-in graph as certification of live skill.
+When and only when R1 passes, implement full R2 Sit & Go freezeouts and R3 actual-background-table MTTs;
+apply ruleset-specific TDA/PokerStars button and blind procedures, correct next-hand level changes, hand-for-
+hand, field accounting, payouts and elimination. Keep all optional variants and 86 backlog IDs deferred, with a
+dependency gate.
+At every checkpoint update IMPLEMENTATION_STATUS.md, TEST_EVIDENCE/, run screenshots and a verified preview
+URL when available.
+Include completed and failed checks, exact known defects, test artifact links, and next
+high-risk action. Do not claim one Work chat can run indefinitely or that a publish action happened without
+confirmation. Critical rule/money/privacy failures block release. If one environment/tool is unavailable, leave a
+concrete runnable source artifact and accurate blocker—not a fictional site or PASS.
+V7 development roadmap and realistic Work effort estimates
+Release gates, not arbitrary fixed duration
+Stage
+Deliverable
+Objective evidence
+Can ship?
+G0
+Independent NEW
+repository, CI, rule
+profiles, test skeleton
+Project/revision +
+executable test
+commands
+No
+G1
+Trusted NLHE 2–10 seat
+engine and settlement
+Differential engine check
+where compatible;
+independent fixtures,
+properties, chip identities,
+hidden-info checks
+No
+7
+
+
+--- PAGE 8 ---
+Stage
+Deliverable
+Objective evidence
+Can ship?
+G2
+Actual continuous
+playable cash table
+Real browser play 100+
+hands, 2/6/9/10 active,
+legally complete action
+sequences
+Internal demo
+G3
+Accurate
+wallet/session/hand
+history and recovery
+Validated restart, stale
+pending bot, double-click,
+multiple tabs, backups
+No
+G4
+Eight genuinely different
+conditional bot policies
+Fixed-context action+size
+distributions, full-hand
+trajectories, opponent
+privacy, heldout lineup
+tests
+No
+G5
+High-quality responsive
+R1
+Tested iOS/Android-sized
+mobile + desktop,
+accessibility, low storage,
+benchmark performance,
+human usability
+walkthrough, bug freeze
+R1 cash release
+T1
+Proper single-table
+tournament
+Full seeded 2–10 player
+freezeouts,
+payout/placement, H2H,
+all-ins, time snapshots
+R2 STT release
+T2
+Whole-field MTT
+scheduling
+18, 45, 90-player fields
+with real hands and table
+changes, H4H, event
+replay
+No
+T3
+Reentries and optional
+KO/PKO once settlement
+right
+Exact economics, separate
+fee/bounty liabilities, field
+invariants
+R3 MTT release
+R4+
+Optional extensions in
+86-ID register
+Each variant proves
+rules+settlement+bot
+compatibility separately
+Separate
+Planning ranges — not a promise about unattended ChatGPT Work
+These ranges assume one capable, supervised AI coding workflow, functioning repo/browser/test tools,
+continuous fixes and review, virtual chips, no imported production Poker MaxEV code or real human training
+data. They are active engineering equivalent hours, not clock time waiting for ChatGPT. Comparative market
+productivity measurements were not available, so uncertainty is substantial.
+Milestone
+Approx. active hours from start
+(unless +)
+Calendar if 15–25
+focused hrs/week
+Release interpretation
+First working table
+prototype
+25–60
+~1–4 weeks
+Basic gameplay only,
+not authoritative
+realism
+R1 polished,
+synthetic cash game
+150–350 total
+~6–23 weeks
+Verified gameplay,
+configurable bots,
+honest simulated stats,
+responsive UI; human
+fidelity not
+independently certified
+R2 complete Sit & Go
++60–150
++~3–10 weeks
+Full single-table
+tournament life cycle
+8
+
+
+--- PAGE 9 ---
+Milestone
+Approx. active hours from start
+(unless +)
+Calendar if 15–25
+focused hrs/week
+Release interpretation
+R3 credible 18–90+
+player MTT
++170–450
++~7–30 weeks
+Whole-field play,
+scheduling, payouts,
+stronger device/load
+tests
+R1+R2+R3
+~380–950+ total
+~4–16+ months
+Functional, tested cash
+and tournament
+product with synthetic
+opponents
+Most or all of 86
+deferred features
++500–2,000+
+Many additional
+months or longer
+Broad variant/advanced
+coaching/social suite;
+not one finite fixed
+milestone
+Human-calibrated
+realism
+Cannot responsibly
+time-estimate
+Depends on lawful
+representative data
+collection, model fitting
+and heldout tests
+Not established by
+simulation hours alone
+These are revised scenario-planning ranges (V6 R1 120–250 was plausible but optimistic for deeper QA). A focused
+developer, smaller scope, and reused proven libraries can reduce effort; unresolved architecture, calibration data,
+browser hosting, and device bugs can increase it. One ChatGPT Work conversation should be treated as a finite
+supervised iteration, not a continuously employed autonomous developer. Track persistent code and status across
+chats.
+Resourcing choice and threat model
+• Client-side standalone prototype: easiest deployment, but developers can inspect hidden cards; call it fair-play
+behavior simulation, not secure secrecy from adversarial players.
+• Server-authoritative deployment: required if competitive multiplayer/integrity or real secrecy matters, adds
+material cost and security work; do not force it for single-player R1.
+• Use event snapshots and background workers only where they pass a measured performance need; do not
+prematurely build a proprietary poker solver or hundreds of named opponents.
+V7 critical technical patch: exactly-once bot decisions and replay-safe
+money
+1. Decision execution contract
+A bot DecideRequest includes immutable handId, seatId, stateRevision, street, actorToken, policyVersion,
+observationHash and decisionId. Its stochastic random draw is isolated from deck random generation. Store
+(decisionId, observationHash, sampledAction, sampledSize, policyVersion, botRngStateOrDrawToken)
+once. UI rerender/pause/reload does not resample. On reducer submission validate state revision, turn, legal
+amount, current policy and one-time decision token. Late/duplicate worker returns are ignored and logged; no
+wallet-changing action is triggered by animation or rejected computations. Maintain invariant: once decisionId
+is committed, exactly one authoritative action event exists, or it is explicitly canceled with no financial effect.
+Document choice for crash between sampling and commit and test it.
+2. Snapshot, event and privacy consistency
+Production randomness is cryptographic and not identical to deterministic test streams. A private resume snapshot
+can store unrevealed cards and internal random state only in private device storage for the single-player local-
+mode threat model. Redacted hand exports may include exactly observed showdowns but not mucked holes or
+9
+
+
+--- PAGE 10 ---
+future deck. Replay from sealed snapshots matches canonical event graph and ledger; a public export must never
+be accepted as a trusted active-session save without validation. If storage unavailable/quota exceeded: show a clear
+error, pause safely, offer export/backup; never silently create a new virtual bankroll with earlier profits overwritten.
+3. Seat and room changes
+Freeze cash RuleProfile version, rake, chip denominator, blinds, straddles and buy-in eligibility at hand start;
+changes apply after resolution. Cash-eligible seated players can include sit-outs, but rake caps use dealt-in count
+when that is the selected room rule. Check cash-time waiting blind / straddle / dead button under chosen room.
+Tournament event owns different blind/ante posting rules, not a generic cash policy.
+4. Opponent memory and realism
+Only actual revealed showdown cards (subject to chosen room policy), public betting sizes/actions and permissible
+notes may update a bot’s opponent memory. Private folded holes never leak through study stats or cross-bot
+references. Sample individual trait vectors once at seating; allow bounded adaptive belief updates from observations
+rather than random personality flips. Generate action AND bet size jointly, with normalized legal distribution; use
+current price, multiway action behind, range arrived on this street, draw quality and effective stacks.
+5. Fixed-context evaluation with uncertainty
+Rather than demand 100k simulations per rare category, freeze a context-stratified test set and compute action+size
+frequencies on available decision opportunities. Report N, Wilson/bootstrap intervals as appropriate, missing
+strata, pre-registered direction of changes, and sample eﬀiciency. Do not mark human-calibrated when human
+sample absent. Separate player-population matching, exploitability/strength, and Hero’s reported simulated profits.
+Increase runs where necessary until precision requirement met or mark INSUFFICIENT_DATA.
+6. Tournament event timing and concurrency
+Event time increments by explicit deterministic policy; each hand locks blind-level snapshot at hand start (TDA
+2026 Rule 25, room variants separately). All background tables run exact rules, no invented knockouts; pause must
+not mutate field. H4H carries cycle identity, table completion barriers, and simultaneous-finish ranking policy. Web
+worker queues are cancelable, memory bounded and cannot mutate finalized ledger on late reply. Load-test 18/45/90
+player seeded fields on explicit device/browser targets. Policy version changes to bot strength in mid-tournament
+apply at a documented boundary (usually new hand), not retroactively.
+7. Explicit exclusions
+No live-platform botting, datamining or covert assistance. No jackpot drops disguised as generic rake, no long-lived
+opponent clairvoyance, no pretend solver-certification, no EV-based percentile guarantee. No RIT/bomb/other
+poker variant hidden behind flags before their own settlement oracle exists.
+V7 executed-evidence, behavioral calibration and human usability plan
+A. Proof types cannot substitute for each other
+1. Rules correctness: exact poker math, forced bets, legal raises, chip conservation, sidepots, payout order;
+independent engine oracle (PokerKit candidate; pin version/allowed profiles), golden fixtures, property tests
+and source revision.
+2. Bot policy internal consistency: action/size probabilities from own observable state; hand-range arrival,
+board-draw classification, legal overbets, stable persona; deviations benchmarked against formal hypothesized
+targets.
+3. Human realism: rights-cleared independent human hand histories (ideally per-person/session/venue/stake/stack/rake);
+fold/muck censoring tracked, postflop action opportunity denominators and holdout by person, not by row;
+conditional log-loss, action-size distributions, trajectory distances, blinded expert review; report sample
+uncertainty. If unavailable, don’t call it validated.
+10
+
+
+--- PAGE 11 ---
+4. Strategy strength:
+fixed independent opponent/test agents, cross-lineup/multiway/stakes adversarial
+probes, out-of-distribution action sizes and comparison against neutral/balanced baseline; never use win rate
+alone as bot realism.
+5. Product
+UX: real human walkthrough on narrow phone and desktop.
+They must configure a
+known/unknown lineup, understand min-raise and pot-sized raise, complete 25 uninterrupted hands,
+view hand history, recover after reload and locate bankroll edit; record observed errors and actual device
+used.
+B. Human realism’s measurement problem
+• Low stakes, mid stakes and high stakes are not interchangeable samples. A $1/$2 live table may be multiway
+while a $1/$2 online 6-max pool behaves differently; do not attach empirical numbers without licensed data.
+A few showdowns do not reveal folded ranges. Players selected for public streams/tournaments are biased
+relative to ordinary games.
+• Behavior is conditional: position, limps/opens/3bets, opponents behind, exact pot price, texture, stack, rake,
+cash vs stage, player image. Stratify by suﬀicient opportunities; absent cells are INSUFFICIENT_DATA, not 0%.
+• Evaluate a heldout player identity across many scenarios to see whether the same persona maintains a coherent
+style, rather than reassigning labels per hand.
+• For settings sliders, compare paired contexts with unchanged private information and public sequence, in-
+dependent random streams, report sign/magnitude/CI of changes. A slider that changes visual stats only
+fails.
+C. Release checklist: recorded evidence required
+• Exact git_commit, build_id, engineVersion, policyVersion, ruleProfileVersion, testCaseId, plat-
+form/browser/viewport, relevant private seed or controlled fixture ID, command, expected and observed
+output, PASS/FAIL/BLOCKED, log artifact.
+• Each critical R1 bug has regression reproduction; no silent release with failing monetary/privacy checks.
+• A fixture whose expected answer is a candidate must remain BLOCKED, including V6 FIX06B, until independent
+rules review confirms.
+• Report no solved EV if the reference tree has not been independently solved under matching ranges and rake;
+if all-in-adjusted graph exists distinguish it from full decision EV.
+D. Metric definitions
+• cash_profit = sum(settled per-hand Hero net across selected sessions) excluding all deposits,
+wallet manual changes and in-progress pots; bb/100 = 100 * sum(per-hand net / hand-specific BB)
+/ eligible hands when mixed stakes are included (declare denominator and allow per-stake views). If all
+hands are a fixed BB this equals 100*(net_total/BB)/hands.
+• App-clock $/hour uses actual tracked playing duration and explicit pause handling. A hypothetical live-paced
+rate may be displayed only with the assumed hands/hour and warning, never as observed earnings.
+• Tournament ROI = (prizes received - sum buy-ins including fees and bounties) / sum buy-ins
+including fees and bounties, or display a separately labeled alternative cashflow basis; track each ticket,
+entry and re-entry explicitly. Tournament chip count is not cash profit.
+• Confidence intervals: block by sessions/tables where independence assumptions fail and expose effective
+sample size; avoid exact certainty from a few hundred hands.
+E. Performance targets (initial, confirm on devices)
+On a defined modern phone and desktop, target p95 input-to-render latency under 250ms for local cash actions
+(excluding animation) and no unrecoverable stall in a 1,000-hand loop; report long tasks, memory growth, and
+total field run duration for 18/45/90-player MTTs. Targets are proposed engineering goals, not externally sourced
+industry standards; measure and revise with evidence.
+11
+
+
+--- PAGE 12 ---
+V7 Work execution ledger and release gate
+Required IMPLEMENTATION_STATUS.md fields
+project,
+independent_from_PokerMaxEV,
+site_url_or_blocker,
+repository,
+commit,
+release_target,
+current_gate, gate_status, last_actual_build_timestamp, working_features, known_bugs, critical_test_failures,
+simulation_vs_human_realism_status, next_action, deferred_register_sha256.
+TEST_EVIDENCE/<testid>.json recommended structure
+test_id, build_id, commit, runner, environment, profiles/versions, seedOrPrivateFixtureRef, command,
+expected, observed, status, log_or_screenshot, independent_oracle_version, timestamp, reviewer.
+No release banner without a real published URL actually opened and smoke-tested. PASS requires a completed
+runnable test with expected/observed evidence; NOT_EXECUTED means exactly that. BLOCKED may represent missing
+human data, unavailable browser tools, incomplete third-party oracle, or an unverified room-rule interpretation.
+DEFERRED cannot be counted as a pass.
+Partial milestone output should include runnable source and known
+limitations.
+Qualitative pre-release demonstration
+Record a short actual screen capture or scripted browser log showing setup, live unknown profile mode, 2-/6-/10-
+handed deals, an all-in, showdown and pot award, bankroll cash out, reload and same state. Human observers
+should identify ambiguous raise-to input or opponent labels visible during Live Mode. Make no assertion of validated
+human behavior if only synthetic bots were tested.
+Technical checkpoints
+• Cash R1: all critical G1–G5 tests pass + explicit NOT_HUMAN_VALIDATED if true.
+• STT R2: all critical tournament single-table tests pass, no cash P&L contamination.
+• MTT R3: field-level deterministic accounting and event scheduler pass, 18/45/90 seeded structures.
+• R4 variants: separate published profiles, compare existing NLHE regression tests and authorized user scope
+decision.
+Evidence register — research applicable to V7
+Checked 2026-10-31; public information provides rules/product comparisons, not proprietary bot source or human
+population rates.
+Source
+Verifiable observation
+Our engineering use
+What it cannot prove
+Poker TDA 2026 v1.1
+Rule 34 dead button; Rule
+36 button/heads-up; Rule
+49 short-all-in raise
+reopening; Rule 25 new
+levels next hand; Rule 22
+BB ante placement
+Versioned tournament
+fixture tests
+Does not govern all online
+or cash rooms
+PokerStars tournament
+rules
+Forward-moving button,
+simultaneous elimination
+tie rules, hand-for-hand
+and table breaking
+Distinct online
+tournament profile; event
+director
+No universal venue policy
+PokerStars cash rake table
+No preflop rake; number
+of players means dealt-in;
+true-percentage rounding
+half-to-even
+Versioned stake/seat rake
+functions and exact test
+fixtures
+Not a universal live $1/$2
+rake
+12
+
+
+--- PAGE 13 ---
+Source
+Verifiable observation
+Our engineering use
+What it cannot prove
+PokerStars Live cash rules
+Missed-blind, seat-change
+and run-it-twice eligibility
+including specific sidepots
+Post-release RIT consent
+and cash room variations
+Not universal for every
+poker room
+Poker Now
+2–10 player browser UI;
+straddle, time bank,
+run-it-twice, bomb pot,
+double board, replay and
+ledger
+Simple setup and
+later-feature coverage
+No evidence for AI bot
+realism
+Advanced Poker Training
+Browser play vs AI,
+cash/STT/MTT drills,
+hand scenarios
+Benchmark full user
+journey and practice loop
+Vendor marketing does
+not validate human bots
+GGPoker PokerCraft
+replay, hand histories,
+position/hand/opponent
+profit analysis
+A usable post-hand
+history/filters model
+Not independent true
+decision EV
+PokerKit library
+MIT Python independent
+poker simulator/evaluator,
+versioned
+Differential test candidate
+after semantics match
+Not a substitute for your
+specific room rule fixtures
+Links
+• https://www.pokertda.com/view-poker-tda-rules/
+• https://www.pokerstars.com/poker/tournaments/rules/
+• https://www.pokerstars.com/poker/room/rake/
+• https://www.pokerstarslive.com/poker/cashgamerules/
+• https://www.pokernow.com/
+• https://www.pokertraining.com/
+• https://ggpoker.com/poker-games/pokercraft/
+• https://pypi.org/project/pokerkit/
+Data limitations
+No representative legal human sample for cash $1/$2, $1/$3, $2/$5, $5/$10, $10/$20, $20/$40, $50/$100 or all
+tournament stages was supplied to this audit. Public product features and strategy articles cannot establish per-
+node frequencies or live-win predictions. ‘Loose live $1/$2’ must remain a user-selectable designed scenario until
+appropriately calibrated. Respect privacy, game operator rules, data rights and no live real-time assistance.
+V7 test delta — 10 new nonduplicative scenarios (302 total)
+• V701 (cash, gate G3) — Bot decision idempotence under UI rerender.
+Freeze legal observa-
+tion+decisionId; rerender 100 times, pause/resume then retry bot callback; one action+size draw and exactly
+one reducer event; no extra RNG/ledger change. Status: NOT_EXECUTED.
+• V702 (cash, gate G3) — Late asynchronous bot worker response.
+Start hand A decision, change
+hand/session/revision via valid action; deliver A result after B starts; reject stale response, no cash/pot/policy
+change. Status: NOT_EXECUTED.
+• V703 (cash, gate G3) — Crash between bot policy sample and reducer commit. Persist pending
+sealed action, simulate crash before/after dispatch; resume exactly one legal outcome with unchanged deck
+and wallet total. Status: NOT_EXECUTED.
+• V704 (bot, gate G4) — Allowed opponent-memory event taxonomy. After folded private hand and
+all-in showdown, assert bots record only public legal actions/revealed hole cards, not mucked/future deck or
+other bot private vectors. Status: NOT_EXECUTED.
+• V705 (bot, gate G4) — Sparse conditional data cannot pass calibration. Provide N<10 legitimate
+gutshot-vs-200%-pot opportunities; outcome explicitly INSUFFICIENT_DATA with denominator and un-
+certainty; not 0% or human calibrated. Status: NOT_EXECUTED.
+13
+
+
+--- PAGE 14 ---
+• V706 (cash, gate G1) — Rule-profile freeze across in-progress hand. Change rake/blinds/straddle/denomination
+with active action; settled hand uses original version, next hand new version, ledger/hand replay consistent.
+Status: NOT_EXECUTED.
+• V707 (release, gate G5) — Cash interface bet sizing comprehension. Three new test users on specified
+mobile/desktop view must locate minraise, raise-to total and call/additional amount, play 25 hands; record
+each actual misclick and observed ambiguity. No fictional completion. Status: NOT_EXECUTED.
+• V708 (release, gate G3) — Browser storage quota failure recovery. Force private snapshot save failure
+and cross-tab stale ownership; visible error, controlled pause/export, no reset or duplicated settled event on
+reload. Status: NOT_EXECUTED.
+• V709 (tourney, gate T2) — Tournament level snapshot with H4H boundary. Advance event timer
+during active H4H hand, freeze level at hand start for all tables, apply next level to following hands per
+chosen profile; no partial event payout. Status: NOT_EXECUTED.
+• V710 (tourney, gate T2) — MTT background scheduler load and cancel. On specified phone/desktop
+seed 18/45/90-player fields, cancel/restart worker during active hand; no phantom elimination, chip creation,
+stale payouts, report UI latency and resources. Status: NOT_EXECUTED.
+All original 292 tests are preserved unchanged in Acceptance_Tracker_V7_302.csv. Test counts do not establish
+code execution.
+First ChatGPT Work build-session checklist
+1. Confirm new project name and separate repository, no Poker MaxEV mutation. Show path/commit and
+actual preview.
+2. Implement 52-card secure deck and deterministic fixture deck as separate services. Use no fake shuffling or
+preselected Hero win.
+3. Implement immutable reducer for 2–10 seats, correct button/blinds, legal action sizes, street state and termi-
+nal settlement. Unit-test evaluator, pot tiers, rake and heads-up.
+4. Create the interactive oval table, buttons and sidebar with stakes/buy-ins, occupied seats and per-seat
+archetype editor. Start with primitive fixed but legal bot policy; make a complete hand playable before
+advanced calibration.
+5. Add per-decision idempotent bot sampling and event ledger. Demo 100+ browser hands, show real screenshot,
+report actual blocker.
+6. Add durable wallet/top-up/cashout/session history and replay, then full opponent policy with eight measur-
+able styles and Live hidden-profile presentation.
+7. Do not implement MTT, run it twice, bomb pot or dozens of bots before R1 is playable and critical tests
+pass.
+8. Write IMPLEMENTATION_STATUS.md, evidence logs, and preserve 86-feature register unchanged.
+#
+ARCHIVED
+V6
+MAS-
+TER
+(SUB-
+OR-
+DI-
+NATE,
+UN-
+MOD-
+I-
+FIED)
+14
+
+
+--- PAGE 15 ---
+This
+histor-
+ical
+V6
+mas-
+ter
+sup-
+plies
+earlier
+engi-
+neer-
+ing
+detail
+where
+V7 is
+silent.
+V7
+takes
+prece-
+dence.
+# AI
+TEXAS
+HOLD
+EM —
+COM-
+PLETE
+V6
+MAS-
+TER
+(CUR-
+RENT
+GOV-
+ERN-
+ING
+TEXT)
+15
+
+
+--- PAGE 16 ---
+The
+follow-
+ing
+V6
+docu-
+ments
+are
+au-
+thori-
+tative.
+Archived
+V5
+full
+mas-
+ter
+and
+its
+272
+origi-
+nal
+tests
+are
+under
+V5_BASELINE_READ_ONLY
+and
+re-
+main
+refer-
+ence/trackable,
+subor-
+dinate
+wher-
+ever
+V6
+con-
+flicts.
+R1
+cash
+re-
+lease
+gates
+only
+current-
+scope
+criti-
+cal
+tests,
+not
+future
+R2/R3/R4
+work.
+16
+
+
+--- PAGE 17 ---
+AI Texas Hold Em — V6 implementation handoff | 2026-10-31
+Task: Start a completely new ChatGPT Site, AI Texas Hold Em, NOT the existing Poker MaxEV Site or a
+Lovable project. Educational virtual-chip poker only. The objective is repeatedly playable, correct No-Limit Texas
+Hold’em with credible human-like opponents in configurable cash and tournament environments. A high-quality
+cash release comes FIRST; tournament releases come after, and special formats are explicitly preserved for later.
+Which files to give ChatGPT Work
+1. 02_V6_PERMANENT_MASTER_DIRECTIVE.md (highest authority)
+2. 03_V6_COPY_PASTE_IMPLEMENTATION_PROMPT.md (kickoff)
+3. 04_V6_PHASED_ROADMAP_RELEASE_GATES_AND_EFFORT.md
+4. 05_V6_ENGINE_AND_RULES_PATCH.md; 06_V6_BOT_REALISM_AND_TRANSFER_PATCH.md; 07_V6_TOURNAMENT_PATCH.md;
+08_V6_UI_DATA_AND_SITE_OPERATIONS.md
+5. Acceptance_Tracker_V6.csv and 10_V6_NEW_ACCEPTANCE_TESTS.md
+6. 09_POST_RELEASE_FEATURE_REGISTER.csv (do not build these before their prerequisite releases)
+7. 11_V6_RESEARCH_REGISTER.md, 12_V6_AUDIT_FINDINGS.md, 13_V6_REFERENCE_FIXTURES.json.
+The
+V5
+baseline
+and
+its
+original
+full
+combined
+master
+are
+unchanged
+archival
+references
+under
+V5_BASELINE_READ_ONLY/.
+These contain the full old 272 tests and details.
+Keep all 292 tests in the reg-
+ister, but release gates require actual passing tests only for the current R1/R2/R3 scope; tournament-only and
+R4 tests remain NOT_EXECUTED or DEFERRED_NOT_APPLICABLE until their release, never falsely PASS. The V6
+authoritative master summarizes the current governing docs and appends V5 reference material; current V6
+corrections prevail over archival text. Do not concatenate all old directives as equal authority. One release plan
+and one status ledger only.
+Evidence integrity
+• Prior: 272 V5 test requirements, all NOT_EXECUTED.
+• This audit: new targeted tests are specifications, not executed code tests. A ZIP integrity check, document
+checks and tracker ID checks do NOT establish that the app is playable or validated.
+• Do not claim the new Site is published until an actual Work/host action returns a verified live link and
+browser smoke tests pass.
+• Do not claim real-human behavior calibration without rights-cleared records and held-out tests.
+Release identity
+R1 = high-quality No-Limit Hold’em cash game. R2 = completed single-table tournaments. R3 = robust, actual
+multi-table tournament events.
+R4+ = optional variants/coaching/social/game modes (backlog preserved; no
+silent work creep).
+Timing estimates
+Engineering estimates in 04_V6_PHASED_ROADMAP_RELEASE_GATES_AND_EFFORT.md are broad active, supervised
+developer-equivalent hours, not a clock promise about ChatGPT Work.
+Work-mode availability, usage limits,
+testing environment, human feedback, and real-data access determine completion.
+V6 executive audit — what actually changes, and why
+Method
+Audited the V5 master directive, combined master, copy/paste Work prompt, staged roadmap, 272-row tracker,
+bot calibration contract, engine/room/tournament contracts, actual six reference fixtures, research register and
+previous V4 read-only baseline. Read primary-source tournament and cash-room rules and current competitor
+feature descriptions. Marked source claims vs engineering hypotheses. Did NOT execute application code or make
+claims about live-venue population frequencies.
+17
+
+
+--- PAGE 18 ---
+Verdict
+Stop using specification length as evidence of progress. V5 correctly identifies nearly all major engine,
+money, privacy, opponent-model, tournament and statistical risks. What is still missing is (a) an unambiguous first-
+release boundary, (b) actual test-oracle completion, (c) operational player-facing realism controls, (d) a variant-safe
+extension mechanism and (e) a permanent, prioritized, nonblocking later-feature backlog. Fix these; do not rewrite
+the 272 tests into a new 30,000-word manifesto.
+Material findings and decisions
+ID
+Severity
+Audited finding
+Concrete corrective
+action
+Gate
+V601
+CRITICAL
+V5’s cash + STT +
+MTT on one
+roadmap can
+conceal a
+perpetually
+unfinished first
+release
+Give R1, R2, R3
+separate
+independent exit
+criteria; ship R1
+before T1
+R1/R2/R3
+V602
+CRITICAL
+V5 FIX06 is a
+non-executable
+button-difference
+placeholder, not a
+full state/expected
+action fixture
+Create explicit
+candidate seat
+scenario and require
+independent rule
+review before CI
+acceptance
+Engine
+V603
+HIGH
+Mixed audience
+‘known bot’ table
+settings and Hero
+observation can
+reveal latent
+archetypes by UI
+design
+Separate Host Setup
+from Hero Seat,
+with Live Observa-
+tion/HUD/Study
+view policies
+R1
+V604
+HIGH
+Cash-game browser
+client cannot
+genuinely hide full
+deck from developer
+tools
+Make bounded
+threat model
+explicit; project
+redacted player
+view; server
+authority only when
+security need
+justifies it
+R1
+V605
+HIGH
+Production
+CSPRNG, seeded
+tests and
+deterministic replay
+described but the
+exact link is
+underspecified
+Persist private
+sealed hand
+snapshot plus event
+log; public export
+redacts; replay and
+event chain hash
+must reconcile
+R1
+V606
+HIGH
+V5 uses synthetic
+human profiles but
+doesn’t state
+acceptable data
+coverage for each
+stakes label
+Model cards with
+provenance,
+opportunity
+denominators,
+missingness, dataset
+rights and no claim
+of calibrated live
+$1/$2
+R1/R3
+18
+
+
+--- PAGE 19 ---
+ID
+Severity
+Audited finding
+Concrete corrective
+action
+Gate
+V607
+HIGH
+No practical live-like
+information
+interface is a core
+release requirement
+Add Live Table
+mode with optional
+delayed reveal of
+stats and no
+omniscient hints
+R1
+V608
+HIGH
+Existing bot realism
+metrics are
+observational;
+counterfactual
+comparisons need
+control of board,
+stacks, other players
+Paired-policy
+perturbations and
+adversarial Hero
+strategy evaluation,
+not just VPIP/PFR
+R1+
+V609
+HIGH
+Only a few reference
+fixtures and one
+remains unspecified
+Implement fixture
+registry with
+schema,
+room/version,
+expected chip and
+turn order,
+independent review
+Engine
+V610
+HIGH
+Stats can
+inadvertently treat
+wallet edits, stake
+changes, rebuys,
+breaks and
+in-progress pots as
+play profit
+Ledger classification
+plus stake-weighted
+reporting and
+event-boundary
+snapshots
+R1
+V611
+HIGH
+Replay can disagree
+with source of truth
+if presentation state
+reconstructs bets
+itself
+Rendering
+subscribes to
+immutable
+authoritative events;
+time-travel never
+commits to live
+ledger
+R1
+V612
+HIGH
+Human-like bots
+with long-term
+memory could gain
+impossible
+information through
+shared observation
+state
+Per-bot isolated
+memory/visibility,
+no interbot
+knowledge sharing,
+visibility sweeps
+R1
+V613
+HIGH
+Opponents can
+remain artificially
+fixed and thus
+become memorized
+even with 8 labels
+At-seat bounded
+within-person
+variation, profiles
+sampled at seating;
+versioned roster and
+unseen-lineup
+validation
+R1
+V614
+HIGH
+Tournament time
+independent of Hero
+wall clock is clear,
+but match quality of
+background tables is
+not a release gate
+True whole-field
+poker, consistent
+rates by blind level,
+invariant total
+tournament chips;
+audit HHF
+R3
+19
+
+
+--- PAGE 20 ---
+ID
+Severity
+Audited finding
+Concrete corrective
+action
+Gate
+V615
+HIGH
+Tournament results
+have prize payouts
+but ledger should
+explicitly separate
+entry fee, bounty
+pools, winnings and
+overlay
+Versioned separate
+liability accounts
+and exact
+relevant-side-pot
+bounty ownership
+R2/R3
+V616
+MED
+Game catalog is
+intentionally
+deferred but easily
+forgotten
+Permanent backlog
+CSV with
+dependencies, QA
+needs, provisional
+phase and user value
+R4+
+V617
+MED
+Architecture may be
+overbuilt for R1:
+server, simulator,
+solver and 100k
+rollout not all
+needed
+Small pure reducer,
+compact policy
+executor,
+deterministic tests,
+defer solver/AI
+coaching
+R1
+V618
+MED
+‘High-quality
+release’ and
+‘finished’ time were
+not scoped
+Explicit supervised
+active-hour range,
+capacity
+assumptions,
+uncertainties; no
+autonomous delivery
+promise
+Planning
+V619
+MED
+Potentially
+counterproductive
+UX: robot speed
+causes misclicks;
+actual live pace can
+become tedious
+Fast/Normal/Live-
+like pacing, pause,
+animation cancel,
+big buttons, confirm
+large bets and
+all-ins
+R1
+V620
+MED
+Live poker betting
+ecology includes
+table selection &
+optional structures
+not evidenced at
+fixed rates
+Scenario generator
+with adjustable
+priors, no ‘actual
+Tulsa population’
+label; record preset
+source/version
+R1
+V621
+MED
+Blind play and seat
+changes differ in
+cash and
+tournaments, and
+cases vary
+Make table
+eligibility,
+wait-for-BB,
+dead/missed-blind
+treatment property
+of RuleProfile
+R1/R2
+V622
+MED
+Later variants risk
+special-case code
+branching through
+NLHE reducer
+Stable pluggable
+GameRules +
+SettlementPolicy
+with variant
+contract tests
+R4+
+What was NOT added as mandatory R1
+Hundreds of named bots, Omaha, Short Deck, triple runouts, bomb pots, PKO, full ICM coaching, voice/video,
+peer multiplayer, real-money payments, spectators, public leaderboards, animations that require GPUs. They are
+20
+
+
+--- PAGE 21 ---
+cataloged with dependencies and revisit gates, not ‘forgotten’.
+Directly corrected in the package
+A new authority hierarchy; R1/R2/R3 release gates; executable-fixture policy; hidden archetype UI; private RNG
+snapshots/redacted exports; policy equivalence/sensitivity tests; separate live-mode stats; durable save; expanded
+later backlog; realistic effort ranges; new acceptance delta preserving prior 272 unchanged.
+AI TEXAS HOLD EM — Permanent Master Directive V6.0
+Product: New ChatGPT Site, AI Texas Hold Em.
+Date: 2026-10-31.
+Purpose: virtual-chip, correct and
+enjoyable No-Limit Texas Hold’em cash and tournament simulation against credible human-like bots. Completely
+unrelated to previous Poker MaxEV, no Lovable.
+Rule of precedence
+1. This V6 directive; 05–08 V6 engineering patches; new 13 V6 fixtures and test delta.
+2. V6 release roadmap and implementation prompt.
+3. V5 original rule/bot/quality docs and its 272 acceptance tests (preserved in V5 archive) unless superseded
+explicitly.
+4. Older V4 and pre-V4 texts only historical context. In a conflict, implement the highest authority, document
+the decision and a test. No silent unreviewed substitution. Never fake test or benchmark outcomes.
+Product behavior
+• R1: high-quality cash poker: fully configurable 2–10 seats (empty, random, unknown, archetype/custom),
+$1/$2, $1/$3, $2/$5, $5/$10, $10/$20, $20/$40, $50/$100/custom with exact currency denomination, stack
+and buy-in, rake/drop, ante and straddle by profile. Hero plays entire naturally shuffled hands from deal
+through settlement and next hand. Actions fold/check/call/bet/raise-to/jam with legal min/max and pot
+fractions. All-in, sidepots, split, odd chips, dead money, heads-up button and special rules correct. Per-seat
+policy tuning should persist and have measurable effect. Re-entry to cash table after reload, sit-out and
+waiting for blinds must be lawful to chosen room profile.
+• R2: single-table tournament: actual 2–10-player freezeout, blind/ante progression, stack/BB-aware bots,
+eliminations, correct ICM-context-sensitive awareness (do not claim solver), winner and payout ledger; com-
+plete events without synthetic elimination shortcuts.
+• R3: multi-table tournament: real background hands and opponents, table balancing/breaking, determin-
+istic event time, synchronized hand-for-hand, payout/bounty correctness, optional reentry then bounties only
+once prerequisites pass. Audit the field rather than advancing it with fabricated busts.
+• R4+:
+deferred expansions:
+documented permanently in 09_POST_RELEASE_FEATURE_REGISTER.csv;
+never sneak into earlier gates. Include run-it-twice, run-it-three-times, bomb pots, double board, broader
+house formats, other variants, large bot population, advanced training and social.
+The five non-negotiable invariants
+1. Cards/authority: exact unique shuffled 52-card deck; honest production CSPRNG without insecure silent
+fallback, isolated deterministic lab seeds, burn/turn/river correct. Pure reducer owns rules; UI never invents
+pot state. Bot chooses only from a restricted observation containing own cards and allowed public actions.
+Never read future cards, opponents’ hidden cards or secret archetype/config from other bots. No scripted
+favorable or unfavorable Hero deals.
+2. Money: integer chip units, atomic event IDs and revision guards, uncalled returns before eligible side
+pots/rake, one payout, one rake, full chip conservation across table/wallet/house/event prize ledgers. No-edit
+of settled hands; wallet edit is a separately identified external transaction. No tournament per-hand cash
+rake unless rule profile explicitly requires it.
+21
+
+
+--- PAGE 22 ---
+3. Human-like behavior: joint action and size distribution conditioned on position, stacks, action history,
+board, draws/dirty outs, effective stacks/SPR, multiway and opponent beliefs; each bot has stable but non-
+identical trait vectors, coherent mistakes and bounded information updates.
+Diverse types are evaluated
+on unseen contexts, not merely labels or overall VPIP/PFR. Human-calibrated claims require independent
+rights-cleared human data and held-out validation. Synthetic assumptions visibly marked.
+4. Honest results: observed simulated profit and bb/100 (with stake-specific numerator/denominator), real
+app elapsed $/hour separate from assumed live-paced translation, tournament buy-in/fee/prize/ROI separate,
+no fabricated ‘true EV’, ‘solver-certified’, live-equivalent win rate or top-0.1% guarantee. Changes to bot
+strength, lineup, stakes and policy versions remain in source histories. Report sample count and meaningful
+uncertainty where defensible.
+5. Reliable user experience: real playable visual table; mobile/desktop, accessible controls, no misclick pres-
+sure, fast/normal/live-like pace, pause/recover, durable history, replay and per-seat editing; cleanly distin-
+guish Host Setup and Hero Observation. Save/reload and multi-tab must never duplicate a hand/settlement
+or lose money. Release via verified ChatGPT Sites publishing only if actually available; never fabricate public
+link.
+Two complementary play views
+• Live Table: show only information actually observable by a live player; hide known bot archetype and
+latent sliders even when you configured them in Host Setup, hide secret strength and unrealistically exact
+stats, allow permitted player notes; no in-hand coaching.
+• Study / Table Builder: allow the person configuring the room to assign and tune opponents; disclose
+synthetic profiles and compare observed behavior after sessions. When opponent identity is ‘Unknown,’ even
+Study mode should not retroactively reveal it unless explicitly entering a diagnostic/developer view. Changing
+views must not mutate bots or results. Built-in optional session-only HUD counts visible opportunities; never
+show future/hidden cards.
+Auditable implementation architecture
+RuleProfile and GameRulesNLHE + canonical GameReducer + HandEvaluator + DeckSource + PolicyEngine(BotObservation
++ EventLedger + Session/WalletService + TournamentDirector + HeroViewModel + BotModelCard +
+ValidationRunner + SiteDelivery. Every version is recorded in hands/events. Keep a stable variant interface
+for later specialized games, but don’t prebuild all variants in R1.
+Release discipline
+G0/G1 independent rules/tests then G2 genuine cash play (100 consecutive browser hands), G3 monetary and
+recovery integrity, G4 eight evaluated distinct bot styles and editable per-seat policies, G5 player-ready responsive
+UI and stats, R1 ship; then STT R2, actual MTT R3. Critical failures in legality, RNG, privacy, settlement,
+prize integrity, replay or persistence block release. Every Work turn reports current commit/version, executable
+commands/evidence, browser experience, known defects, and exact next gate. At any point fix bugs rather than
+add features.
+Explicitly prohibited claims/actions
+No rigged decks or opponents using Hero’s hidden cards; no automated real-money poker-room integration, scraping,
+unauthorized datamining or prohibited real-time assistance; no claim that synthetic performance predicts live
+income; no promise of autonomous background engineering. Use only legally obtained/consented data with source
+records. Any monetization, public multiplayer and jurisdiction-specific requirements require a separate policy/legal
+review.
+22
+
+
+--- PAGE 23 ---
+COPY INTO CHATGPT WORK — AI TEXAS HOLD EM V6 IM-
+PLEMENTATION
+Create a brand-new ChatGPT Site, AI Texas Hold Em. Do NOT modify, fork, deploy over, connect to or reuse
+the existing Poker MaxEV Site. Do NOT use Lovable. The accompanying V6 documents are authoritative; the V5
+archive is read-only subordinate evidence. Track all 272 baseline + 20 V6 incremental acceptance tests. Gate each
+release only on applicable critical tests; leave future tournament/optional test status explicitly unexecuted/deferred,
+not PASS. The post-release backlog is for planning, not immediate implementation.
+Immediately build, don’t produce only a plan. Establish an actual application repository and pure, tested,
+deterministic No-Limit Hold’em state-transition engine; keep deck, bot policy and UI sources of randomness sep-
+arate; validate 5/7-card evaluator, legal preflop/river betting, short all-ins and raise reopening, chips, rake and
+split/side pots against a separately implemented reference/oracle (PokerKit is a candidate, compatibility must be
+verified). Record each test’s actual commands, seeds, result, version and evidence. No invented pass or solver
+assertions.
+Deliver R1 first: A fast, mobile-friendly playable virtual cash game with customizable stakes and denomination,
+2–10 seats, empty seats, named or Unknown/Random archetypes, seated Hero with buy-in/stack, 52-card random
+hand dealing, natural preflop/flop/turn/river action, exact fold/check/call/bet/raise-to/jam, sidepots, payout, rake,
+next hand, wallet edits, reload persistence and full hand history. The opponent model is a no-cheating conditional
+probabilistic actor: coherent preflop combos/ranges and street-by-street action+size response based on own cards,
+board, position, stacks, SPR, past action, draw quality and observed Hero behavior. Provide at least eight be-
+haviorally distinguishable bots before adding more named types. Include per-seat editor for calling thresholds as
+probabilistic functions of 25–300% pot and board/street contexts; make control edits change actual play, not just
+visual settings. Host Setup may reveal archetypes; Live Table view must hide latent identity and internal rules.
+No compulsory quiz or coaching; this is a real game first.
+R1 release gate: Browser play 100+ consecutive hands plus additional 2-, 6-, 9-, 10-seat and hostile input tests;
+no game-corruption defects, correct external chip-account ledger, valid private observations, smooth responsive
+mobile UX, replay and crash/multiple-tab recovery; actual unmodified tests PASS and reference evidence. Mark
+bot populations synthetic until rights-cleared human benchmark validation. Provide an accessible actual ChatGPT
+Sites URL only when successfully published and smoke-tested, otherwise provide working source/preview
+and precise deployment blocker.
+Only AFTER R1: Implement and verify full STT freezeout and payouts (R2), then whole-field MTT real
+background hands, deterministic tournament schedule, table balancing, hand-for-hand, late registration, payouts
+and later KO/PKO (R3). Do not simulate eliminated players by fiat. Follow the rule-profile distinction between
+oﬀicial 2026 TDA and illustrated PokerStars online procedures. Do not mix cash rake with tournament fees.
+Never forget but defer: The versioned post-release feature register includes run-it-twice/three-times, bomb
+pots, double-board, more straddles and prop games, hundreds of varied personalities, Pineapple, PLO, 5/6-card
+Omaha, Short Deck, mixed games, opponent tells, human coaching and drills, social features and more. Preserve
+dependencies and implement only on separate approval or after applicable R1–R3 gate.
+After every implementation action update IMPLEMENTATION_STATUS.md and TEST_EVIDENCE including what
+really runs, failed/blocking tests, screenshots, source revision, specific browser walkthrough and next highest-risk
+task. Do not equate prewritten tests with executed tests. Don’t wait for trivial choices already defined. A site that
+actually works is the output; long speculative text is not.
+V6 execution roadmap, release gates, and realistic effort estimates
+Release-first sequence
+23
+
+
+--- PAGE 24 ---
+Gate
+Outcome
+Actual evidence required
+Must not delay it
+G0 repo/test harness
+new separate ChatGPT
+Site repository; pure
+rule/state interfaces;
+source-of-truth decision
+log
+reproducible test
+commands, CI, browser
+dev preview
+animations, TDA
+paraphrase expansion
+G1 authority
+NLHE 2–10 player
+deck/turn-
+order/betting/multiway/all-
+ins/sidepots/rake/accounting
+independently checked
+complete concrete fixtures,
+independent oracle
+differential tests,
+property-based tests
+human realism labels
+G2 playable cash vertical
+user repeatedly plays real
+random cash hands
+against valid primitive bot
+policies
+browser actual 100
+consecutive hands,
+2/6/9/10 players, no loss
+of state
+advanced archetypes and
+tournaments
+G3 persistence/money
+separable virtual
+wallet/table stack,
+reset/edit, top-ups,
+session segmentation,
+save/load
+restart/reload/rapid
+button/multi-tab stale
+action recovery; ledger
+reconciliation
+polished charts
+G4 opponent credibility
+8 identifiable but not
+identical bot policies, Cus-
+tom/Random/Unknown;
+editor changes conditional
+action and size
+per-context frequency by
+opportunity,
+counterfactual leak test,
+multi-street trajectories,
+distinct personas without
+cheating
+100s of labels
+G5 R1 production
+readiness
+responsive mobile/desktop
+usable game,
+host-vs-player observation
+modes, history and honest
+bb/100, smoother pacing
+player acceptance,
+browser/device matrix, no
+critical issue, deploy and
+test real URL
+STT/MTT/variants
+R1 RELEASE
+high-quality NLHE
+cash-game simulator
+all critical cash gates
+passing
+no tournaments
+required
+T1
+2–10 player single-table
+freezeout, proper blind
+schedule, payouts
+actual complete STT for
+multiple seeds and
+structures, exact
+ledger/prize tests
+huge MTT field
+R2 RELEASE
+credible Sit & Go /
+single-table events
+no missing payouts or
+eliminations
+bounties optional
+T2
+actual MTT background
+tables, blind level
+schedule, balancing,
+hand-for-hand,
+elimination
+replay complete entire
+sampled 18/45/90+
+player fields; no fake
+eliminated players
+1,000+ field before
+correctness
+T3
+late registration and
+reentry; KO/PKO when
+prerequisites pass
+exact event
+money/entry/reward/bounty
+& sidepot fixtures
+other poker variants
+R3 RELEASE
+multi-table NLHE
+tournaments with
+proven field
+correctness
+whole-event tests and
+restored-state samples
+R4+ catalog
+R4+
+optional later formats,
+social, coaching and 100s
+of latent personas
+each feature must have
+separate rules
+engine/policy and tests
+preserve R1/R2/R3
+stability
+24
+
+
+--- PAGE 25 ---
+Distinct kinds of acceptance evidence
+• Engineering correctness: legal moves, money conservation, differential oracles, property tests, deterministic
+replay.
+• Behavioral credibility: policy sanity, context-conditioned frequency and sizing, held-out human evaluation
+only if rights-cleared data exists.
+• Product readiness: real user can smoothly play complete hands on phone and desktop and trust the displayed
+history.
+• Live skill transfer: separate research goal. Never a release guarantee or same metric as simulated winning.
+Effort estimates (planning estimates, not promises)
+Assume: one competent developer or closely supervised AI-coding workflow using ChatGPT Work with
+ability to edit/run code, a functioning browser and repository, staged review, no existing production source reuse,
+educational single-player virtual chips, no approved human hand-history database, and normal test/rework over-
+head. Estimates are active developer-equivalent hours, NOT how long an unattended ChatGPT Work chat
+will run. Model, quota, environment and manual testing can alter the calendar.
+Milestone
+Active effort
+(order-of-magnitude range)
+Calendar illustration if
+15–25 focused hrs/wk
+Why uncertain
+Functional cash
+proof-of-play (not
+polished)
+25–60 hours
+about 1–4 weeks
+repository setup and
+legality defects
+High-quality R1 cash
+release
+120–250 hours total from
+zero
+roughly 5–17 weeks
+the engine,
+calibrated-enough
+synthetic bots, mobile
+polish, recovery and test
+depth
+R2 proper single-table
+tournaments
++50–120 hours
++2–8 weeks
+tournament rules and
+payout edge cases
+R3 genuine multi-table
+tournaments +
+standard entry options
++140–350 hours
++6–24 weeks
+field simulation,
+synchronization, event
+economics and QA
+Polished
+R1+R2+R3 project
+roughly 350–900+ hours
+combined
+roughly 4–14+
+months at that
+capacity
+rework, integration,
+browser hosting, policy
+calibration and actual
+field behavior
+R4 broad backlog
+including 100+ distinct
+bots, multiple poker
+variants, polished
+coaching/social
+additional 400–1,500+
+hours
+typically many
+additional months
+non-NLHE engines;
+rights-cleared data;
+multiplayer/security
+ChatGPT Work sessions: A realistic workflow is many supervised build/test iterations, not one magic prompt.
+A single long Work chat may hit usage/tool limits, lose context, or require user input/approval.
+Keep code,
+IMPLEMENTATION_STATUS.md, issue list and test evidence in version control, and resume across Work chats. These
+numbers are not estimates of assistant waiting time or a background deliverable.
+Historical human calibration is a separate dependency: if the intended standard becomes ‘predicts a real
+Tulsa $1/$2 table’, obtaining consented, representative hands and building validated holdouts may exceed the
+above schedule; it cannot be scheduled reliably today. Do not treat data absence as permission to use unsupported
+frequencies. Prioritize simulator coherence and honesty.
+Build-vs-feature discipline
+For R1, prioritize correct 100-hand play, intuitive action flow, credible mixed-ability bots, minimal stats and
+persistent bankroll. For R2/R3 prioritize correct tournaments; do not add spin-and-go/mystery bounties until
+25
+
+
+--- PAGE 26 ---
+normal events are verified. The future backlog is never deleted even if postponed. Quarterly backlog review or
+explicit user request may reprioritize it, but implementation only after dependency gate.
+R1 test-scope rule: A cash-only public release does not have to pass tournament/variant tests.
+Every crit-
+ical cash/auth/privacy/ledger/UX test must actually pass and show evidence.
+Future tests remain visible as
+NOT_EXECUTED/DEFERRED until their gates.
+V6 game engine, rules, replay and independent-oracle patch
+This patch extends the V5 engine and rules contracts; preserve unmodified supported features. No R1 feature may
+weaken foundational invariants.
+Explicit testable contracts
+State: HandState(handID, revision, mode, ruleProfileId, ruleProfileVersion, deckCursor, privateDeckReferenc
+button, blind/straddle commitments, activeInHand, eligible, actor, street, minFullRaiseIncrement,
+lastActForEachPlayer, stack, committedStreet, committedTotal, ledgerHash, resolutionStatus). All
+dollar amounts integer in smallest legal increment. No NaN, Infinity, floats in game authority. Deal and bet
+actions are valid only when state revision/actor token matches.
+Shuffle: production cryptographic entropy; fail closed if unavailable. Independent seeded deterministic deck in
+test harness (visibly flagged, never in regular mode). Use unbiased selection avoiding modulo bias. Private hand
+snapshot/deck can support exact developer replay but is never embedded unredacted in ordinary exported user
+hand histories, URL parameters, client-readable analytics telemetry or the visible Hero view.
+Action semantics: BET allowed only when no wager pending, RAISE TO is final total committed on this street,
+not increment; POT% formula based on facing pot + call, with prior street contribution and final legal denomination;
+short-stack cap; effective minimum/maximum; no premature full raise reopening after insuﬀicient all-ins, but
+cumulative short raises follow configured rule. CHECK only with toCall=0; CALL amount min(toCall,stack). Disabled
+buttons are not suﬀicient: reducer rejects illegal actions.
+Settlement: at hand end return uncalled contribution to rightful player; construct disjoint pot tiers including
+folded dead money, identify eligible winners by correct 5-card rank, split/tie/odd chips by selected rule. Rake
+only selected contestable amounts; no-flop-no-drop when applicable; table+pot+rake+wallet reconciliation before
+next hand. Prizes not paid as chips in cash pots. Per event, SUM(all accounts before) = SUM(all accounts
+after), plus explicitly authorized external edits/fees and house sinks.
+Replay: canonical event log with handID, monotonic index, prior/current hash, actor, exact rule version, public
+action, street, legal limits snapshot, money deltas, reveal events, private deck reference for debug. ReplayEngine
+only interprets events for visuals; never writes live wallet or hand state. Player history/export is a derived redacted
+projection; debug view requires isolated developer authorization (in browser-only build code inspector can still
+reveal, explicitly acknowledged). Round-trip import validates schema, hash continuity and version, rejects impos-
+sible/malicious history and never overwrites active hand without backup.
+Independent oracle:
+pin exact PokerKit or separately implemented reference version, compare rank/turn
+order/all-in/sidepot when the same rules actually match. When independent oracle does not support a house rule,
+implement documented analytical fixtures and flag NOT_ORACLE_COVERED rather than force an invalid comparison.
+Include metamorphic suit renames, chip unit scaling, reorder equivalent action sequences where legal, total
+conservation, single payout, multiway/short-stack generators and replay equality.
+Record random seeds and
+executed test evidence.
+Rules
+profiles:
+Generic transparent practice cash;
+independently sourced PokerStars ring illustrative;
+TDA2026v1.1 tournament; PokerStars online tournament illustrative.
+Room-profile choices versioned; not
+all tournaments follow TDA and not every live room follows PokerStars. For PokerStars ring example, rake cap
+depends on dealt-in number; no-flop-no-drop; published rounding. Cash miss-blind/wait BB, button and straddle
+specifics must not borrow from TDA by default. Tournament button/big blind ante/all-in tabling/short all-in
+reopens match selected profile.
+26
+
+
+--- PAGE 27 ---
+Known gap in V5 reference fixtures
+The old FIX06 asserts only that dead-button/forward-button handling can diverge and explicitly lacks full
+seats/expected action. Mark old FIX06 BLOCKED_FIXTURE_INCOMPLETE until independently verified. V6
+adds a candidate explicit fixture in 13_V6_REFERENCE_FIXTURES.json; its proposed table-seat outcomes are
+REQUIRES_RULE_EXPERT_REVIEW, not a passing oracle. Turn it into FIX06B only after confirming button/blind
+rules from primary sources and reproducing it independently. This is material: non-executable ‘tests’ must not
+inflate passing test counts.
+Extension safety
+Introduce
+interfaces
+GameRules,
+ForcedBetPolicy,
+BettingPolicy,
+DealPolicy,
+BoardRunoutPolicy,
+HandRankingPolicy, SettlementPolicy, and TournamentPolicy, but implement only NLHE in R1.
+Fu-
+ture variant runs its own rule version and typed settlement; do not scatter if game == PLO through NLHE
+reducer. Regression fixtures protect pure Hold’em behavior. Implement only abstraction currently needed; no
+speculative framework expansion at cost of first playable table.
+V6 opponent realism, human evidence and skill-transfer specification
+Build on V5 bot contract, never discard its weighted ranges, node opportunities, draw-family and information-
+boundary requirements.
+Exact objective
+A bot is believable when its observed play over many hands resembles a consistent human of its defined style,
+including mistakes, variable but plausible sizes, responses to history, and strategic constraints. A bot is strong
+when it performs well against independent opponent strategies. Those properties are correlated at times but never
+interchangeable. Neither implies accurate representation of actual Tulsa or high-stakes populations absent data.
+Persona vector instead of label factory
+Each seat’s stable latent object includes: preflop position/action-range priors; passive/active axis; risk tolerance
+by street and stack; value threshold; bluff/semi-bluff mixture; multiway caution; sizing elasticity and anchoring;
+draw-chasing tendencies conditional on pot odds/implied odds; trap propensity; river polarization; opponent-image
+beliefs; response to short stack; tournament ICM/risk premium; bounded observation memory; within-session noise.
+Initialize one reproducible persona vector at seat assignment from declared archetype distribution. Variation is
+correlated (e.g., loose station usually calls more than it raises); perturbation does not erase archetype identity or
+randomly punt stacks. The ‘hundreds of personalities’ roadmap is a combinatorial sampling and validation problem,
+not 100 hardcoded nominal labels.
+Hero-visible truth
+HOST_SETUP: choose ‘nit’, ‘station’, ‘TAG’, ‘LAG’, ‘fit-or-fold’, ‘maniac’, ‘passive reg’, ‘stronger reg’, Ran-
+dom/Unknown/Custom; tune traits and response curves.
+LIVE_TABLE: seat names, stacks, positions, prior
+legally visible actions and Hero-made notes; hidden persona and unavailable stats do not appear, even if host
+configured them.
+STUDY: replay, derived observed statistics and any explicitly activated post-session model
+compare. Switching views cannot grant bots access to hidden Hero cards or rewrite historical actions.
+Causal tests per policy change
+For an altered draw-call curve, compare matched opportunity sets with same hole cards, board, stack, action
+and legal sizes. Measure observed probability shifts, not demand every individual decision change. For a nit vs
+station comparison, hold contexts fixed and quantify call/fold/raise differences separately for 25%, 50%, 100%,
+150%, 200%, 300% pot, gutshot/OESD/flush/combo, position and multiway. If a curve affects impossible-to-reach
+contexts, mark it not tested. Verify action-size normalization and no illegal sampled amount. Long session hidden
+identity must remain stable, while play variability remains credible.
+27
+
+
+--- PAGE 28 ---
+Model evaluation batteries
+1. Legal + privacy: bot sees only BotObservation (own cards + allowed public state); counterfactually change
+hidden other cards and future deck while keeping observation identical; distribution should not change except
+independent sampling noise.
+2. Strategy coherency: preflop hand combinations conditional on action/position, feasible postflop arrivals,
+believable bluff-to-value balance for each persona, no psychic folds and no systematic suicide betting into
+unwinnable pots.
+3. Statistics: opportunities by street/player/size, VPIP, PFR, RFI, 3bet, cbet, fold-to-size, check-raise, overcall,
+rivers and joint sequential lines; report N/uncertainty, not unqualified percentages.
+4. Opponent robustness: independent Hero strategies (tight, loose, balanced, aggressive, exploitative), new seat
+lineups and pot/rake rules, held-out seeds and out-of-distribution tests. A single Hero beating weak bots is
+not proof of skill.
+5. Human comparison: only rights-cleared records with consent/license, sampling unit person/session/table,
+stake and game form and action-censoring; hold out whole people/sessions; conditional log loss and size
+distributions plus calibrated expert blinded realism reviews. Missing data -> NOT_HUMAN_VALIDATED.
+Stakes ecology, evidence ladder
+• Build scenarios such as loose limp-heavy live $1/$2, tough 6max online $1/$2, mixed live $2/$5, high-stakes
+deep cash, and STT/MTT bubble. These are user-configured priors, not claims of measured 2026
+pools. Stakes alone do not determine that a player is ‘nit’, ‘fish’ or ‘reg’. Use table lineup distribution, rake,
+effective stack, straddle, time/venue and observed behavior rather than unconditional if blind>... model
+change.
+• If users supply their own observations, keep manual notes and inferred evidence strictly separate from known
+construction persona. Calibrate to observed VPIP/PFR only with denominators; avoid overreacting to 20
+hands.
+• Difference in live/online accessibility: offer a live observation mode that hides numeric pop-ups by default, to
+train note-taking and inference rather than exact internal profiles.
+Prevent self-fulfilling ‘great player’ dashboards
+Segregate training table from benchmark table and withhold benchmark bot parameters, seeds and prior feedback.
+Report cross-population and holdout performance by context alongside primary simulated bb/100. Use credible
+confidence intervals (block bootstrap by session/tables where applicable), hand count and opponent versions. The
+app must always state simulation win rate does not certify live poker profitability. No live income
+or top-0.1% prediction.
+V6 full tournament product: implementation and future additions
+R2: finished single-table tournament first
+One actual table, 2–10 players, selected structure/starting stacks/button/ante/BB ante, blind levels, elimination,
+prize pool and fee. Simulate each hand with same trusted reducer, but tournament-specific rules/economy. Op-
+ponents use BB stack, payouts and remaining-player/position information, not only cash static policy. Complete
+many freezeouts including HU transition, bubble and final prize, with same-total chip ledger across the field and
+no phantom winners. Pause/restore exactly. Tournament cash winnings are not returned to the per-hand cash pot;
+prize payouts occur once at event completion/placement.
+R3: genuine field MTT
+A single authoritative event director owns all tables and real simulated field players. All background tables play
+hands through the same engine, with individual private decks and bot decisions; hands at other tables can finish
+before Hero but no table is allowed to fake elimination. Specify event time vs real UI clock, independent determin-
+istic progression and how turbo/regular levels affect all tables. Table breaking/movement honors selected room
+28
+
+
+--- PAGE 29 ---
+profile and ensures each player’s total chips survive transfers. Hand-for-hand groups synchronized; add early exits,
+late reg, reentry and prize-pool accounting separately. Support explicit 18/45/90+ field fixtures and at least one
+complete blind/registration/payout replay, not only isolated side-pot unit tests.
+Economics
+Separate
+entryFee,
+prizeContribution,
+bountyContribution,
+reentryCount,
+prizePoolLiability,
+bountyLiability, houseFees, guaranteeOverlay.
+Preserve correct payout ordering and tie rules.
+For
+KO/PKO, an eliminated player’s bounty belongs to winner(s) of the pot for which eliminated player’s final
+chips were eligible, not automatically to largest sidepot winner. Multiway sidepot/ties/PKO partial bounty
+split requires independent fixtures and may remain deferred until standard MTT passes.
+Different rules are deliberate
+TDA_2026_v1_1 uses its documented button and ante procedures; PokerStars_online_example uses its docu-
+mented forward button, registration and H4H. Version profiles and test precise differences. No generic assumption
+‘all tournaments use TDA.’ ICM context must be an actual payout-aware calculation where validated; a generic
+pressure heuristic must be labeled an estimate. Satellites, deal-making, mystery bounty, PKO, multi-flight, re-
+buys/addons and private club tournament types are retained in post-release register and not required for R2 first
+launch.
+V6 interface, bankroll/stats, persistence and deployment contract
+One table that works and feels like poker
+Tablet and desktop: readable oval 2–10-seat felt; Hero always visible; dealer/SB/BB/UTG/position, chips, cur-
+rent acting player, main and sidepot totals, bet facing Hero and legal min/max clearly indicated; seat iden-
+tity/notes/lobby without exposing private roles. Phone: adaptive stacked/scrollable seat presentation as needed,
+main cards/board/pot and action console always readable on 360px wide screen, tap targets, safe-area insets, screen-
+reader labels, contrast, keyboard access and reduced-motion. Fast/Normal/Live-like speed controls, realistic but
+cancellable turn delays, animation not blocking correct turn state, pause and instant next hand; no animation as
+decision authority.
+Configurable action presets
+Fold/Check/Call, quarter/third/half/three-quarter/pot/1.5/2x pot, min raise, max raise/all-in, custom typed
+raise TO (street total), enforce minimum, to-call and pot-size formula. Preset selection must preview exact total
+and actual additional chips before confirmation. Optional confirm on large bet/all-in, not obligatory for every legal
+action. Mobile rapid clicks, back navigation and inactive browser restore must not duplicate actions.
+Money and statistics
+Wallet external adjustment, transfer wallet→table, table→wallet, rebuys/topups, session start/end, monetary pot
+settlement, rake, cashout and tournament entry/payout all distinct immutable ledger events. User can edit/reset
+baseline without falsifying old profit; reset creates a new epoch. At mixed stakes, report per-stake bb/100 or sum
+individual hand profits scaled by that hand’s BB divided by hand count /100, with label and cross-stake limitations.
+Recorded wall-clock $/hr is sensitive to simulator playback speed; hypothetical live-paced equivalent is optional
+and clearly marked. If stopped mid-hand exclude from settled profit until finalization. No all-in-adjusted graph
+unless validated and accurately distinguished from decision EV. Separate bankroll changes and virtual tournament
+ROI.
+Session source and export
+One active writer per local browser profile; stale tab detects revision and offers read-only reload. Atomic state snap-
+shots after settled hand and critical transitions, migration-safe events with version/hash; automatically recover after
+sleep, hard reload and bot turn. Exports for player have legally visible cards only, strip private RNG/deck/latent
+29
+
+
+--- PAGE 30 ---
+bot policy and no never-revealed secrets; debug snapshots not offered as Hero export. No silent import overwrite
+of active session.
+Data minimization and security
+This R1 is a single-player virtual-chip educational simulator. Client-side runs can enforce clean app-level visibility
+but cannot claim hard secrecy from an adversarial user inspecting their own process. Do not transmit private
+hands to third-party analytics, raw URL query strings, logs or connected poker clients. Data import is size-limited
+and schema-validated. If future online multiplayer, open accounts, public boards or financial transactions occur,
+reassess server authority, session auth, data security and compliance from scratch.
+Actual site delivery
+New Site title AI Texas Hold Em, independent slug and directory, no references to previous Site. Work should ver-
+ify actual Site preview, tap and click all critical buttons, complete and settle hands, reload and re-enter, test
+true mobile viewport; only mark published if URL exists and is usable.
+If publishing not available in that
+Work session, deliver runnable source and clear instructions rather than invent URL. Every release has VERSION,
+IMPLEMENTATION_STATUS.md, full list of executed test IDs, code commit, known issues and backup/migration path.
+Permanent post-release feature register — 86 deferred entries
+The detailed inventory is 09_POST_RELEASE_FEATURE_REGISTER.csv (FUT001 onward). No item is implemented
+merely because it appears here. Columns record dependency, provisional release phase, acceptance behavior,
+risks and status. No silent deletion; at each R1/R2/R3 milestone review if a feature should be promoted, supply
+tests/room profile/bot model and budget, then explicitly authorize scope.
+DEFERRED_NOT_IMPLEMENTED is the
+current status of all entries.
+Why the architectural boundary is valuable
+• Run-it-twice and double-board need a BoardRunoutPolicy and independent pot-tier awards, not a cosmetic
+second runout.
+• Bomb pots need a ForcedBetPolicy and altered street entry, not a preflop hack.
+• Non-Hold’em variants (PLO, Omaha Hi-Lo, Short Deck, Stud, Razz) need variant-specific deck, hand ranking,
+action and settlement rules; they do not inherit NLHE correctness automatically.
+• Hundreds of personalities need parameter sampling + behavioral calibration, not labels.
+• Multiplayer, cloud sync, spectators, public HUD and real-money features require a new server authority and
+permissions/security/compliance review.
+• Advanced coaching and ‘0.1% mastery’ need independent reference and unseen-transfer tests; don’t build an
+impressive but misleading EV scorecard.
+Top sensible post-R1 candidates for marginal player value and dependency readiness: run-it-twice, straddle
+variants, table line-up/save presets, improved observed opponent notes, replay bookmarks, and advanced draw-
+price edits. R2/R3 may take precedence depending on the primary user goal. These are candidates, not guaranteed
+schedule commitments.
+V6 targeted test delta — 20 new specifications, 272 baseline unchanged
+• V601 — R1 launch independent from tournaments (R1): CI and release criteria permit publishing R1
+with every T1/T2/T3 still NOT_EXECUTED, provided every R1 critical cash gate passes. R1 is playable
+2–10 seats and not scaffold-only. Status: NOT_EXECUTED
+• V602 — V5 fixture FIX06 becomes independently executable (engine):
+Construct concrete
+seat/button/bust before/after state, independently approve TDA dead and PokerStars moving-button
+30
+
+
+--- PAGE 31 ---
+expected positions and action order, then run under both profiles; old placeholder cannot PASS. Status:
+NOT_EXECUTED
+• V603 — Host Setup known bot but Live Table hides type (cash): Configure visible host labeled
+nit or station; enter Live Table before a hand; no seat label/tooltips/state leak reveals type, exact traits or
+policy while actions and bankroll remain unchanged. Status: NOT_EXECUTED
+• V604 — Changing view never changes game or bot policy (cash): On same frozen seeded state,
+switch Host/Live/Study views and confirm identical hand state/revisions, legal actions, bot distributions and
+settled result. Status: NOT_EXECUTED
+• V605 — RNG fails closed when secure entropy absent (engine): Mock browser crypto secure random
+unavailable; normal mode refuses to deal and displays actionable error; no Math.random silent fallback. Lab
+deterministic RNG remains isolated. Status: NOT_EXECUTED
+• V606 — Private production hand snapshot supports exact recovery (cash): Start genuine CSPRNG
+hand, suspend after preflop and after bot action, reload from private snapshot/events; resume exactly same
+remaining cards, stacks, bot policy version with no double charge. Status: NOT_EXECUTED
+• V607 — Player export cannot reveal hidden unknown information (cash): Export midhand and
+after hand with mucked cards; JSON cannot contain unrevealed villain cards, future deck, private seed,
+bot latent vector or diagnostics. Import public export cannot forge unpaid/duplicated outcomes. Status:
+NOT_EXECUTED
+• V608 — Opponent editor independent conditional effect (bot): Matched 100k or enough observable
+opportunities for 25–300% draw call surfaces: modify OESD turn curve only, and show directional frequency
+effect on targeted cases without unmotivated global VPIP drift or illegal sizes. Report uncertainty. Status:
+NOT_EXECUTED
+• V609 — Individual bot memory cannot cross-infer private hands (bot): Two villains share a Hero
+opponent but not private cards; perturb one villain private cards/unknown folded information and validate
+second villain policy observation and beliefs unchanged. Status: NOT_EXECUTED
+• V610 — High-volume unfamiliar lineup transfer audit (bot):
+Freeze model cards, run Hero
+benchmark agents on several heldout table compositions/rake/stack-depths including intentionally counter-
+exploiting bot behavior; report per-lineup sample N, CI and vulnerabilities. No live profit claim. Status:
+NOT_EXECUTED
+• V611 — Wallet external edits and mixed-stakes bb/100 period (cash): Play cash $1/$2 then $2/$5,
+edit wallet, rebuy and cash out; verify net profit excludes external edit, per-stake stats computed correctly,
+mixed metric clearly labeled and old history unchanged. Status: NOT_EXECUTED
+• V612 — Large bet mobile preview and double input (cash): On 360px view facing a 3bet with
+previous street contribution: pot slider, raise-to dollar amount, additional amount, and exact min/max are
+legible; rapid double tap only one action is committed. Status: NOT_EXECUTED
+• V613 — R1 statistical honesty actual vs hypothetical pace (cash): Complete exactly N hands
+with fast and live-like animation controls:
+observed bb/100 independent of animation speed; app-clock
+$/hr changes with actual duration; hypothetical live-paced estimate is visibly assumption driven. Status:
+NOT_EXECUTED
+• V614 — R1 human behavior label evidence tier (bot): For every initial persona card status reads
+DESIGNED/SYNTHETIC_MATCHED (unless external legal data exists); cannot show human-data fitted,
+calibrated live room or solver-certified without links and heldout evidence. Status: NOT_EXECUTED
+• V615 — Post-release feature flag stays disabled (release):
+Before R1 verify run-it-twice/bomb
+pots/extra games not accessible via UI, URL or local flags without new compatible authority and tests;
+backlog IDs preserved. Status: NOT_EXECUTED
+• V616 — Tournament event admission and prize accounting (tourney): At R2 stage, verified STT
+ticket splits entry/fee and prize; completing event leaves no unpaid liability or phantom cash pot; replay same
+seed yields same payout and placement. Status: NOT_EXECUTED
+• V617 — MTT whole-field replay vs hero wall-clock (tourney): At R3 stage, run complete real
+18/45/90-player fields with identical field seeds but different Hero think times; elimination and payout agree
+given same scripted Hero actions and event-time policy. Status: NOT_EXECUTED
+• V618 — Tournament field variant isolation (tourney): STT and MTT never apply cash rake or cash
+wallet stack resets to tournament pot; cash game can be played before and after tournament without altered
+cash session history. Status: NOT_EXECUTED
+• V619 — Feature register integrity and priority (release): Every deferred item has a stable FUT ID,
+status, dependency and testable behavior; release build turns cannot silently upgrade into R1 without explicit
+31
+
+
+--- PAGE 32 ---
+scope decision and new tests. Status: NOT_EXECUTED
+• V620 — Source and build provenance pinned for actual QA (release):
+Every passing crit-
+ical test records commit/build, engine+policy+room versions, test input/seed when applicable, actual
+expected/observed, runtime environment and artifact path; missing evidence blocks release.
+Status:
+NOT_EXECUTED
+New ids are not substitutes for the original 272 tests, nor evidence of execution. At release map every test to
+automated or human acceptance evidence, and distinguish BLOCKED, FAIL, NOT_EXECUTED and PASS.
+V6 dated research and competitor evidence — checked 2026-10-31
+Interpretation: These are external rule/product references, not validated samples of live human decision fre-
+quencies. All behaviors without rights-cleared decision data remain engineering hypotheses. Do not scrape or use
+copyrighted content for training without rights.
+Reference
+Public URL
+Confirmed relevant
+feature/rule
+Implementation
+consequence
+Limits
+Poker TDA 2026
+v1.1
+https://www.pokertda.com/view-
+poker-tda-rules/
+Oﬀicial 2026
+tournament
+procedures incl dead
+button, all-in, BB
+ante and betting
+rules
+versioned TDA
+tournament profile
+and independent
+fixtures
+TDA not universal
+online cash law
+PokerStars
+tournaments
+https://www.pokerstars.com/poker/tournaments/rules/
+Forward-moving
+tournament button,
+hand-for-hand, late
+registration,
+relevant-pot
+bounties
+independent online
+profile; complete
+event/director logic
+illustrative platform
+terms; no blanket
+TDA equivalence
+PokerStars cash
+rake
+https://www.pokerstars.com/poker/room/rake/
+No flop/no drop;
+cap depends number
+dealt in; specified
+rounding
+exact illustrative
+rake profile with
+stake/players dealt
+into hand
+does not define
+Tulsa live rake
+PokerStars Live
+cash rules
+https://www.pokerstarslive.com/poker/cashgamerules/
+Run it twice can
+require consent and
+sometimes only
+sidepot rerun
+post-release
+contract:
+pot-specific consent
+and room-specific
+eligibility
+live policies vary
+PokerStars
+run-it-twice help
+https://www.pokerstars.com/help/articles/run-
+it-twice-new/
+RIT runs remaining
+board cards twice
+when all-in; no extra
+RIT rake
+no independent
+extra rake; pot
+splitting and
+consent
+vendor-specific rules
+Poker Now main
+https://www.pokernow.com/
+Browser 2–10,
+straddle, time bank,
+RIT, bomb,
+double-board, replay
+and ledgers
+UX and R4 backlog
+benchmark
+no evidence
+opponent bots
+human-like
+Poker Now bomb
+pot
+https://www.pokernow.com/blog/exploring-
+bomb-pots-in-poker-
+a-burst-of-
+excitement-at-the-
+table
+bomb
+ante/multiplier/frequency
+register probability,
+eligibility and
+accurate forced bets
+no mandate for R1
+32
+
+
+--- PAGE 33 ---
+Reference
+Public URL
+Confirmed relevant
+feature/rule
+Implementation
+consequence
+Limits
+GGPoker
+PokerCraft
+https://ggpoker.com/poker-
+games/pokercraft/
+hand replays and
+posi-
+tion/opponent/luck
+summaries
+post-hand
+recorded-history UX
+platform’s all-in EV
+not our solver EV
+GGPoker security
+2026
+https://ggpoker.com/blog/new-
+security-measures-
+at-ggpoker/
+October 2026
+third-party software
+prohibition
+avoid integration
+with live client,
+remote RTA or
+datamining; only
+self-contained
+practice
+built-in HUD
+separately described
+by room
+GGPoker built-in
+Smart HUD
+https://ggpoker.com/poker-
+games/smart-hud/
+contextual in-client
+observed opponent
+stats
+optional observed
+session HUD, no
+privileged latent
+traits
+not evidence all live
+venues have HUD
+Advanced Poker
+Training
+https://www.pokertraining.com/
+browser cash, Sit &
+Go, MTT play with
+differing opponents,
+reports and drills
+compare complete
+practice user
+journey, backlog
+drills
+marketing claims
+are not independent
+accuracy tests
+PokerTracker stat
+guide
+https://www.pokertracker.com/guides/PT3/general/statistical-
+reference-guide
+stats count their
+legal opportunities
+required
+opportunity
+denominator and
+sample counts
+no live-venue
+population
+distributions
+PokerKit
+https://pypi.org/project/pokerkit/
+independently
+implemented
+MIT-licensed engine
+and hand evaluator
+(version pin)
+candidate external
+evaluation/state
+oracle
+requires profile
+compatibility tests
+GTO Wizard
+trainer
+https://help.gtowizard.com/measure-
+performance/
+reference-based
+training and EV loss
+in matching
+scenarios
+later score only with
+valid solver
+matching reference
+not a source of
+universal live-bot
+rates
+Human-play research priorities
+1. Obtain legal,
+consented multi-session hand histories or observed live records with button/position,
+stakes/rake, board, preflop and postflop sizes, effective stacks and opponents’ showdown/muck visibility.
+Separate disclosed identities, no third-party unauthorized data collection.
+2. Avoid claiming a real live $1/$2, $1/$3, $2/$5, $5/$10, $10/$20, $20/$40 or $50/$100 frequency from generic
+strategy articles. A blind level alone does not imply skill. Sample player pools, table mix and locale matter;
+low stakes often have a wide range of recreational and regular styles. Treat ‘loose multiway $1/$2’ as a
+synthetic selectable scenario unless directly measured.
+3. Build holdout by full players/sessions and, ideally, different rooms; measure conditional log loss of both
+action and size, river/multiway calibration, trajectories and expert-blind resemblance; publish uncertainty
+and coverage. Do not silently generalize modern high stakes from historic online data.
+4. Preserve public competitor design inspirations but do not copy protected art or assume their private poker
+algorithms are known.
+V5 archival reference (not equal authority)
+The complete unchanged V5 master and test tracker are bundled under V5_BASELINE_READ_ONLY. Consult
+them for details not overwritten here. This V6 master takes precedence.
+33

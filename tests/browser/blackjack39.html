@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Patch19 live coach qualification</title><style>body{font:16px system-ui;background:#122329;color:#eee}iframe{border:0}pre{white-space:pre-wrap}textarea{width:95%;height:200px}</style><h1>Patch19 live coach qualification</h1><button id="run">Run isolated live coach qualification</button><pre id="result">NOT_EXECUTED</pre><textarea id="evidence" readonly></textarea><iframe id="frame" title="Isolated blackjack candidate"></iframe><script type="module">
+import {BLACKJACK_TABLES} from '../../src/blackjack/presets.ts';
+import {liveAdvice,hintAsPlay} from '../../src/blackjack/live-coach.ts';
+const frame=document.querySelector('#frame'),out=document.querySelector('#result'),evidence=document.querySelector('#evidence'),table=BLACKJACK_TABLES.find(t=>t.id==='casino-5');
+const delay=ms=>new Promise(r=>setTimeout(r,ms)),check=(ok,msg)=>{if(!ok)throw Error(msg)};
+async function wait(fn){const start=performance.now();while(!fn()){check(performance.now()-start<20000,'Timeout '+fn);await delay(20)}}
+const doc=()=>frame.contentDocument,state=()=>{try{return JSON.parse(doc().querySelector('#test-state').textContent)}catch{return{}}};
+function click(selector){const el=doc().querySelector(selector);check(el&&!el.disabled&&!el.closest('fieldset[disabled]'),'Missing/enabled '+selector);el.click()}
+async function ready(){await wait(()=>state().status==='ready'&&!state().busy)}
+async function command(selector){const before=state().revision;click(selector);await wait(()=>!state().busy&&state().revision>before);await delay(25);check(state().status==='ready'&&!state().error,'Command failed '+selector+' '+state().error)}
+async function open(id,w,h){frame.width=w;frame.height=h;await new Promise(resolve=>{frame.onload=resolve;frame.src='./blackjack37-frame.html?id='+id});await wait(()=>doc().querySelector('[data-view="blackjack"]'));click('[data-view="blackjack"]');await ready()}
+function layout(label){check(doc().documentElement.scrollWidth<=Number(frame.width)+1,label+' sideways overflow');const panel=doc().querySelector('#bj-actions');if(panel)check(panel.getBoundingClientRect().height<=Number(frame.height)-50,label+' action panel too tall');for(const el of doc().querySelectorAll('button,input,select')){const r=el.getBoundingClientRect();if(r.width&&r.height)check(el.getAttribute('aria-label')||el.textContent.trim()||el.labels?.length,label+' unnamed control '+el.id)}}
+function setSystem(system){const select=doc().querySelector('#bj-count-system');select.value=system;select.dispatchEvent(new Event('change',{bubbles:true}))}
+function actionSelector(play){return play==='decline-insurance'?'#bj-insurance-no':play==='insurance'||play==='even-money'?'#bj-insurance-yes':'[data-blackjack-action="'+play+'"]'}
+const tagRows={'hi-lo':[1,1,1,1,1,0,0,0,-1,-1],'wong-halves':[.5,1,1,1.5,1,.5,0,-.5,-1,-1],'wong-halves-double':[1,2,2,3,2,1,0,-1,-2,-2],'zen':[1,1,2,2,2,1,0,0,-2,-1],'hi-opt-2':[1,1,2,2,1,1,0,0,-2,0],'omega-2':[1,1,2,2,2,1,0,-1,-2,0]};
+const number=text=>Number(text.replace('−','-'));
+document.querySelector('#run').onclick=async()=>{const rows=[],rounds=[],decisions=[],timings=[];let hands=0;const record=(w,h,test,detail={})=>rows.push({w,h,test,pass:true,...detail});try{
+for(const [w,h] of [[320,568],[390,844],[1366,768]]){
+ const id='patch19-'+Date.now()+'-'+w;await open(id,w,h);check(state().balance===200000,'fresh independent balance');click('[data-blackjack-group="casino"]');click('[data-blackjack-table="casino-5"]');await command('#blackjack-sit');
+ click('#bj-coach');check(doc().querySelector('#bj-coach').checked,'coach checked');check(doc().activeElement?.id==='bj-coach','coach focus preserved');click('#bj-test-me');check(doc().querySelector('#bj-test-me').checked&&!doc().querySelector('#bj-coach').checked,'Test me excludes coach');check(doc().activeElement?.id==='bj-test-me','Test me focus preserved');click('#bj-coach');check(!doc().querySelector('#bj-test-me').checked&&doc().querySelector('#bj-coach').checked,'coach excludes Test me');click('#bj-test-me');record(w,h,'mutually exclusive coach/Test me and focus');
+ click('#bj-count-on');let testedHint=false,forced=0;
+ for(let round=0;round<10;round++){
+  const before=state().balance,start=performance.now();await command(round?'#bj-rebet-deal':'#bj-deal');check(!doc().querySelector('[data-testid="blackjack-mistake"]'),'new round must clear prior mistake');
+  if(round===0){
+   const saved=state().publicState;await open(id,w,h);check(JSON.stringify(state().publicState)===JSON.stringify(saved),'active round exact reload');click('#bj-test-me');click('#bj-count-on');record(w,h,'exact reload preserves live round/balance; transient coaches explicitly reselected');
+   for(const [system,tags] of Object.entries(tagRows)){
+    setSystem(system);const seen=state().seen,rc=seen.reduce((sum,c)=>sum+tags['23456789TA'.indexOf('JQK'.includes(c[0])?'T':c[0])],0),aces=seen.filter(c=>c[0]==='A').length,strip=doc().querySelector('[data-testid="blackjack-count-strip"]');
+    check(number(strip.querySelector('b').textContent)===rc,'strip running count '+system);check(strip.textContent.includes('A '+aces),'strip ace count '+system);check(strip.getAttribute('aria-label').includes('ace'),'strip accessible summary');
+    click('#bj-count-reveal');const hidden=doc().querySelector('[data-testid="blackjack-count-strip"]');check(hidden.querySelector('b').textContent==='Hidden'&&!hidden.hasAttribute('aria-label'),'hidden strip no count aria leak');check(!doc().querySelector('[data-testid="ace-side-count"]'),'hidden ace panel');click('#bj-count-reveal');layout(system);record(w,h,'visible/hidden public count strip '+system);
+   }
+   setSystem('hi-lo');
+  }
+  check(!doc().querySelector('[data-testid="blackjack-hint"]'),'Test me must suppress unsolicited hint');
+  if(!testedHint&&state().publicState.round.phase==='player'){
+   click('#bj-hint');check(doc().querySelector('[data-testid="blackjack-hint"]'),'explicit hint remains available');click('#bj-test-me');click('#bj-test-me');check(!doc().querySelector('[data-testid="blackjack-hint"]'),'return to quiet Test me');testedHint=true;
+  }
+  let n=0;
+  while(state().publicState.round.phase!=='settled'){
+   check(n++<30,'round stalled');const beforeAction=state(),advice=liveAdvice(beforeAction.publicState,table,beforeAction.seen,{system:'hi-lo',reveal:true}),suggested=hintAsPlay(advice,beforeAction.publicState.legalActions);
+   const alternatives=beforeAction.publicState.legalActions.filter(a=>a!==suggested),requested=alternatives.includes('stand')?'stand':alternatives.includes('hit')?'hit':alternatives[0]??suggested,played=requested==='insurance'&&beforeAction.publicState.legalActions.includes('even-money')?'even-money':requested;
+   check(!doc().querySelector('[data-testid="blackjack-hint"]'),'quiet before each Test me decision');await command(actionSelector(played));
+   if(played!==suggested){forced++;check(doc().querySelector('[data-testid="blackjack-mistake"]')?.textContent.includes('You chose'),'postdecision mistake visible');}
+   else check(!doc().querySelector('[data-testid="blackjack-mistake"]'),'matching choice must clear mistake');
+   decisions.push({w,roundId:beforeAction.publicState.round.id,revision:beforeAction.revision,played,suggested,reason:advice.reason});layout('after decision');
+  }
+  const settled=state().publicState.round;check(state().balance===before+settled.net,'balance delta equals net');check(settled.net===settled.hands.reduce((sum,x)=>sum+x.payout-x.bet,0)-50+settled.insuranceReturn-settled.insuranceBet,'independent net includes one ante and insurance');check(doc().querySelector('#bj-actions').textContent.includes('after $0.50 ante'),'result names fee');hands++;timings.push(performance.now()-start);rounds.push({w,h,roundId:settled.id,opening:before,closing:state().balance,net:settled.net});record(w,h,'round '+(round+1)+' Test me, cleared feedback, settlement/ante');out.textContent='RUNNING '+hands+' rounds';
+ }
+ check(testedHint&&forced>0,'random rounds must exercise explicit hint and differing decisions');record(w,h,'one-off hint and actual differing Test me decisions',{forced});
+ click('#bj-history-export');await wait(()=>doc().querySelector('a[download="blackjack-public-history.json"]'));const exported=await(await fetch(doc().querySelector('a[download="blackjack-public-history.json"]').href)).json(),actual=exported.decisions,expected=decisions.filter(d=>d.w===w);
+ check(actual.length===expected.length,'every Test me decision persisted once');for(let i=0;i<actual.length;i++)check(actual[i].played===expected[i].played&&actual[i].suggested===expected[i].suggested&&actual[i].reason===expected[i].reason,'decision review agreement '+i+' actual='+JSON.stringify(actual[i])+' expected='+JSON.stringify(expected[i]));check(!JSON.stringify(exported).includes('initialShoe'),'no private shoe in public export');
+ click('#bj-audit');await wait(()=>doc().body.textContent.includes('Full replay audit passed'));record(w,h,'exported decision reviews exact, public export and full archive audit',{decisions:expected.length});await command('#bj-leave');record(w,h,'safe leave after completed rounds');
+}
+const sorted=[...timings].sort((a,b)=>a-b),result={status:'PASS',rows,hands,rounds,decisions,timings,roundWorkflowMs:{p50:sorted[Math.floor(sorted.length*.5)],p95:sorted[Math.floor(sorted.length*.95)],max:Math.max(...sorted)},userAgent:navigator.userAgent,conditions:'Desktop Chromium embedded widths; real secure random rounds with isolated test IndexedDB. Per-round timings include DOM waits and first-round reload/coach checks. These are not isolated computation or physical-device measurements. Count-specific advice coverage comes from independent deterministic public-input unit tests, not proof a deviation occurred naturally here.'};out.textContent='PASS '+rows.length+' checks, '+hands+' completed rounds';evidence.value=JSON.stringify(result);
+}catch(error){out.textContent='FAIL '+error;evidence.value=JSON.stringify({status:'FAIL',error:String(error),rows,hands,rounds,decisions,timings})}};
+</script></html>

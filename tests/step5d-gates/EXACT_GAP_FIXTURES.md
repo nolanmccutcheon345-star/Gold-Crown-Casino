@@ -1,0 +1,9 @@
+# Exact original-criterion fixtures added in Step 5D
+
+`privacy-wallet-gaps.test.ts` adds the exact two-villain counterfactual required by V609, separately for an active and an undisclosed folded villain. The observing villain shares a Hero opponent with the changed villain. A consistent permutation changes only the other villain's private cards and unused deck; board, public actions, Hero cards and observer cards remain exact. All eight archetypes have identical permitted observation, full range beliefs, policy analysis and 32 paired decisions. These are synthetic functional privacy checks.
+
+V519 now exercises an actual controller during an unsettled hand with a persisted pending bot decision. A +43,210-cent manual wallet adjustment is reversed through a new -43,210-cent adjustment event. Both events remain in the ledger with unique identities, zero table delta and zero poker winnings. Full game/pending state, hand history, session finance/settings and prior ledger remain exact, followed by full validation and reload. Visible-session elapsed time legitimately continues to accrue while using the cashier.
+
+The initial execution passed both V609 cases but failed an overbroad fixture assertion that all session fields, including elapsed active milliseconds, should be unchanged. The retained `evidence/privacy-wallet-initial-failure.json` records that actual failure. The fixture now checks every session field except the legitimate elapsed-time counter, which must not decrease. No production code or financial requirement was changed. The rerun in `evidence/privacy-wallet-vitest.json` passed 3/3 cases. Scoped ESLint and repository typecheck also exited zero.
+
+These new cases must be executed in the final source/build-pinned candidate receipt before its evidence qualifier can count them. This lane does not change canonical acceptance status or infer physical-device behavior from these tests.

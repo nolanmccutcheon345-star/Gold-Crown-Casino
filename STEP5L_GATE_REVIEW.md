@@ -1,0 +1,46 @@
+# Step5L acceptance and evidence recovery
+
+**NOT READY FOR R1.** The current review qualifies **229/237** mandatory original-ID cash-release checks. The unchanged302-ID whole-criterion register contains **221 PASS / 0 FAIL / 6 BLOCKED / 75 NOT_EXECUTED**. These are different columns, not competing requirement universes. Nine original mixed criteria have explicit cash scope; a cash qualification never makes the whole original row PASS. V706 remains whole NOT_EXECUTED while its supported cash portion qualifies. All86 deferred entries remain verbatim.
+
+The exact hosted application identity is `3ecea1c2b71c8e8b9963547da676171f91f21716`, packaged by `566f3b11032841c492e6e148bb9a1139e74247b7` in test-site revision6. Fresh execution used recovered checkpoint `791cb3ed52294c725d79eeb39ccb51161c1317ea`. Its148 runtime/build inputs and all three compiled assets match the hosted candidate. The missing original3ece Git object and unfinished1805380 object are not claimed recovered. One lost QA TypeScript assertion file remains distinguishable from its preserved, hash-verified compiled artifact.
+
+[summary.json](tests/step5l-acceptance/summary.json), [execution-qualification.json](tests/step5l-acceptance/execution-qualification.json), and [release-status.csv](tests/step5l-acceptance/release-status.csv) retain the exact302 IDs, criteria, original statuses, gate scope, evidence and remaining reasons. The CSV here is a review artifact; ACCEPTANCE_STATUS.csv remains the sole mutable status source. Canonical candidate annotations are integrated only through the explicit checked command below.
+
+## Executed and recovered evidence
+
+- Fresh release regression:2114/2114 passing tests in224files, zero failures/skips, with typecheck/lint/build and reference-run evidence at [manifest](TEST_EVIDENCE/step5h/step5l-release/manifest.json).
+- Independent replay:7136 emitted hand records, including1344 exactly paired input comparisons,800 ecology hands and960 composition hands; zero financial failures. These are replayed actual outputs, not additional UI hands.
+- R21:3072 actual probe hands;96 detailed examples independently reconciled. [Probe review](TEST_EVIDENCE/step5h/step5l-probes/independent-review.json).
+- V620:577/577 actual observational cases across47 test files. All86 identified per-case provenance rows resolved using exact case inputs plus21 recovered capture references. Available current policy version is distinct from the historical policy actually applied.
+- Z12: the unchanged release-gate functions actually refused release with exit1, no candidate-verification errors, and usable302-ID input. Self-review is excluded from its own frozen inputs; no circular proof. [Refusal](tests/step5l-acceptance/status-honesty-release-refusal.json).
+- This lane ran12 evidence-verifier tests, including missing, altered, duplicated and wrong-source negative controls; all12passed. [TAP](tests/step5l-acceptance/review-tests.tap). It additionally verified696 unique immutable artifact references. No browser execution is inferred from these metadata tests.
+- Recovered browser evidence:33 ordinary compiled UI hands at320/390/1280CSS widths;66 setup/native matrix cases; actual100-hand six-player and100-hand ten-player runs; exact statistics fixtures; configuration, privacy, pending-bot/tab-close, quota, stale-export, migration/rollback and keyboard/accessible-label assertions. Fixture-created histories and browser UI hands remain separate. [Review](tests/step5l-acceptance/browser-qualification.json).
+
+The completed recovered ten-player run is not the interrupted resource workload: it contains100distinct hand IDs,100settlements,99next-hand transitions,6reloads and one cashout. Initial virtual wallet1200000cents plus independently summed hand result-62673cents equals final wallet1137327cents. Its actual browser capture finished2026-11-02T23:12:03Z against3ece at390CSS pixels. [Independent review](tests/step5l-acceptance/supplemental-ui-review.json).
+
+## Remaining mandatory current-candidate checks
+
+| Original ID | Original status | Original criterion | Remaining evidence |
+|---|---|---|---|
+| U10 | NOT_EXECUTED | Core actions operable and properly announced without animation-only meaning | Actual screen-reader interaction and announcements remain unexecuted. Automated accessible-name/focus checks are partial evidence. |
+| U11 | NOT_EXECUTED | Measure decision compute P50/P95, 10-seat frame responsiveness and input-to-confirm latency on specified phone/desktop | Named physical phone/desktop compute, frame and trusted input-to-confirm measurements remain unexecuted. |
+| U16 | NOT_EXECUTED | Verified unique project ID + site URL, deployment build, original sites unchanged by all write calls | Project identities and available writes are known; no complete historical provider all-write audit proves every original site was untouched. |
+| Z02 | NOT_EXECUTED | New project/site identity proven and old project unchanged; signed-off deploy SHA and actual browser smoke recorded. | Exact candidate build and smoke are evidenced; complete historical original-project nonmutation proof remains unavailable. |
+| Z14 | NOT_EXECUTED | No compulsory training modal; hand replay and notes respect private-card disclosure; uninterrupted play, touch/keyboard support, bounded storage, no performance regression. | Preserve original deferred bookmark/FUT050 scope. Its cash portion remains unqualified because current browser confirmation/presentation measurements are ambiguous; supported navigation control did not establish a platform cause or no-regression result. Historical10.07s remains separately unattributed. |
+| V518 | NOT_EXECUTED | Measure p50/p95 bot response, render time, memory and action error rates on declared reference devices during repeated 2/6/10-seat play; check keyboard/screen reader/color-independent card labels. | Actual declared-device timing/memory/error measurements plus reader interaction remain unexecuted. |
+| V522 | BLOCKED | Every required critical test has runnable command/fixture plus build+seed+evidence; CI blocks errors; canonical V5 document is authority; V4 archive cannot override it. | BLOCKED at user direction pending future GitHub connection and a real hosted CI run. No repeated connection request. |
+| V707 | NOT_EXECUTED | Three new test users on specified mobile/desktop view must locate minraise, raise-to total and call/additional amount, play 25 hands; record each actual misclick and observed ambiguity. No fictional completion. | Three independent new users, each25 observed hands with actual misclick and ambiguity records, have not participated. |
+
+Physical iPhone export is **AWAITING USER VERIFICATION**. Real VoiceOver, physical-device performance and human-user studies are not substituted by Chromium emulation or automated hands. The ready-to-share [external protocol](tests/step5l-acceptance/external/README.md) and blank device/reader, participant and75-hand observation forms identify the exact hosted build. No invitation was sent and no participant result was invented.
+
+## Completed fresh resource experiment
+
+U12 is qualified: **10,000 newly completed hands**, 74,117 preparations, 91,573 actions, 250 sessions and 74 pending-decision recovery/stale-action checks. Independent canonical/BigInt accounting reconciles 10,508 financial events and 20,979 stored records. Wallet 98,791,469 cents + table 0 = manual 100,000,000 − poker loss 1,208,531. Timers stayed at one and closed to zero; all canonical histories remain while replica/checkpoint/journal/cache overhead stays bounded. [U12 applicability](tests/step5l-acceptance/resource-qualified-review.json) verifies the actual 94 production inputs, source-map-only telemetry and archival commit 94af899. Its then-uncommitted harness is identified by SHA, separately from execution repository baseline c9a4.
+
+Preparation p50/p95/p99/max: 12.08 / 49.41 / 337.89 / 783.55 ms. Logical payload: 586.51 MB; warm-controller 10k recovery: 1.836 s; full-history load: 28.14 s; archive audit: 25.58 s. Bulk heap 963.53 MB and RSS 1,713.30 MB remain limitations. These are Node reference-adapter measurements, not physical-device, browser-origin or INP claims. The historical stall is not declared fixed. This experiment does not close Z14.
+
+## Final integration and reproducibility
+
+Completed resource evidence and229/237 candidate annotations are integrated into the canonical register;48targeted registry/release-gate tests pass. No original status changed. To reproduce the checked annotation step, run `node tests/step5l-acceptance/apply-candidate-metadata.mjs` for a dry run; `--write` updates only existing candidate annotation columns and regenerates/checks the dashboard. It preserves original status, wording, cash scope and the original executed-register hash. No application or access/deployment setting is changed.
+
+Re-run `node tests/step5l-acceptance/verify-deliverables.mjs` and `node --test tests/step5l-acceptance/review-recovered.test.mjs` to check the evidence links and rejection controls. Source/build equivalence and recovered captures are reviewed separately from fresh execution; no missing commit is manufactured. Public productionVersion7, the frozen R1 test deployment and original privateVersion12 are unchanged by this acceptance work.

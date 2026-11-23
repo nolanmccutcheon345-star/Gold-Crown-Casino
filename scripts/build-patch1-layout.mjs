@@ -1,0 +1,13 @@
+import {build} from 'esbuild';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+const output='tests/browser/patch1-prebuilt',hash=b=>createHash('sha256').update(b).digest('hex');
+await mkdir(output,{recursive:true});
+const result=await build({entryPoints:['tests/browser/patch1-frame.ts'],bundle:true,format:'esm',platform:'browser',target:'es2022',outfile:output+'/frame.js',metafile:true,write:false});
+for(const file of result.outputFiles)await writeFile(file.path.endsWith('.js')?file.path+'.bin':file.path,file.contents);
+const inputs={};for(const path of Object.keys(result.metafile.inputs))inputs[path]=hash(await readFile(path));
+const manifest={format:'patch1-layout-bundle',sourceCommit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),inputs,bundleSHA256:hash(await readFile(output+'/frame.js.bin')),cssSHA256:hash(await readFile(output+'/frame.css')),method:'Real esbuild and installed project dependencies; no mocks or stand-in SHA implementation; unchanged layout assertions.'};
+await writeFile(output+'/source.json',JSON.stringify(manifest,null,2)+'\n');
+await writeFile(output+'/index.html',`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Patch1 bundled validated fixture</title><link rel="stylesheet" href="./frame.css"></head><body><div id="app"></div><script type="module">const m=await(await fetch('./source.json')).json(),b=await(await fetch('./frame.js.bin')).arrayBuffer(),h=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',b)),n=>n.toString(16).padStart(2,'0')).join('');if(h!==m.bundleSHA256)throw Error('QA bundle integrity mismatch');await import(URL.createObjectURL(new Blob([b],{type:'text/javascript'})));</script></body></html>`);
+console.log(JSON.stringify({bundleSHA256:manifest.bundleSHA256,cssSHA256:manifest.cssSHA256,inputCount:Object.keys(inputs).length}));

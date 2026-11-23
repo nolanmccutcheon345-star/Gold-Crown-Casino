@@ -1,0 +1,123 @@
+/* Menu groups, the tournament lobby and the in-event tournament screens. Loaded last. */
+
+/* ---- Menu: four top-level tabs with a row of pages under the header ---- */
+.app-shell{position:relative}
+.nav-button.nav-more{padding-left:8px;padding-right:8px;min-width:44px;margin-left:-6px;color:#c9ae7b}
+.subnav{display:flex;align-items:center;gap:6px;padding:8px 42px;border-bottom:1px solid var(--line);background:#0e171c;align-self:auto;overflow-x:auto;scrollbar-width:none}
+.subnav[hidden]{display:none}
+.subnav::-webkit-scrollbar{display:none}
+.subnav-button{border:1px solid #ffffff14;background:none;color:#a9b5b3;border-radius:999px;min-height:44px;padding:0 16px;font-size:13px;font-weight:600;white-space:nowrap}
+.subnav-button:hover{color:#f0dfb8}
+.subnav-button.selected{background:#24312d;color:#f0dfb8;border-color:#d5b16f59}
+.subnav.subnav-overlay{position:absolute;left:0;right:0;z-index:40;background:#0e171c;box-shadow:0 14px 28px #000a}
+@media(max-width:1180px){.subnav{padding-left:25px;padding-right:25px}}
+@media(max-width:700px){
+  .subnav{padding:6px 8px;gap:6px}
+  .subnav-button{flex:1 0 auto;padding:0 12px}
+  .app-shell .app-header nav .nav-button.nav-more{flex:0 0 44px;margin-left:0}
+}
+
+/* ---- Lobby ---- */
+.view-tournaments .room-details{display:none}
+.tournament-lobby{display:grid;grid-template-columns:minmax(280px,380px) minmax(0,1fr);gap:20px;align-items:start}
+.tournament-lobby .panel,.tournament-standings .panel,.tournament-result,.tournament-record,.move-notice{padding:22px}
+.tournament-lobby h2,.tournament-standings h2,.tournament-result h2,.tournament-record h2,.move-notice h2{margin:0 0 12px;font-size:20px}
+.tournament-lobby h3{margin:20px 0 8px;font-size:13px;letter-spacing:.4px;color:#c9ae7b;font-weight:600}
+.lobby-note{margin:8px 0 0;color:#a3b0ae;font-size:13px;line-height:1.5}
+.segmented{display:flex;gap:6px;flex-wrap:wrap}
+.segment{flex:1 1 0;min-height:44px;padding:0 12px;border:1px solid #ffffff14;border-radius:7px;background:#172228;color:#b6c1bf;font-size:13px;font-weight:600;white-space:nowrap}
+.segment.selected{background:#24312d;color:#f0dfb8;border-color:#d5b16f80}
+.event-list{display:grid;gap:8px;margin-top:14px}
+.event-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;text-align:left;padding:12px 14px;min-height:44px;border:1px solid #ffffff12;border-radius:9px;background:#172228;color:#e8eae6}
+.event-card.selected{border-color:#d5b16fb3;background:#1d2b2a}
+.event-name{font-size:15px;font-weight:600}
+.event-stake{font-size:12px;color:#c9ae7b;align-self:center;white-space:nowrap}
+.event-facts{grid-column:1 / -1;display:flex;gap:18px;flex-wrap:wrap}
+.event-facts span{display:flex;flex-direction:column;gap:1px}
+.event-facts small,.lobby-facts dt,.strip-cell small{font-size:12px;color:#93a19f;letter-spacing:.3px}
+.event-facts b{font-size:13px;font-weight:600}
+.lobby-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:18px 0 0}
+.lobby-facts>div{border:1px solid #ffffff0f;border-radius:9px;padding:11px 12px;background:#101a1f}
+.lobby-facts dd{margin:3px 0 0;font-size:18px;font-weight:600;font-variant-numeric:tabular-nums}
+.lobby-facts dd small{display:block;font-size:12px;font-weight:400;color:#a3b0ae;margin-top:2px}
+.lobby-facts dd.positive{color:#7fd6b5}.lobby-facts dd.negative{color:#f0a39a}
+.lobby-tables{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:18px;align-items:start}
+.payout-table,.blind-table,.standings-table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.payout-table caption,.blind-table caption{text-align:left;font-size:13px;letter-spacing:.4px;color:#c9ae7b;font-weight:600;padding-bottom:6px}
+.payout-table th,.payout-table td,.blind-table th,.blind-table td,.standings-table th,.standings-table td{padding:7px 8px;border-bottom:1px solid #ffffff0d;text-align:right;font-weight:400}
+.payout-table th:first-child,.blind-table th:first-child,.standings-table th:first-child,.standings-table .standing-name,.standings-table thead th:nth-child(2){text-align:left}
+.payout-table thead th,.blind-table thead th,.standings-table thead th{font-size:12px;color:#93a19f;font-weight:600}
+.lobby-register{margin-top:20px;display:grid;gap:4px}
+.lobby-register .button{width:100%;min-height:48px;font-size:14px}
+.lobby-register .button:disabled{opacity:1;background:#263238;color:#a3b0ae;border-color:#ffffff14;cursor:not-allowed}
+@media(max-width:950px){.tournament-lobby{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:700px){
+  .tournament-lobby{gap:12px}
+  .tournament-lobby .panel,.tournament-standings .panel,.tournament-result,.tournament-record,.move-notice{padding:16px 14px}
+  .segment{padding:0 8px}
+  .lobby-facts{grid-template-columns:1fr 1fr}
+}
+
+/* ---- Level strip above the table ---- */
+.level-strip{display:flex;align-items:stretch;gap:0;border:1px solid #ffffff12;border-radius:10px;background:#101a1f;margin:0 0 12px;overflow:hidden}
+.strip-cell{flex:1 1 0;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:8px 12px;border-right:1px solid #ffffff0d}
+.strip-cell b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.strip-cell span{font-size:12px;color:#a3b0ae;white-space:nowrap;font-variant-numeric:tabular-nums}
+.strip-cell small{white-space:nowrap}
+.strip-cell i{font-style:normal}
+.strip-stack small{text-transform:capitalize}
+.strip-level b,.strip-stack b{color:#f0dfb8}
+.strip-button{align-self:center;margin:0 8px;min-height:44px}
+@media(max-width:950px){.strip-average{display:none}}
+@media(max-width:700px){
+  .level-strip{margin:0 0 6px;border-radius:8px}
+  .strip-cell{padding:5px 6px;flex:1 1 auto}
+  .strip-cell i{display:none}
+  .strip-cell b{font-size:13px}
+  .strip-cell span{display:none}
+  .strip-rank,.strip-button{display:none}
+}
+
+/* ---- Banners, table-change notice, standings, result ---- */
+.tournament-banner{margin:0 0 12px;padding:10px 14px;border-radius:9px;border:1px solid #69c8a84d;background:#12251f;color:#cfe9dd;font-size:13px;line-height:1.45}
+.tournament-banner.bubble{border-color:#e8c58b66;background:#2a2416;color:#f0dfb8}
+.move-notice{max-width:520px;margin:0 auto;border-color:#d5b16f66}
+.move-route{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:15px;margin:0 0 10px;color:#a3b0ae}
+.move-route b{color:#f0dfb8;font-size:18px}
+.move-notice p{margin:0 0 14px;font-size:14px;line-height:1.5}
+.move-notice .button{width:100%;min-height:48px}
+.tournament-standings{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,340px);gap:20px;align-items:start}
+.table-scroll{overflow-x:auto;margin-top:12px}
+.standings-table .hero-row th,.standings-table .hero-row td{background:#1d2b2a;color:#f0dfb8}
+.standings-table .out-row th,.standings-table .out-row td,.payout-table .out-row th,.payout-table .out-row td{color:#a3b0ae}
+.standings-table .outline-tag{margin-left:6px}
+.standings-table td{white-space:nowrap}
+.tournament-standings .muted,.tournament-record .muted{color:#93a19f}
+.tournament-result{max-width:620px;margin:0 auto}
+.tournament-result.cashed{border-color:#69c8a866}
+.result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.result-actions .button{flex:1 1 150px;min-height:48px}
+@media(max-width:950px){.tournament-standings{grid-template-columns:minmax(0,1fr)}}
+/* Tournament stats (patch 30) */
+.tournament-stats{padding:24px;display:flex;flex-direction:column;gap:18px}.tstats-filters{display:flex;flex-wrap:wrap;gap:10px}.tstats-summary{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.tstats-chart{margin:0}.tstats-chart figcaption{font-size:12px;color:var(--muted);margin-bottom:6px}.tstats-chart svg{width:100%;height:auto;display:block}
+.tstats-zero{stroke:#ffffff26;stroke-width:1}.tstats-line{fill:none;stroke:var(--green);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.tstats-dot{fill:var(--green);stroke:#142026;stroke-width:2}.tstats-hit{fill:transparent}.tstats-point:hover .tstats-dot{r:5}
+.tstats-axis{font-size:11px;fill:var(--muted)}.tstats-label{font-size:12px;fill:#e8eae6;font-weight:600}
+.tstats-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}.tstats-group caption{text-align:left;font-size:12px;color:var(--muted);padding-bottom:6px}
+.tstats-heading{margin-top:6px}.tstats-play th small,.tournament-stats th small{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4}.tstats-play td small{display:block;font-size:11px;color:var(--muted)}.tstats-play td.muted{opacity:.6}
+.tstats-gap{display:inline-block;margin-top:4px;font-size:11px;color:var(--gold)}
+.regular-tag{display:block;font-size:11px;color:var(--muted);font-weight:400}.regular-read{font-size:12px;line-height:1.6;color:#c9d3cf;margin:6px 0}
+@media (max-width:600px){.tournament-stats{padding:16px}.tstats-play th small{display:none}}
+/* Table talk and shown hands (patch 32) */
+.seat-talk{display:block;max-width:150px;margin:4px auto 0;padding:4px 8px;border-radius:10px;background:#f4f1e7;color:#1d2a2e;font-size:11px;line-height:1.3;font-style:italic;white-space:normal;box-shadow:0 2px 6px #0005;position:relative;z-index:5}
+.hole-cards.shown-hand{outline:2px solid var(--gold);outline-offset:2px;border-radius:5px}
+@media (prefers-reduced-motion:no-preference){.seat-talk{animation:talk-in .25s ease-out}@keyframes talk-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}}
+/* A talk line uses the status/contribution space after settlement. Keep it out of
+   the phone status row's clipping box; the pot awards remain below the table. */
+.perimeter-table .seat:has(.seat-talk) .seat-status{grid-row:3 / span 2;overflow:visible;justify-content:flex-start;position:relative}
+.perimeter-table .seat:has(.seat-talk) .seat-action,.perimeter-table .seat:has(.seat-talk) .seat-bet{display:none}
+.perimeter-table .seat-talk{width:max-content;max-width:110px;margin:0;position:relative;left:50%;transform:translateX(-50%);font-size:12px;padding:2px 5px;animation:none}
+
+.table-news{margin:10px 21px 0;padding:8px 12px;border-radius:8px;background:#1d2b27;border:1px solid #3c5a4b;color:#cfe0d6;font-size:12px;line-height:1.5}.table-news b{color:var(--gold);margin-right:6px}
+
+.blind-tag.straddle-tag{background:#3a2f1c;border-color:#8a6d3b;color:#e8c58b}

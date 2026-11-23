@@ -1,0 +1,138 @@
+/* Patch 100 — casino art direction, on actual interactive Card Room components.
+   Decorative layers remain pointer-events:none; neither bets nor cards are replaced
+   by an image. The eight game illustrations are production WebP + SVG fallbacks. */
+:root{
+ --cinema-gold:#edc784;--cinema-flare:#fff1c9;--cinema-rail:#6c471f;
+ --cinema-felt:#075640;--cinema-background:#050c0f;
+ --cinema-glass:linear-gradient(175deg,#fff9d517,transparent 18% 68%,#0006);
+ --cinema-edge:inset 0 1px 0 #ffefc36b,inset 0 -1px 0 #0009,0 0 0 1px #342412;
+}
+/* Art quality is concentrated on true home/selection surfaces, never fabricated totals. */
+.app-shell:not(.at-table){
+ background-image:radial-gradient(ellipse 75% 40% at 50% 0%,#946d2533,transparent),
+ radial-gradient(ellipse 80% 70% at 50% 45%,#0b4c3a29,transparent),
+ linear-gradient(135deg,#071214,#040b0f);
+}
+.app-header{box-shadow:inset 0 1px 0 #ffd58b45,0 6px 29px #000b;border-image:linear-gradient(90deg,transparent,#a77737,#ffdda0,#a77737,transparent) 1}
+.app-header .brand{transition:filter .18s ease}
+.app-header .brand:hover{filter:brightness(1.12)}
+.casino-wordmark-type>b{font-weight:700;letter-spacing:.14em;background:linear-gradient(180deg,#fff4cb 9%,#f0c880 40%,#af742d 67%,#fff0b7 98%);color:transparent;background-clip:text;-webkit-background-clip:text;filter:drop-shadow(0 2px 1px #000b)}
+.casino-crest{filter:drop-shadow(0 2px 0 #5d371a) drop-shadow(0 0 7px #f3be6770)}
+.app-header .nav-button.selected,.app-header .nav-button[aria-current='page']{background:linear-gradient(180deg,#ffedb45e,#544125aa 50%,#1e332ebf);box-shadow:inset 0 1px #ffebb18c,0 0 0 1px #c79a5b5e,0 0 12px #dca75357}
+/* A richer room hero: architectural light and embossed cards remain CSS, not screenshot UI. */
+.casino-home-hero{
+ min-height:clamp(280px,29vw,425px);
+ background-image:linear-gradient(105deg,#031213f8 0%,#041917ea 34%,#092620b5 60%,#10151124 100%),
+ url('/casino-art/room-atmosphere.webp');
+ background-position:center,center 48%;background-size:cover;
+ box-shadow:inset 0 0 0 1px #d2ac7f70,inset 0 0 65px #000b,0 15px 40px #000a;
+ border:1px solid #ddb87585;
+}
+.casino-home-hero::before{inset:9px;border-color:#f6d69c7d;box-shadow:inset 0 0 0 1px #24170e}
+.casino-home-copy{gap:clamp(10px,1.4vw,18px)}
+.casino-home-copy h2{font-size:clamp(36px,5vw,78px);line-height:1.01;letter-spacing:.06em;text-shadow:0 5px 6px #000e,0 0 27px #a8703463}
+.casino-home-copy h2 em{background:linear-gradient(0deg,#9e692b,#ffebae 48%,#fff9df 68%,#bb8235);background-clip:text;-webkit-background-clip:text}
+.casino-home-copy>p{font-size:clamp(15px,1.3vw,19px);line-height:1.55;color:#f0ece1;text-shadow:0 2px 8px #000e}
+.casino-hero-link{background:linear-gradient(#fff9dd 0%,#e7c37d 39%,#b98643 80%,#fae3a1);border-color:#ffe6a5;box-shadow:inset 0 2px 0 #fff4dc,0 2px 0 #69441a,0 10px 18px #0009;letter-spacing:.015em}
+.casino-home-copy>small{color:#e3d5b7;text-shadow:0 2px 7px #000d}
+.casino-hero-medallion{display:grid;place-items:center;width:min(225px,80%);aspect-ratio:1;border-radius:50%;border:4px double #dfb76a;background:radial-gradient(circle at 35% 25%,#fff5bb4a,#292820 32%,#091913 80%);box-shadow:inset 0 0 0 8px #96754a52,inset 0 0 0 12px #0b1e1d,0 0 0 2px #f7d89660,0 20px 30px #000c,0 0 32px #d1a0573d;transform:rotate(-4deg)}
+.casino-hero-medallion .casino-crest{width:68%;height:68%;filter:drop-shadow(0 4px 2px #000b) drop-shadow(0 0 16px #efc17464)}
+.casino-fan{border:3px solid #dfb978;box-shadow:inset 0 0 0 2px #fffef2,0 9px 26px #000c,0 0 0 2px #4a2a13}
+.casino-fan-one{top:32%;left:43%}.casino-fan-two{top:32%;left:43%}
+.casino-chip-art{right:2%;bottom:-5%;box-shadow:0 8px 15px #000e,0 0 0 4px #161a18,inset 0 0 0 8px #242926,inset 0 0 0 10px #f5c870}
+.casino-hero-signature{position:absolute;left:46%;right:3%;bottom:15px;z-index:2;display:flex;justify-content:center;gap:12px;align-items:center;text-align:center;font:500 9px/1.2 Georgia,serif;letter-spacing:.25em;color:#ecd09b88;text-shadow:0 2px 4px #000}
+.casino-hero-signature b{color:#fbe1a8}
+/* Signature machines: the real card buttons navigate to the actual slot floor. */
+.casino-featured-floor{display:grid;gap:15px;margin:0 0 23px;padding:19px;border-radius:18px;border:1px solid #b8935969;background:linear-gradient(130deg,#101c1d,#1c2926 50%,#0d1920);box-shadow:inset 0 1px #f2d19a3b,0 15px 25px #0005;isolation:isolate}
+.casino-featured-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.casino-featured-title>span{font:700 10px/1.5 system-ui,sans-serif;letter-spacing:.18em;color:#dbba7b;flex-basis:100%}
+.casino-featured-title>b{font:600 clamp(22px,2.2vw,29px)/1.2 Georgia,serif;color:#fce4b4}
+.casino-featured-title>small{color:#cad6c9;font-size:12px}
+.casino-featured-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.casino-featured-machine{position:relative;overflow:hidden;min-width:0;min-height:190px;border:2px solid #b48b51;border-radius:13px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:5px;padding:13px 14px;background:linear-gradient(#21150c,#0b1520);color:#fff1d4;text-align:left;isolation:isolate;box-shadow:inset 0 0 0 3px #f4d28f39,0 7px 14px #0007;cursor:pointer}
+.casino-featured-machine img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .25s ease,filter .25s ease}
+.casino-featured-machine::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#0000 10%,#0007 54%,#020d12f5 100%);pointer-events:none}
+.casino-featured-machine strong{font:700 clamp(17px,2vw,24px)/1.1 Georgia,serif;color:#fff3d3;text-shadow:0 2px 6px #000e}
+.casino-featured-machine span{font-size:12px;font-weight:650;letter-spacing:.06em;color:#e9d6b3}
+.casino-featured-machine i{font-style:normal;color:#ffdf95;padding-left:5px}
+.casino-featured-machine:hover img{transform:scale(1.07);filter:brightness(1.12)}
+.casino-featured-machine:focus-visible{outline:3px solid #ffe5a0;outline-offset:3px}
+.home-card{border:1px solid #e0b57284;background:linear-gradient(145deg,#234237,#0d1d22 65%,#07151e);box-shadow:inset 0 1px 0 #ffdfad42,0 10px 22px #0008}
+.home-card::after{content:'';position:absolute;inset:4px;border-radius:11px;border:1px solid #f2d59f21;pointer-events:none}
+.home-card .casino-game-art{filter:drop-shadow(0 2px 1px #000) drop-shadow(0 0 15px #f4c17263);opacity:1;color:#f3ca7b}
+/* Metallic table rails: stronger material differentiation and inward lamp reflections. */
+.table-panel,.tournament-table{overflow:visible}
+.table-rail{
+ background:linear-gradient(158deg,#ffe4a847,transparent 18% 76%,#ffe5ad2e),
+ linear-gradient(160deg,#0c0a0b 0%,#e1ba7b 6%,#72502e 10%,#23180e 17%,#101918 24%,#171310 78%,#b98e50 91%,#1c1410 100%);
+ border-color:#f2d5a0;
+ box-shadow:0 0 0 2px #14100b,0 0 0 5px #ab783e9e,0 0 0 7px #071218,0 12px 32px #000e,
+ inset 0 2px 2px #fff2cd88,inset 0 -7px 13px #000e;
+}
+.table-rail::after{border:1px dashed #f1d7a798;box-shadow:inset 0 0 0 1px #271b12,inset 0 0 12px #000d}
+.felt{background:radial-gradient(ellipse 88% 70% at 45% 28%,#78c8a02e,transparent),radial-gradient(ellipse 110% 110% at 51% 42%,#21775c,#0c4a3c 59%,#042a24 88%,#031815),repeating-linear-gradient(27deg,#ffffff05 0 1px,#0000 1px 4px);box-shadow:inset 0 0 12px #0006,inset 0 19px 48px #021d1c9c,inset 0 -22px 50px #041b1aac}
+.seat-label{border:1px solid #e6d1a082;background:linear-gradient(160deg,#304d45ee,#111d23f7 65%,#0b1319);box-shadow:inset 0 1px #f5dfaa2e,0 5px 12px #000b}
+.seat.acting .seat-label,.seat:has(.seat-label.acting) .seat-label{border-color:#bdffe4;box-shadow:0 0 0 1px #94ffcd,0 0 16px #1cffab87,0 5px 14px #000b}
+.seat.winner .seat-label{border-color:#ffe4a5;box-shadow:0 0 0 2px #c6924c,0 0 24px #f7c67e9a}
+.pot-display{border:1px solid #f2d59dba;box-shadow:inset 0 1px #fff8e54f,inset 0 -2px #0009,0 3px 12px #000c}
+.playing-card:not(.card-back),.bj-card:not(.card-back){box-shadow:inset 0 0 0 1px #d7b98c,inset 0 2px 0 #fff9f1,0 3px 0 #806447,0 5px 10px #000b}
+:is(.action-panel,.t-action-panel,.plo-actions){box-shadow:inset 0 1px #f6d5a666,0 0 0 1px #a7834f99,0 14px 28px #000c}
+/* Individual game emblems are real SVG assets; never text pasted on top of cards. */
+.table-watermark::before{opacity:.7;filter:drop-shadow(0 2px 1px #0008)}
+.plo-print::before{opacity:.52;filter:drop-shadow(0 2px 1px #0008)}
+.blackjack-play .bj-felt{border-color:#b79458;box-shadow:inset 0 0 0 2px #ffe4ad,inset 0 0 0 7px #132521,inset 0 0 0 10px #967044,inset 0 18px 47px #001916a0,0 12px 31px #000a}
+/* Real slot artwork sits in marquee above the live reels, never in place of them. */
+.casino-slot-art picture{display:block;width:100%;height:100%}
+.casino-slot-art picture img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;filter:saturate(1.1) contrast(1.09)}
+.slot-card-marquee{padding:9px 12px 12px}
+.slot-card-marquee .casino-slot-art{width:100%;height:clamp(132px,13vw,190px);border:2px solid #efc37b;border-radius:13px;box-shadow:inset 0 0 14px #0008,0 0 0 3px #1c1007,0 0 0 4px #d1a3656e,0 7px 15px #000a}
+.slot-card-marquee b{font-size:clamp(20px,2vw,27px);line-height:1.05;z-index:2;color:#ffebb8;text-shadow:0 2px 4px #000f,0 0 12px var(--glow)}
+.slot-card-marquee small{font-size:11px;z-index:2;color:#fff2d3}
+.slot-card-reels{border-color:#f0d39a;background:linear-gradient(120deg,#6c471f,#f5ce83 28%,#ae7731 70%,#3d2612);box-shadow:0 0 0 2px #101214,0 5px 15px #0009,inset 0 2px #fff6cbab}
+.slot-card{border-radius:22px;background-image:radial-gradient(ellipse at 50% 3%,color-mix(in srgb,var(--glow) 54%,transparent),transparent 70%),linear-gradient(var(--top),var(--bottom));box-shadow:inset 0 0 0 2px #f4d79a,inset 0 0 0 7px #10151a,inset 0 0 0 9px #bf9659,0 15px 32px #000b,0 0 26px color-mix(in srgb,var(--glow) 36%,transparent)}
+.slot-card::before{inset:10px;border-color:#ffe4a0a8}
+.slot-marquee{padding:16px 12px 12px}
+.slot-marquee>.casino-slot-art{width:min(100%,430px);height:clamp(116px,24vw,165px);border:2px solid #ffdfa4;border-radius:12px;box-shadow:0 0 0 3px #070b0c,0 0 0 5px #d3a561,0 6px 16px #000d}
+.slot-marquee h3{font:900 clamp(23px,5.7vw,41px)/1.1 Georgia,serif;text-transform:uppercase;letter-spacing:.055em;color:#fff1cc;text-shadow:0 2px 3px #000f,0 0 18px var(--glow)}
+.slot-window-frame{border:3px solid #f3deb0;background:linear-gradient(130deg,#7e4b1d,#fff1bf 22%,#dcb577 40%,#9d6826 66%,#fce1a2 84%,#60401a);box-shadow:inset 0 2px #fffbd4,0 0 0 3px #151111,0 10px 18px #000c}
+.slot-window{box-shadow:inset 0 0 14px #000a}
+.slot-reel{background:linear-gradient(90deg,#c4b89f,#fffdf5 15%,#fffdf5 85%,#bca989);box-shadow:inset 3px 0 5px #45372036,inset -3px 0 5px #45372036}
+.slot-lights{filter:drop-shadow(0 0 4px #ffe0a7)}
+.slot-key{box-shadow:inset 0 1px #ffffff75,0 2px 0 #0b0a0b,0 7px 10px #0008;transition:transform .14s ease,filter .14s ease}
+.slot-key:not(:disabled):active{transform:translateY(2px)}
+.slot-meters{font-variant-numeric:tabular-nums}
+.slot-spin-button{filter:drop-shadow(0 3px 5px #000a);transition:filter .16s ease,transform .16s ease}
+.slot-spin-button:not(:disabled):active{transform:translateY(2px) scale(.98)}
+/* Respect settings, never force GPU-heavy effects on slower or reduced-motion devices. */
+.motion-off .casino-featured-machine img{transition:none}
+@media(prefers-reduced-motion:reduce){.casino-featured-machine img,.slot-key,.slot-spin-button,.app-header .brand{animation:none!important;transition:none!important}}
+@media(forced-colors:active){.casino-featured-machine,.casino-hero-medallion,.slot-card,.slot-window-frame,.table-rail{box-shadow:none!important;border:2px solid CanvasText!important}.casino-home-hero{background-image:none}}
+@media(max-width:900px){.casino-home-art{opacity:.55}.casino-hero-signature{display:none}.casino-home-hero{min-height:310px}.casino-featured-list{gap:8px}.casino-featured-machine{min-height:160px;padding:10px}.casino-featured-machine strong{font-size:17px}}
+@media(max-width:700px){
+ .casino-home-hero{min-height:0;padding:27px 19px 31px;background-position:center,64% center}
+ .casino-home-hero::before{inset:5px}.casino-home-copy h2{font-size:clamp(30px,8vw,49px);line-height:1.08}
+ .casino-home-art{width:165px;height:140px;right:-52px;opacity:.18}
+ .casino-featured-floor{padding:14px 10px;gap:12px;margin-bottom:17px}
+ .casino-featured-list{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(182px,75%);grid-template-columns:none;overflow-x:auto;scroll-snap-type:x mandatory;padding:3px 2px 10px;scrollbar-width:thin}
+ .casino-featured-machine{scroll-snap-align:start;min-height:145px}
+ .casino-featured-title{gap:5px}.casino-featured-title>small{font-size:11px}
+ .slot-card-marquee{padding:8px 9px 10px}.slot-card-marquee .casino-slot-art{height:144px}
+ .slot-marquee>.casino-slot-art{height:110px}.slot-marquee h3{font-size:clamp(21px,6vw,28px)}
+ .table-rail{border-width:2px;box-shadow:0 0 0 1px #c29352,0 0 0 3px #0b1516,0 7px 18px #000b,inset 0 1px 1px #fff4ce}
+ .casino-wordmark-type>b{letter-spacing:.07em}
+}
+@media(max-width:390px){.casino-featured-list{grid-auto-columns:80%}.slot-card-marquee .casino-slot-art{height:128px}.casino-home-copy h2{font-size:33px}}
+/* Final desktop composition: the room name stays on a single premium line. */
+@media(min-width:1100px){
+ .casino-home-copy h2{font-size:clamp(43px,4vw,59px);letter-spacing:.04em;white-space:nowrap}
+}
+.slot-floor-tabs{gap:8px}
+.slot-floor-tabs .segment{border:1px solid #ba965e99;background:linear-gradient(180deg,#263637,#111c23);color:#f0debd;border-radius:10px;min-height:41px;box-shadow:inset 0 1px #fff6d021}
+.slot-floor-tabs .segment.selected{border-color:#ffe3a3;color:#26190a;background:linear-gradient(180deg,#ffefc8,#d5a95f 70%,#a57733);box-shadow:inset 0 1px #fffbe1,0 4px 9px #0007}
+.slot-floor-tabs .segment:focus-visible{outline:3px solid #ffe9ae;outline-offset:3px}
+/* A machine-specific atmospheric print under live slots controls and live reels. */
+.slot-cabinet{
+ background-image:linear-gradient(180deg,color-mix(in srgb,var(--top) 95%,transparent),color-mix(in srgb,var(--bottom) 89%,transparent)),var(--cabinet-scene);
+ background-position:center,center 38%;background-size:cover,cover;
+ background-blend-mode:normal,soft-light;
+}

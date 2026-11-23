@@ -1,0 +1,2 @@
+export function summarize(values:readonly number[]){const ordered=[...values].sort((a,b)=>a-b),q=(p:number)=>ordered[Math.max(0,Math.ceil(ordered.length*p)-1)]??null;return{samples:ordered.length,p50:q(.5),p95:q(.95),p99:q(.99),max:ordered.at(-1)??null};}
+export function overlap(a:{start:number;end:number},b:{start:number;end:number}){return Math.max(0,Math.min(a.end,b.end)-Math.max(a.start,b.start));}

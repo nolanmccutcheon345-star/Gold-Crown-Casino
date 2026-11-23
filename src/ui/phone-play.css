@@ -1,0 +1,247 @@
+/* Phone play screen and shared play-control additions.
+   Loaded after every other stylesheet. Rules outside the media query style markup added
+   with this change; rules inside it rebuild the <=700px live table so the whole table and
+   the Fold / Call / Raise bar share one phone screen. Wide layouts keep their geometry. */
+
+/* ---- New markup, all widths ---- */
+.nav-short{display:none}
+.street-row{display:contents}
+.hand-tag{display:none}
+.brand small{font-size:10px;letter-spacing:1.2px}
+.perimeter-table .hero-tag{display:none}
+.perimeter-table .dealer-button,.perimeter-table .blind-tag{font-size:9px;font-weight:800}
+.raise-stepper{display:inline-flex;align-items:center;gap:6px;min-width:0}
+.step-button{min-width:44px;min-height:44px;padding:0;border:1px solid #425048;border-radius:6px;background:#1e302c;color:#dbe6dc;font-size:20px;line-height:1}
+.step-button:hover:not(:disabled){background:#33463b;color:#ecdbb7}
+.sizing-more{margin:12px 0 0}
+.sizing-more>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:13px;color:#c9d6cf}
+.showdown-hands{font-size:13px;line-height:1.5;color:#dcc68f;margin:6px 0 0;overflow-wrap:anywhere}
+/* Preflop quick sizes (big blinds, or multiples of the bet faced): label over the dollar total. */
+.size-presets .street-size{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:1.1;border-color:#e8c58b59;white-space:nowrap}
+.size-presets .street-size small{font-size:12px;font-weight:400;color:#c9b88f}
+.size-presets .street-size:disabled small{color:inherit}
+/* Check/Fold chosen ahead of your turn: a toggle shown only while opponents act. */
+.pre-action{display:block;width:100%;min-height:44px;margin:0 0 12px;padding:0 14px;border:1px solid #42504880;border-radius:22px;background:#1a2a27;color:#c9d6cf;font:inherit;font-size:13px;cursor:pointer}
+.pre-action:hover{background:#22352f}
+.pre-action.armed{border-color:#8fe0bd;background:#1d3a31;color:#e9f6ef;font-weight:600}
+/* Auto-deal: toggle beside Pace; countdown and Hold on the hand-complete panel. */
+.auto-deal-toggle{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-right:6px;color:#c3ceca;cursor:pointer;white-space:nowrap}
+.auto-deal-toggle input{width:18px;height:18px;margin:0;accent-color:#69c8a8}
+.deal-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px;align-items:stretch}
+.deal-row #auto-deal-hold{min-width:76px;width:auto}
+.deal-row #auto-deal-count{font-variant-numeric:tabular-nums}
+/* Folded seats stay readable. They were dimmed with opacity on the whole name plate, which put
+   names at 3.1:1 and stacks at 4.1:1. The plate and cards still fade; the text gets its own
+   colours, and the blind markers are no longer faded with the cards. */
+.perimeter-table .seat.folded .seat-label{opacity:1;background:#17252bb8;border-color:#3b504b80;box-shadow:none}
+.perimeter-table .seat.folded .seat-label b{color:#a7b5b2}
+.perimeter-table .seat.folded .seat-label strong{color:#b3bebc}
+.perimeter-table .seat.folded .seat-cards{opacity:1}
+.perimeter-table .seat.folded .hole-cards{opacity:.48}
+.table-intro{color:#cfdfc3b3}
+/* The seat to act must be findable at a glance around a full table. */
+.perimeter-table .acting .seat-label{border-color:#8fe0bd;box-shadow:0 0 0 2px #79c9a999,0 0 16px #5fd0a359}
+/* Pot panel: contribution levels fold away while nobody is all-in. */
+.pot-levels{flex:1 1 100%;border:1px solid #44644b59;border-radius:6px;background:#20362a4a}
+.pot-levels>summary{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center;padding:10px 12px;min-height:44px;cursor:pointer}
+.pot-levels>summary>span{font-size:13px;color:#b9cdb9}
+.pot-levels>summary>b{font-size:15px;color:#dbe1cf;text-align:right}
+.pot-levels>summary>small{grid-column:1/-1;font-size:12px;color:#9fb39e;line-height:1.4}
+.pot-levels>.pot-tiers{padding:0 10px 10px}
+/* Winning seats stand out when the hand settles. */
+.perimeter-table .winner .seat-label{border-color:#e8c58b;box-shadow:0 0 0 2px #e8c58b80,0 0 16px #e8c58b40}
+/* Wide-table text floor: names, actions, bets and the pot label. */
+.perimeter-table .seat .seat-label b{font-size:12px}
+.perimeter-table .seat-action{font-size:12px;line-height:14px}
+.perimeter-table .seat-bet{font-size:12px}
+.perimeter-table .street-label{font-size:11px}
+.perimeter-table .pot-display>span{font-size:10px}
+
+@media(max-width:700px){
+  /* ---- Header: one row of six tabs ---- */
+  .app-shell .app-header{min-height:0;padding:0;gap:0;flex-wrap:nowrap}
+  .app-shell .app-header .brand,.app-shell .app-header .header-status{display:none}
+  .app-shell .app-header nav{display:flex;flex-wrap:nowrap;flex:1 1 100%;order:0;gap:0;padding:0 4px;border-top:0;justify-content:space-between;overflow-x:auto;scrollbar-width:none}
+  .app-shell .app-header nav::-webkit-scrollbar{display:none}
+  .app-shell .app-header nav .nav-button{flex:1 0 auto;min-width:44px;min-height:44px;padding:0 7px;font-size:13px;white-space:nowrap;border-radius:0}
+  .nav-full{display:none}
+  .nav-short{display:inline}
+
+  /* ---- Live table with a hand in progress: table first, everything else below ---- */
+  .view-live.has-game main{display:flex;flex-direction:column;padding:4px 8px calc(204px + env(safe-area-inset-bottom))}
+  .view-live.has-game main>.game-layout{order:2}
+  .view-live.has-game main>.session-notice{order:3;margin:12px 2px 0}
+  .view-live.has-game main>.save-status{order:3;margin:14px 2px 0;font-size:13px}
+  .view-live.has-game main>.practice-disclosure{order:4}
+  .view-live.has-game main>footer{order:5}
+  .view-live.has-game .page-heading{margin:0}
+  .view-live.has-game .page-heading .eyebrow,.view-live.has-game .page-heading .room-details{display:none}
+  .view-live.has-game .page-heading h1{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .view-live.has-game .ending-notice,.view-live.has-game .error-banner{margin:0 0 6px;padding:8px 10px;font-size:13px;line-height:1.4}
+  .view-live.has-game .session-notice{padding:8px 10px;font-size:13px;line-height:1.4}
+  .view-live.has-game .save-status #continue-session{display:none}
+
+  .view-live.has-game .table-panel{border-radius:10px}
+  .view-live.has-game .table-heading{display:none}
+  .view-live.has-game .table-panel .table-scene.perimeter-table{margin:2px 5px}
+  .perimeter-table .street-row{display:flex;align-items:baseline;justify-content:center;gap:8px}
+  .perimeter-table .hand-tag{display:inline;font-size:11px;line-height:14px;color:#a9c0b2}
+
+  /* Seats: cards / name + stack / one-word action / chips. Heights match table-layout.ts. */
+  .perimeter-table .seat{grid-template-rows:28px 34px 15px 15px;gap:1px}
+  .perimeter-table .seat.hero-seat{grid-template-rows:56px 34px 15px;gap:1px}
+  .perimeter-table .seat .small-card{width:20px;height:28px;border-radius:3px}
+  .perimeter-table .seat .small-card b{font-size:13px;top:2px;left:2px}
+  .perimeter-table .seat .small-card>span{font-size:12px;margin:13px 2px 0 0}
+  .perimeter-table .seat .card-back>span{font-size:12px;margin:0}
+  .perimeter-table .hero-seat .small-card{width:36px;height:52px;border-radius:5px}
+  .perimeter-table .hero-seat .small-card b{font-size:21px;top:4px;left:4px}
+  .perimeter-table .hero-seat .small-card>span{font-size:21px;margin:23px 4px 0 0}
+  .perimeter-table .seat.folded:not(.hero-seat) .hole-cards{visibility:hidden}
+  .perimeter-table .seat-markers{width:18px;flex-basis:18px;gap:0}
+  .perimeter-table .dealer-button,.perimeter-table .blind-tag{width:18px;height:14px;border-radius:7px}
+  .perimeter-table .seat .seat-label{padding:2px 3px;border-radius:7px}
+  .perimeter-table .seat .seat-label b{font-size:12px;line-height:14px}
+  .perimeter-table .seat .seat-label strong{font-size:13px;line-height:16px}
+  .perimeter-table .seat .long-stack strong{font-size:11px}
+  .perimeter-table .seat-status{display:block;overflow:hidden}
+  .perimeter-table .hero-seat .seat-status{display:none}
+  .perimeter-table .seat-action{font-size:12px;line-height:15px;height:15px;white-space:nowrap;overflow:hidden}
+  .perimeter-table .seat-action .action-amount,.perimeter-table .seat-action .settled-word{display:none}
+  .perimeter-table .seat-action .award-word{font-size:0}
+  .perimeter-table .seat-action .award-word::after{content:'Won';font-size:12px;color:#e8c58b;font-weight:600}
+  .perimeter-table .seat-hand-label{display:none}
+  .perimeter-table .seat-bet{font-size:12px;gap:3px}
+  .perimeter-table .seat-bet.empty-bet.award-bet{visibility:visible;color:#e8c58b;font-weight:600}
+  .perimeter-table .seat-bet.award-bet i{display:none}
+
+  /* Felt and board */
+  .perimeter-table .table-rail{inset:22px 24px 34px;border-radius:64px;padding:6px}
+  .perimeter-table .felt,.perimeter-table .felt-line{border-radius:58px}
+  .perimeter-table .felt-line{inset:10px}
+  .perimeter-table .table-watermark{display:none}
+  .perimeter-table .board-area{gap:4px}
+  .perimeter-table .street-label{font-size:11px;line-height:14px;letter-spacing:.6px}
+  .perimeter-table .board-cards .playing-card b{font-size:clamp(14px,4.4vw,19px)}
+  .perimeter-table .board-cards .playing-card>span{font-size:clamp(14px,4.6vw,20px)}
+  .perimeter-table .pot-display{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1px 6px;padding:3px 10px;border-radius:14px;background:#0b241dcc}
+  .perimeter-table .pot-display>span{font-size:11px;line-height:14px;letter-spacing:.4px}
+  .perimeter-table .pot-display>strong{font-size:16px;line-height:20px}
+
+  /* Table toolbar below the table */
+  .view-live .table-toolbar{font-size:13px;padding:8px 10px}
+  .view-live .table-toolbar select{font-size:16px;min-height:44px;padding:0 6px}
+  .view-live .table-toolbar .icon-button{font-size:13px;min-height:44px;padding:0 12px}
+  .view-live .table-toolbar>div{flex-wrap:wrap;justify-content:flex-end}
+  .view-live .table-toolbar .auto-deal-toggle input{width:22px;height:22px}
+
+  /* Pot panel heading: the caption sits under the title instead of wrapping in a narrow right column. */
+  .view-live .pot-breakdown-heading{flex-direction:column;align-items:flex-start;gap:2px;margin-bottom:10px}
+  .view-live .pot-breakdown-heading>small{max-width:none;text-align:left;line-height:1.4}
+  /* Closed notes card: one centred 44px row, no empty band under the label. */
+  .view-live .player-notes{padding:4px 14px}
+  .view-live .player-notes summary{padding:12px 0;line-height:20px}
+  .view-live .player-notes details[open]{padding-bottom:10px}
+
+}
+
+/* ---- Pinned action bar: phones, tablets and narrow windows (<=1180px).
+   Wider screens place the same panel in a side column (desktop-play.css). ---- */
+@media(max-width:1180px){
+  .view-live.has-game main{padding-bottom:calc(204px + env(safe-area-inset-bottom))}
+  .view-live.has-game .action-panel{position:fixed;left:0;right:0;bottom:0;z-index:30;margin:0;display:grid;grid-template-columns:minmax(0,1fr);row-gap:6px;padding:6px 10px calc(8px + env(safe-area-inset-bottom));max-height:calc(100vh - 56px);max-height:calc(100dvh - 56px);overflow-y:auto;border:0;border-top:1px solid #77918259;border-radius:14px 14px 0 0;background:#0f1a1f;box-shadow:0 -8px 24px #00000080}
+  .view-live.has-game .action-panel.your-action{border-top-color:#8fe0bd}
+  .view-live.has-game .action-panel .eyebrow{display:none}
+  .view-live.has-game .action-top{order:1;margin:0;min-height:44px;gap:10px;padding-right:112px}
+  .view-live.has-game .action-top>div:first-child{min-width:0}
+  .view-live.has-game .action-panel h2{font-size:16px;line-height:20px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .view-live.has-game .hero-stack-label{flex-direction:row;align-items:baseline;gap:5px;white-space:nowrap}
+  .view-live.has-game .hero-stack-label>span{font-size:12px;letter-spacing:.3px;color:#a9bab3}
+  .view-live.has-game .hero-stack-label>b{font-size:14px}
+
+  /* While waiting, Check/Fold takes the corner that More sizes uses on your turn. */
+  .view-live.has-game .pre-action{position:absolute;top:6px;right:10px;width:auto;min-width:100px;margin:0;padding:0 12px}
+  .view-live.has-game .action-panel:has(#pre-check-fold) .sizing-more>summary{display:none}
+  .view-live.has-game .action-panel:has(#pre-check-fold) .action-top{padding-right:138px}
+  .view-live.has-game .complete-action .deal-row .button{width:100%}
+  .view-live.has-game .complete-action .deal-row #auto-deal-hold{width:auto}
+  .view-live.has-game .sizing-more{order:2;margin:0}
+  .view-live.has-game .sizing-more:not([open]){margin-top:-6px}
+  .view-live.has-game .sizing-more>summary{position:absolute;top:6px;right:10px;min-height:44px;min-width:100px;padding:0 10px;justify-content:center;list-style:none;border:1px solid #42504880;border-radius:22px;background:#1a2a27;font-size:13px}
+  .view-live.has-game .sizing-more>summary::-webkit-details-marker{display:none}
+  .view-live.has-game .sizing-more>summary span::after{content:' ▾'}
+  .view-live.has-game .sizing-more[open]>summary span::after{content:' ▴'}
+  .view-live.has-game .sizing-more-body{max-height:38vh;max-height:min(38dvh,max(44px,calc(100dvh - 280px)));overflow-y:auto;padding:2px 2px 4px;border-bottom:1px solid #ffffff12}
+  .view-live.has-game .sizing-more-body .raise-limits{margin:4px 0 8px}
+  .view-live.has-game .sizing-more-body .pot-slider-control input{min-height:44px}
+  .view-live.has-game .sizing-more-body .action-footnote{font-size:12px;line-height:1.5;margin-top:6px;color:#a3b5ac}
+
+  .view-live.has-game .raise-controls{order:3;margin:0;display:flex;flex-wrap:nowrap;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:1px}
+  .view-live.has-game .raise-controls::-webkit-scrollbar{display:none}
+  .view-live.has-game .raise-controls .raise-input-group{display:flex;flex:0 0 auto;width:auto;align-items:center;gap:8px}
+  .view-live.has-game .raise-input-group label{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .view-live.has-game .raise-stepper{gap:4px}
+  .view-live.has-game .raise-input-group input{width:84px;max-width:84px;min-height:44px;padding:0 6px;text-align:center;font-size:16px}
+  .view-live.has-game .raise-input-group>#raise-additional{margin:0;width:64px;font-size:12px;line-height:1.2;white-space:normal;color:#b8c8c1}
+  /* With nothing committed this street the extra amount equals the Raise button's total, so the
+     closed bar gives that room to the size buttons. It returns when More sizes is open. */
+  .view-live.has-game .action-panel:not(:has(#sizing-more[open])) .raise-input-group.no-prior>#raise-additional{display:none}
+  .view-live.has-game .size-presets{display:flex;flex:0 0 auto;width:auto;flex-wrap:nowrap;gap:6px}
+  .view-live.has-game .size-presets button{flex:0 0 auto;min-width:56px;min-height:44px;padding:0 10px;font-size:13px}
+
+  /* Fold / Call / Raise are always the bottom row, so opening More sizes or a validation
+     message never moves them under a thumb. */
+  .view-live.has-game .action-buttons{order:5;display:grid;grid-template-columns:1fr 1.15fr 1.45fr;gap:8px}
+  .view-live.has-game .action-buttons .button{min-height:50px;padding:6px;font-size:15px;line-height:1.15;gap:2px 4px}
+
+  .view-live.has-game .sizing-validation{order:4;display:none;margin:0;min-height:0;font-size:13px}
+  .view-live.has-game .action-panel:has(#raise-to[aria-invalid="true"]) .sizing-validation,
+  .view-live.has-game .action-panel:has(#sizing-more[open]) .sizing-validation{display:block}
+
+  /* Hand complete: result, shown hands, one big button */
+  .view-live.has-game .action-panel.complete-action{display:grid;gap:8px;padding-top:10px}
+  .view-live.has-game .complete-action h2{white-space:normal}
+  .view-live.has-game .complete-action p{font-size:13px;line-height:1.4;margin:4px 0 0;color:#b4c3bc}
+  .view-live.has-game .complete-action .showdown-hands{color:#dcc68f;max-height:2.8em;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+  .view-live.has-game .complete-action .showdown-hands:focus-visible{outline:2px solid #e9c88b;outline-offset:2px}
+  .view-live.has-game .complete-action .button{width:100%;min-height:52px;font-size:15px}
+}
+/* Between phone and desktop widths the bar is centred instead of spanning a wide window. */
+@media(min-width:701px) and (max-width:1180px){
+  .view-live.has-game .action-panel{left:50%;right:auto;width:min(100%,760px);transform:translateX(-50%);border:1px solid #77918259;border-bottom:0}
+  .view-live.has-game .size-presets button{min-width:64px}
+}
+
+@media(max-width:350px){
+  .app-shell .app-header nav .nav-button{padding:0 4px;font-size:12px}
+  .view-live.has-game .action-top{padding-right:108px}
+  .view-live.has-game .action-buttons .button{font-size:14px}
+}
+
+/* ---- Phone-wide form and touch rules (every screen) ---- */
+@media(max-width:700px){
+  /* iPhone Safari zooms the page when a focused field is under 16px. */
+  .app-shell input:not([type=checkbox]):not([type=radio]):not([type=range]),.app-shell select,.app-shell textarea{font-size:16px}
+  /* 44px minimum touch height for buttons, fields and disclosure rows. */
+  .app-shell .button,.app-shell .text-button,.app-shell .icon-button,.app-shell select,.app-shell summary,
+  .app-shell input:not([type=checkbox]):not([type=radio]):not([type=range]){min-height:44px}
+  .app-shell input[type=checkbox],.app-shell input[type=radio]{width:22px;height:22px;flex-shrink:0}
+  .app-shell .error-banner button{min-width:44px;min-height:44px}
+  .app-shell main{padding-left:12px;padding-right:12px}
+  .app-shell.view-live.has-game main{padding-left:8px;padding-right:8px}
+  /* While waiting, the bar's top row holds who acts next and Check/Fold. The stack stays on
+     your seat plate; here it would squeeze the name out. */
+  .view-live.has-game .action-panel:has(#pre-check-fold) .hero-stack-label{display:none}
+  .view-live.has-game .action-panel:has(#pre-check-fold) .action-top{padding-right:124px}
+}
+/* Patch 67: Skip sits beside Check/Fold. */
+@media (max-width: 1180px) {
+  .view-live.has-game .pre-action.skip-action{right:122px;min-width:72px}
+  .view-live.has-game .action-panel:has(#skip-to-turn) .action-top{padding-right:212px}
+}
+
+/* Long seat cues must not expand the layout viewport around the fixed cash action bar. */
+@media (max-width:700px){
+  .view-live.has-game .table-panel{overflow-x:clip}
+  .view-live.has-game .action-panel{box-sizing:border-box;width:100%;max-width:100vw}
+}

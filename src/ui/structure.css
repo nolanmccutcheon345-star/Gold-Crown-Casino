@@ -1,0 +1,48 @@
+/* Patch 78: app structure. Shorter headers outside the cash table, a quiet recovery note, scrollable page tabs that
+   show there is more, and tidier panels. Layout only; every control is still in the page. */
+
+/* The save line, blinds and table settings belong to the Hold'em cash pages. Elsewhere they stay in the page (for
+   keyboard and screen-reader users who rely on them) but are not drawn. */
+.app-shell:not(.view-live):not(.view-host):not(.view-session):not(.view-cashier) .save-status{display:none}
+.app-shell:not(.view-live):not(.view-host):not(.view-session) .room-details>span{display:none}
+.app-shell:not(.view-live):not(.view-host):not(.view-session) .room-details #configure{display:none}
+.page-heading .eyebrow{letter-spacing:.12em}
+
+/* The recovery note: one line until opened. */
+details.recovery-note{padding:10px 14px}
+details.recovery-note>summary{cursor:pointer;list-style:none;display:flex;gap:8px;flex-wrap:wrap;align-items:baseline;font-size:13px}
+details.recovery-note>summary::-webkit-details-marker{display:none}
+details.recovery-note>summary::after{content:'▾';margin-left:auto;opacity:.6}
+details.recovery-note[open]>summary::after{content:'▴'}
+details.recovery-note ul{margin:8px 0 0;padding-left:18px;font-size:13px;line-height:1.5}
+
+/* Page tabs scroll sideways, snap to a tab, and fade at an edge when there is more. */
+.subnav{scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 28px),transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18px,#000 calc(100% - 28px),transparent 100%)}
+.subnav::-webkit-scrollbar{display:none}
+.subnav-button{scroll-snap-align:center;flex:0 0 auto}
+
+/* Home: four balances in a tidy grid; the game cards wrap to two columns on a phone. */
+.hub-balances{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media(max-width:700px){
+ .hub-balances{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .home-cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .home-card:not(.home-card-main){min-height:88px!important}
+}
+
+/* The tournament balance panel outside an event. */
+.tournament-wallet{padding:18px 18px 14px}
+.tournament-wallet>h2{font-size:18px;margin:0 0 6px}
+.tournament-wallet>p{font-size:14px;line-height:1.55;color:#b9c6c0;margin:0 0 8px}
+.tournament-wallet details>summary{cursor:pointer;font-size:13px;color:var(--gold)}
+
+/* History: export and import tools tucked under one line. */
+.history-tools-wrap{margin-top:8px}
+.history-tools-wrap>summary{cursor:pointer;font-size:13px;color:var(--gold);min-height:36px;display:flex;align-items:center}
+.history-tools-wrap .history-tools{margin-top:8px}
+
+/* Panels added in later patches get the same breathing room and type scale as the rest of the app. */
+.panel:is(.plo,.heads-up,.career,.coach,.by-game){padding:20px 18px;display:grid;gap:10px;align-content:start}
+.panel:is(.plo,.heads-up,.career,.coach,.by-game)>h2{font-size:21px;line-height:1.2;margin:0}
+.panel:is(.plo,.heads-up,.career,.coach,.by-game) p{line-height:1.55}
+.panel:is(.plo,.heads-up,.career,.coach,.by-game)>.eyebrow{margin:0}
+@media(max-width:700px){.panel:is(.plo,.heads-up,.career,.coach,.by-game){padding:18px 14px}}

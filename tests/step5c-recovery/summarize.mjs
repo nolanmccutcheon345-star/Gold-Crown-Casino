@@ -1,0 +1,9 @@
+import console from 'node:console';
+import {readFileSync,writeFileSync} from 'node:fs';
+const directory='tests/step5c-recovery/evidence';
+const read=p=>JSON.parse(readFileSync(`${directory}/${p}`,'utf8'));
+const rows=[0,100,500,1000,5000,10000].map(hands=>{const before=read(`baseline/${hands}.json`),after=read(`optimized/${hands}.json`);return{hands,samplesPerPhase:1,beforeMs:before.runs[0].ms,afterMs:after.runs[0].ms,improvementPercent:100*(1-after.runs[0].ms/before.runs[0].ms),storageBytes:after.storageBytes,beforeHeapBytes:before.runs[0].after.heapUsed,afterHeapBytes:after.runs[0].after.heapUsed,beforeGCms:before.gc.reduce((n,e)=>n+e.ms,0),afterGCms:after.gc.reduce((n,e)=>n+e.ms,0)};});
+const profiles={};for(const label of ['baseline','optimized']){const p=read(`${label}-10000.cpuprofile`),nodes=new Map(p.nodes.map(n=>[n.id,n])),costs=new Map();for(let i=0;i<p.samples.length;i++){const f=nodes.get(p.samples[i]).callFrame,key=JSON.stringify({function:f.functionName,file:f.url.split('/').at(-1),line:f.lineNumber+1});costs.set(key,(costs.get(key)??0)+p.timeDeltas[i]/1000);}profiles[label]=[...costs].sort((a,b)=>b[1]-a[1]).slice(0,25).map(([key,selfMs])=>({...JSON.parse(key),selfMs}));}
+const stages={};for(const label of ['baseline','optimized']){const d=read(`${label}/10000.json`),totals={};for(const s of d.stages)totals[s.name]=(totals[s.name]??0)+s.ms;stages[label]=totals;}
+writeFileSync(`${directory}/comparison.json`,JSON.stringify({method:'Matched original hash-preserving closed-session archive subsets; Node24.22.1 reference in-memory serialized storage; exactly1 cold sample per size/phase, no percentile estimate; archive extraction excluded. NativeSHAavailable candidate; actual managedHTTP browser fallback measured separately.',rows,stages,profiles},null,2)+'\n');
+console.log(JSON.stringify(rows));

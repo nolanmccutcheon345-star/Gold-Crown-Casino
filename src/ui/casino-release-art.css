@@ -1,0 +1,35 @@
+/* Release visual detailing — real responsive components, decorative layers only.
+   Never replace or obscure authoritative cards, bets, reels, or controls. */
+:root{--room-raised-gold:#e7c790;--room-dark-metal:#0a181c;--room-edge-inset:inset 0 1px 0 #ffefc363}
+/* Signature engraved crests on each actual playing surface. */
+.table-watermark::before{content:"";display:block;width:clamp(90px,18vw,164px);height:clamp(35px,5.5vw,58px);margin:-3px auto 2px;background:url('/casino-art/table-holdem.svg') center/contain no-repeat;opacity:.56;pointer-events:none}
+.tournament-table .table-watermark::before{background-image:url('/casino-art/table-tournament.svg')}
+/* Legacy wordmark is kept as actual text; engravings sit behind the action area. */
+.plo-print::before{content:"";display:block;width:132px;height:52px;margin:0 auto 3px;background:url('/casino-art/table-omaha.svg') center/contain no-repeat;opacity:.35;pointer-events:none}
+.bj-felt-print{background:url('/casino-art/table-blackjack.svg') center top/190px auto no-repeat;background-origin:border-box}
+/* Visually distinguish the heads-up ladder without modifying match rules. */
+.hu-stack-bar{border:1px solid #d9b773b0;box-shadow:0 0 0 1px #2d24196b,var(--room-edge-inset),0 8px 22px #000a}
+.hu-rung:where(:not(.locked)){background-image:linear-gradient(140deg,#e8c47d1a,transparent 70%)}
+/* Meticulously layered chrome edge and soft lamp reflections on table rails. */
+.table-rail{background-image:linear-gradient(115deg,#fff6c431,transparent 26% 77%,#fff1cf1f),linear-gradient(160deg,#100b09,#a27b51 9%,#2e2119 15%,#23190f 25%,#101819 44%,#51402b 68%,#caad77 81%,#110d0a 94%)}
+.felt{background-blend-mode:screen,normal,soft-light;background-image:radial-gradient(ellipse 70% 56% at 46% 27%,#75c6a32e,transparent),radial-gradient(ellipse 110% 120% at 50% 35%,#216c56,#07352c 77%,#03221e),repeating-linear-gradient(21deg,#ffffff06 0 1px,transparent 1px 4px)}
+.board-slot{border:1px solid #f5d99b40;box-shadow:inset 0 2px 12px #0008,0 0 0 1px #173f37}
+/* Premium white stock, beveled edges and authentic red/black pips. */
+.playing-card:not(.card-back){background:linear-gradient(115deg,#fffefa,#fdfaf3 56%,#e3d9c5);box-shadow:inset 0 0 0 1px #d1c29d,inset 0 2px 2px #fff,0 3px 0 #94856c,0 5px 11px #0009}
+.playing-card.red-card{color:#b52637}
+/* A cohesive action bar, accessible even over the richest felt. */
+:is(.action-panel,.t-action-panel,.plo-actions){background:linear-gradient(180deg,#27443d,#0b1b22 84%);border-color:#d8b98290;box-shadow:var(--room-edge-inset),0 14px 27px #0008}
+:is(.action-panel,.t-action-panel,.plo-actions) :is(button,input,select):focus-visible{outline:3px solid #fff2bc;outline-offset:3px}
+/* Distinct cabinet identity with a consistent premium metal chassis. */
+.slot-cabinet{background-blend-mode:screen,normal;outline:1px solid #fff3ce42;outline-offset:-14px}
+.slot-cabinet::after{content:"";position:absolute;inset:6px 11px auto;height:15%;border-radius:18px 18px 0 0;background:linear-gradient(180deg,#fff7c319,#0000 75%);pointer-events:none;z-index:4}
+.slot-cabinet.kind-wheel{--casino-ornament:#f4acff}
+.slot-cabinet.kind-hold{--casino-ornament:#86ddff}
+.slot-cabinet.kind-cascade{--casino-ornament:#d49dff}
+.slot-cabinet.kind-pick{--casino-ornament:#8cedcb}
+.slot-window-frame{background:linear-gradient(125deg,#765226,#ffeeaf 17%,#bd8b39 38%,#fff2bf 55%,#75501e 90%);border-color:#fff1c6}
+.slot-meters>div{border-radius:7px;box-shadow:inset 0 1px 0 #fbe0a928,inset 0 3px 8px #000e,0 0 0 1px #a17a4150}
+.slot-card:focus-visible,.slot-spin-button:focus-visible{outline:3px solid #fff4c7;outline-offset:4px}
+@media(max-width:700px){.table-watermark::before{display:none}.plo-print::before{width:85px;height:32px}.bj-felt-print{background-size:130px auto}}
+@media(prefers-reduced-motion:reduce){.slot-cabinet::after{animation:none!important}}
+@media(forced-colors:active){.slot-cabinet::after,.table-watermark::before,.plo-print::before{display:none}.playing-card{border:1px solid CanvasText!important}}

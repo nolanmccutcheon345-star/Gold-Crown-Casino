@@ -1,0 +1,70 @@
+/* 2 — Genuine live poker surfaces. This layer only paints existing table, seat,
+   card, chip and action components: state and betting geometry remain authoritative. */
+:is(.table-panel,.tournament-table){position:relative;background:
+ radial-gradient(ellipse at 50% 15%,#cdaa6430,transparent 64%),
+ linear-gradient(150deg,#1b2928,#0a151c 62%);border:1px solid #c8a66f6b;
+ box-shadow:inset 0 1px 0 #ffe9af24,0 15px 44px #0009}
+.table-rail{
+ background:linear-gradient(123deg,#fff8d33a,transparent 15% 76%,#ffc98326),
+ linear-gradient(165deg,#1d130f,#846348 12%,#211915 19%,#493326 28%,#101418 43%,#503f2c 66%,#d0a66c 78%,#15110c 93%);
+ border:3px solid #cfa770;
+ box-shadow:0 0 0 2px #070f12,0 0 0 4px #b5895366,0 12px 28px #000b,
+ inset 0 3px 2px #fff3d282,inset 0 -6px 11px #000d}
+.table-rail::after{inset:6px;border:1px dashed #dcc48b87;box-shadow:inset 0 0 0 1px #1c150d}
+.felt{background:
+ radial-gradient(ellipse 90% 60% at 47% 35%,#368f6c7a,transparent 80%),
+ radial-gradient(ellipse 120% 125% at 50% 45%,#13775c,#0b4438 66%,#062623 96%),
+ repeating-linear-gradient(95deg,#ffffff03 0 1px,transparent 1px 3px);
+ box-shadow:inset 0 0 0 1px #a9be8e2e,inset 0 15px 26px #001a1588,inset 0 -11px 48px #001915d1}
+.felt::after{content:"";position:absolute;inset:6% 4%;border-radius:50%;pointer-events:none;opacity:.22;background:repeating-linear-gradient(90deg,transparent 0 3px,#ffffff04 3px 4px)}
+.table-watermark{color:#e8d19d63;text-shadow:0 2px 5px #001b16;font:600 clamp(10px,1.1vw,18px)/1.15 Georgia,serif;letter-spacing:.15em}
+.table-watermark strong{font-weight:600;letter-spacing:.2em}
+.felt-line{border-color:#bcd4ac4d}
+.street-label{font:700 clamp(9px,1vw,15px)/1.3 Georgia,serif;letter-spacing:.09em;color:#ffebc1;text-shadow:0 2px 5px #001a1a}
+/* Upgraded real playing cards: pip styling remains visible and in correct positions. */
+.playing-card{color:#132932;border:1px solid #fef9ea;background:linear-gradient(132deg,#ffffff,#fbf8ee 55%,#e5dccc);
+ border-radius:6px;box-shadow:inset 0 0 0 1px #d0c1a4,0 1px 0 #9e8d6f,0 4px 9px #0008}
+.playing-card.red-card{color:#c63343}
+.playing-card.card-back{border-color:#edc77d;background:
+ repeating-linear-gradient(45deg,#d7e8ed3e 0 1px,transparent 1px 6px),
+ repeating-linear-gradient(-45deg,#d7e8ed3e 0 1px,transparent 1px 6px),
+ radial-gradient(ellipse at 50% 33%,#416d80,#0e344f 80%);
+ box-shadow:inset 0 0 0 2px #132632,inset 0 0 0 4px #e9bb7066,0 3px 7px #0009}
+.board-slot{background:linear-gradient(155deg,#0d3f34cc,#032921b8);border:1px solid #b9dcaf42;box-shadow:inset 0 3px 9px #001d189c,inset 0 0 0 1px #ffffff09}
+.pot-display{background:linear-gradient(180deg,#1f4538f2,#071e1cef);border:1px solid #dfbe7d9c;box-shadow:inset 0 1px 0 #f7efc743,0 4px 14px #000a}
+.pot-display strong{color:#fff2d1;text-shadow:0 1px 6px #020b07}
+/* Player avatars have a consistent metal ring; their mood/acting states remain functional. */
+.seat-label{background:linear-gradient(153deg,#29413ce7,#08171def 80%);border-color:#b2aa876b;box-shadow:inset 0 1px 0 #f9e8c22b,0 3px 10px #000a}
+.seat:has(.portrait) .portrait{border:1px solid #ffdf9e;box-shadow:0 0 0 2px #2e2417,0 0 0 3px #caa366,0 4px 10px #0008}
+.seat-label b{color:#e9f0eb}.seat-label strong{color:#fff7df;font-variant-numeric:tabular-nums;letter-spacing:.005em}
+.seat.hero-seat .seat-label{border-color:#ffdb8b;background:linear-gradient(165deg,#675132c4,#14362bcf 56%,#102522);
+ box-shadow:inset 0 1px 0 #ffedc868,0 0 0 2px #d7bd8e55,0 5px 17px #0009}
+.seat.acting .seat-label,.seat:has(.seat-label.acting) .seat-label{border-color:#8affe1;box-shadow:0 0 0 2px #3ceda67a,0 0 18px #40f6ab6c,0 4px 14px #000b}
+.seat.winner .seat-label{border-color:#f8d08a;box-shadow:0 0 0 2px #ffe0a65c,0 0 25px #dba65791}
+.seat.folded .seat-label{filter:saturate(.55);opacity:.65}
+.seat-bet{border:1px solid #e5c88873;background:#0a2421e8;box-shadow:inset 0 1px #fff5c121,0 3px 7px #0007;color:#f7eac4}
+.dealer-button{background:linear-gradient(160deg,#fffefa,#f8ddad 72%,#b5a17b);border:1px solid #c5a268;box-shadow:0 2px 0 #6e552d,0 4px 8px #0008}
+/* Metal-and-glass control dashboard with unambiguous primary action states. */
+:is(.action-panel,.t-action-panel){border:1px solid #d1b2738e;background:
+ radial-gradient(ellipse at 50% 0%,#bb9b5430,transparent 86%),
+ linear-gradient(180deg,#1b3434ef,#0b1a20fa 76%);box-shadow:inset 0 1px 0 #f7e6bf30,0 10px 26px #000a;
+ backdrop-filter:blur(12px)}
+:is(.action-panel,.t-action-panel) button:not(:disabled){transition:filter .16s,transform .16s,box-shadow .16s}
+:is(.action-panel,.t-action-panel) :is(#raise,#t-raise){background:linear-gradient(180deg,#fff0c8,#ebc37d 60%,#ba883e);border-color:#fff3c7;color:#39230d;box-shadow:inset 0 1px 0 #fffad6,0 4px 11px #0006}
+:is(.action-panel,.t-action-panel) :is(#call,#t-call){background:linear-gradient(180deg,#1d855c,#0b4e3d);border-color:#9bf4c0;color:#f2fff8;box-shadow:inset 0 1px 0 #d7ffef56,0 4px 12px #0007}
+:is(.action-panel,.t-action-panel) :is(#fold,#t-fold){background:linear-gradient(180deg,#3b4c57,#1b303c);border-color:#9ab5bb;color:#f2f4f4}
+/* Replayer should use matching live table material, rather than a different mock style. */
+:is(.replay-table,.replayer-table){background:radial-gradient(ellipse at 50% 35%,#2a8266,#0b3e35 80%);border:6px solid #a47e4d;box-shadow:inset 0 0 18px #0009,0 0 0 2px #e2be7d,0 8px 23px #0009}
+/* The compact 9-seat layout needs stable geometry; do not change card locations at phone size. */
+@media(max-width:700px){
+ .table-rail{border-width:2px;box-shadow:0 0 0 1px #d4ac6b,0 6px 15px #000a,inset 0 2px 2px #fff8d247}
+ .table-rail::after{inset:3px}
+ .seat-label{border-radius:8px}
+ .seat:has(.portrait) .portrait{box-shadow:0 0 0 1px #26211c,0 0 0 2px #d3b376,0 2px 6px #0009}
+ .table-panel,.tournament-table{border-radius:13px}
+}
+/* Honors player and OS preferences, and high contrast fallback. */
+@media(prefers-reduced-motion:reduce){
+ :is(.seat-label,.playing-card,.pot-display,.action-panel,.t-action-panel){animation:none!important;transition:none!important}
+}
+@media(forced-colors:active){.table-rail,.felt,.seat-label,.playing-card,.pot-display{border:1px solid CanvasText;box-shadow:none}.action-panel,.t-action-panel{backdrop-filter:none}}

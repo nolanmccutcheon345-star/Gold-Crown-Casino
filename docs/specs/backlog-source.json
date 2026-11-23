@@ -1,0 +1,862 @@
+[
+  {
+    "id": "FUT001",
+    "title": "Run it twice",
+    "release": "R4 cash formats",
+    "required_behavior": "Split only eligible settled pot per approved room/consenting participants, one deck and two independent remaining runouts; rake once; main/sidepot eligibility; UI prompt",
+    "dependencies": "R1 settled all-in engine",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Requires unanimous applicable consent; never increase expected equity automatically"
+  },
+  {
+    "id": "FUT002",
+    "title": "Run it three or more times",
+    "release": "R4 cash formats",
+    "required_behavior": "N independent runouts with correct deck exhaustion, fractional chips and per-pot awards; variant room choice",
+    "dependencies": "Run it twice",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No universal venue rule"
+  },
+  {
+    "id": "FUT003",
+    "title": "Side-pot-only run-it-twice",
+    "release": "R4 cash formats",
+    "required_behavior": "Only consenting eligible sidepot players can split that pot while main pot may run once",
+    "dependencies": "Run it twice; side pot oracle",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Explicit room-specific eligibility"
+  },
+  {
+    "id": "FUT004",
+    "title": "Single-board NLHE bomb pots",
+    "release": "R4 cash formats",
+    "required_behavior": "Each dealt-in participant posts configured ante, skip preflop betting, go to flop; pot and rake rule tested",
+    "dependencies": "R1 engine; forced bet profiles",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Keep new first-action semantics"
+  },
+  {
+    "id": "FUT005",
+    "title": "Double-board NLHE bomb pots",
+    "release": "R4 cash formats",
+    "required_behavior": "Two independent boards and split awards, sidepots per eligible shares and odd chips tested",
+    "dependencies": "Single-board bombs; multi-board settlement",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Not simply two normal hold'em hands"
+  },
+  {
+    "id": "FUT006",
+    "title": "Bomb-pot random scheduled frequencies",
+    "release": "R4 cash formats",
+    "required_behavior": "Opt-in per X hands or probabilistic, transparent trigger/provenance",
+    "dependencies": "Bomb pots",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No rigging specific Hero outcomes"
+  },
+  {
+    "id": "FUT007",
+    "title": "7-2 game bounty",
+    "release": "R4 house games",
+    "required_behavior": "Optional per-seat side payment trigger, eligibility and virtual reward separate from main pot",
+    "dependencies": "R1 ledger",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "House-dependent exact trigger"
+  },
+  {
+    "id": "FUT008",
+    "title": "Stand-up game",
+    "release": "R4 house games",
+    "required_behavior": "Track last player without qualifying win; sidepot virtual prop liability separate",
+    "dependencies": "R1 profiles",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Rule variants need explicit rules"
+  },
+  {
+    "id": "FUT009",
+    "title": "NIT game prop",
+    "release": "R4 house games",
+    "required_behavior": "Track players achieving defined qualifying pot/action and pay side virtual game",
+    "dependencies": "R1 ledger",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Optional rules profiles"
+  },
+  {
+    "id": "FUT010",
+    "title": "Mississippi straddle",
+    "release": "R4 cash formats",
+    "required_behavior": "Button/other position straddle changes preflop order correctly",
+    "dependencies": "straddle base",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Venue dependent"
+  },
+  {
+    "id": "FUT011",
+    "title": "Multiple/re-straddles",
+    "release": "R4 cash formats",
+    "required_behavior": "Allow capped chain of live straddles with correct minraise/order",
+    "dependencies": "straddle base",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "House rules vary"
+  },
+  {
+    "id": "FUT012",
+    "title": "Missed blinds + buying button variants",
+    "release": "R4 cash procedures",
+    "required_behavior": "Post dead/live blinds or wait BB per room; cash wallet exact",
+    "dependencies": "R1 cash eligibility",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Essential in some realistic seat turnover scenarios"
+  },
+  {
+    "id": "FUT013",
+    "title": "Cash time-drop and jackpot drop",
+    "release": "R4 cash procedures",
+    "required_behavior": "Fixed fees vs % pot; no-flop rules and eligible pot reconciliation",
+    "dependencies": "rake profile",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Constrain to verified profile"
+  },
+  {
+    "id": "FUT014",
+    "title": "Match-the-stack buy-ins",
+    "release": "R4 cash procedures",
+    "required_behavior": "Mid-session allowed maximum table stake follows house maximum stack",
+    "dependencies": "R1 buy-in",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Deep live cash realism"
+  },
+  {
+    "id": "FUT015",
+    "title": "UTG and button antes",
+    "release": "R4 cash procedures",
+    "required_behavior": "Forced payment depends seat and room not tournament default",
+    "dependencies": "ante engine",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Do not invent local room policy"
+  },
+  {
+    "id": "FUT016",
+    "title": "Rake-free home games",
+    "release": "R4 cash procedures",
+    "required_behavior": "Dedicated transparent no-rake house profile and ledger",
+    "dependencies": "rake profile",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Existing generic profile may already satisfy"
+  },
+  {
+    "id": "FUT017",
+    "title": "Dead button cash options",
+    "release": "R4 cash procedures",
+    "required_behavior": "Versioned cash-button behavior as seats leave",
+    "dependencies": "R1 seat rotation",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Don't borrow TDA automatically"
+  },
+  {
+    "id": "FUT018",
+    "title": "Rabbit hunting",
+    "release": "R4 presentation",
+    "required_behavior": "Optional post-hand display of undealt community cards; never before hand ends",
+    "dependencies": "R1 hidden deck",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Not a fair training read"
+  },
+  {
+    "id": "FUT019",
+    "title": "Time bank + action countdown",
+    "release": "R4 UX",
+    "required_behavior": "Per player configurable timing with pause/timeout action legality",
+    "dependencies": "R1 play",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Not mandatory in solo R1"
+  },
+  {
+    "id": "FUT020",
+    "title": "Bot tanking and snap actions",
+    "release": "R4 human simulation",
+    "required_behavior": "Noisy timing conditioned on plausible cognitive features, not a direct strength oracle",
+    "dependencies": "R1 bots",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No deterministic hole-card tell"
+  },
+  {
+    "id": "FUT021",
+    "title": "Animated betting chips",
+    "release": "R4 UX",
+    "required_behavior": "Visuals synchronized to authority events, reduced-motion supported",
+    "dependencies": "R1 UI",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Never own pot state"
+  },
+  {
+    "id": "FUT022",
+    "title": "Authentic cards/chips/dealer sounds",
+    "release": "R4 UX",
+    "required_behavior": "Optional sound settings, privacy/mute, performance",
+    "dependencies": "R1 UI",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No gameplay gating"
+  },
+  {
+    "id": "FUT023",
+    "title": "Photorealistic human avatars",
+    "release": "R4 UX",
+    "required_behavior": "Avatar diversity, licensing, performance and accessibility",
+    "dependencies": "R1 table",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Don't make false physical tells"
+  },
+  {
+    "id": "FUT024",
+    "title": "Subtle physical tells",
+    "release": "R4 human simulation",
+    "required_behavior": "Noisy cues with independent validity testing and reverse tells",
+    "dependencies": "bot policy memory",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No deterministic secret leak"
+  },
+  {
+    "id": "FUT025",
+    "title": "Chat or table talk bots",
+    "release": "R4 human simulation",
+    "required_behavior": "Opt-in bounded conversations that do not access hidden cards",
+    "dependencies": "bot policy/UX",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Text safety and accessibility"
+  },
+  {
+    "id": "FUT026",
+    "title": "Bot player backstories",
+    "release": "R4 human simulation",
+    "required_behavior": "Consistent motivations without using stereotype as probability evidence",
+    "dependencies": "persona profiles",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Flavor only"
+  },
+  {
+    "id": "FUT027",
+    "title": "Opponent identity lifetime across sessions",
+    "release": "R4 human simulation",
+    "required_behavior": "Selectable long-term memory and player turnover; no cross-user knowledge leak",
+    "dependencies": "R1 local memory",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Avoid unearned omniscience"
+  },
+  {
+    "id": "FUT028",
+    "title": "Hundreds of bot personalities",
+    "release": "R4 human simulation",
+    "required_behavior": "Sample correlated trait vectors from checked distributions; validate distinctness, replay and representative styles",
+    "dependencies": "8 validated base models",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Do not create 100 cosmetic aliases"
+  },
+  {
+    "id": "FUT029",
+    "title": "Bot personality editor advanced curve lab",
+    "release": "R4 human simulation",
+    "required_behavior": "Edit conditional pre/postflop action-size surfaces with versioned sandbox",
+    "dependencies": "R1 per-seat editor",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Preserve legal action normalization"
+  },
+  {
+    "id": "FUT030",
+    "title": "Bot fatigue, tilt and confidence changes",
+    "release": "R4 human simulation",
+    "required_behavior": "Bounded, observable state changes after losses/wins/time; paired-seed verification",
+    "dependencies": "stable model profiles",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No forced emotional chip donations"
+  },
+  {
+    "id": "FUT031",
+    "title": "Unpredictable bluff sequencing",
+    "release": "R4 human simulation",
+    "required_behavior": "Correlated frequency over sessions without learnable deterministic cycles",
+    "dependencies": "R1 bot engine",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Avoid fixed intervals"
+  },
+  {
+    "id": "FUT032",
+    "title": "Dynamic field ecology",
+    "release": "R4 human simulation",
+    "required_behavior": "Players leave/rebuy/move, table changes and skill mixtures with explicit distributions",
+    "dependencies": "R1 seat manager",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Session ecology not magical"
+  },
+  {
+    "id": "FUT033",
+    "title": "Simulated table-selection lobby",
+    "release": "R4 human simulation",
+    "required_behavior": "Choose among modelled tables with accurate sample-limited public information",
+    "dependencies": "R1 sessions",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No live online client integration"
+  },
+  {
+    "id": "FUT034",
+    "title": "Venue-scenario library",
+    "release": "R4 human simulation",
+    "required_behavior": "Create/save multiple personally defined room lineups and rake/straddle structures",
+    "dependencies": "R1 profiles",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "User-entered not verified venue statistics"
+  },
+  {
+    "id": "FUT035",
+    "title": "Observed human-hand calibration import",
+    "release": "R4 research",
+    "required_behavior": "Consent/permission manifest, masks, quality checks, session/person holdouts, provenance",
+    "dependencies": "rights-cleared data schema",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Legally obtained data only"
+  },
+  {
+    "id": "FUT036",
+    "title": "Blinded expert human-versus-bot tests",
+    "release": "R4 research",
+    "required_behavior": "Controlled held-out comparison, report baseline and confidence",
+    "dependencies": "rights-cleared data",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No manufactured realism ranking"
+  },
+  {
+    "id": "FUT037",
+    "title": "Independent strength tournament of policies",
+    "release": "R4 research",
+    "required_behavior": "Bot-vs-bot and exploit agents round robin paired seeds; report variance",
+    "dependencies": "R1 bots",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Not true live edge"
+  },
+  {
+    "id": "FUT038",
+    "title": "Counterfactual replay trainer",
+    "release": "R4 coaching",
+    "required_behavior": "Branch specific action from same legal state, compare outcome ranges and warnings",
+    "dependencies": "R1 replay / policy oracle",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No false solver EV"
+  },
+  {
+    "id": "FUT039",
+    "title": "Post-hand adaptive coach",
+    "release": "R4 coaching",
+    "required_behavior": "Explanation uses real legal state/reliable reference, distinguishes estimates/unknown",
+    "dependencies": "R1 hand history",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Never live opponent assistance"
+  },
+  {
+    "id": "FUT040",
+    "title": "Leak detection dashboard",
+    "release": "R4 coaching",
+    "required_behavior": "Track opportunity-weighted repeated mistakes with uncertain effect and cross-population transfer",
+    "dependencies": "cash stats+opportunity logging",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No fake bb/100 delta"
+  },
+  {
+    "id": "FUT041",
+    "title": "Dedicated preflop range lab",
+    "release": "R4 coaching",
+    "required_behavior": "Manual and solver-supported study by position/stacks/rake",
+    "dependencies": "range policy validation",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Not mandatory for R1"
+  },
+  {
+    "id": "FUT042",
+    "title": "Flop board-texture drills",
+    "release": "R4 coaching",
+    "required_behavior": "Unseen, varied legal hands with full continuation for transfer",
+    "dependencies": "same engine",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Not repetitive memorization"
+  },
+  {
+    "id": "FUT043",
+    "title": "Turn and river bluff-catching drills",
+    "release": "R4 coaching",
+    "required_behavior": "Stratified range/line sampling, honest scoring",
+    "dependencies": "same engine",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No invented EV"
+  },
+  {
+    "id": "FUT044",
+    "title": "Multiway pot drills",
+    "release": "R4 coaching",
+    "required_behavior": "Proper separate villain ranges, action behind, sidepots",
+    "dependencies": "same engine",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Distinct from HU heuristics"
+  },
+  {
+    "id": "FUT045",
+    "title": "3bet/4bet/squeeze drills",
+    "release": "R4 coaching",
+    "required_behavior": "Full hand contexts, legitimate opportunity counting",
+    "dependencies": "same engine",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No automatic solver claims"
+  },
+  {
+    "id": "FUT046",
+    "title": "Exploit vs GTO switching lab",
+    "release": "R4 coaching",
+    "required_behavior": "Compare constrained verified references and population counterstrategy",
+    "dependencies": "validated reference",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Solver source required"
+  },
+  {
+    "id": "FUT047",
+    "title": "Spaced repetition curriculum",
+    "release": "R4 coaching",
+    "required_behavior": "Novel heldout hand tasks with adaptation and delayed retention",
+    "dependencies": "leak detector",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Avoid quiz-only design"
+  },
+  {
+    "id": "FUT048",
+    "title": "Personal milestone chart",
+    "release": "R4 coaching",
+    "required_behavior": "Separate game performance from transfer evidence and mastery aspiration",
+    "dependencies": "reliable measured stats",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No percentile guarantee"
+  },
+  {
+    "id": "FUT049",
+    "title": "Real-world live-session manual log",
+    "release": "R4 coaching",
+    "required_behavior": "Optional manually entered actual wins/expenses with separate provenance and uncertainty",
+    "dependencies": "cash stats",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Never merge into simulator ledger"
+  },
+  {
+    "id": "FUT050",
+    "title": "Session recording and bookmarks",
+    "release": "R4 coaching",
+    "required_behavior": "Tag/bookmark pivotal hands without affecting results",
+    "dependencies": "replay engine",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Good utility and low cost"
+  },
+  {
+    "id": "FUT051",
+    "title": "Hand history importer from user's own play",
+    "release": "R4 coaching",
+    "required_behavior": "Legal rights-cleared compatible formats, no private scraped records",
+    "dependencies": "validator",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Site-specific restrictions"
+  },
+  {
+    "id": "FUT052",
+    "title": "Hand-history video/graph exports",
+    "release": "R4 media",
+    "required_behavior": "Privacy-safe storyboards of exposed actions only",
+    "dependencies": "replay engine",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No copyright violations"
+  },
+  {
+    "id": "FUT053",
+    "title": "Statistical confidence/variance simulator",
+    "release": "R4 coaching",
+    "required_behavior": "Resample measured session blocks, display estimated intervals and assumptions",
+    "dependencies": "cash stats",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No live forecast claim"
+  },
+  {
+    "id": "FUT054",
+    "title": "Study group shared hand replay",
+    "release": "R4 social",
+    "required_behavior": "Explicit opt-in share links with visibility and deletion",
+    "dependencies": "redacted export and account layer",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Privacy/auth needed"
+  },
+  {
+    "id": "FUT055",
+    "title": "Private friend multiplayer",
+    "release": "R4 social",
+    "required_behavior": "Invitation-controlled real opponents, turns, reconnect and anti-collusion safeguards",
+    "dependencies": "server-authoritative game",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Requires server/security architecture"
+  },
+  {
+    "id": "FUT056",
+    "title": "Tournament friend lobbies",
+    "release": "R4 social",
+    "required_behavior": "Private STT/MTT for friends with human seats and bot fills",
+    "dependencies": "multiuser auth/event engine",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Identity and fraud concerns"
+  },
+  {
+    "id": "FUT057",
+    "title": "Spectator seats",
+    "release": "R4 social",
+    "required_behavior": "Public info only unless post-hand delayed reveal; fair spectator restrictions",
+    "dependencies": "server authority",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Do not expose hidden cards"
+  },
+  {
+    "id": "FUT058",
+    "title": "Voice or video chat",
+    "release": "R4 social",
+    "required_behavior": "Separate opt-in permissions and retention policy",
+    "dependencies": "multiplayer",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Nonessential"
+  },
+  {
+    "id": "FUT059",
+    "title": "Leaderboards/achievements",
+    "release": "R4 social",
+    "required_behavior": "No fabricated skill rank; anti-farming safeguards",
+    "dependencies": "anti-cheat, stat integrity",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Potential misleading ranking"
+  },
+  {
+    "id": "FUT060",
+    "title": "Cloud account sync",
+    "release": "R4 platform",
+    "required_behavior": "Authorized server-side account and conflict resolution, encrypted secrets",
+    "dependencies": "R1 persistent state+server",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Server ops costs"
+  },
+  {
+    "id": "FUT061",
+    "title": "Offline installable PWA",
+    "release": "R4 platform",
+    "required_behavior": "Offline solo play, sync/upgrade testing and cache safety",
+    "dependencies": "R1 browser site",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Can be early if low friction"
+  },
+  {
+    "id": "FUT062",
+    "title": "Native iOS/Android app",
+    "release": "R4 platform",
+    "required_behavior": "Native packaging, accessibility and stores/policies",
+    "dependencies": "R1 mobile web",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Browser first"
+  },
+  {
+    "id": "FUT063",
+    "title": "Localization/currency profiles",
+    "release": "R4 platform",
+    "required_behavior": "Different language, currency display, locale formatting; chip precision intact",
+    "dependencies": "R1 exact denomination",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No real-money betting"
+  },
+  {
+    "id": "FUT064",
+    "title": "High contrast/cognitive accessibility options",
+    "release": "R4 platform",
+    "required_behavior": "Additional theme/profile improvements and reduced motion",
+    "dependencies": "R1 accessible UI",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Already basics in R1"
+  },
+  {
+    "id": "FUT065",
+    "title": "Modular 4-card PLO",
+    "release": "R4 variants",
+    "required_behavior": "Use exactly 2 hole+3 board, pot-limit raises, Omaha sidepots",
+    "dependencies": "GameRules interface; independent Omaha oracle",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Different engine/hand evaluator policy"
+  },
+  {
+    "id": "FUT066",
+    "title": "5-card PLO",
+    "release": "R4 variants",
+    "required_behavior": "Five hole cards; exactly 2 play, pot-limit bet and deck testing",
+    "dependencies": "PLO4 engine",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Not a skin"
+  },
+  {
+    "id": "FUT067",
+    "title": "6-card PLO",
+    "release": "R4 variants",
+    "required_behavior": "Six hole cards, correct 10max deck capacity & combinations",
+    "dependencies": "PLO4 engine",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Independent performance tests"
+  },
+  {
+    "id": "FUT068",
+    "title": "Omaha Hi-Lo 8 or better",
+    "release": "R4 variants",
+    "required_behavior": "Qualified low evaluation, quartering, high/low sidepots, odd chips",
+    "dependencies": "PLO engine",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Separate split settlement"
+  },
+  {
+    "id": "FUT069",
+    "title": "Short Deck 6+ Hold'em",
+    "release": "R4 variants",
+    "required_behavior": "36-card deck, customized flush/full house ranks and forced ante/button rules",
+    "dependencies": "GameRules/hand ranking",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Rule profile variations"
+  },
+  {
+    "id": "FUT070",
+    "title": "Fixed-limit Hold'em",
+    "release": "R4 variants",
+    "required_behavior": "Bet/raise unit per street and raise caps, blinds",
+    "dependencies": "new betting policy",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No-limit engine cannot reuse raise cap"
+  },
+  {
+    "id": "FUT071",
+    "title": "Pot-limit Hold'em",
+    "release": "R4 variants",
+    "required_behavior": "Pot-sized maximum exact with to-call and prior contributions",
+    "dependencies": "pot-limit betting policy",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Variant uncommon"
+  },
+  {
+    "id": "FUT072",
+    "title": "Pineapple / Crazy Pineapple",
+    "release": "R4 variants",
+    "required_behavior": "Discard at proper phase, legal private/public projections",
+    "dependencies": "variant deal/discard policy",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Multiple house variations"
+  },
+  {
+    "id": "FUT073",
+    "title": "Five-card Draw",
+    "release": "R4 variants",
+    "required_behavior": "Draw phase and replacement-card authority",
+    "dependencies": "new deal/draw policy",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Substantial new mechanics"
+  },
+  {
+    "id": "FUT074",
+    "title": "Seven-card Stud / Razz",
+    "release": "R4 variants",
+    "required_behavior": "Bring-in, stud streets and high/low evaluator",
+    "dependencies": "new forced-bet/upcard policy",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No community board"
+  },
+  {
+    "id": "FUT075",
+    "title": "Mixed game HORSE / rotation",
+    "release": "R4 variants",
+    "required_behavior": "Separate format sub-hands, switch rules between hands, ledger continuous",
+    "dependencies": "multiple verified rule modules",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Depends on other variants"
+  },
+  {
+    "id": "FUT076",
+    "title": "Open-face Chinese Poker",
+    "release": "R4 variants",
+    "required_behavior": "Distinct legal placement/scoring, fantasyland optional",
+    "dependencies": "new game family",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Out of initial goal"
+  },
+  {
+    "id": "FUT077",
+    "title": "Tournament satellites",
+    "release": "R4 tournaments",
+    "required_behavior": "Fixed seat/ticket payouts rather than normal cash prizes",
+    "dependencies": "R3 MTT",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Different settlement"
+  },
+  {
+    "id": "FUT078",
+    "title": "Tournament deal-making/ICM chop",
+    "release": "R4 tournaments",
+    "required_behavior": "Consensual prize restructuring without chip modification, explicit ledger",
+    "dependencies": "R3 + verified ICM",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Must not masquerade as optimal deal"
+  },
+  {
+    "id": "FUT079",
+    "title": "Mystery bounty tournaments",
+    "release": "R4 tournaments",
+    "required_behavior": "Hidden reward draw conditional on actual elimination with liability tracking",
+    "dependencies": "R3+KO",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "No manipulated hero reward"
+  },
+  {
+    "id": "FUT080",
+    "title": "Progressive KO and bounty builders",
+    "release": "R4 tournaments",
+    "required_behavior": "Split cash/progressive bounty and exact relevant-pot ties",
+    "dependencies": "R3 regular MTT",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "May be R3.1 if user prefers"
+  },
+  {
+    "id": "FUT081",
+    "title": "Multi-flight and Day 2 events",
+    "release": "R4 tournaments",
+    "required_behavior": "Separate phase advancement and field/state migration",
+    "dependencies": "R3 scheduler",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Many complexities"
+  },
+  {
+    "id": "FUT082",
+    "title": "Rebuy/add-on tournaments",
+    "release": "R4 tournaments",
+    "required_behavior": "Rebuy during permitted windows with prize/fee accounting",
+    "dependencies": "R2 entry ledger",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Different from reentry"
+  },
+  {
+    "id": "FUT083",
+    "title": "Hyper turbo / spin-and-go",
+    "release": "R4 tournaments",
+    "required_behavior": "Fast blinds, field formats, spinner prize source fairness",
+    "dependencies": "R2 blinds/payout",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Not first tournament release"
+  },
+  {
+    "id": "FUT084",
+    "title": "Shootout tournaments",
+    "release": "R4 tournaments",
+    "required_behavior": "Advancement by table wins with correctly separated rounds",
+    "dependencies": "R3 tables",
+    "priority": "LOW",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Field lifecycle differs"
+  },
+  {
+    "id": "FUT085",
+    "title": "Tournament ICM study",
+    "release": "R4 coaching",
+    "required_behavior": "Bubble factor, risk premium, payout equity model with scenario validity",
+    "dependencies": "validated ICM evaluator",
+    "priority": "HIGH",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Do not claim heuristic solver true EV"
+  },
+  {
+    "id": "FUT086",
+    "title": "Responsible-use settings",
+    "release": "R4 platform",
+    "required_behavior": "Opt-in session breaks, reminders, practice-only clarity",
+    "dependencies": "core virtual-chip app",
+    "priority": "MED",
+    "status": "DEFERRED_NOT_IMPLEMENTED",
+    "constraints": "Avoid deceptive cash earnings"
+  }
+]

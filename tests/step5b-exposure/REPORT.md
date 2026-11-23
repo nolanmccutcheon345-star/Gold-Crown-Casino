@@ -1,0 +1,11 @@
+# Remaining-exposure correction: executed evidence
+
+The exact original three-way9c7d/5h8hJs boundary changed stronger-reg continuation from4.6179% to32.2855% when call cost rose2999→3000, with identical .296296 showdown-equity estimate. The current policy interpolates existing future-cost/realization terms by remaining effective chips relative to eligible pot, rather than toggling a full penalty at the last cent. Exact prices/pots remain8998/9000 and no engine code changed.
+
+After correction:32.2977%→32.2855%; the one-cent difference is0.0001226. The expensive exact-all-in probability remains unchanged. Independent held-out contexts use7 hand/board classes×2/3players×5/20/100BB×flop/turn×TAG/stronger-reg, each at cap−1cent/cap/cap+1cent. **168 triples,8,064 seeded proposals**, all distinct proposals applied through engine/accounting; maximum boundary defense change0.0011137. No global monotonic quota was implemented. Separate deep-stack value/draw/air price checks and opponent/multiway residual-stack caps passed. **84 exact all-in/river distribution comparisons against frozen1.5 passed**.
+
+Initial pre-fix4test baseline:2PASS/2FAIL (`baseline.log`). Final current1.6 focused/bot regression: **94/94 PASS across21 files** (`final-regression.log`), including new7tests,100,800 conditional draw proposals and previous common-random-stream checks. Automated test counts and proposal counts are not V7 acceptance counts. TypeScript and scoped ESLint PASS.
+
+Paired cold policy measurement:40samples per2/6/10players×flop/turn/river with unique public-event identities forcing analysis-cache misses; candidate p95 range9.28–28.27ms and max34.94ms. Shared Node host with concurrent resource stress, so this does not establish a uniform speedup or browser/device performance. Raw evidence: `evidence/policy-timing.json`.
+
+The source change is limited to current `src/bots/strategy.ts`; root’s exact frozen1.5 implementation remains intact and dispatches old profiles. MODEL_CARDS describes the formula and limitations. No solver, human-calibration, expert-review or browser claim is made here. Broad three-way small-call versus all-in contexts can legitimately differ in future options; their explanation remains distinct from the repaired one-cent defect.

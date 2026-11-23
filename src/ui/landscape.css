@@ -1,0 +1,102 @@
+/* Patch 85: landscape. Phones turned sideways and tablets held landscape put the table on the left and the
+   controls in a column on the right, so the felt is never under the buttons. Applies only while seated at a
+   table (cash, heads-up, tournaments, Omaha, blackjack); every other page keeps its usual layout.
+   --ls-side is the control column, --ls-top the header height. Seat geometry is the short table from
+   table-layout.ts, scaled with zoom so the whole table fits the height of the screen. */
+
+/* ---------- Phones on their side, and tablets held landscape ---------- */
+@media (orientation:landscape) and (max-height:540px),(orientation:landscape) and (min-width:900px) and (max-width:1180px){
+  .app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid){--ls-top:42px;--ls-side:clamp(244px,35vw,330px);--ls-zoom:.82}
+  /* A slim header: tabs as icons with small labels on one row. */
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .app-header{position:sticky;top:0;z-index:40;display:flex;flex-wrap:nowrap;align-items:center;height:var(--ls-top);min-height:0;padding:0 calc(var(--ls-side) + 8px) 0 max(10px,env(safe-area-inset-left));gap:8px;background:#0c1317f2;backdrop-filter:blur(6px)}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .brand{min-width:0;flex:0 0 auto;gap:6px}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .brand>span:not(.brand-mark){display:none}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .brand-mark{font-size:22px}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .app-header nav{display:flex;gap:2px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .nav-button{flex-direction:row;gap:5px;min-height:34px;height:34px;padding:0 9px;font-size:12px}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .nav-button svg{width:16px;height:16px}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .header-status{display:none}
+  /* Page furniture that only takes height. Rotate back for settings, history and notes. */
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) :is(.subnav,.page-heading,.save-status,.recovery-note,.session-notice,.practice-disclosure,footer,.t-model-note,.bj-tabs,.blackjack-tabs){display:none!important}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) main{padding:6px calc(var(--ls-side) + 8px) 12px max(8px,env(safe-area-inset-left))!important}
+  /* The control column. */
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) :is(.action-panel,.t-action-panel){position:fixed!important;top:0!important;right:0!important;bottom:0!important;left:auto!important;transform:none!important;width:var(--ls-side)!important;max-height:none!important;margin:0!important;border-radius:0!important;border:0!important;border-left:1px solid #688d7f55!important;padding:10px 10px calc(10px + env(safe-area-inset-bottom)) 10px!important;padding-right:max(10px,env(safe-area-inset-right))!important;overflow-y:auto!important;overscroll-behavior:contain;z-index:45!important;background:#0f1a1f!important;box-shadow:-8px 0 24px #0006!important;display:flex!important;flex-direction:column;gap:8px!important;align-content:start}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) :is(.action-panel,.t-action-panel).your-action{border-left-color:#8fe0bd!important}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) :is(.action-panel,.t-action-panel)>*{flex-shrink:0}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) :is(.action-panel,.t-action-panel) :is(.sizing-more-body,.showdown-hands){max-height:none!important;overflow:visible!important}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) :is(.action-panel,.t-action-panel) :is(.action-buttons,.bj-actions){position:sticky;bottom:calc(-10px - env(safe-area-inset-bottom));margin-top:auto!important;padding:8px 0 calc(10px + env(safe-area-inset-bottom));background:linear-gradient(#0f1a1f00,#0f1a1f 14px);z-index:2}
+  :is(.app-shell.at-table) .tournament-wallet,.app-shell.at-table .tournament-banner{display:none!important}
+  :is(.app-shell.at-table) .level-strip,.app-shell.view-blackjack:has(.bj-grid) .level-strip{margin:0 0 4px!important;padding:4px 8px!important;font-size:11px;gap:4px 10px!important}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .level-strip :is(b,strong){font-size:13px}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .level-strip small{display:none}
+  .app-shell.view-blackjack:has(.bj-grid) .level-strip .strip-rules{display:none}
+  /* Cash and heads-up. */
+  .app-shell.at-table.view-live .game-layout{display:block}
+  .app-shell.at-table.view-live .action-top{padding-right:0!important;flex-wrap:wrap}
+  .app-shell.at-table.view-live .action-panel h2{white-space:normal!important}
+  .app-shell.at-table.view-live .action-buttons{grid-template-columns:1fr 1fr!important;order:9}
+  .app-shell.at-table.view-live .action-buttons .button:last-child{grid-column:1/-1}
+  .app-shell.at-table.view-live .size-presets{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px;overflow:visible!important}
+  .app-shell.at-table.view-live :is(.sizing-more>summary,.pre-action){position:static!important;width:100%;min-width:0}
+  .app-shell.at-table.view-live .raise-controls{display:grid!important;grid-template-columns:minmax(0,1fr);overflow:visible!important}
+  .app-shell.at-table.view-live .raise-input-group{justify-content:space-between}
+  .app-shell.at-table.view-live .size-presets{margin:0!important;width:100%!important}
+  .app-shell.at-table.view-live .size-presets button{min-width:0!important;padding:0 4px!important;font-size:12px!important}
+  .app-shell.at-table.view-live .action-buttons .button{min-height:46px!important}
+  .app-shell.at-table .t-action-title{flex-wrap:wrap}
+  .app-shell.at-table .tournament-play .table-heading,.app-shell.at-table .t-pot-list:empty{display:none}
+  .app-shell.at-table .tournament-table .table-scene.perimeter-table{zoom:calc(var(--ls-zoom) - .12)}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .level-strip{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .level-strip>*{flex:0 0 auto;min-width:0;padding:2px 8px!important}
+  .app-shell.at-table.view-live :is(.session-rail,.player-notes){margin-top:12px}
+  .app-shell.at-table :is(.table-panel){margin:0}
+  /* Seats: the short table, scaled to the screen. */
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .table-panel .table-scene.perimeter-table{--table-h:var(--short-height);zoom:var(--ls-zoom);margin:4px 2px}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .perimeter-table :is(.seat,.seat-anchor){--seat-x:var(--short-x)!important;--seat-y:var(--short-y)!important}
+  :is(.app-shell.at-table) .table-heading{padding:2px 6px!important;font-size:12px}
+  /* Tournaments. */
+  .app-shell.at-table .tournament-play{padding-bottom:12px!important}
+  .app-shell.at-table .t-play-grid{display:block!important}
+  .app-shell.at-table :is(.t-level-strip,.level-strip){font-size:12px}
+  .app-shell.at-table .t-action-panel .action-buttons{order:0}
+  /* Omaha: felt on the left, the betting panel in the column. */
+  .app-shell.at-table.view-omaha .plo-felt{max-width:none;width:auto;height:calc(100dvh - var(--ls-top) - 96px);aspect-ratio:1.5;margin:18px auto 8px;zoom:1}
+  .app-shell.at-table.view-omaha .plo-felt .plo-seat{transform:translate(-50%,-50%) scale(calc(var(--ls-zoom) + .08))}
+  .app-shell.at-table.view-omaha .plo-log,.app-shell.at-table.view-omaha .plo-foot{display:none}
+  .app-shell.at-table.view-omaha .plo-actions{position:fixed;top:0;right:0;bottom:0;width:var(--ls-side);z-index:45;border-radius:0;border:0;border-left:1px solid #688d7f55;background:#0f1a1f;padding:12px 10px calc(10px + env(safe-area-inset-bottom));padding-right:max(10px,env(safe-area-inset-right));overflow-y:auto;align-content:start;box-shadow:-8px 0 24px #0006}
+  .app-shell.at-table.view-omaha .plo-head{margin:0;position:relative;z-index:3;min-height:0}
+  .app-shell.at-table.view-omaha .plo-head .button{min-height:32px;padding:0 12px}
+  .app-shell.at-table.view-omaha .plo{padding:8px}
+  /* Blackjack: the felt stays whole; the dealing controls move to the column. */
+  .app-shell.view-blackjack:has(.bj-grid) .bj-grid{display:block!important}
+  .app-shell.view-blackjack:has(.bj-grid) .blackjack-play{padding-bottom:12px!important}
+  .app-shell.view-blackjack:has(.bj-grid) .bj-felt{zoom:calc(var(--ls-zoom) - .2)}
+  @media (max-width:700px){.app-shell.view-blackjack:has(.bj-grid) .bj-felt{zoom:calc(var(--ls-zoom) - .04)}}
+}
+@media (orientation:landscape) and (max-height:540px) and (max-height:470px){
+  .app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid){--ls-zoom:.74}
+}
+@media (orientation:landscape) and (max-height:420px){
+  .app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid){--ls-zoom:.68}
+}
+@media (orientation:landscape) and (max-height:380px){
+  .app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid){--ls-zoom:.6}
+}
+@media (orientation:landscape) and (max-height:340px){
+  .app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid){--ls-zoom:.54}
+}
+
+/* ---------- Tablets: a little more room ---------- */
+@media (orientation:landscape) and (min-height:541px) and (min-width:900px) and (max-width:1180px){
+  .app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid){--ls-top:52px;--ls-side:330px;--ls-zoom:1}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .brand-mark{font-size:26px}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) .nav-button{height:40px;min-height:40px;font-size:13px;padding:0 12px}
+  :is(.app-shell.at-table,.app-shell.view-blackjack:has(.bj-grid)) main{padding:12px calc(var(--ls-side) + 14px) 20px 14px!important}
+  .app-shell.at-table .tournament-table .table-scene.perimeter-table{zoom:.9}
+  .app-shell.view-blackjack:has(.bj-grid) .bj-felt{zoom:.8!important}
+  .app-shell.at-table.view-omaha .plo-felt{height:auto;width:min(100%,calc((100dvh - 150px) * 1.5));margin:20px auto 10px}
+  .app-shell.at-table.view-omaha .plo-log{display:grid}
+}
+/* The light theme keeps its own panel colours. */
+.theme-light:is(.at-table,.view-blackjack:has(.bj-grid)) :is(.action-panel,.t-action-panel,.plo-actions){background:#f4f1ea!important}
+@media (orientation:landscape) and (max-height:540px),(orientation:landscape) and (min-width:900px) and (max-width:1180px){.theme-light:is(.at-table,.view-blackjack:has(.bj-grid)) .app-header{background:#f4f1eaf2}}

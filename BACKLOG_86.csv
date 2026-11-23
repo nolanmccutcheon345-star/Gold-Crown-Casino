@@ -1,0 +1,87 @@
+id,title,release,required_behavior,dependencies,priority,status,constraints
+FUT001,Run it twice,R4 cash formats,"Split only eligible settled pot per approved room/consenting participants, one deck and two independent remaining runouts; rake once; main/sidepot eligibility; UI prompt",R1 settled all-in engine,HIGH,DEFERRED_NOT_IMPLEMENTED,Requires unanimous applicable consent; never increase expected equity automatically
+FUT002,Run it three or more times,R4 cash formats,"N independent runouts with correct deck exhaustion, fractional chips and per-pot awards; variant room choice",Run it twice,MED,DEFERRED_NOT_IMPLEMENTED,No universal venue rule
+FUT003,Side-pot-only run-it-twice,R4 cash formats,Only consenting eligible sidepot players can split that pot while main pot may run once,Run it twice; side pot oracle,MED,DEFERRED_NOT_IMPLEMENTED,Explicit room-specific eligibility
+FUT004,Single-board NLHE bomb pots,R4 cash formats,"Each dealt-in participant posts configured ante, skip preflop betting, go to flop; pot and rake rule tested",R1 engine; forced bet profiles,HIGH,DEFERRED_NOT_IMPLEMENTED,Keep new first-action semantics
+FUT005,Double-board NLHE bomb pots,R4 cash formats,"Two independent boards and split awards, sidepots per eligible shares and odd chips tested",Single-board bombs; multi-board settlement,HIGH,DEFERRED_NOT_IMPLEMENTED,Not simply two normal hold'em hands
+FUT006,Bomb-pot random scheduled frequencies,R4 cash formats,"Opt-in per X hands or probabilistic, transparent trigger/provenance",Bomb pots,MED,DEFERRED_NOT_IMPLEMENTED,No rigging specific Hero outcomes
+FUT007,7-2 game bounty,R4 house games,"Optional per-seat side payment trigger, eligibility and virtual reward separate from main pot",R1 ledger,MED,DEFERRED_NOT_IMPLEMENTED,House-dependent exact trigger
+FUT008,Stand-up game,R4 house games,Track last player without qualifying win; sidepot virtual prop liability separate,R1 profiles,MED,DEFERRED_NOT_IMPLEMENTED,Rule variants need explicit rules
+FUT009,NIT game prop,R4 house games,Track players achieving defined qualifying pot/action and pay side virtual game,R1 ledger,LOW,DEFERRED_NOT_IMPLEMENTED,Optional rules profiles
+FUT010,Mississippi straddle,R4 cash formats,Button/other position straddle changes preflop order correctly,straddle base,HIGH,DEFERRED_NOT_IMPLEMENTED,Venue dependent
+FUT011,Multiple/re-straddles,R4 cash formats,Allow capped chain of live straddles with correct minraise/order,straddle base,MED,DEFERRED_NOT_IMPLEMENTED,House rules vary
+FUT012,Missed blinds + buying button variants,R4 cash procedures,Post dead/live blinds or wait BB per room; cash wallet exact,R1 cash eligibility,HIGH,DEFERRED_NOT_IMPLEMENTED,Essential in some realistic seat turnover scenarios
+FUT013,Cash time-drop and jackpot drop,R4 cash procedures,Fixed fees vs % pot; no-flop rules and eligible pot reconciliation,rake profile,HIGH,DEFERRED_NOT_IMPLEMENTED,Constrain to verified profile
+FUT014,Match-the-stack buy-ins,R4 cash procedures,Mid-session allowed maximum table stake follows house maximum stack,R1 buy-in,MED,DEFERRED_NOT_IMPLEMENTED,Deep live cash realism
+FUT015,UTG and button antes,R4 cash procedures,Forced payment depends seat and room not tournament default,ante engine,MED,DEFERRED_NOT_IMPLEMENTED,Do not invent local room policy
+FUT016,Rake-free home games,R4 cash procedures,Dedicated transparent no-rake house profile and ledger,rake profile,LOW,DEFERRED_NOT_IMPLEMENTED,Existing generic profile may already satisfy
+FUT017,Dead button cash options,R4 cash procedures,Versioned cash-button behavior as seats leave,R1 seat rotation,MED,DEFERRED_NOT_IMPLEMENTED,Don't borrow TDA automatically
+FUT018,Rabbit hunting,R4 presentation,Optional post-hand display of undealt community cards; never before hand ends,R1 hidden deck,LOW,DEFERRED_NOT_IMPLEMENTED,Not a fair training read
+FUT019,Time bank + action countdown,R4 UX,Per player configurable timing with pause/timeout action legality,R1 play,HIGH,DEFERRED_NOT_IMPLEMENTED,Not mandatory in solo R1
+FUT020,Bot tanking and snap actions,R4 human simulation,"Noisy timing conditioned on plausible cognitive features, not a direct strength oracle",R1 bots,HIGH,DEFERRED_NOT_IMPLEMENTED,No deterministic hole-card tell
+FUT021,Animated betting chips,R4 UX,"Visuals synchronized to authority events, reduced-motion supported",R1 UI,MED,DEFERRED_NOT_IMPLEMENTED,Never own pot state
+FUT022,Authentic cards/chips/dealer sounds,R4 UX,"Optional sound settings, privacy/mute, performance",R1 UI,LOW,DEFERRED_NOT_IMPLEMENTED,No gameplay gating
+FUT023,Photorealistic human avatars,R4 UX,"Avatar diversity, licensing, performance and accessibility",R1 table,MED,DEFERRED_NOT_IMPLEMENTED,Don't make false physical tells
+FUT024,Subtle physical tells,R4 human simulation,Noisy cues with independent validity testing and reverse tells,bot policy memory,MED,DEFERRED_NOT_IMPLEMENTED,No deterministic secret leak
+FUT025,Chat or table talk bots,R4 human simulation,Opt-in bounded conversations that do not access hidden cards,bot policy/UX,MED,DEFERRED_NOT_IMPLEMENTED,Text safety and accessibility
+FUT026,Bot player backstories,R4 human simulation,Consistent motivations without using stereotype as probability evidence,persona profiles,LOW,DEFERRED_NOT_IMPLEMENTED,Flavor only
+FUT027,Opponent identity lifetime across sessions,R4 human simulation,Selectable long-term memory and player turnover; no cross-user knowledge leak,R1 local memory,HIGH,DEFERRED_NOT_IMPLEMENTED,Avoid unearned omniscience
+FUT028,Hundreds of bot personalities,R4 human simulation,"Sample correlated trait vectors from checked distributions; validate distinctness, replay and representative styles",8 validated base models,HIGH,DEFERRED_NOT_IMPLEMENTED,Do not create 100 cosmetic aliases
+FUT029,Bot personality editor advanced curve lab,R4 human simulation,Edit conditional pre/postflop action-size surfaces with versioned sandbox,R1 per-seat editor,HIGH,DEFERRED_NOT_IMPLEMENTED,Preserve legal action normalization
+FUT030,"Bot fatigue, tilt and confidence changes",R4 human simulation,"Bounded, observable state changes after losses/wins/time; paired-seed verification",stable model profiles,MED,DEFERRED_NOT_IMPLEMENTED,No forced emotional chip donations
+FUT031,Unpredictable bluff sequencing,R4 human simulation,Correlated frequency over sessions without learnable deterministic cycles,R1 bot engine,HIGH,DEFERRED_NOT_IMPLEMENTED,Avoid fixed intervals
+FUT032,Dynamic field ecology,R4 human simulation,"Players leave/rebuy/move, table changes and skill mixtures with explicit distributions",R1 seat manager,HIGH,DEFERRED_NOT_IMPLEMENTED,Session ecology not magical
+FUT033,Simulated table-selection lobby,R4 human simulation,Choose among modelled tables with accurate sample-limited public information,R1 sessions,MED,DEFERRED_NOT_IMPLEMENTED,No live online client integration
+FUT034,Venue-scenario library,R4 human simulation,Create/save multiple personally defined room lineups and rake/straddle structures,R1 profiles,HIGH,DEFERRED_NOT_IMPLEMENTED,User-entered not verified venue statistics
+FUT035,Observed human-hand calibration import,R4 research,"Consent/permission manifest, masks, quality checks, session/person holdouts, provenance",rights-cleared data schema,HIGH,DEFERRED_NOT_IMPLEMENTED,Legally obtained data only
+FUT036,Blinded expert human-versus-bot tests,R4 research,"Controlled held-out comparison, report baseline and confidence",rights-cleared data,HIGH,DEFERRED_NOT_IMPLEMENTED,No manufactured realism ranking
+FUT037,Independent strength tournament of policies,R4 research,Bot-vs-bot and exploit agents round robin paired seeds; report variance,R1 bots,HIGH,DEFERRED_NOT_IMPLEMENTED,Not true live edge
+FUT038,Counterfactual replay trainer,R4 coaching,"Branch specific action from same legal state, compare outcome ranges and warnings",R1 replay / policy oracle,HIGH,DEFERRED_NOT_IMPLEMENTED,No false solver EV
+FUT039,Post-hand adaptive coach,R4 coaching,"Explanation uses real legal state/reliable reference, distinguishes estimates/unknown",R1 hand history,HIGH,DEFERRED_NOT_IMPLEMENTED,Never live opponent assistance
+FUT040,Leak detection dashboard,R4 coaching,Track opportunity-weighted repeated mistakes with uncertain effect and cross-population transfer,cash stats+opportunity logging,HIGH,DEFERRED_NOT_IMPLEMENTED,No fake bb/100 delta
+FUT041,Dedicated preflop range lab,R4 coaching,Manual and solver-supported study by position/stacks/rake,range policy validation,HIGH,DEFERRED_NOT_IMPLEMENTED,Not mandatory for R1
+FUT042,Flop board-texture drills,R4 coaching,"Unseen, varied legal hands with full continuation for transfer",same engine,HIGH,DEFERRED_NOT_IMPLEMENTED,Not repetitive memorization
+FUT043,Turn and river bluff-catching drills,R4 coaching,"Stratified range/line sampling, honest scoring",same engine,HIGH,DEFERRED_NOT_IMPLEMENTED,No invented EV
+FUT044,Multiway pot drills,R4 coaching,"Proper separate villain ranges, action behind, sidepots",same engine,HIGH,DEFERRED_NOT_IMPLEMENTED,Distinct from HU heuristics
+FUT045,3bet/4bet/squeeze drills,R4 coaching,"Full hand contexts, legitimate opportunity counting",same engine,HIGH,DEFERRED_NOT_IMPLEMENTED,No automatic solver claims
+FUT046,Exploit vs GTO switching lab,R4 coaching,Compare constrained verified references and population counterstrategy,validated reference,MED,DEFERRED_NOT_IMPLEMENTED,Solver source required
+FUT047,Spaced repetition curriculum,R4 coaching,Novel heldout hand tasks with adaptation and delayed retention,leak detector,MED,DEFERRED_NOT_IMPLEMENTED,Avoid quiz-only design
+FUT048,Personal milestone chart,R4 coaching,Separate game performance from transfer evidence and mastery aspiration,reliable measured stats,LOW,DEFERRED_NOT_IMPLEMENTED,No percentile guarantee
+FUT049,Real-world live-session manual log,R4 coaching,Optional manually entered actual wins/expenses with separate provenance and uncertainty,cash stats,HIGH,DEFERRED_NOT_IMPLEMENTED,Never merge into simulator ledger
+FUT050,Session recording and bookmarks,R4 coaching,Tag/bookmark pivotal hands without affecting results,replay engine,HIGH,DEFERRED_NOT_IMPLEMENTED,Good utility and low cost
+FUT051,Hand history importer from user's own play,R4 coaching,"Legal rights-cleared compatible formats, no private scraped records",validator,HIGH,DEFERRED_NOT_IMPLEMENTED,Site-specific restrictions
+FUT052,Hand-history video/graph exports,R4 media,Privacy-safe storyboards of exposed actions only,replay engine,MED,DEFERRED_NOT_IMPLEMENTED,No copyright violations
+FUT053,Statistical confidence/variance simulator,R4 coaching,"Resample measured session blocks, display estimated intervals and assumptions",cash stats,MED,DEFERRED_NOT_IMPLEMENTED,No live forecast claim
+FUT054,Study group shared hand replay,R4 social,Explicit opt-in share links with visibility and deletion,redacted export and account layer,MED,DEFERRED_NOT_IMPLEMENTED,Privacy/auth needed
+FUT055,Private friend multiplayer,R4 social,"Invitation-controlled real opponents, turns, reconnect and anti-collusion safeguards",server-authoritative game,HIGH,DEFERRED_NOT_IMPLEMENTED,Requires server/security architecture
+FUT056,Tournament friend lobbies,R4 social,Private STT/MTT for friends with human seats and bot fills,multiuser auth/event engine,MED,DEFERRED_NOT_IMPLEMENTED,Identity and fraud concerns
+FUT057,Spectator seats,R4 social,Public info only unless post-hand delayed reveal; fair spectator restrictions,server authority,MED,DEFERRED_NOT_IMPLEMENTED,Do not expose hidden cards
+FUT058,Voice or video chat,R4 social,Separate opt-in permissions and retention policy,multiplayer,LOW,DEFERRED_NOT_IMPLEMENTED,Nonessential
+FUT059,Leaderboards/achievements,R4 social,No fabricated skill rank; anti-farming safeguards,"anti-cheat, stat integrity",LOW,DEFERRED_NOT_IMPLEMENTED,Potential misleading ranking
+FUT060,Cloud account sync,R4 platform,"Authorized server-side account and conflict resolution, encrypted secrets",R1 persistent state+server,HIGH,DEFERRED_NOT_IMPLEMENTED,Server ops costs
+FUT061,Offline installable PWA,R4 platform,"Offline solo play, sync/upgrade testing and cache safety",R1 browser site,MED,DEFERRED_NOT_IMPLEMENTED,Can be early if low friction
+FUT062,Native iOS/Android app,R4 platform,"Native packaging, accessibility and stores/policies",R1 mobile web,MED,DEFERRED_NOT_IMPLEMENTED,Browser first
+FUT063,Localization/currency profiles,R4 platform,"Different language, currency display, locale formatting; chip precision intact",R1 exact denomination,MED,DEFERRED_NOT_IMPLEMENTED,No real-money betting
+FUT064,High contrast/cognitive accessibility options,R4 platform,Additional theme/profile improvements and reduced motion,R1 accessible UI,MED,DEFERRED_NOT_IMPLEMENTED,Already basics in R1
+FUT065,Modular 4-card PLO,R4 variants,"Use exactly 2 hole+3 board, pot-limit raises, Omaha sidepots",GameRules interface; independent Omaha oracle,HIGH,DEFERRED_NOT_IMPLEMENTED,Different engine/hand evaluator policy
+FUT066,5-card PLO,R4 variants,"Five hole cards; exactly 2 play, pot-limit bet and deck testing",PLO4 engine,MED,DEFERRED_NOT_IMPLEMENTED,Not a skin
+FUT067,6-card PLO,R4 variants,"Six hole cards, correct 10max deck capacity & combinations",PLO4 engine,MED,DEFERRED_NOT_IMPLEMENTED,Independent performance tests
+FUT068,Omaha Hi-Lo 8 or better,R4 variants,"Qualified low evaluation, quartering, high/low sidepots, odd chips",PLO engine,HIGH,DEFERRED_NOT_IMPLEMENTED,Separate split settlement
+FUT069,Short Deck 6+ Hold'em,R4 variants,"36-card deck, customized flush/full house ranks and forced ante/button rules",GameRules/hand ranking,MED,DEFERRED_NOT_IMPLEMENTED,Rule profile variations
+FUT070,Fixed-limit Hold'em,R4 variants,"Bet/raise unit per street and raise caps, blinds",new betting policy,MED,DEFERRED_NOT_IMPLEMENTED,No-limit engine cannot reuse raise cap
+FUT071,Pot-limit Hold'em,R4 variants,Pot-sized maximum exact with to-call and prior contributions,pot-limit betting policy,LOW,DEFERRED_NOT_IMPLEMENTED,Variant uncommon
+FUT072,Pineapple / Crazy Pineapple,R4 variants,"Discard at proper phase, legal private/public projections",variant deal/discard policy,MED,DEFERRED_NOT_IMPLEMENTED,Multiple house variations
+FUT073,Five-card Draw,R4 variants,Draw phase and replacement-card authority,new deal/draw policy,MED,DEFERRED_NOT_IMPLEMENTED,Substantial new mechanics
+FUT074,Seven-card Stud / Razz,R4 variants,"Bring-in, stud streets and high/low evaluator",new forced-bet/upcard policy,MED,DEFERRED_NOT_IMPLEMENTED,No community board
+FUT075,Mixed game HORSE / rotation,R4 variants,"Separate format sub-hands, switch rules between hands, ledger continuous",multiple verified rule modules,LOW,DEFERRED_NOT_IMPLEMENTED,Depends on other variants
+FUT076,Open-face Chinese Poker,R4 variants,"Distinct legal placement/scoring, fantasyland optional",new game family,LOW,DEFERRED_NOT_IMPLEMENTED,Out of initial goal
+FUT077,Tournament satellites,R4 tournaments,Fixed seat/ticket payouts rather than normal cash prizes,R3 MTT,MED,DEFERRED_NOT_IMPLEMENTED,Different settlement
+FUT078,Tournament deal-making/ICM chop,R4 tournaments,"Consensual prize restructuring without chip modification, explicit ledger",R3 + verified ICM,MED,DEFERRED_NOT_IMPLEMENTED,Must not masquerade as optimal deal
+FUT079,Mystery bounty tournaments,R4 tournaments,Hidden reward draw conditional on actual elimination with liability tracking,R3+KO,MED,DEFERRED_NOT_IMPLEMENTED,No manipulated hero reward
+FUT080,Progressive KO and bounty builders,R4 tournaments,Split cash/progressive bounty and exact relevant-pot ties,R3 regular MTT,HIGH,DEFERRED_NOT_IMPLEMENTED,May be R3.1 if user prefers
+FUT081,Multi-flight and Day 2 events,R4 tournaments,Separate phase advancement and field/state migration,R3 scheduler,LOW,DEFERRED_NOT_IMPLEMENTED,Many complexities
+FUT082,Rebuy/add-on tournaments,R4 tournaments,Rebuy during permitted windows with prize/fee accounting,R2 entry ledger,MED,DEFERRED_NOT_IMPLEMENTED,Different from reentry
+FUT083,Hyper turbo / spin-and-go,R4 tournaments,"Fast blinds, field formats, spinner prize source fairness",R2 blinds/payout,MED,DEFERRED_NOT_IMPLEMENTED,Not first tournament release
+FUT084,Shootout tournaments,R4 tournaments,Advancement by table wins with correctly separated rounds,R3 tables,LOW,DEFERRED_NOT_IMPLEMENTED,Field lifecycle differs
+FUT085,Tournament ICM study,R4 coaching,"Bubble factor, risk premium, payout equity model with scenario validity",validated ICM evaluator,HIGH,DEFERRED_NOT_IMPLEMENTED,Do not claim heuristic solver true EV
+FUT086,Responsible-use settings,R4 platform,"Opt-in session breaks, reminders, practice-only clarity",core virtual-chip app,MED,DEFERRED_NOT_IMPLEMENTED,Avoid deceptive cash earnings

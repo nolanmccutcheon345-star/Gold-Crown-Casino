@@ -1,0 +1,11 @@
+import {build} from 'esbuild';
+import {readFileSync,writeFileSync,mkdirSync,copyFileSync,unlinkSync} from 'node:fs';
+import {execFileSync,spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import process from 'node:process';
+import console from 'node:console';
+import path from 'node:path';
+const folder=process.env.STEP5E_HOT_OUT??'tests/step5e-performance/hot-evidence',goal=Number(process.env.STEP5E_HOT_DECISIONS??2000);mkdirSync(folder,{recursive:true});const bundle=`${folder}/hot.bundle.mjs`;
+const built=await build({entryPoints:['tests/step5e-performance/hot.ts'],outfile:bundle,bundle:true,platform:'node',format:'esm',target:'node22',metafile:true,sourcemap:'external'});copyFileSync(bundle,bundle+'.bin');copyFileSync(bundle+'.map',bundle+'.map.bin');
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex'),source={commit:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),runtimeCommit:'398360f',createdAt:new Date().toISOString(),bundle:bundle+'.bin',bundleSHA256:hash(readFileSync(bundle)),files:Object.fromEntries(Object.keys(built.metafile.inputs).filter(file=>file.startsWith('src/')||file.startsWith('tests/step5e')).sort().map(file=>[file,hash(readFileSync(file))])),method:'Unmodified frozen production runtime; no profiling rewrites or legal-action overrides. Test-only deterministic entropy supplied by harness; native cryptographic hashing retained.'};writeFileSync(`${folder}/source.json`,JSON.stringify(source,null,2)+'\n');
+const run=spawnSync(process.execPath,['--expose-gc','--max-old-space-size=6144',path.resolve(bundle),String(goal),folder],{encoding:'utf8',maxBuffer:50_000_000});writeFileSync(`${folder}/executed.log`,run.stdout+run.stderr);unlinkSync(bundle);unlinkSync(bundle+'.map');if(run.status!==0)throw Error(`Hot workload failed: ${run.status}\n${run.stderr}\n${run.stdout}`);console.log(run.stdout);

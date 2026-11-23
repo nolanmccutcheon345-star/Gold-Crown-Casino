@@ -1,0 +1,33 @@
+/* Full blackjack table: the other seats, and side-bet spots as chip targets. Loaded after blackjack.css. */
+.bj-seats{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;width:100%;align-items:start}
+.bj-seat{min-width:0;min-height:64px;padding:4px 2px;border-radius:9px;border:1px solid #cfe9dd26;background:#0000001f;color:#e3ece7;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
+.bj-seat.empty{border-style:dashed;opacity:.55;justify-content:center}
+.bj-seat.hero{border-color:#e8c58b;background:#e8c58b1f;justify-content:center}
+.bj-seat.acting{outline:2px solid #e8c58b;outline-offset:1px}
+.bj-seat-name{font-size:12px;font-weight:700;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bj-seat-note{font-size:12px;color:#cfe9ddb3}
+.bj-seat-hand{display:flex;flex-direction:column;align-items:center;gap:2px;max-width:100%}
+.bj-seat-hand+.bj-seat-hand{border-top:1px solid #cfe9dd26;padding-top:3px}
+.bj-minis{display:flex;flex-wrap:wrap;justify-content:center;gap:2px}
+.bj-mini{min-width:22px;height:26px;padding:0 2px;border-radius:4px;background:#f6f4ee;color:#16202a;font-size:12px;line-height:26px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.bj-mini b{font-size:14px}.bj-mini i{font-style:normal}.bj-mini.red{color:#b3261e}
+.bj-seat-total{font-size:12px;color:#cfe9ddcc;white-space:nowrap}.bj-seat-total b{color:#f4f6f2}
+.bj-seat-hand.won .bj-seat-total{color:#e8c58b}.bj-seat-hand.lost{opacity:.62}
+button.bj-bet-circle{cursor:pointer;font:inherit}
+.bj-bet-circle.target,.bj-side-spot.target{box-shadow:0 0 0 3px #e8c58b;border-style:solid;border-color:#e8c58b}
+.bj-side-spot.lost{opacity:.7}
+.bj-chip-target{margin:0 0 8px;font-size:14px;color:#cfd8d5}
+.bj-full-setup h3{margin:14px 0 6px;font-size:14px}
+.bj-full-setup .segmented{display:flex;gap:6px}.bj-full-setup .segment{flex:1;min-height:44px}
+.bj-pay{width:100%;border-collapse:collapse;font-size:14px}.bj-pay td,.bj-pay th{padding:6px 8px;border-bottom:1px solid #ffffff14;text-align:left}.bj-pay td:last-child,.bj-pay th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:520px){
+ .bj-seats{gap:3px}.bj-seat{padding:3px 1px;min-height:58px}
+ /* Narrow seats show the rank only, in its suit colour: three cards to a row, and rank is what a count needs. */
+ .bj-mini i{display:none}.bj-minis{gap:1px}
+ .bj-mini{min-width:13px;height:24px;line-height:24px;padding:0 1px;text-align:center}.bj-mini b{font-size:14px}
+ .bj-seat-total{white-space:normal;line-height:1.15}
+}
+@media (max-width:360px),(max-height:600px){
+ .bj-seat{min-height:48px}.bj-seat-name{font-size:12px}
+ .bj-mini{min-width:11px;height:22px;line-height:22px;padding:0}.bj-mini b{font-size:13px}
+}

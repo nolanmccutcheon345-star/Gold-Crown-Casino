@@ -1,0 +1,8 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Migration staging QA — AI Texas Hold Em</title>
+<style>body{max-width:1000px;margin:24px auto;padding:0 16px;background:#101d22;color:#eaf2ef;font:16px system-ui}button{padding:12px;margin:4px;border:1px solid #bfa268;border-radius:5px;background:#203d40;color:white;font:inherit}button:disabled{opacity:.5}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;border:1px solid #466364;background:#15282c}p{line-height:1.5}</style></head>
+<body><h1>Test-only migration staging</h1>
+<p>Uses synthetic version-3 fixtures and uniquely named staging databases. The production guest database is never opened. Each run verifies upgrade, exact history and pending-action preservation, old-reader refusal, reopen, cloned-backup restoration and a once-only pending bot action. Cards, decks, policies and raw private records are never displayed.</p>
+<div><button id="run-migration-all">Run all four street migrations</button><button data-street="preflop">Run preflop</button><button data-street="flop">Run flop</button><button data-street="turn">Run turn</button><button data-street="river">Run river</button></div>
+<p id="migration-progress" role="status">Ready. No database has been opened.</p><pre id="migration-report" data-status="NOT_EXECUTED">{"status":"NOT_EXECUTED"}</pre>
+<script type="module" src="./migration-staging.ts"></script></body></html>

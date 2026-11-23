@@ -1,0 +1,523 @@
+
+--- PAGE 1 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 1
+AI Texas Hold Em | 86 Future Features
+Complete, exact deferred-feature register from V6/V7. These features remain documented but are not
+mandatory for the first cash-game release.
+Source provenance
+The V7 feature file is byte-for-byte identical to the V6 future-feature register. Each item retains its original feature ID,
+dependencies, priority, required behavior, constraints and DEFERRED_NOT_IMPLEMENTED status.
+R4 cash formats
+FUT001: Run it twice
+Required behavior: Split only eligible settled pot per approved room/consenting participants, one deck and two
+independent remaining runouts; rake once; main/sidepot eligibility; UI prompt
+Dependencies: R1 settled all-in engine
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Requires unanimous applicable consent; never increase expected equity automatically
+FUT002: Run it three or more times
+Required behavior: N independent runouts with correct deck exhaustion, fractional chips and per-pot awards; variant
+room choice
+Dependencies: Run it twice
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No universal venue rule
+FUT003: Side-pot-only run-it-twice
+Required behavior: Only consenting eligible sidepot players can split that pot while main pot may run once
+Dependencies: Run it twice; side pot oracle
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Explicit room-specific eligibility
+FUT004: Single-board NLHE bomb pots
+Required behavior: Each dealt-in participant posts configured ante, skip preflop betting, go to flop; pot and rake rule
+tested
+Dependencies: R1 engine; forced bet profiles
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Keep new first-action semantics
+FUT005: Double-board NLHE bomb pots
+Required behavior: Two independent boards and split awards, sidepots per eligible shares and odd chips tested
+Dependencies: Single-board bombs; multi-board settlement
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Not simply two normal hold'em hands
+
+
+--- PAGE 2 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 2
+FUT006: Bomb-pot random scheduled frequencies
+Required behavior: Opt-in per X hands or probabilistic, transparent trigger/provenance
+Dependencies: Bomb pots
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No rigging specific Hero outcomes
+R4 house games
+FUT007: 7-2 game bounty
+Required behavior: Optional per-seat side payment trigger, eligibility and virtual reward separate from main pot
+Dependencies: R1 ledger
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: House-dependent exact trigger
+FUT008: Stand-up game
+Required behavior: Track last player without qualifying win; sidepot virtual prop liability separate
+Dependencies: R1 profiles
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Rule variants need explicit rules
+FUT009: NIT game prop
+Required behavior: Track players achieving defined qualifying pot/action and pay side virtual game
+Dependencies: R1 ledger
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Optional rules profiles
+R4 cash formats
+FUT010: Mississippi straddle
+Required behavior: Button/other position straddle changes preflop order correctly
+Dependencies: straddle base
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Venue dependent
+FUT011: Multiple/re-straddles
+Required behavior: Allow capped chain of live straddles with correct minraise/order
+Dependencies: straddle base
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: House rules vary
+R4 cash procedures
+
+
+--- PAGE 3 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 3
+FUT012: Missed blinds + buying button variants
+Required behavior: Post dead/live blinds or wait BB per room; cash wallet exact
+Dependencies: R1 cash eligibility
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Essential in some realistic seat turnover scenarios
+FUT013: Cash time-drop and jackpot drop
+Required behavior: Fixed fees vs % pot; no-flop rules and eligible pot reconciliation
+Dependencies: rake profile
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Constrain to verified profile
+FUT014: Match-the-stack buy-ins
+Required behavior: Mid-session allowed maximum table stake follows house maximum stack
+Dependencies: R1 buy-in
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Deep live cash realism
+FUT015: UTG and button antes
+Required behavior: Forced payment depends seat and room not tournament default
+Dependencies: ante engine
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Do not invent local room policy
+FUT016: Rake-free home games
+Required behavior: Dedicated transparent no-rake house profile and ledger
+Dependencies: rake profile
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Existing generic profile may already satisfy
+FUT017: Dead button cash options
+Required behavior: Versioned cash-button behavior as seats leave
+Dependencies: R1 seat rotation
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Don't borrow TDA automatically
+R4 presentation
+FUT018: Rabbit hunting
+Required behavior: Optional post-hand display of undealt community cards; never before hand ends
+Dependencies: R1 hidden deck
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Not a fair training read
+R4 UX
+
+
+--- PAGE 4 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 4
+FUT019: Time bank + action countdown
+Required behavior: Per player configurable timing with pause/timeout action legality
+Dependencies: R1 play
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Not mandatory in solo R1
+R4 human simulation
+FUT020: Bot tanking and snap actions
+Required behavior: Noisy timing conditioned on plausible cognitive features, not a direct strength oracle
+Dependencies: R1 bots
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No deterministic hole-card tell
+R4 UX
+FUT021: Animated betting chips
+Required behavior: Visuals synchronized to authority events, reduced-motion supported
+Dependencies: R1 UI
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Never own pot state
+FUT022: Authentic cards/chips/dealer sounds
+Required behavior: Optional sound settings, privacy/mute, performance
+Dependencies: R1 UI
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No gameplay gating
+FUT023: Photorealistic human avatars
+Required behavior: Avatar diversity, licensing, performance and accessibility
+Dependencies: R1 table
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Don't make false physical tells
+R4 human simulation
+FUT024: Subtle physical tells
+Required behavior: Noisy cues with independent validity testing and reverse tells
+Dependencies: bot policy memory
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No deterministic secret leak
+
+
+--- PAGE 5 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 5
+FUT025: Chat or table talk bots
+Required behavior: Opt-in bounded conversations that do not access hidden cards
+Dependencies: bot policy/UX
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Text safety and accessibility
+FUT026: Bot player backstories
+Required behavior: Consistent motivations without using stereotype as probability evidence
+Dependencies: persona profiles
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Flavor only
+FUT027: Opponent identity lifetime across sessions
+Required behavior: Selectable long-term memory and player turnover; no cross-user knowledge leak
+Dependencies: R1 local memory
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Avoid unearned omniscience
+FUT028: Hundreds of bot personalities
+Required behavior: Sample correlated trait vectors from checked distributions; validate distinctness, replay and
+representative styles
+Dependencies: 8 validated base models
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Do not create 100 cosmetic aliases
+FUT029: Bot personality editor advanced curve lab
+Required behavior: Edit conditional pre/postflop action-size surfaces with versioned sandbox
+Dependencies: R1 per-seat editor
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Preserve legal action normalization
+FUT030: Bot fatigue, tilt and confidence changes
+Required behavior: Bounded, observable state changes after losses/wins/time; paired-seed verification
+Dependencies: stable model profiles
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No forced emotional chip donations
+FUT031: Unpredictable bluff sequencing
+Required behavior: Correlated frequency over sessions without learnable deterministic cycles
+Dependencies: R1 bot engine
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Avoid fixed intervals
+FUT032: Dynamic field ecology
+Required behavior: Players leave/rebuy/move, table changes and skill mixtures with explicit distributions
+Dependencies: R1 seat manager
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Session ecology not magical
+
+
+--- PAGE 6 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 6
+FUT033: Simulated table-selection lobby
+Required behavior: Choose among modelled tables with accurate sample-limited public information
+Dependencies: R1 sessions
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No live online client integration
+FUT034: Venue-scenario library
+Required behavior: Create/save multiple personally defined room lineups and rake/straddle structures
+Dependencies: R1 profiles
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: User-entered not verified venue statistics
+R4 research
+FUT035: Observed human-hand calibration import
+Required behavior: Consent/permission manifest, masks, quality checks, session/person holdouts, provenance
+Dependencies: rights-cleared data schema
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Legally obtained data only
+FUT036: Blinded expert human-versus-bot tests
+Required behavior: Controlled held-out comparison, report baseline and confidence
+Dependencies: rights-cleared data
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No manufactured realism ranking
+FUT037: Independent strength tournament of policies
+Required behavior: Bot-vs-bot and exploit agents round robin paired seeds; report variance
+Dependencies: R1 bots
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Not true live edge
+R4 coaching
+FUT038: Counterfactual replay trainer
+Required behavior: Branch specific action from same legal state, compare outcome ranges and warnings
+Dependencies: R1 replay / policy oracle
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No false solver EV
+FUT039: Post-hand adaptive coach
+Required behavior: Explanation uses real legal state/reliable reference, distinguishes estimates/unknown
+Dependencies: R1 hand history
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Never live opponent assistance
+
+
+--- PAGE 7 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 7
+FUT040: Leak detection dashboard
+Required behavior: Track opportunity-weighted repeated mistakes with uncertain effect and cross-population transfer
+Dependencies: cash stats+opportunity logging
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No fake bb/100 delta
+FUT041: Dedicated preflop range lab
+Required behavior: Manual and solver-supported study by position/stacks/rake
+Dependencies: range policy validation
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Not mandatory for R1
+FUT042: Flop board-texture drills
+Required behavior: Unseen, varied legal hands with full continuation for transfer
+Dependencies: same engine
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Not repetitive memorization
+FUT043: Turn and river bluff-catching drills
+Required behavior: Stratified range/line sampling, honest scoring
+Dependencies: same engine
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No invented EV
+FUT044: Multiway pot drills
+Required behavior: Proper separate villain ranges, action behind, sidepots
+Dependencies: same engine
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Distinct from HU heuristics
+FUT045: 3bet/4bet/squeeze drills
+Required behavior: Full hand contexts, legitimate opportunity counting
+Dependencies: same engine
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No automatic solver claims
+FUT046: Exploit vs GTO switching lab
+Required behavior: Compare constrained verified references and population counterstrategy
+Dependencies: validated reference
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Solver source required
+FUT047: Spaced repetition curriculum
+Required behavior: Novel heldout hand tasks with adaptation and delayed retention
+Dependencies: leak detector
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Avoid quiz-only design
+
+
+--- PAGE 8 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 8
+FUT048: Personal milestone chart
+Required behavior: Separate game performance from transfer evidence and mastery aspiration
+Dependencies: reliable measured stats
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No percentile guarantee
+FUT049: Real-world live-session manual log
+Required behavior: Optional manually entered actual wins/expenses with separate provenance and uncertainty
+Dependencies: cash stats
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Never merge into simulator ledger
+FUT050: Session recording and bookmarks
+Required behavior: Tag/bookmark pivotal hands without affecting results
+Dependencies: replay engine
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Good utility and low cost
+FUT051: Hand history importer from user's own play
+Required behavior: Legal rights-cleared compatible formats, no private scraped records
+Dependencies: validator
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Site-specific restrictions
+R4 media
+FUT052: Hand-history video/graph exports
+Required behavior: Privacy-safe storyboards of exposed actions only
+Dependencies: replay engine
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No copyright violations
+R4 coaching
+FUT053: Statistical confidence/variance simulator
+Required behavior: Resample measured session blocks, display estimated intervals and assumptions
+Dependencies: cash stats
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No live forecast claim
+R4 social
+
+
+--- PAGE 9 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 9
+FUT054: Study group shared hand replay
+Required behavior: Explicit opt-in share links with visibility and deletion
+Dependencies: redacted export and account layer
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Privacy/auth needed
+FUT055: Private friend multiplayer
+Required behavior: Invitation-controlled real opponents, turns, reconnect and anti-collusion safeguards
+Dependencies: server-authoritative game
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Requires server/security architecture
+FUT056: Tournament friend lobbies
+Required behavior: Private STT/MTT for friends with human seats and bot fills
+Dependencies: multiuser auth/event engine
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Identity and fraud concerns
+FUT057: Spectator seats
+Required behavior: Public info only unless post-hand delayed reveal; fair spectator restrictions
+Dependencies: server authority
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Do not expose hidden cards
+FUT058: Voice or video chat
+Required behavior: Separate opt-in permissions and retention policy
+Dependencies: multiplayer
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Nonessential
+FUT059: Leaderboards/achievements
+Required behavior: No fabricated skill rank; anti-farming safeguards
+Dependencies: anti-cheat, stat integrity
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Potential misleading ranking
+R4 platform
+FUT060: Cloud account sync
+Required behavior: Authorized server-side account and conflict resolution, encrypted secrets
+Dependencies: R1 persistent state+server
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Server ops costs
+
+
+--- PAGE 10 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 10
+FUT061: Offline installable PWA
+Required behavior: Offline solo play, sync/upgrade testing and cache safety
+Dependencies: R1 browser site
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Can be early if low friction
+FUT062: Native iOS/Android app
+Required behavior: Native packaging, accessibility and stores/policies
+Dependencies: R1 mobile web
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Browser first
+FUT063: Localization/currency profiles
+Required behavior: Different language, currency display, locale formatting; chip precision intact
+Dependencies: R1 exact denomination
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No real-money betting
+FUT064: High contrast/cognitive accessibility options
+Required behavior: Additional theme/profile improvements and reduced motion
+Dependencies: R1 accessible UI
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Already basics in R1
+R4 variants
+FUT065: Modular 4-card PLO
+Required behavior: Use exactly 2 hole+3 board, pot-limit raises, Omaha sidepots
+Dependencies: GameRules interface; independent Omaha oracle
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Different engine/hand evaluator policy
+FUT066: 5-card PLO
+Required behavior: Five hole cards; exactly 2 play, pot-limit bet and deck testing
+Dependencies: PLO4 engine
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Not a skin
+FUT067: 6-card PLO
+Required behavior: Six hole cards, correct 10max deck capacity & combinations
+Dependencies: PLO4 engine
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Independent performance tests
+
+
+--- PAGE 11 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 11
+FUT068: Omaha Hi-Lo 8 or better
+Required behavior: Qualified low evaluation, quartering, high/low sidepots, odd chips
+Dependencies: PLO engine
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Separate split settlement
+FUT069: Short Deck 6+ Hold'em
+Required behavior: 36-card deck, customized flush/full house ranks and forced ante/button rules
+Dependencies: GameRules/hand ranking
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Rule profile variations
+FUT070: Fixed-limit Hold'em
+Required behavior: Bet/raise unit per street and raise caps, blinds
+Dependencies: new betting policy
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No-limit engine cannot reuse raise cap
+FUT071: Pot-limit Hold'em
+Required behavior: Pot-sized maximum exact with to-call and prior contributions
+Dependencies: pot-limit betting policy
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Variant uncommon
+FUT072: Pineapple / Crazy Pineapple
+Required behavior: Discard at proper phase, legal private/public projections
+Dependencies: variant deal/discard policy
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Multiple house variations
+FUT073: Five-card Draw
+Required behavior: Draw phase and replacement-card authority
+Dependencies: new deal/draw policy
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Substantial new mechanics
+FUT074: Seven-card Stud / Razz
+Required behavior: Bring-in, stud streets and high/low evaluator
+Dependencies: new forced-bet/upcard policy
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No community board
+FUT075: Mixed game HORSE / rotation
+Required behavior: Separate format sub-hands, switch rules between hands, ledger continuous
+Dependencies: multiple verified rule modules
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Depends on other variants
+
+
+--- PAGE 12 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 12
+FUT076: Open-face Chinese Poker
+Required behavior: Distinct legal placement/scoring, fantasyland optional
+Dependencies: new game family
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Out of initial goal
+R4 tournaments
+FUT077: Tournament satellites
+Required behavior: Fixed seat/ticket payouts rather than normal cash prizes
+Dependencies: R3 MTT
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Different settlement
+FUT078: Tournament deal-making/ICM chop
+Required behavior: Consensual prize restructuring without chip modification, explicit ledger
+Dependencies: R3 + verified ICM
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Must not masquerade as optimal deal
+FUT079: Mystery bounty tournaments
+Required behavior: Hidden reward draw conditional on actual elimination with liability tracking
+Dependencies: R3+KO
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: No manipulated hero reward
+FUT080: Progressive KO and bounty builders
+Required behavior: Split cash/progressive bounty and exact relevant-pot ties
+Dependencies: R3 regular MTT
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: May be R3.1 if user prefers
+FUT081: Multi-flight and Day 2 events
+Required behavior: Separate phase advancement and field/state migration
+Dependencies: R3 scheduler
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Many complexities
+FUT082: Rebuy/add-on tournaments
+Required behavior: Rebuy during permitted windows with prize/fee accounting
+Dependencies: R2 entry ledger
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Different from reentry
+
+
+--- PAGE 13 ---
+AI TEXAS HOLD EM  /  VERIFIED SOURCE ATTACHMENT
+Page 13
+FUT083: Hyper turbo / spin-and-go
+Required behavior: Fast blinds, field formats, spinner prize source fairness
+Dependencies: R2 blinds/payout
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Not first tournament release
+FUT084: Shootout tournaments
+Required behavior: Advancement by table wins with correctly separated rounds
+Dependencies: R3 tables
+Priority: LOW | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Field lifecycle differs
+R4 coaching
+FUT085: Tournament ICM study
+Required behavior: Bubble factor, risk premium, payout equity model with scenario validity
+Dependencies: validated ICM evaluator
+Priority: HIGH | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Do not claim heuristic solver true EV
+R4 platform
+FUT086: Responsible-use settings
+Required behavior: Opt-in session breaks, reminders, practice-only clarity
+Dependencies: core virtual-chip app
+Priority: MED | Status: DEFERRED_NOT_IMPLEMENTED
+Constraints: Avoid deceptive cash earnings

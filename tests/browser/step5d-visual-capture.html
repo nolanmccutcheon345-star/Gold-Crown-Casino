@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Step5D isolated mobile table screenshots</title>
+<style>body{font:15px system-ui;background:#101b20;color:#edf3ec;margin:0;padding:16px}h1{font-size:20px}button,select{font:inherit;min-height:44px;margin:4px}label{display:inline-block}iframe{display:block;width:390px;max-width:none;height:1000px;border:1px solid #53635e;margin:16px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;max-width:900px}.disclosure{max-width:900px;font-size:13px;line-height:1.5}</style>
+</head><body>
+<h1>Isolated mobile table screenshot capture</h1>
+<p class="disclosure">Reuses the existing accessibility fixture with production UI, controller and engine and an isolated in-memory save. No production guest database is opened. This page adds no assertions or test results; capture screenshots after the existing fixture finishes. This is source-mounted QA, not a new exact-compiled or physical-device verification.</p>
+<label>Width <select id="visual-width"><option>320</option><option selected>390</option></select></label>
+<label>Occupied seats <select id="visual-seats"><option selected>6</option><option>9</option><option>10</option></select></label>
+<button id="visual-load">Load selected table</button><button id="visual-table" disabled>Show table for screenshot</button><button id="visual-actions" disabled>Show action controls</button>
+<p id="visual-status" role="status">NOT_EXECUTED — select the table and load the existing fixture.</p>
+<iframe id="visual-frame" title="Isolated actual poker table for screenshot"></iframe>
+<details><summary>Existing fixture result, unchanged</summary><pre id="visual-fixture-result"></pre></details>
+<script type="module">
+const frame=document.querySelector('#visual-frame'),load=document.querySelector('#visual-load'),table=document.querySelector('#visual-table'),actions=document.querySelector('#visual-actions'),status=document.querySelector('#visual-status'),result=document.querySelector('#visual-fixture-result');let expectedSeats=6,expectedWidth=390;
+function scroll(selector){const target=frame.contentDocument?.querySelector(selector);if(target)target.scrollIntoView({block:'start'});}
+table.onclick=()=>scroll('.table-panel');actions.onclick=()=>scroll('#table-actions');
+window.addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==frame.contentWindow||event.data?.kind!=='step5d-a11y')return;const receipt=event.data.result;if(receipt.seats!==expectedSeats||receipt.width!==expectedWidth)return;result.textContent=JSON.stringify(receipt,null,2);status.textContent=`Existing fixture ${receipt.status}: ${expectedSeats} seats at ${expectedWidth}px. Table retained for visual capture; no new screenshot/visual PASS is inferred.`;load.disabled=false;table.disabled=actions.disabled=false;scroll('.table-panel');});
+load.onclick=()=>{expectedSeats=Number(document.querySelector('#visual-seats').value);expectedWidth=Number(document.querySelector('#visual-width').value);frame.style.width=expectedWidth+'px';load.disabled=true;table.disabled=actions.disabled=true;result.textContent='';status.textContent=`Loading existing isolated ${expectedSeats}-seat fixture at ${expectedWidth}px…`;frame.src=`./step5d-a11y-frame.html?seats=${expectedSeats}&run=visual-${Date.now()}-${crypto.getRandomValues(new Uint32Array(1))[0]}`;};
+</script></body></html>

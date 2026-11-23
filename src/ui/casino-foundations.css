@@ -1,0 +1,137 @@
+/* 1 — Design tokens and shared controls. Warm brass is reserved for brand, active state,
+   numbers and trim. Body copy stays high-contrast neutral; green conveys positive values. */
+:root{
+ --casino-onyx:#070e13;
+ --casino-ink:#0b151a;
+ --casino-surface:#142328;
+ --casino-emerald:#00654f;
+ --casino-felt:#0d5c48;
+ --casino-felt-light:#22785e;
+ --casino-brass:#d9ae65;
+ --casino-brass-light:#fff0c1;
+ --casino-brass-dark:#855521;
+ --casino-copy:#f1f1e9;
+ --casino-secondary:#bacbc4;
+ --casino-border:color-mix(in srgb,var(--casino-brass) 44%,transparent);
+ --casino-border-soft:color-mix(in srgb,var(--casino-brass) 24%,transparent);
+ --casino-lift:inset 0 1px 0 #fff4d51e,0 12px 26px #0007;
+ --casino-gold-gradient:linear-gradient(100deg,#946021 0%,#ffeec2 18%,#e0b767 43%,#91601f 66%,#f7d58f 84%,#b6833b 100%);
+ --casino-table-shadow:0 0 0 2px #d0b2746e,0 0 0 5px #0a1013,0 14px 34px #000a;
+}
+.app-shell{color:var(--casino-copy);background:
+ radial-gradient(ellipse 70% 22% at 50% -5%,#ad7c2d18,transparent 85%),
+ radial-gradient(ellipse 80% 75% at 50% 35%,#123e344a,transparent 95%),
+ linear-gradient(#0b1719,#070e13)}
+.app-shell::before{opacity:.17;background:repeating-linear-gradient(110deg,transparent 0 77px,#e3c27709 79px,transparent 81px)}
+/* Never inject marketing offers, balances or nonfunctional navigation in the header. */
+.app-header{border-bottom:1px solid #e4c48854;background:
+ linear-gradient(90deg,#c7a46909,transparent 22%,transparent 78%,#c7a46909),
+ linear-gradient(180deg,#1b2829fa,#081316fb);
+ box-shadow:inset 0 1px 0 #fff3bd18,0 4px 18px #000b}
+.app-header .brand{display:inline-flex;align-items:center;gap:0;flex:0 0 auto;min-width:0;text-decoration:none}
+.casino-wordmark{display:flex;align-items:center;gap:10px;min-width:0}
+.casino-crest{width:38px;height:38px;flex:0 0 auto;filter:drop-shadow(0 0 9px #c6924563)}
+.casino-wordmark-type{display:grid;gap:2px;line-height:1.08;min-width:0}
+.casino-wordmark-type>b{font:700 clamp(13px,1.2vw,19px)/1.05 Georgia,'Times New Roman',serif;letter-spacing:.09em;color:#ffebbc;white-space:nowrap;text-shadow:0 1px 6px #bd923957}
+.casino-wordmark-type>small{font-size:8px;font-weight:650;letter-spacing:.115em;color:#c4b393;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-header .nav-button{position:relative;font-weight:650;color:#b9ccc3;border-radius:10px}
+.app-header .nav-button.selected,.app-header .nav-button[aria-current="page"]{color:#ffeac3;background:linear-gradient(180deg,#75613a72,#27392cdb);border-color:#e4bc756c;box-shadow:inset 0 1px 0 #fff2ba4e,0 0 14px #dfb3642c}
+.app-header .nav-button.selected::after{content:"";position:absolute;inset:auto 25% 2px;height:2px;border-radius:50%;background:linear-gradient(90deg,transparent,#ffe0a1,transparent)}
+.subnav{border-bottom:1px solid #bfa06926}
+.subnav-button:is(.selected,[aria-current="page"]){color:#ffe8b8;background:linear-gradient(180deg,#7b632f5a,#224133b5)}
+.page-heading h1{font-family:Georgia,serif;color:#f3e8d1;letter-spacing:-.012em}
+.page-heading .eyebrow{color:#edc989}
+.panel,.home-start,.home-hub{border:1px solid var(--casino-border-soft);box-shadow:var(--casino-lift);background:linear-gradient(140deg,#1a2d2d,#0c1920 70%);border-radius:17px}
+.panel>h2,.panel h3{letter-spacing:.01em}
+.panel>h2{color:#f5e8d3}
+:is(.panel,.table-panel,.tournament-table) :where(button:not([disabled]),a):focus-visible{outline:3px solid #fff0b7;outline-offset:3px}
+.button,.segment{min-height:42px}
+.button.primary,.home-card-main{border:1px solid #fff1bb;background:linear-gradient(180deg,#fff0c6,#e6ba73 62%,#b47d37);color:#251a0b}
+.button.secondary{border-color:#bda26e74;background:linear-gradient(180deg,#324448,#122128);color:#f1eee3}
+.button:active:not(:disabled),.nav-button:active:not(:disabled){transform:translateY(1px)}
+.positive{color:#83e8b5}.negative{color:#f7a9a4}
+/* The lobby hero is a real component, not a screenshot. Its two buttons use existing routes. */
+.home-hub{overflow:hidden}
+.casino-home-hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(170px,.8fr);align-items:center;position:relative;gap:12px;min-height:280px;padding:clamp(16px,3.8vw,44px);margin:-1px -1px 22px;border-radius:17px 17px 9px 9px;overflow:hidden;border-bottom:1px solid #dabc7b69;
+ background:
+ radial-gradient(ellipse 65% 85% at 82% 20%,#c89b3427,transparent 90%),
+ radial-gradient(ellipse 55% 50% at 60% 95%,#00795443,transparent 95%),
+ linear-gradient(115deg,#061317,#123c34 65%,#071417)}
+.casino-home-hero::before{content:"";position:absolute;inset:12px;pointer-events:none;border:1px solid #d9b67a24;border-radius:9px}
+.casino-home-hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,transparent,#ca9650,#fff0af,#bf853c,transparent)}
+.casino-home-copy{position:relative;z-index:2;max-width:650px;display:grid;justify-items:start;gap:12px}
+.casino-kicker{color:#edc889;font-size:clamp(9px,1.2vw,12px);font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+.casino-home-copy h2{margin:0;font:600 clamp(28px,4.6vw,62px)/1.1 Georgia,'Times New Roman',serif;letter-spacing:.045em;color:#ffecc6;text-shadow:0 3px 20px #b6854e3a}
+.casino-home-copy h2 em{font-style:normal;background:var(--casino-gold-gradient);background-clip:text;-webkit-background-clip:text;color:transparent}
+.casino-home-copy>p{font-size:clamp(14px,1.4vw,17px);line-height:1.55;color:#dbe7df;margin:0;max-width:410px}
+.casino-home-copy>small{font-size:11px;color:#acbdb1}
+.casino-hero-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.casino-hero-link{min-height:44px;display:inline-flex;align-items:center;gap:9px;text-decoration:none;border-radius:11px;padding:10px 17px;font-weight:750;color:#2c2113;background:linear-gradient(160deg,#ffe6a6,#cb9c4c);border:1px solid #ffe6b4;box-shadow:inset 0 1px #fff9dc,0 4px 14px #0005}
+.casino-hero-link:hover{filter:brightness(1.08)}
+.casino-home-art{position:relative;height:220px;min-width:0;display:grid;place-items:center;filter:drop-shadow(0 16px 14px #0008)}
+.casino-home-art>.casino-crest{width:min(210px,80%);height:min(210px,80%);opacity:.6;filter:drop-shadow(0 0 30px #d9ac4d66)}
+.casino-fan{position:absolute;top:23%;left:50%;width:96px;height:140px;border:4px solid #fce7b5;border-radius:9px;background:linear-gradient(140deg,#fffdf1,#ded7c8);color:#142529;display:flex;align-items:flex-start;padding:12px;font:700 30px Georgia,serif;box-shadow:0 8px 26px #0009}
+.casino-fan-one{transform:translateX(-85%) rotate(-19deg)}
+.casino-fan-two{transform:translateX(-15%) rotate(17deg)}
+.casino-chip-art{position:absolute;bottom:0;right:8%;height:70px;width:70px;border-radius:50%;display:grid;place-items:center;color:#f9dcaa;background:repeating-conic-gradient(#edc37b 0deg 18deg,#18262a 18deg 36deg);border:5px solid #ba874b;box-shadow:0 3px 2px #000,0 0 0 5px #101c1d,inset 0 0 0 8px #232a29,inset 0 0 0 10px #e5b66a;font-size:28px}
+.hub-balances{position:relative;z-index:1}
+.hub-balances>div{border-radius:11px;background:linear-gradient(155deg,#263c3a,#0e1f25);border:1px solid #ddbf8240;box-shadow:inset 0 1px 0 #fff4da1a}
+.hub-balances b{font-variant-numeric:tabular-nums;color:#fce8bd}
+#home-game-collection{scroll-margin-top:80px}
+.home-cards{gap:12px}
+.home-card{position:relative;min-height:140px;overflow:hidden;padding-right:104px;border-radius:14px;border:1px solid #d5b37b52;background:radial-gradient(ellipse at 100% 20%,#eeb9691c,transparent 80%),linear-gradient(145deg,#223a36,#101e25 80%);box-shadow:var(--casino-lift);text-align:left}
+.home-card .casino-game-art{position:absolute;right:2px;bottom:5px;width:110px;height:105px;color:#e4bd75;opacity:.8;filter:drop-shadow(0 0 14px #e9bc5960);pointer-events:none}
+.home-card:hover:not(:disabled) .casino-game-art{transform:translateY(-3px) scale(1.03)}
+.home-card b{font-family:Georgia,serif;color:#fff1d7;font-size:clamp(17px,1.5vw,22px)}
+.home-card.home-card-main b{color:#30271c}
+.home-card.home-card-main .casino-game-art{color:#584129}
+.home-card>span:not(.casino-game-art){line-height:1.5}
+.hub-block{border-top:1px solid #d9b87936}
+.hub-block>h3{font-family:Georgia,serif;color:#edcf91}
+/* Shared data-heavy pages look intentionally connected to the same suite. */
+:is(.panel.results-panel,.panel.cashier-panel,.panel.stats-panel,.panel.deep-stats,.panel.by-game,.panel.coach,.panel.career,.panel.history-panel) {background:linear-gradient(145deg,#1b302d,#0f1e25 70%);border:1px solid #c3a46749;border-radius:17px}
+:is(.results-panel,.history-panel,.stats-panel,.cashier-panel,.deep-stats,.coach,.career) h2{font-family:Georgia,serif;letter-spacing:.025em;color:#f8e8c6}
+:is(.deep-rate,.deep-money>div,.game-card,.stats-card,.chart-card){border:1px solid #d6be8240;box-shadow:inset 0 1px 0 #fff9d40b,0 6px 10px #0003}
+/* The built-in light mode remains readable while tables and cabinets keep their identity. */
+.theme-light .casino-home-hero,.theme-light .casino-home-hero *{color:inherit}
+.theme-light .casino-home-copy h2{color:#ffebbd}
+.theme-light .casino-home-copy>p,.theme-light .casino-home-copy>small{color:#e3ede3}
+.theme-light .casino-kicker{color:#eed095}
+.theme-light .casino-hero-link{color:#302218}
+.theme-light .home-card:not(.home-card-main){color:#f0f4ec}
+.theme-light .home-card:not(.home-card-main) b{color:#fff2da}
+.theme-light .hub-balances>div{background:linear-gradient(140deg,#263e38,#112326)}
+.theme-light .hub-balances b{color:#f9e5be}
+@media(max-width:760px){
+ .casino-wordmark{gap:6px}.casino-crest{width:28px;height:28px}
+ .casino-wordmark-type>b{font-size:12px;letter-spacing:.04em}
+ .casino-wordmark-type>small{font-size:6px;letter-spacing:.035em}
+ .casino-home-hero{grid-template-columns:1fr;min-height:0;padding:22px 17px}
+ .casino-home-copy{gap:10px}.casino-home-copy h2{font-size:clamp(29px,8vw,45px)}
+ .casino-home-art{position:absolute;inset:0 -25px auto auto;width:200px;height:160px;opacity:.2}
+ .casino-home-copy>p{padding-right:10px}
+ .home-card{min-height:120px;padding-right:84px}
+ .home-card .casino-game-art{width:80px;height:80px;right:4px;bottom:10px}
+}
+@media(max-width:440px){
+ .app-header .brand{max-width:44px;overflow:hidden}
+ .casino-wordmark{gap:0}.casino-wordmark-type{display:none}
+ .app-header .nav-button{padding-inline:3px}
+ .casino-home-art{display:none}
+ .casino-home-hero{padding:19px 14px}
+ .casino-home-copy h2{font-size:clamp(29px,9vw,37px)}
+ .casino-hero-actions{gap:6px}.casino-hero-link{font-size:13px;padding:9px 12px}
+ .casino-hero-actions .button{font-size:13px;padding-inline:12px}
+ .home-card{min-height:105px;padding-right:70px}
+ .home-card .casino-game-art{width:69px;height:70px}
+}
+@media(prefers-reduced-motion:reduce){.casino-home-hero *,.casino-hero-link{transition:none!important;animation:none!important}}
+.motion-off .casino-game-art,.motion-off .casino-hero-link{transition:none!important;animation:none!important}
+@media(forced-colors:active){.casino-home-hero,.casino-hero-link,.home-card{border:1px solid CanvasText;background:Canvas;color:CanvasText}.casino-home-art{display:none}}
+/* Original atmospheric image is only room dressing behind real clickable widgets. */
+.casino-home-hero{background-image:
+ linear-gradient(90deg,#061518f5 0%,#062021e4 40%,#06140d94 72%,#07120d8c 100%),
+ url('/casino-art/room-atmosphere.webp');background-position:center,center;background-size:cover,cover}
+.casino-home-art{opacity:.7}
+@media(max-width:760px){.casino-home-hero{background-position:center,64% 50%}}
+@media(max-width:440px){.casino-home-hero{background-image:linear-gradient(90deg,#061519ed,#081c1ace),url('/casino-art/room-atmosphere.webp')}}

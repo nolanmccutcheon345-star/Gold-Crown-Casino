@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import process from 'node:process';
+import {Buffer} from 'node:buffer';
+import console from 'node:console';
+import {createHash} from 'node:crypto';
+import {createReadStream,readFileSync,writeFileSync,statSync} from 'node:fs';
+import {createGunzip} from 'node:zlib';
+import {createInterface} from 'node:readline';
+import path from 'node:path';
+const [folder,out]=process.argv.slice(2);assert(folder&&out);const m=JSON.parse(readFileSync(path.join(folder,'manifest.json'),'utf8')),whole=createHash('sha256'),hands=[],seen=new Set();let records=0,logicalValueBytes=0,current=null,previous='';
+for(const part of m.parts){const p=path.join(folder,part.filename),compressed=createHash('sha256'),raw=createHash('sha256');assert.equal(statSync(p).size,part.compressedBytes);let bytes=0,count=0;const input=createReadStream(p);input.on('data',b=>compressed.update(b));const decoded=input.pipe(createGunzip());decoded.on('data',b=>{whole.update(b);raw.update(b);bytes+=b.length;});for await(const line of createInterface({input:decoded,crlfDelay:Infinity})){if(!line)continue;const row=JSON.parse(line);assert(row.key>previous&&!seen.has(row.key));seen.add(row.key);previous=row.key;records++;count++;logicalValueBytes+=Buffer.byteLength(JSON.stringify(row.value));if(row.key==='current')current=row.value;if(row.key.startsWith('v2:hands:'))hands.push({id:row.value.value.id,hash:row.value.value.hash,net:row.value.value.net});}assert.equal(compressed.digest('hex'),part.compressedSHA256);assert.equal(raw.digest('hex'),part.rawSHA256);assert.equal(bytes,part.rawBytes);assert.equal(count,part.records);}
+assert.equal(records,m.records);assert.equal(logicalValueBytes,m.logicalValueBytes);assert.equal(current.checksum,m.currentChecksum);assert.equal(whole.digest('hex'),m.rawSHA256);assert.equal(hands.length,10000);assert(!seen.has('lease'));
+const text='['+hands.map(h=>'{"hash":'+JSON.stringify(h.hash)+',"id":'+JSON.stringify(h.id)+',"net":'+JSON.stringify(h.net)+'}').join(',')+']';assert.equal(createHash('sha256').update(text).digest('hex'),m.expected.historyCommitment);
+const result={status:'PASS',sourceCommit:m.sourceCommit,manifestSHA256:createHash('sha256').update(readFileSync(path.join(folder,'manifest.json'))).digest('hex'),records,parts:m.parts.length,canonicalHands:hands.length,logicalValueBytes,compressedBytes:m.parts.reduce((n,p)=>n+p.compressedBytes,0),rawSHA256:m.rawSHA256,historyCommitment:m.expected.historyCommitment,scope:'Independent streaming decompression verifies every compressed/raw part digest, byte and row count, sorted unique keys, unchanged current manifest and original hand commitment. No browser or poker gameplay execution claimed; the old ephemeral52B writer lease is explicitly excluded and recreated by actual browser ownership.'};writeFileSync(out,JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result));

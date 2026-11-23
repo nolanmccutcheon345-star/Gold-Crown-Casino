@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {gunzipSync} from 'node:zlib';
+import process from 'node:process';
+import console from 'node:console';
+const folder=process.argv[2]??'tests/step5e-performance/evidence',sizes=[0,100,500,1000,5000,10000],source=JSON.parse(readFileSync(`${folder}/source.json`,'utf8'));
+const sha=bytes=>createHash('sha256').update(bytes).digest('hex');assert.equal(sha(readFileSync(source.bundle)),source.bundleSHA256);
+const candidateConditions=existsSync(`${folder}/run-conditions.json`)?JSON.parse(readFileSync(`${folder}/run-conditions.json`,'utf8')):null,conditions=candidateConditions?.sourceCreatedAt===source.createdAt?candidateConditions:null;
+const rows=[];
+for(const size of sizes){
+ const report=JSON.parse(readFileSync(`${folder}/${size}.json`,'utf8'));assert.equal(report.status,'PASS');assert.equal(report.source.bundleSHA256,source.bundleSHA256);assert.equal(report.source.commit,source.commit);
+ assert.equal(report.summary.fullCanonical.samples,3);assert.equal(report.summary.fastCheckpoint.samples,3);assert.equal(report.summary.financialAgreement,true);assert.equal(report.summary.statsFullReplayAgreement,true);
+ const full=report.runs.filter(row=>row.phase==='fullCanonicalRestore'),fast=report.runs.filter(row=>row.phase==='fastCheckpointRestore');assert.equal(full.length,3);assert.equal(fast.length,3);
+ for(const run of [...full,...fast]){assert.equal(run.accounting.hands,size);assert.equal(run.accounting.settlements,size);assert.equal(run.accounting.distinctFinancialEvents,run.accounting.ledgerEvents);assert.equal(run.accounting.table,0);assert(Number.isFinite(run.milliseconds)&&run.milliseconds>=0);}
+ for(const run of fast){assert.equal(run.archiveReadRecords,Math.min(120,size));assert.equal(run.completeBrowserPersistenceLoad,true);assert.equal(run.financialArchiveVerified,true);assert.equal(run.residentArchiveVerified,true);assert.equal(run.keyInventoryVerified,true);assert.equal(run.currentManifestFenceVerified,true);assert.equal(run.fullReplayStatsEqual,true);assert.equal(run.residentHands,Math.min(120,size));}
+ for(const run of fast){for(const stage of ['persistence.load','recovery.fastRestore','recovery.financialArchive','recovery.residentArchive','recovery.archiveInventory'])assert(Number.isFinite(run.stageTotals[stage]),`Required startup stage missing: ${stage}`);assert.equal(run.stageTotals['integrity.fullAudit'],undefined,'Fast restore unexpectedly fell back to full history');}
+ for(const run of report.runs.filter(row=>row.cpuProfile)){
+  const bytes=readFileSync(`${folder}/${run.cpuProfile.path}`);assert.equal(sha(bytes),run.cpuProfile.sha256);const profile=JSON.parse(gunzipSync(bytes));assert(profile.nodes.length>0);assert(profile.samples.length>0);assert(profile.endTime>profile.startTime);
+ }
+ rows.push({size,full:report.summary.fullCanonical,fast:report.summary.fastCheckpoint,conversionMs:report.summary.initialConversionMs,serializationMs:report.summary.initialSerializationMs,canonicalBytes:report.archive.rawBytes,checkpointBytes:report.summary.checkpointStoredBytes,fastReadBytes:fast.map(row=>row.readBytes),fastNodeEventLoopMaxMs:fast.map(row=>row.nodeEventLoop.maxMs),fastObservedPeakRSSBytes:fast.map(row=>row.observedPeak.rss),fullObservedPeakRSSBytes:full.map(row=>row.observedPeak.rss)});
+}
+const final=JSON.parse(readFileSync(`${folder}/10000.json`,'utf8')),timingNames=[...new Set(final.runs.flatMap(row=>Object.keys(row.stageTotals)))];
+const cpuFunctionSummary=final.runs.filter(row=>row.cpuProfile).map(row=>{
+ const p=JSON.parse(gunzipSync(readFileSync(`${folder}/${row.cpuProfile.path}`))),nodes=new Map(p.nodes.map(node=>[node.id,node])),totals=new Map();let inspectorSelfMs=0;
+ for(let i=0;i<p.samples.length;i++){const frame=nodes.get(p.samples[i]).callFrame,ms=p.timeDeltas[i]/1000;if(frame.url==='node:inspector'){inspectorSelfMs+=ms;continue;}const key=JSON.stringify([frame.functionName,frame.url,frame.lineNumber]);totals.set(key,(totals.get(key)??0)+ms);}
+ return{phase:row.phase,inspectorActivationSelfMsExcluded:inspectorSelfMs,warning:'Raw sampling includes Inspector activation/stop work outside the timed recovery region. Inspector frames excluded here; pipeline self-times are estimates, not inclusive wall-clock stages.',topFunctions:[...totals].sort((a,b)=>b[1]-a[1]).slice(0,20).map(([key,milliseconds])=>{const[functionName,url,lineNumber]=JSON.parse(key);return{functionName,url,lineNumber,milliseconds};})};
+});
+const med=values=>[...values].sort((a,b)=>a-b)[Math.floor(values.length/2)];
+const stages=Object.fromEntries(['fullCanonicalRestore','fastCheckpointRestore'].map(phase=>[phase,Object.fromEntries(timingNames.map(name=>[name,med(final.runs.filter(row=>row.phase===phase).map(row=>row.stageTotals[name]??0))]).filter(([,ms])=>ms>0))]));
+const qualification={status:'PASS',sourceCommit:source.commit,bundleSHA256:source.bundleSHA256,executions:{fullCanonicalRestores:18,compactCheckpointRestores:18,initialConversions:6,inspectorProfiles:final.runs.filter(row=>row.cpuProfile).length},assertions:'All exact archive hashes, independent integer ledger replay, hand/settlement identities, and independent full-history statistics agree; only the bounded recent120 canonical hand bodies are read; actual canonical financial rows, key inventory and current-manifest fence also execute before readiness.',limitations:['Three samples per path and size; p95/p99 equal observed maxima and do not establish rare-stall rates.','Native Node reference, not browser/device performance, INP, UI hydration or IndexedDB durability.','Conversion is separately measured and must not be advertised as fast recovery.','Schema checks execute in their production phases; a standalone schema-only wall time is not isolated.','No 2,000-decision workload or active-hand startup executed by this cold-recovery harness.'],rows,tenThousandStageMedianMs:stages,tenThousandCPUProfiles:final.runs.filter(row=>row.cpuProfile).map(row=>({phase:row.phase,...row.cpuProfile})),tenThousandCPUFunctionSummary:cpuFunctionSummary,environment:final.environment};
+qualification.runConditions=conditions;qualification.limitations.push('Matched canonical input does not imply an isolated quiet CPU environment; concurrent local regression work may affect this Node matrix. Absolute samples are retained; no controlled causal speedup ratio is claimed.');
+writeFileSync(`${folder}/qualification.json`,JSON.stringify(qualification,null,2)+'\n');console.log(JSON.stringify({status:'PASS',executions:qualification.executions,tenThousand:rows.at(-1),stages}));

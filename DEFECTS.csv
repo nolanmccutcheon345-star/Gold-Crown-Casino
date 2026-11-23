@@ -1,0 +1,30 @@
+id,severity,status,summary,evidence
+DEF-001,CRITICAL,FIXED,Legal short-all-in rejected by UI and policy adapters,tests/bots/engine-integration.test.ts
+DEF-002,HIGH,FIXED,randomUUID-only hand identity prevented preview deals,tests/integration/identity.test.ts
+DEF-003,CRITICAL,FIXED,Folded contribution tiers biased tied odd-chip awards,tests/oracle/pokerkit.test.ts
+DEV-001,MEDIUM,FIXED,Managed preview host rejected by Vite,browser-journeys.json
+GAP-001,CRITICAL,FIXED,Durable wallet/recovery/multitab not implemented,STEP3_REPORT.md
+GAP-002,HIGH,FIXED,Policy version not yet pinned and enforced by persistent authority,STEP3_REPORT.md
+GAP-003,HIGH,OPEN,Full bot calibration/curve editor and memory missing,G4
+GAP-004,HIGH,OPEN,100-hand browser passed; full physical-device/human acceptance incomplete,G2/G5
+GAP-005,MEDIUM,FIXED,Live sidepot breakdown only finalized on settlement,STEP2_REPORT.md
+DEF-006,CRITICAL,FIXED,Rehashed public replay accepted early reveal and invalid negative raise,TEST_EVIDENCE/step3/independent/; tests/verification/STEP3_MAPPING.md; final 190-test log
+DEF-007,HIGH,FIXED,BFCache restore stranded closed persistence port,TEST_EVIDENCE/step3/independent/; tests/verification/STEP3_MAPPING.md; final 190-test log
+DEF-008,HIGH,FIXED,Uncontested expired owner lease self-blocked retry,TEST_EVIDENCE/step3/independent/; tests/verification/STEP3_MAPPING.md; final 190-test log
+DEF-009,HIGH,FIXED,Malformed public replay metadata accepted,TEST_EVIDENCE/step3/independent/; tests/verification/STEP3_MAPPING.md; final 190-test log
+DEV-002,HIGH,FIXED,HTTP preview lacked WebCrypto digest,TEST_EVIDENCE/step3/independent/; tests/verification/STEP3_MAPPING.md; final 190-test log
+UX-002,MEDIUM,FIXED,Duplicate continue/new session IDs and cashier rerender focus,TEST_EVIDENCE/step3/independent/; tests/verification/STEP3_MAPPING.md; final 190-test log
+QA-001,MEDIUM,MITIGATED,Embedded mobile blob retrieval limitation addressed with tested copy/paste fallback; native iPhone share awaits user,STEP36_REPORT.md; IPHONE_VERIFICATION.md
+UX-003,HIGH,FIXED,7–10-seat phones changed to below-table grid; Hero cards overlapped identity,TEST_EVIDENCE/step36/browser/reproduction.json; layout-matrix-expanded.json; fixed-*-mobile.jpg
+UX-004,HIGH,FIXED,New session unavailable during existing session without usable safe end workflow,tests/session-exit/controller.test.ts; TEST_EVIDENCE/step36/browser/session-workflows.json
+QA-002,LOW,RESOLVED,First regression lacked pinned PokerKit runtime dependency; restored 0.7.7 and full 262 tests passed,TEST_EVIDENCE/2026-10-31T21-29-11-192Z/manifest.json
+BOT-001,HIGH,FIXED,Pre-release policies folded unopened AA and guaranteed river nuts,tests/step4a/strong-hand-regression.test.ts; TEST_EVIDENCE/step4a/first-evaluation/; final-evaluation/
+BOT-002,HIGH,FIXED,Competent profiles missed terminal value and folded provably profitable cheap draws,tests/step4a/draw-bound.test.ts; tests/bots4a/policy.test.ts; final-evaluation/
+BOT-003,HIGH,FIXED,Shared-board monsters and low four-suit flushes overvalued; blind positions and jam effective stacks wrong,tests/bots4a/policy.test.ts; tests/step4a/strong-hand-regression.test.ts
+QA-003,MEDIUM,FIXED,Initial behavioral experiment correlated seat/button assignment and adjacent draw streams,tests/step4a/evaluation.ts; tests/step4a/VERIFICATION.md
+BOT-004,MEDIUM,OPEN,Explicit positional ranges and stack sensitivity implemented; uncalibrated population realism remains open,tests/step4b/VERIFICATION.md; src/bots/MODEL_CARDS.md
+BOT-005,HIGH,FIXED,Generic aggression caused excessive ordinary open limps with premium hands; replaced by continuous value and bounded trap model,tests/step4b/fixtures/step4a-aa-59f950d.json; tests/step4b/premium-guards.test.ts
+BOT-006,MEDIUM,FIXED,Candidate range likelihoods misread historical multiway context and board-only draws; action families also required normalization and faced-price conditioning,tests/ranges4b/ranges.test.ts; docs/models/RANGES_1_1.md
+BOT-007,MEDIUM,FIXED,Candidate postflop model trusted zero-sample equity fallback and overcalled a weak four-flush; sample-support and hostile-board price safeguards repaired,tests/postflop4b/range-response.test.ts; tests/bots4a/policy.test.ts
+BOT-008,LOW,FIXED,Preflop trap diagnostic key and coarse hijack position disagreed with new explicit range service,tests/postflop4b/range-response.test.ts
+QA-004,LOW,RESOLVED,New test fixtures initially assumed a wrapped public-history parse result and four rather than six observed prefix actions; corrected harness expectations to documented actual interfaces,tests/compat4b/redaction.test.ts; tests/step4b/evidence/step4b-independent-model.log

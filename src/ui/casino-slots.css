@@ -1,0 +1,81 @@
+/* 4 — Real slot cabinets with illustrated, machine-specific art. Existing reels, symbols,
+   bet controls and payouts remain live DOM. Artwork is aria-hidden and never interactive. */
+.slot-machines{grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:18px}
+.slot-card{position:relative;isolation:isolate;border-radius:20px;overflow:hidden;background:
+ radial-gradient(ellipse 100% 85% at 50% 0%,color-mix(in srgb,var(--glow) 29%,transparent),transparent 85%),
+ linear-gradient(160deg,var(--top),var(--bottom) 87%);
+ box-shadow:inset 0 0 0 2px #f6d99d8c,inset 0 0 0 6px #0b0e16,inset 0 0 0 8px #c59c5b6d,0 14px 30px #0009,0 0 23px color-mix(in srgb,var(--glow) 18%,transparent)}
+.slot-card::before{content:"";position:absolute;inset:8px 7px;pointer-events:none;border:1px dotted #f9de9f83;border-radius:13px;z-index:5}
+.slot-card:focus-visible{outline:3px solid #fff0c1;outline-offset:4px}
+.slot-card-marquee{overflow:hidden;padding:18px 8px 12px;gap:5px;isolation:isolate}
+.slot-card-marquee b{font:900 clamp(21px,2.2vw,29px)/1.04 Georgia,serif;text-align:center;text-transform:uppercase;letter-spacing:.035em;
+ text-shadow:0 3px 3px #0009,0 0 13px color-mix(in srgb,var(--glow) 80%,transparent);filter:drop-shadow(0 2px 2px #000a);z-index:2}
+.slot-card-marquee small{font:700 10px/1.2 system-ui,sans-serif;color:#ffe5a9;letter-spacing:.15em;text-align:center;z-index:2}
+.casino-slot-art{display:block;width:calc(100% - 18px);height:110px;position:relative;z-index:1;overflow:hidden;border:2px solid #e5bc7b;border-radius:12px;
+ background:radial-gradient(ellipse at 50% 30%,color-mix(in srgb,var(--glow) 38%,transparent),#0b111a 95%);
+ box-shadow:0 0 0 2px #050c11,0 0 0 3px #f4d49a9c,inset 0 0 15px #0008,0 5px 13px #0007}
+.casino-slot-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 50%;filter:saturate(1.13) contrast(1.06)}
+/* Reels and hero art are distinct elements; symbols are never painted over with static art. */
+.slot-card-reels{position:relative;z-index:1;padding:9px;gap:6px;border:4px solid #b88f52;border-radius:13px;
+ background:linear-gradient(160deg,#ffe8b6,#9e6a2e 40%,#f3d4a0 70%,#69431c);box-shadow:inset 0 2px 3px #fff6d8,0 3px 12px #000c,0 0 0 2px #0b0b0d}
+.slot-card-reels .slot-sym{background:linear-gradient(90deg,#d8c9a5,#fffdf2 15% 80%,#d9c7a4);border-radius:6px;box-shadow:inset 1px 0 2px #ffffffb9,inset -2px 0 3px #564c355e}
+.slot-card-text{background:linear-gradient(180deg,#10171b54,#080e19a6);padding:14px 15px 18px}
+.slot-card-text span{font-size:13px;color:#fff5e2}
+.slot-card-text small{color:#d7dece;font-size:11px;line-height:1.5}
+.slot-card-text small b{color:#a0f3be}
+.slot-chip{border:1px solid #d6b67571;background:linear-gradient(145deg,#23383b,#101b25);box-shadow:inset 0 1px 0 #ffe3a32b,0 4px 10px #0008}
+.slot-cabinet{position:relative;isolation:isolate;border-radius:27px 27px 20px 20px;overflow:hidden;background:
+ radial-gradient(ellipse 110% 50% at 50% 3%,color-mix(in srgb,var(--glow) 42%,transparent),transparent),
+ linear-gradient(180deg,var(--top),var(--bottom));
+ box-shadow:inset 0 0 0 2px #fce5ab,inset 0 0 0 5px #0c1118,inset 0 0 0 9px #d5b07b,0 15px 33px #000c,0 0 32px color-mix(in srgb,var(--glow) 25%,transparent)}
+.slot-cabinet::before{content:"";position:absolute;inset:11px;pointer-events:none;border-radius:17px;border:1px dotted #f4e3b77c;z-index:2;opacity:.9}
+.slot-marquee{position:relative;display:grid;justify-items:center;overflow:hidden;gap:5px;margin:0 -12px;padding:14px 14px 13px;background:
+ radial-gradient(ellipse at 50% 10%,color-mix(in srgb,var(--glow) 40%,transparent),transparent 90%),
+ linear-gradient(180deg,#ffffff18,#030a1180);border-bottom:2px solid #edc58b78}
+.slot-marquee h3{position:relative;z-index:2;font:900 clamp(21px,5.8vw,40px)/1.1 Georgia,serif;letter-spacing:.065em;text-align:center;
+ filter:drop-shadow(0 2px 1px #000c) drop-shadow(0 0 12px color-mix(in srgb,var(--glow) 90%,transparent))}
+.slot-marquee small{position:relative;z-index:2;font-weight:700;letter-spacing:.16em;font-size:10px}
+.slot-marquee>.casino-slot-art{order:1;width:min(100%,430px);height:clamp(94px,24vw,153px);margin:8px auto 2px;border-color:#f4d296bd}
+.slot-lights{z-index:3;pointer-events:none}
+.slot-window-frame{border:2px solid #edcf9b;background:linear-gradient(125deg,#fff6d1,#a36c29 21%,#f7dcaa 60%,#69451b);box-shadow:inset 0 1px 0 #fff8e9,0 0 0 3px #090c12,0 6px 16px #000d}
+.slot-window{background:#030a13;border-radius:9px}
+.slot-reel{background:linear-gradient(90deg,#dac9a1,#fffefa 16% 80%,#cab88e);box-shadow:inset 2px 0 2px #ffffffc7,inset -2px 0 3px #5b4c337c}
+.slot-glass{background:linear-gradient(180deg,#ffffff55,transparent 23%,transparent 65%,#09050d38),linear-gradient(95deg,#0009,transparent 10%,transparent 88%,#0008)}
+.slot-meters>div{border:1px solid #e7c58270;background:linear-gradient(160deg,#020608,#101518);box-shadow:inset 0 2px 8px #000b,inset 0 1px 0 #fff0be23,0 4px 8px #0007}
+.slot-meters small{font-size:10px;color:#ecd8b6;letter-spacing:.09em}
+.slot-meters b{font-variant-numeric:tabular-nums}
+.slot-key{min-height:44px;border:1px solid #d0b98a6e;border-radius:10px;background:linear-gradient(180deg,#69717a,#292f39 60%,#191c24);box-shadow:inset 0 1px 0 #ffffff56,0 3px 0 #080b10,0 6px 9px #0006}
+.slot-key:disabled{opacity:.4;filter:grayscale(.7)}
+.slot-key.on{background:linear-gradient(160deg,#e8c477,#90642a);border-color:#ffe9ae;color:#25190e}
+.slot-spin-button{border-color:#ffefbd!important;background:radial-gradient(circle at 50% 20%,#ff7781,#e62636 43%,#ad1325 78%)!important;
+ box-shadow:inset 0 2px 0 #fff4ca77,inset 0 -7px 12px #620916ab,0 0 0 4px #ffce73,0 0 0 7px #061016,0 8px 20px #000b,0 0 19px #f35e6a67!important}
+.slot-spin-button:hover:not(:disabled){filter:brightness(1.13)}
+.slot-spin-button:disabled{filter:grayscale(.6);opacity:.6}
+.slot-status.win,.slot-status.feature{color:#a4ffc9;text-shadow:0 2px 1px #000,0 0 10px #0fef9e70}
+.slot-overlay,.slot-gamble{background:#010b10dd;backdrop-filter:blur(5px)}
+.slot-auto-panel,.slot-session{border:1px solid #d4b27b68;background:linear-gradient(160deg,#263337,#0a1820)}
+.slot-cabinet.winning{box-shadow:inset 0 0 0 2px #fce5ab,inset 0 0 0 5px #0c1118,inset 0 0 0 9px #d5b07b,0 15px 33px #000c,0 0 29px color-mix(in srgb,var(--glow) 60%,transparent)}
+/* Machine-specific trim retains each game theme with consistent underlying structure. */
+.slot-cabinet.kind-ways,.slot-card.kind-ways{--casino-ornament:#ffb86c}
+.slot-cabinet.kind-cascade,.slot-card.kind-cascade{--casino-ornament:#e0acff}
+.slot-cabinet.kind-hold,.slot-card.kind-hold{--casino-ornament:#9ee6ff}
+.slot-cabinet.kind-pick,.slot-card.kind-pick{--casino-ornament:#80ffde}
+.slot-cabinet.kind-wheel,.slot-card.kind-wheel{--casino-ornament:#efa7ff}
+.slot-cabinet :is(.slot-window-frame,.slot-marquee){outline:1px solid color-mix(in srgb,var(--casino-ornament,#ffe6a5) 40%,transparent)}
+.theme-light .panel.slots{background:linear-gradient(140deg,#233537,#0d1d25);color:#fff2dc}
+.theme-light .casino-slot-art{border-color:#f1d096}
+@media(max-width:700px){
+ .slot-machines{grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:14px}
+ .slot-card-marquee{padding:12px 7px}
+ .slot-card-marquee .casino-slot-art{height:105px}
+ .slot-card-marquee b{font-size:clamp(23px,6.2vw,30px)}
+ .slot-card-text{padding:11px 12px 15px}
+ .slot-cabinet{border-radius:19px 19px 14px 14px}
+ .slot-marquee>.casino-slot-art{height:clamp(90px,25vw,118px)}
+ .slot-spin-button{min-width:65px}
+}
+@media(max-width:380px){.slot-card-marquee .casino-slot-art{height:94px}.slot-marquee>.casino-slot-art{height:89px}}
+/* Decorative artwork and chases are removed with the app or OS motion preference. */
+.motion-off :is(.slot-card,.slot-cabinet,.casino-slot-art img,.slot-marquee,.slot-lights){animation:none!important;transition:none!important}
+@media(prefers-reduced-motion:reduce){.slot-card,.slot-cabinet,.casino-slot-art img,.slot-marquee,.slot-lights{animation:none!important;transition:none!important}}
+@media(forced-colors:active){.slot-cabinet,.slot-card,.slot-window-frame,.slot-spin-button{box-shadow:none!important;border:2px solid CanvasText!important}.casino-slot-art{display:none}}

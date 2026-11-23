@@ -1,0 +1,82 @@
+/* Wide play screens with a hand in progress.
+   From 1181px the action panel moves into a right-hand column and stays on screen while the
+   page scrolls, so Fold / Call / Raise never have to be scrolled to. Session cards and notes
+   move under the table. DOM order is unchanged, so the tab order is as before.
+   Narrower windows keep the pinned bottom bar from phone-play.css. */
+/* Tablet and desktop (>=701px): less chrome above the table. Slimmer header, page title kept
+   for assistive tech only, blinds and Table settings share one row with the save status. */
+@media(min-width:701px){
+  .view-live.has-game .app-header{min-height:64px;padding-top:10px;padding-bottom:10px}
+  .view-live.has-game main{position:relative;padding-top:14px}
+  .view-live.has-game .page-heading{justify-content:flex-end;min-height:44px;margin-bottom:10px}
+  .view-live.has-game .page-heading>div:first-child{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .view-live.has-game .save-status{position:absolute;top:14px;min-height:44px;margin:0;justify-content:flex-start;gap:16px}
+  .view-live.has-game .table-heading{padding-top:14px}
+  /* Showdown hand names ("Pair of kings") were 9px. At 12px a long name needs two or three
+     lines, so a seat showing one lets its status text use the chip row as well, which is empty
+     at showdown. The text still fits inside .seat-status, as the layout tests require. */
+  .perimeter-table .seat-hand-label{font-size:12px;line-height:13px}
+  .perimeter-table .seat:has(.seat-hand-label) .seat-status{grid-row:3 / span 2;justify-content:flex-start;gap:0}
+  .perimeter-table .seat:has(.seat-hand-label) .seat-status>*{flex-shrink:0}
+  .perimeter-table .seat:has(.seat-hand-label) .seat-bet.empty-bet{display:none}
+}
+
+@media(min-width:1181px){
+  .view-live.has-game .game-layout{grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"table actions" "notes actions" "rail actions";align-items:start;gap:16px 24px}
+  .view-live.has-game .main-table-column{display:contents}
+  .view-live.has-game .table-panel{grid-area:table}
+  .view-live.has-game .player-notes{grid-area:notes;margin-top:0}
+  .view-live.has-game .session-rail{grid-area:rail;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+
+  .view-live.has-game .action-panel{grid-area:actions;position:sticky;top:12px;margin-top:0;padding:18px;max-height:calc(100vh - 24px);overflow-y:auto}
+  .view-live.has-game .action-panel.your-action{border-color:#8fe0bd80}
+  .view-live.has-game .action-top{margin-bottom:12px;gap:10px}
+  .view-live.has-game .action-panel h2{font-size:18px}
+  .view-live.has-game .action-buttons{grid-template-columns:1fr 1.15fr 1.45fr;gap:8px}
+  .view-live.has-game .action-buttons .button{min-height:52px;padding:6px;font-size:14px;line-height:1.15}
+  .view-live.has-game .raise-controls{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:14px}
+  .view-live.has-game .raise-input-group{flex-wrap:wrap;gap:8px}
+  .view-live.has-game .raise-input-group label{flex:1 0 100%}
+  .view-live.has-game .raise-input-group input{width:96px;max-width:96px;min-height:44px;text-align:center}
+  .view-live.has-game .size-presets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .view-live.has-game .size-presets button{min-height:44px;padding:0 6px}
+  .view-live.has-game .sizing-more{margin-top:8px}
+  .view-live.has-game .action-panel.complete-action{display:grid;gap:12px;align-items:stretch}
+  .view-live.has-game .complete-action .button{width:100%;min-height:52px;white-space:normal}
+}
+
+/* Short screens. The short table from table-layout.ts replaces the tall one, the heading row
+   gives way to a hand number beside the street label, and confirmation notices sit under the
+   table instead of pushing it down, so a full table fits without scrolling.
+   Side-column layout (>=1181px): windows up to 869px tall, e.g. a 1366x768 laptop.
+   Pinned-bar layout (701-1180px): up to 1029px tall, because the bar covers 172px. */
+@media(min-width:701px) and (max-width:1180px) and (max-height:1029px),(min-width:1181px) and (max-height:869px){
+  .view-live.has-game .table-panel .table-scene.perimeter-table{--table-h:var(--short-height)}
+  .view-live.has-game .perimeter-table .seat{--seat-x:var(--short-x);--seat-y:var(--short-y)}
+  .view-live.has-game .table-heading{display:none}
+  .view-live.has-game .perimeter-table .street-row{display:flex;align-items:baseline;justify-content:center;gap:8px}
+  .view-live.has-game .perimeter-table .hand-tag{display:inline;font-size:12px;line-height:14px;color:#a9c0b2}
+  .view-live.has-game main{display:flex;flex-direction:column}
+  .view-live.has-game main>.game-layout~*{order:2}
+  .view-live.has-game main>.session-notice{order:1;margin:14px 0 0}
+  /* Tighter chrome above the table. */
+  .view-live.has-game .app-header{min-height:56px;padding-top:6px;padding-bottom:6px}
+  .view-live.has-game .brand small{display:none}
+  .view-live.has-game main{padding-top:8px}
+  .view-live.has-game .save-status{top:8px}
+  .view-live.has-game .page-heading{margin-bottom:6px}
+  .view-live.has-game .table-panel .table-scene.perimeter-table{margin-top:6px}
+}
+/* Shortest screens: the blinds / Table settings row and the save status also move under the
+   table. DOM order is unchanged. */
+@media(min-width:701px) and (max-width:1180px) and (max-height:829px),(min-width:1181px) and (max-height:611px){
+  .view-live.has-game .page-heading{order:1;margin:14px 0 0}
+  .view-live.has-game .save-status{position:static;order:1;margin:10px 0 0}
+}
+
+/* Touch screens at any width (tablets, touch laptops): 44px targets and no focus zoom. */
+@media(pointer:coarse){
+  .app-shell .button,.app-shell .text-button,.app-shell .icon-button,.app-shell .nav-button,.app-shell select,.app-shell summary,
+  .app-shell input:not([type=checkbox]):not([type=radio]):not([type=range]){min-height:44px}
+  .app-shell input:not([type=checkbox]):not([type=radio]):not([type=range]),.app-shell select,.app-shell textarea{font-size:16px}
+}

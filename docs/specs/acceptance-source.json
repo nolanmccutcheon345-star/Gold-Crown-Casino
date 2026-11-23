@@ -1,0 +1,2418 @@
+[
+  {
+    "id": "A01",
+    "scope": "cash",
+    "title": "New hand, 10 active seats",
+    "acceptance": "Exactly 20 unique hole cards, burn/deal according to rules, at most 5 board cards; all cards unique",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A02",
+    "scope": "cash",
+    "title": "Shuffle 100k generated decks (if feasible)",
+    "acceptance": "No repeated card within deck; no fixed seat/Hero bias; report statistical test with uncertainty, not proof of perfect fairness",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A03",
+    "scope": "cash",
+    "title": "Tests with same deterministic seed and same actions",
+    "acceptance": "Exact same dealer state/results in test mode",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A04",
+    "scope": "cash",
+    "title": "Production-mode two consecutive hands",
+    "acceptance": "Independent, non-forced random shuffles; seeded fixtures inaccessible from ordinary UI",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A05",
+    "scope": "cash",
+    "title": "A-2-3-4-5 vs 2-3-4-5-6",
+    "acceptance": "Six-high straight wins, wheel is five-high",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A06",
+    "scope": "cash",
+    "title": "Four cards of one suit on board plus qualifying own suit",
+    "acceptance": "Correct flush, not any five cards of mixed suits",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A07",
+    "scope": "cash",
+    "title": "Same top pair but different kicker",
+    "acceptance": "Correct kicker winner",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A08",
+    "scope": "cash",
+    "title": "Board makes best five-card hand for two players",
+    "acceptance": "Correct tie/split/odd chip per configured rules",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A09",
+    "scope": "cash",
+    "title": "Two pair vs trips; flush vs straight; full house vs flush; quads vs full house; straight flush",
+    "acceptance": "Correct ranking ordering and best-five selection",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "A10",
+    "scope": "cash",
+    "title": "Hero folds preflop",
+    "acceptance": "Hero cards remain hidden by default; future board not scripted for educational outcome",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B01",
+    "scope": "cash",
+    "title": "HU button/SB acts preflop",
+    "acceptance": "Button = SB, acts first preflop; BB acts first postflop",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B02",
+    "scope": "cash",
+    "title": "3–10 handed",
+    "acceptance": "First preflop actor after BB/live straddle; first postflop actor left of button among active players",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B03",
+    "scope": "cash",
+    "title": "Several physical seats empty",
+    "acceptance": "Determine button and blinds based on occupied seat sequence, not seat label",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B04",
+    "scope": "cash",
+    "title": "Big blind offered option after limpers/calls",
+    "acceptance": "BB may check or raise; a preflop call from SB alone does not auto-end the round",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B05",
+    "scope": "cash",
+    "title": "Bet 100 → opponent raises to 260",
+    "acceptance": "Prior full raise increment is 160; next minimum full raise-to 420, if stack allows",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B06",
+    "scope": "cash",
+    "title": "A bet 100 → B short all-in 150",
+    "acceptance": "A's earlier action is not reopened solely by +50; if another full valid raise occurs, re-evaluate",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B07",
+    "scope": "cash",
+    "title": "A bet 100 → B all-in 140 → C all-in 180",
+    "acceptance": "Cumulative +80 is short of a full 100; if A already acted, cannot re-raise under selected rule",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B08",
+    "scope": "cash",
+    "title": "A bet 100 → B all-in 150 → C all-in 200",
+    "acceptance": "Cumulative reaches full +100; A's raise rights re-open as specified by selected rule profile",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B09",
+    "scope": "cash",
+    "title": "Hero owes 20 and has 13 remaining",
+    "acceptance": "Exact 13 all-in call permitted; no negative stack; side-pot eligibility correct",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B10",
+    "scope": "cash",
+    "title": "Raise-to amount below minimum with enough stack",
+    "acceptance": "UI disables/engine rejects; an under-min all-in is allowed if truly entire stack",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B11",
+    "scope": "cash",
+    "title": "Legal raise-to 16 at $1/$2",
+    "acceptance": "UI shows raise to $16 rather than “raise by $16”; exact total street commitment = $16",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B12",
+    "scope": "cash",
+    "title": "Rapid double-click on Call/Jam",
+    "acceptance": "Exactly one action recorded and one chip transfer",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B13",
+    "scope": "cash",
+    "title": "Hero not actor",
+    "acceptance": "All action buttons locked; bot transitions cannot override Hero decision",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B14",
+    "scope": "cash",
+    "title": "End of street",
+    "acceptance": "Each non-folded/non-all-in actor has matched the valid wager or acted as needed; reset street contributions and advance exactly once",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B15",
+    "scope": "cash",
+    "title": "Single eligible player after folds",
+    "acceptance": "Award uncontested pot; do not need showdown or force reveal",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B16",
+    "scope": "cash",
+    "title": "Every active player all-in",
+    "acceptance": "No requests for further player action; complete runout and settle",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B17",
+    "scope": "cash",
+    "title": "No-limit raise sequence",
+    "acceptance": "No arbitrary limit on number of raises; finite stack prevents illegal infinite loop",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B18",
+    "scope": "cash",
+    "title": "Invalid inputs NaN, negatives, fractions below chip unit, huge amounts",
+    "acceptance": "Reject safely; no chip/pot mutation",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "B19",
+    "scope": "cash",
+    "title": "Switching 9-handed to heads-up after seat exits",
+    "acceptance": "Correct button/blind and cash rule profile transitions; no missing blind",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C01",
+    "scope": "cash",
+    "title": "Four active players all-in for 50, 120, 300, 300",
+    "acceptance": "Main pot 200 (A/B/C/D eligible); side pot1 210 (B/C/D eligible); side pot2 360 (C/D eligible), prior to rake/returns",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C02",
+    "scope": "cash",
+    "title": "One all-in player loses main, wins separate side?",
+    "acceptance": "Enforce eligibility strictly; cannot win pot in which they did not contribute",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C03",
+    "scope": "cash",
+    "title": "Player folds after putting chips in",
+    "acceptance": "Contributed chips remain as dead money, not returned",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C04",
+    "scope": "cash",
+    "title": "Uncalled excess raise",
+    "acceptance": "Return unmatched portion before rake and final pot allocation",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C05",
+    "scope": "cash",
+    "title": "Two equal-ranked winners of odd-chip total",
+    "acceptance": "Split as defined by rule profile; no creation/loss of a fractional smallest unit",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C06",
+    "scope": "cash",
+    "title": "Rake-free 10k mixed-stack hands",
+    "acceptance": "Sum of live stacks after each hand = sum before hand, excluding external wallet moves",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C07",
+    "scope": "cash",
+    "title": "Rake-on 10k mixed-stack hands",
+    "acceptance": "Sum(live stacks after) + cumulative rake/drop = sum(live stacks before), with proper adjustments for topups/cashouts",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C08",
+    "scope": "cash",
+    "title": "No-flop-no-drop, everyone folds preflop",
+    "acceptance": "No standard flop-triggered rake assessed",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C09",
+    "scope": "cash",
+    "title": "Rake 5% capped $5 on postflop $200 pot",
+    "acceptance": "$5 rake under standard simple rule; document any rounding/local exceptions",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C10",
+    "scope": "cash",
+    "title": "Change rake from no-rake to 5%-cap profile",
+    "acceptance": "Old hands retain historical rake and stats; new hands use selected version",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C11",
+    "scope": "cash",
+    "title": "Wallet $1200 → buy in $300 → lose $40 → external wallet +$1000 → top up $40",
+    "acceptance": "Wallet $1860, table $300, net poker result −$40, total virtual assets $2160 (before rake already included in loss)",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C12",
+    "scope": "cash",
+    "title": "Reset wallet only",
+    "acceptance": "Poker hand history and hand profit unchanged; external adjustment logged",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C13",
+    "scope": "cash",
+    "title": "Reset session only",
+    "acceptance": "Distinct from history deletion and bankroll reset",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "C14",
+    "scope": "cash",
+    "title": "All-in player remains in main pot",
+    "acceptance": "Their chips stay in main pot; cannot bet further; correct showdown",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D01",
+    "scope": "cash",
+    "title": "Choose each 2–10 maximum seat count",
+    "acceptance": "Visual layout and action order valid",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D02",
+    "scope": "cash",
+    "title": "10 seats, 6 occupied including Hero",
+    "acceptance": "Empty seats distinguishable, no empty bot action",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D03",
+    "scope": "cash",
+    "title": "Heads-up button position on rotating deals",
+    "acceptance": "Correct across at least 20 hands",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D04",
+    "scope": "cash",
+    "title": "9-handed $1/$2 with $300 Hero stack",
+    "acceptance": "150BB initial stack; correct blinds and min raises",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D05",
+    "scope": "cash",
+    "title": "$1/$3 vs $2/$5 vs $50/$100",
+    "acceptance": "All pot/stack/BB conversions exact",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D06",
+    "scope": "cash",
+    "title": "Custom SB $3, BB $7 and stacks $350",
+    "acceptance": "Correct display, validation and legal min opening bet",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D07",
+    "scope": "cash",
+    "title": "Set five bot types, one Random, one Unknown",
+    "acceptance": "Assigned known types display correctly, Unknown hides actual type; Random follows chosen semantics",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D08",
+    "scope": "cash",
+    "title": "Reconfigure seat between hands",
+    "acceptance": "Next hand uses new seat/stack/profile; prior hand untouched",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D09",
+    "scope": "cash",
+    "title": "Attempt reconfigure while active hand",
+    "acceptance": "Safely queued, disabled or requires explicit safe hand end; no silent mid-hand state rewrite",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "D10",
+    "scope": "cash",
+    "title": "Clone named preset and modify rake",
+    "acceptance": "Original preset preserved and new preset saved",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "E01",
+    "scope": "both",
+    "title": "Inspect `BotObservation`",
+    "acceptance": "Only own hole cards + public board/actions/stacks/positions/eligible legal actions; NO Hero cards or future board",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "E02",
+    "scope": "both",
+    "title": "Replace Hero hole cards without changing public state in isolated test",
+    "acceptance": "Bot decisions have the same conditional distribution, other than changes legitimately caused by card removal if that information is hidden and therefore should not be accessible",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "E03",
+    "scope": "both",
+    "title": "Hold bot own cards and public actions constant, reseed future board",
+    "acceptance": "Bot action probability invariant to future card order",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "E04",
+    "scope": "both",
+    "title": "Bot code attempts `gameState.deck`",
+    "acceptance": "Not exposed; API rejects or code isolation prevents access",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "E05",
+    "scope": "both",
+    "title": "Hero folded hidden hand",
+    "acceptance": "Bot cannot retroactively read it, including in opponent memory",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "E06",
+    "scope": "both",
+    "title": "Unknown opponent identity",
+    "acceptance": "True type not revealed to Hero or telemetry shown during hand; user can elect post-session insight",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "E07",
+    "scope": "both",
+    "title": "Bot policy proposes 3× stack or illegal check",
+    "acceptance": "Engine rejects; safe fallback, logged violation; no malformed pot",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "E08",
+    "scope": "both",
+    "title": "Optional LLM generated player speech",
+    "acceptance": "Speech receives public context and weak personality cues, not private hidden cards or definitive true opponent belief",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F01",
+    "scope": "cash",
+    "title": "TAG UTG vs TAG BTN unopened",
+    "acceptance": "BTN opens materially more weighted combos than UTG, accounting for table format",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F02",
+    "scope": "cash",
+    "title": "Nit vs Calling Station: flop naked gutshot facing 25% pot",
+    "acceptance": "Station calls more often than nit in ordinary comparable configs",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F03",
+    "scope": "cash",
+    "title": "Nit vs Station: same gutshot facing 175% pot",
+    "acceptance": "Both call less often than vs 25% in baseline situation; nit especially unlikely",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F04",
+    "scope": "cash",
+    "title": "Fit-or-Fold vs LAG: unpaired no-draw air facing reasonable flop bet",
+    "acceptance": "Fit-or-Fold folds more often; some position/backdoor exceptions allowed",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F05",
+    "scope": "cash",
+    "title": "Same bot: OESD vs naked gutshot, equal price/street",
+    "acceptance": "OESD generally defends more with relevant equity/implied odds, context caveats",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F06",
+    "scope": "cash",
+    "title": "Same bot: flop vs river naked gutshot",
+    "acceptance": "On river no future draw; cannot count as a draw or call “to hit”",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F07",
+    "scope": "cash",
+    "title": "Same bot: 1 opponent vs 4 opponents",
+    "acceptance": "Typical weak-bluff/weak-overcall rates reduce in multiway environment, ceteris paribus",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F08",
+    "scope": "cash",
+    "title": "Calling Station vs Strong TAG: weak pair versus medium river bet",
+    "acceptance": "Station often finds more calls, TAG evaluates range and can fold",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F09",
+    "scope": "cash",
+    "title": "Maniac vs Nit: opportunity for uncalled preflop open/3bet",
+    "acceptance": "Maniac raises with much higher frequency, but still legal and private-card dependent",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F10",
+    "scope": "cash",
+    "title": "Strong reg vs weak recreational: river value hand on dangerous board",
+    "acceptance": "Strong reg adjusts size/line more accurately on average; avoid unconditional \"always best\" claims",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F11",
+    "scope": "cash",
+    "title": "Tricky reg with strong set vs straightforward TAG",
+    "acceptance": "Tricky reg slowplays at nonzero frequency; TAG may usually bet/raise more for value in suitable conditions",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F12",
+    "scope": "cash",
+    "title": "Calling Station with top pair vs no pair",
+    "acceptance": "Must respond meaningfully to own holdings, not ignore cards",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F13",
+    "scope": "cash",
+    "title": "Unknown assigned type",
+    "acceptance": "Statistics resemble assigned private type across hand sample, while on-screen label remains hidden",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F14",
+    "scope": "cash",
+    "title": "Two stations with same base archetype but distinct personal seeds",
+    "acceptance": "Similar population behavior but different stable individual preferences; avoid clones",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F15",
+    "scope": "cash",
+    "title": "Small flop bet vs large bet across a smooth call-price curve",
+    "acceptance": "Conditional defense responds to price without abrupt impossible discontinuities unless explicitly hard-capped",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F16",
+    "scope": "cash",
+    "title": "Turn flush card completes opponent's perceived draws",
+    "acceptance": "Bet/check/call/raise weights respond to board change, not unchanged static sheet",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F17",
+    "scope": "cash",
+    "title": "Short vs deep SPR with draw",
+    "acceptance": "Changed implied odds/jam options produce plausible action shifts",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F18",
+    "scope": "cash",
+    "title": "Opponent becomes aggressive for two observed hands",
+    "acceptance": "Memory should not instantly assume reliable long-term type change; uncertainty shrinks as sample grows",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F19",
+    "scope": "cash",
+    "title": "Same cards but limped pot vs 3-bet pot",
+    "acceptance": "Different ranges and SPR produce different action weights",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "F20",
+    "scope": "cash",
+    "title": "Opponent policy vs itself and vs adversarial hero",
+    "acceptance": "No trivially deterministic auto-profit loop caused by coding error",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G01",
+    "scope": "cash",
+    "title": "At $1/$2, Hero wins $40 over 100 dealt hands",
+    "acceptance": "Observed simulated rate = +20 bb/100",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G02",
+    "scope": "cash",
+    "title": "At $2/$5, Hero loses $50 over 100 dealt hands",
+    "acceptance": "Observed simulated rate = −10 bb/100",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G03",
+    "scope": "cash",
+    "title": "Combine G01 and G02",
+    "acceptance": "Combined net BB = +10 across 200 hands, hence +5 bb/100; never divide −$10 net by currently selected blind size",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G04",
+    "scope": "cash",
+    "title": "+10 bb/100 projected at 30 hands/hour",
+    "acceptance": "Model-projected +3 BB/hour; labeled projected not measured",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G05",
+    "scope": "cash",
+    "title": "Play 100 hands against cartoon station profiles",
+    "acceptance": "Warning remains that this result is simulator-population-specific; no real-win claim",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G06",
+    "scope": "cash",
+    "title": "Virtual bankroll deposit or rebuy",
+    "acceptance": "No change in sum of poker hand results",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G07",
+    "scope": "cash",
+    "title": "3bet rate denominator",
+    "acceptance": "3bets divided by genuine 3bet opportunities, not all hands dealt",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G08",
+    "scope": "cash",
+    "title": "VPIP/PFR",
+    "acceptance": "Preflop voluntarily put money in / raised, not forced blind/ante",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G09",
+    "scope": "cash",
+    "title": "Very small sample",
+    "acceptance": "Display N and uncertain estimate; no “verified winning player” green badge",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G10",
+    "scope": "cash",
+    "title": "All-in adjusted EV unavailable",
+    "acceptance": "UI says NOT IMPLEMENTED; no fabricated EV line",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G11",
+    "scope": "cash",
+    "title": "Change opponent model version",
+    "acceptance": "Stats segmented/versioned; old results not silently treated as current population",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "G12",
+    "scope": "cash",
+    "title": "Real poker records uploaded by user (future)",
+    "acceptance": "Separate actual-live vs simulated; missing data flagged, never interpolated as certain",
+    "source": "original93",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R01",
+    "scope": "both",
+    "title": "Keep a bot's private style identity across hands",
+    "acceptance": "Same profile/seed stable; randomness changes lines not identity",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R02",
+    "scope": "both",
+    "title": "Two individually sampled TAGs",
+    "acceptance": "Distributionally same broad archetype; repeatable differences in sizes/lines across independent seed batches",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R03",
+    "scope": "both",
+    "title": "Position and prior action jointly affect preflop entry",
+    "acceptance": "Same 169-class holding conditional open/limp/cold-call/3bet decisions differ by actual node",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R04",
+    "scope": "both",
+    "title": "Multiway vs heads-up calling",
+    "acceptance": "Same holding, bet price, street; rate changes with callers/players left to act; do not use heads-up odds mechanically",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R05",
+    "scope": "both",
+    "title": "Deep stack vs shallow stack",
+    "acceptance": "Action mixes and sizing change coherently with SPR and implied/reverse-implied risk",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R06",
+    "scope": "both",
+    "title": "Flop OESD vs naked gutshot",
+    "acceptance": "Correct distinct features and adjustable price responses; no draw class on river",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R07",
+    "scope": "both",
+    "title": "Dirty draw vs clean draw",
+    "acceptance": "Discounted outs and dangerous runouts change response and are not secretly based on unknown cards",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R08",
+    "scope": "both",
+    "title": "Monotone/pairing/completing turn",
+    "acceptance": "Persist weighted opponent ranges from public prior lines; no resurrected impossible combos",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R09",
+    "scope": "both",
+    "title": "Bet 25%, 50%, 100%, 200%, 300% pot",
+    "acceptance": "Conditional call curves report actual percentages and opportunity count; monotone baseline where applicable and exceptions explained",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R10",
+    "scope": "both",
+    "title": "Tiny raise, overbet, unusual sizes",
+    "acceptance": "Policy interpolates or reacts to off-tree sizing without action failure or universal fixed fold",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R11",
+    "scope": "both",
+    "title": "Button/UTG frequencies across cash and tournament",
+    "acceptance": "Per-opportunity distribution conditioned on position and mode; no fixed VPIP random per hand",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R12",
+    "scope": "both",
+    "title": "Calling station vs nit over long test",
+    "acceptance": "Meaningful differences in draw calls, weak pair continuations and response to big raises; no scripted hero advantage",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R13",
+    "scope": "both",
+    "title": "Hero replacement with another unrelated hand",
+    "acceptance": "Bot with fixed observation and RNG gives same decision distribution; card-removal from hidden Hero cards is prohibited",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R14",
+    "scope": "both",
+    "title": "Future deck permutation",
+    "acceptance": "Fixed bot observations and RNG give equivalent action distribution; no future board peek",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R15",
+    "scope": "both",
+    "title": "Public memory with 2 villain samples",
+    "acceptance": "Extreme new classification not treated as certainty; uncertainty recorded and surfaced in diagnostics",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R16",
+    "scope": "both",
+    "title": "Public memory with showdown and unrevealed folds",
+    "acceptance": "Only revealed cards update exact combos; unrevealed folds remain probabilistic",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R17",
+    "scope": "both",
+    "title": "Prior action sequences",
+    "acceptance": "Flop-call→turn-bet and limp-call→river-call distributions checked, not just marginal VPIP/PFR",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R18",
+    "scope": "both",
+    "title": "Actual human holdout where data legally available",
+    "acceptance": "Player/session/venue-disjoint holdout predictive loss compared against simple baseline; record unavailable if no such data",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R19",
+    "scope": "both",
+    "title": "Coverage by context",
+    "acceptance": "Report number of independently observed human opportunities per street/size/board/stake; no blind R3/R4 certification",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R20",
+    "scope": "both",
+    "title": "Independent strategic benchmarks",
+    "acceptance": "Strong profile tested against distinct frozen strategies and validated references without using its own policy as gold standard",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R21",
+    "scope": "both",
+    "title": "Exploit probes",
+    "acceptance": "Always minbet, hyper-overbet, limp-all, never bluff, always call, max aggression; report vulnerability cause, not auto-mark all exploitability as unrealistic",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R22",
+    "scope": "both",
+    "title": "Uncalibrated high-stakes presets",
+    "acceptance": "Never describe as empirical $50/$100 behaviors; source and priors visible, different stake/rake effective size only if evidenced",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R23",
+    "scope": "both",
+    "title": "9-handed table ecology",
+    "acceptance": "Multiway, limps, ISO, folds and stack trends from interactions among ALL bots; bots cannot ignore bot-on-bot actions",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "R24",
+    "scope": "both",
+    "title": "Timing-tell probe",
+    "acceptance": "Card strength cannot be perfectly decoded from think-time; include no-tell setting and bounded noisy cue policy",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T01",
+    "scope": "tournament",
+    "title": "9-handed single-table freezeout",
+    "acceptance": "User/automated actor can reach a unique winner through real complete NLHE hands",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T02",
+    "scope": "tournament",
+    "title": "Blind level schedule",
+    "acceptance": "New SB/BB/ante applies at documented hand boundary; no retroactive alteration of in-progress hand",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T03",
+    "scope": "tournament",
+    "title": "BB ante with short big blind",
+    "acceptance": "Exactly specified ante/blind funding priority and pot eligibility per chosen tournament rule version",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T04",
+    "scope": "tournament",
+    "title": "Tournament heads-up transition",
+    "acceptance": "Dealer/SB and BB correct when ring collapses to two players",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T05",
+    "scope": "tournament",
+    "title": "Elimination standings",
+    "acceptance": "Correct rank/order for separate and simultaneous bustouts; tie-break configured",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T06",
+    "scope": "tournament",
+    "title": "Virtual entry accounting",
+    "acceptance": "Entry fee separated from prize pool; tournament chips not confused with cash wallet",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T07",
+    "scope": "tournament",
+    "title": "Payout ladder with bubble",
+    "acceptance": "Prize payouts exactly match ladder and prize liabilities; no rounding double pay",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T08",
+    "scope": "tournament",
+    "title": "Tournament completion",
+    "acceptance": "Final prize awarded once; frozen tournament cannot be resumed for extra payouts",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T09",
+    "scope": "tournament",
+    "title": "Re-entry eligibility",
+    "acceptance": "Only post-elimination, within window and remaining entry cap; new event-entry record and fresh stack",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T10",
+    "scope": "tournament",
+    "title": "Rebuy eligibility",
+    "acceptance": "Only within configured stage/stack limits; not incorrectly treated as a re-entry",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T11",
+    "scope": "tournament",
+    "title": "Add-on eligibility",
+    "acceptance": "Only defined break/window; single charge/stack grant idempotent",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T12",
+    "scope": "tournament",
+    "title": "Late registration",
+    "acceptance": "Only before deadline/field stop; new player legal seating and full starting stack as configured",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T13",
+    "scope": "tournament",
+    "title": "Background MTT tables",
+    "acceptance": "All tables advance real legal hands with separate decks and chip-conserving local pots",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T14",
+    "scope": "tournament",
+    "title": "MTT balancing",
+    "acceptance": "Reasonable occupancy parity; correct moving-player blind obligations and no duplicate participants",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T15",
+    "scope": "tournament",
+    "title": "Final-table creation",
+    "acceptance": "No chip loss, player duplication, incorrect button or missing seat; proper payout stage",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T16",
+    "scope": "tournament",
+    "title": "Hand-for-hand synchronization",
+    "acceptance": "Bubble payouts cannot be altered by some tables jumping several extra hands ahead",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T17",
+    "scope": "tournament",
+    "title": "Turbo/hyper structures",
+    "acceptance": "Scheduler transitions at configured intervals, with correct pause/resume behavior",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T18",
+    "scope": "tournament",
+    "title": "Event interruption",
+    "acceptance": "Serializing mid-hand/paused tournament and reopening preserves active players, prize pool, exact clocks and action queue",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T19",
+    "scope": "tournament",
+    "title": "KO elimination",
+    "acceptance": "Bounty awarded to correct player(s), shared-elimination case follows chosen ruleset, prize pool reconciles",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T20",
+    "scope": "tournament",
+    "title": "PKO update",
+    "acceptance": "Cash portion credited once; progressive portion increases collector's bounty; total bounty liabilities conserved",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T21",
+    "scope": "tournament",
+    "title": "Tournament opponent adaptation",
+    "acceptance": "Short-stack and bubble pressure affect decisions conditional on unchanged own cards/public situation; label approximations",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T22",
+    "scope": "tournament",
+    "title": "Tournament results display",
+    "acceptance": "Finish, ITM, cumulative entry+fees, payout, ROI; does not contaminate cash bb/100",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T23",
+    "scope": "tournament",
+    "title": "True full-field scoreboard",
+    "acceptance": "Field counts are based on simulated eliminations rather than invented background timer collapses",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "T24",
+    "scope": "tournament",
+    "title": "Tournament rules provenance",
+    "acceptance": "Actual rules version and event profile stored for each event and accessible on replay",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U01",
+    "scope": "both",
+    "title": "One-click live $1/$2 preset",
+    "acceptance": "Opens 9-handed $300 table and is fully editable; preset called synthetic, not measured venue fact",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U02",
+    "scope": "both",
+    "title": "Full mobile 10-seat portrait and landscape",
+    "acceptance": "No invisible players, overlapping controls, clipped cards or mistaken seat buttons",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U03",
+    "scope": "both",
+    "title": "Custom bet-amount entry",
+    "acceptance": "Bet, raise-to vs raise-by, pot fractions and legal min/max are correct even facing bet or short stack",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U04",
+    "scope": "both",
+    "title": "Quick bet presets",
+    "acceptance": "25/33/50/75/100/150/200% pot calculate using documented pot basis; user can edit BB/increment shortcuts",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U05",
+    "scope": "both",
+    "title": "Pause and autoresume",
+    "acceptance": "Never changes waiting Hero decision or advances street while waiting for input",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U06",
+    "scope": "both",
+    "title": "Next-hand/autodeal",
+    "acceptance": "Hero can stop at end of hand; no rapid unintended launch after showdown",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U07",
+    "scope": "both",
+    "title": "User-selectable card showdown",
+    "acceptance": "Reveal only rules-permitted cards; no folded unseen card leak in public player mode",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U08",
+    "scope": "both",
+    "title": "Hand history download",
+    "acceptance": "Complete stakes, rule version, player order, contributions, boards, showdowns and policy versions; replays match exactly",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U09",
+    "scope": "both",
+    "title": "Preset custom save/load",
+    "acceptance": "Saved seat profiles/stack/rake restored exactly without altering unrelated session histories",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U10",
+    "scope": "both",
+    "title": "Keyboard and screen reader",
+    "acceptance": "Core actions operable and properly announced without animation-only meaning",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U11",
+    "scope": "both",
+    "title": "Real device performance",
+    "acceptance": "Measure decision compute P50/P95, 10-seat frame responsiveness and input-to-confirm latency on specified phone/desktop",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U12",
+    "scope": "both",
+    "title": "Long-session resource performance",
+    "acceptance": "10,000 simulated hands/sessions under test harness; memory baseline and trend, bounded storage, no runaway timers",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U13",
+    "scope": "both",
+    "title": "Instant multiple touch",
+    "acceptance": "One and only one betting action per idempotency ID across network retry/race",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U14",
+    "scope": "both",
+    "title": "Different browser reload and interrupted save",
+    "acceptance": "Transactional snapshot/event log resumes or safely rolls back incomplete action; never duplicates payout",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U15",
+    "scope": "both",
+    "title": "Unknown profile editor separation",
+    "acceptance": "Reveal/debug hidden type only after session or explicit separate lab mode; active gameplay concealment persists",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "U16",
+    "scope": "both",
+    "title": "App launch from new Site",
+    "acceptance": "Verified unique project ID + site URL, deployment build, original sites unchanged by all write calls",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M01",
+    "scope": "both",
+    "title": "Cash bankroll external edit",
+    "acceptance": "Wallet adjusts with external ledger entry; hand results and bb/100 unchanged",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M02",
+    "scope": "both",
+    "title": "Cash top-up and payout",
+    "acceptance": "Wallet+table+house drop conserved across buyin, hand, cashout and external adjustment",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M03",
+    "scope": "both",
+    "title": "Side pots with folded contribution",
+    "acceptance": "Folded money stays in correctly sized tier; only live eligible players can win each pot",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M04",
+    "scope": "both",
+    "title": "Multiway all-in + rake edge",
+    "acceptance": "Exact odd chips, refunds and caps under chosen rules; all source-to-destination transfers reconcile",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M05",
+    "scope": "both",
+    "title": "Cash vs tournament stats",
+    "acceptance": "Cash $/bb/100/hours and tournament ROI/ITM/finish/fees separate, filterable, no mixed-stakes false displays",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M06",
+    "scope": "both",
+    "title": "Confidence communication",
+    "acceptance": "Small sample or high variance never implies statistically proven positive live win rate",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M07",
+    "scope": "both",
+    "title": "Synthetic all-in adjusted EV",
+    "acceptance": "Until rigorously implemented, display unavailable; if implemented, distinct from decision EV and actual realized net",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M08",
+    "scope": "both",
+    "title": "Private server/game boundary",
+    "acceptance": "Client/bot only receives permitted state; if local-only, disclose local deck inspectability",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M09",
+    "scope": "both",
+    "title": "Data export/migrations",
+    "acceptance": "Versioned import validation, sanitization, partial corrupted payload recovery, unchanged historical stats",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M10",
+    "scope": "both",
+    "title": "Opponent model revisions",
+    "acceptance": "Old session labeled with exact frozen bot/rules versions; no silent re-scoring under new versions",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M11",
+    "scope": "both",
+    "title": "Cross-mode bankroll ledger",
+    "acceptance": "Tournament buy-ins/fees/re-entries/bounties/payouts and cash top-ups are distinct balanced events",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "M12",
+    "scope": "both",
+    "title": "User data minimization",
+    "acceptance": "Explicit opt-in for diagnostic histories/telemetry; export/delete; no user private cards publicly logged",
+    "source": "audit_v2",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X01",
+    "scope": "cash",
+    "title": "Raise-to percentage pot: pot $60 before wager, A bets $30, B wants 50%, 100%, 150% pot raise",
+    "acceptance": "UI shows the documented pot-after-call basis, exact raise-to street total, minimum/maximum legal raise-to; engine accepts those amounts and rejects wrong conversions. Include existing street commitments.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X02",
+    "scope": "cash",
+    "title": "Invalid size, stale bet prompt, chip granularity, short-stack jam, mixed $1/$3",
+    "acceptance": "Bet slider and numeric entry agree; disabled controls if no legal raise; no float drift, duplicate click, or impossible raise allowed.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X03",
+    "scope": "cash",
+    "title": "Three simultaneous all-ins and folded dead money, with top-up and cash-out after hand",
+    "acceptance": "Independent ledger oracle proves wallet+uncommitted stacks+pot commitments+house allocation conserved by source/sink at every event.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X04",
+    "scope": "cash",
+    "title": "No rake / %-rake capped / 2-player vs 5-player cap, no flop/no drop; rake before odd-chip splits",
+    "acceptance": "Source-versioned rake profile produces expected exact integer drop, respects rules and no double rake; unsupported variants disabled.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X05",
+    "scope": "cash",
+    "title": "External wallet edit + new session + mixed stakes + a resumed game",
+    "acceptance": "No historical profit/bb/100 is fabricated or mutated by wallet changes; session assets reconcile; epochs and reason codes visible.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X06",
+    "scope": "cash",
+    "title": "Earlier bettor faces two separate short all-in raises whose cumulative increase is enough to reopen",
+    "acceptance": "Reopening is actor-specific and matches selected verified rule; minimum next full raise remains correct.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X07",
+    "scope": "cash",
+    "title": "Earlier bettor faces short all-ins whose cumulative increase is insufficient",
+    "acceptance": "Earlier bettor may not re-raise; unacted player may still have permitted raise; hand remains finishable.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X08",
+    "scope": "cash",
+    "title": "Optional time-seat collection or fee vs per-pot rake across one hour of virtual live time",
+    "acceptance": "Fee is charged on documented schedule, never on each hand as an accidental hybrid; off by default unless rule sourced; wallet/pots reconcile.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X09",
+    "scope": "cash",
+    "title": "Correct published online rake profile (versioned) with changing number of dealt-in players",
+    "acceptance": "Cap is selected using applicable occupancy as specified, not a static table maximum or Hero count; historic rake profile remains attached to hand.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X10",
+    "scope": "cash",
+    "title": "300 simulated hands/hour played in fast mode, $1/$2, 30-hand/h assumption",
+    "acceptance": "Display **actual fast-session elapsed time** and separate **10 live-equivalent hours**; no claim that player actually earned the modelled live hourly rate.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X11",
+    "scope": "cash",
+    "title": "100 hands each at $1/$2 and $5/$10 with changes in table stack and external wallet",
+    "acceptance": "Report stakes-filtered results; optional normalized mixed BB result built from correct per-hand BB and denominator; no hidden averaging of $ wins.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X12",
+    "scope": "cash",
+    "title": "Multiway pre-river lock with 2 side pots, one ineligible folded player, all-in equity display",
+    "acceptance": "All-in adjusted stat is N/A until separately verified; if enabled, side pots and eligible cards reconciled. No spurious decision EV or perfect-info recommendation.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X13",
+    "scope": "cash",
+    "title": "All-in on flop, tournament exposure; cash muck policy different",
+    "acceptance": "Proper burn/turn/river, eligibility, reveal permissions and return of uncalled excess; viewer never sees unexposed folded hands.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X14",
+    "scope": "cash",
+    "title": "Fixed-deck lab fixture vs true RNG session vs replay import",
+    "acceptance": "Lab hands excluded from ordinary win-rate and bankroll performance; each hand has immutable mode/source/ruleset tag; normal gameplay never forces an educational outcome.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "X15",
+    "scope": "cash",
+    "title": "Toggle run-it-twice and bomb pots before implementation",
+    "acceptance": "Controls remain disabled with explicit unsupported explanation; no accidental half-enabled alternative pot/deck mechanics.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y01",
+    "scope": "both",
+    "title": "At least eight core profiles on same 2–10-seat settings",
+    "acceptance": "Meaningful directional contrasts at sufficiently sampled comparable opportunities; no labels with identical conditional policies without warning.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y02",
+    "scope": "both",
+    "title": "Two distinct bots of the same archetype over repeated sessions",
+    "acceptance": "Stable within-player tendencies but genuine reproducible between-player heterogeneity, without switching labels mid-hand.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y03",
+    "scope": "both",
+    "title": "Human-action records, if licensed, split by player/session/venue/time",
+    "acceptance": "No player or future-session leakage between training and holdout; complete data provenance, strata and censorship recorded; otherwise `NOT_AVAILABLE`.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y04",
+    "scope": "both",
+    "title": "Human holdout bot action log-loss vs simpler baseline in covered state strata",
+    "acceptance": "Proper scoring improvement or honest failure reported with confidence and small-N diagnostics; no claim from synthetic-only evaluation.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y05",
+    "scope": "both",
+    "title": "Human vs bot anonymized full-hand decisions, matched stake/seat/stack/rake",
+    "acceptance": "Blinded comparative review and state coverage recorded; differences and failure modes shown; no single unsupported Turing-test certification.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y06",
+    "scope": "both",
+    "title": "Rare river overbet and board-type groups with 0–10 human samples",
+    "acceptance": "No numerical high-confidence 'realism' judgment; fallback prior and effective sample size displayed.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y07",
+    "scope": "both",
+    "title": "Bot faces equivalent public state, same own cards, same bot seed, swapped Hero secret holdings",
+    "acceptance": "Exact same sampled action or probability distribution; cannot inspect Hero hidden cards.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y08",
+    "scope": "both",
+    "title": "Matched preflop→flop→turn→river line, including bluff and thin value",
+    "acceptance": "Conditional joint-line likelihoods, correlations and deviations from reference/model reported, not just VPIP and c-bet marginals.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y09",
+    "scope": "both",
+    "title": "Gutshot vs double-gutshot, two-tone board, 50% and 150% pot, shallow/deep, action behind",
+    "acceptance": "Coherent conditional price response; any hard cap must be explicitly lab-only and not leak into human-validated presets.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y10",
+    "scope": "both",
+    "title": "Bot-vs-bot six- and nine-handed ecology with churn, rebuy and mismatched stack depths",
+    "acceptance": "Humanly recognizable pot composition, raise size mix, multiway fraction and no frozen table/stack dynamics; assumptions documented.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y11",
+    "scope": "both",
+    "title": "Unknown opponent receives concealed stable archetype; export/debug/profile editing during active hand",
+    "acceptance": "User-facing payload, notes, statistics, tooltips and exports do not reveal identity or hole cards prior to allowed release; private policy remains stable.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y12",
+    "scope": "both",
+    "title": "Published poker performance research loaded as prospective source",
+    "acceptance": "The system must reject it as an action-frequency calibration dataset absent eligible action-level records, provenance, stratification and license.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y13",
+    "scope": "both",
+    "title": "Strong profile vs frozen adversarial anti-strategies, matched seats and cards where possible",
+    "acceptance": "Show results and uncertainty across always-minbet, exploit oversized call, value-only river, overbluff, nits and random; never call 'GTO' from wins alone.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y14",
+    "scope": "both",
+    "title": "Time-to-act cues with no-tell and noisy-tell policy, blinded opponent",
+    "acceptance": "Hidden hand strength not perfectly inferred from cue; disabling tells does not change policy weights, cards or outcomes.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y15",
+    "scope": "both",
+    "title": "Session/table-clustered outcome data and policy version changes",
+    "acceptance": "Uncertainty estimates use clustered units where applicable; results segregated by version/population and do not treat correlated hands as independent validation.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Y16",
+    "scope": "both",
+    "title": "Preset/mode display with varying evidence: designer / synthetic / human-fitted / holdout",
+    "acceptance": "Provenance shown accurately per archetype, node and stakes; tests alone cannot silently elevate confidence to human validated.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z01",
+    "scope": "tournament_or_delivery",
+    "title": "Mobile 10-max table facing a raise, with keyboard/touch amount entry",
+    "acceptance": "Every action accessible; minimum, to-call, total raise-to and amount remaining visible; no overlapped/hidden seat control.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z02",
+    "scope": "tournament_or_delivery",
+    "title": "New Site creation with old Poker MaxEV project present",
+    "acceptance": "New project/site identity proven and old project unchanged; signed-off deploy SHA and actual browser smoke recorded.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z03",
+    "scope": "tournament_or_delivery",
+    "title": "Deployment/rollback after changes in bankroll schema",
+    "acceptance": "Previous working release can be restored with preserved valid user histories and no duplicated money or orphaned event.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z04",
+    "scope": "tournament_or_delivery",
+    "title": "36-player three/four-table tournament with one Hero table slowed 10×",
+    "acceptance": "Background tables only advance via completed legal hands on documented virtual event clock, not arbitrary timer eliminations or CPU speed.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z05",
+    "scope": "tournament_or_delivery",
+    "title": "MTT bubble with two simultaneous all-in hands on different tables",
+    "acceptance": "Synchronization/hand-for-hand settles correct tied elimination order and avoids wrong first in-money assignment.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z06",
+    "scope": "tournament_or_delivery",
+    "title": "Freezeout/re-entry/guarantee overlay with fees",
+    "acceptance": "Entrant fees, net contributions, actual funded guarantees, liabilities and prize payouts reconcile without money appearing from nowhere.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z07",
+    "scope": "tournament_or_delivery",
+    "title": "PKO with multiway side pot, shared knockout winner(s), bounty split and payout retry",
+    "acceptance": "Each stake and bounty award tied to single eligible elimination and payable once; economy conserved under chosen documented ruleset.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z08",
+    "scope": "tournament_or_delivery",
+    "title": "Equal hand/stacks in cash and on STT payout bubble",
+    "acceptance": "Difference, if any, attributable to explicit ICM-aware or tournament heuristic state; numerical ICM only if required full-field input and validated calculation exists.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z09",
+    "scope": "tournament_or_delivery",
+    "title": "Multiway ICM prize equity test with a known external reference and payout structure",
+    "acceptance": "Payout model checked to reference at documented precision or disabled/estimated; no use of an unexplained global 'bubble multiplier'.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z10",
+    "scope": "tournament_or_delivery",
+    "title": "Browser suspended through multiple blind-level boundaries",
+    "acceptance": "Resume policy preserved; no duplicate scheduled raises, random level jumps or clock running while intentionally paused.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z11",
+    "scope": "tournament_or_delivery",
+    "title": "Offline interruption during showdown/payout/MTT seating transaction",
+    "acceptance": "Atomic replay/rollback restores exact legal next state, same stacks and prizes, only one payout/seat assignment.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z12",
+    "scope": "tournament_or_delivery",
+    "title": "Acceptance-tracker release report",
+    "acceptance": "Every test status has evidence and build, `NOT_EXECUTED`/`NOT_AVAILABLE`/`BLOCKED` recorded honestly; gates check critical applicable tests rather than test count alone.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z13",
+    "scope": "tournament_or_delivery",
+    "title": "Resume on bot's turn with previously queued delayed decision",
+    "acceptance": "Old command rejected by turn nonce; one legal bot action applied once; game never deadlocks or double acts.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "Z14",
+    "scope": "tournament_or_delivery",
+    "title": "Full session flow, fast replay, favorites and note taking at 2/6/10 players",
+    "acceptance": "No compulsory training modal; hand replay and notes respect private-card disclosure; uninterrupted play, touch/keyboard support, bounded storage, no performance regression.",
+    "source": "v3_45",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V401",
+    "scope": "cash",
+    "title": "Validate production deck unique 52-card Fisher–Yates and unbiased integer selection",
+    "acceptance": "Code review confirms CSPRNG and rejection sampling; generated statistical diagnostics report N/seeds and no exposed deterministic production override",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V402",
+    "scope": "cash",
+    "title": "Separate deck and bot RNG streams",
+    "acceptance": "With identical deck test stream, changing bot processing delays/action stream does not change which card occupies any deck index; production uses independent sources",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V403",
+    "scope": "cash",
+    "title": "Non-cheating bot projection and private data",
+    "acceptance": "Attempt to access Hero cards, unrevealed opponent cards, future board and latent unknown personality from bot projection; denied on every stage including Monte Carlo inputs",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V404",
+    "scope": "cash",
+    "title": "Unknown versus Random identity lifecycle",
+    "acceptance": "Unknown maintains latent stable profile across hands and reloading without revealing it; Random samples a profile at seat assignment; public statistics only show observations",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V405",
+    "scope": "cash",
+    "title": "Multiway unequal stacks and layered side-pot distribution",
+    "acceptance": "Independent oracle computes eligible pots for at least 3 different all-in levels; no winner gets a pot ineligible by commitment; chip conservation including rake",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V406",
+    "scope": "cash",
+    "title": "Uncalled excess return ordering",
+    "acceptance": "Excess wager is returned before rake/pot allocation; returned amount receives no rake; replay same settlement never duplicates transfer",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V407",
+    "scope": "cash",
+    "title": "Odd-chip rule with tied hands and 3-way sidepots",
+    "acceptance": "Every divisible pot separately splits with the applicable odd-chip award rule and invariant; tournament TDA fixture awards next-left-of-button odd chip",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V408",
+    "scope": "cash",
+    "title": "Raise-to pot-fraction with prior street contributions",
+    "acceptance": "For facing bet and previous street commitments, 50/100/150/200% pot controls compute legal total street commitment and display added chips; independently verified fixtures",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V409",
+    "scope": "both",
+    "title": "Short all-ins cumulative reopening",
+    "acceptance": "TDA 2026 v1.1 example plus separately specified cash profile: actor-specific reopen correctly handles multiple short all-ins and full increments",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V410",
+    "scope": "cash",
+    "title": "Live straddle and blind obligation",
+    "acceptance": "UTG and button/Mississippi straddle only when ruleset enables; posts proper live/dead amount, tracks option, opening minraise, and preflop order",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V411",
+    "scope": "tournament",
+    "title": "Tournament dead-button and heads-up transition",
+    "acceptance": "Apply 2026 TDA dead-button rules through eliminated/empty seats and transition heads-up without duplicate/missed BB; reference fixtures",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V412",
+    "scope": "both",
+    "title": "Sit-out and missed blind distinctions",
+    "acceptance": "Cash sit-out follows selected wait/post/missed-blind policy; tournament absent player is dealt out but blinded/anted where rules apply; turn/hand counters accurate",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V413",
+    "scope": "tournament",
+    "title": "Big-blind ante short stack",
+    "acceptance": "BBA posting priority, insufficient stack and multiway pots follow selected 2026 TDA profile; starting stacks and post-ante elimination order verified",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V414",
+    "scope": "cash",
+    "title": "Rake cap depends on number dealt in",
+    "acceptance": "Against declared PokerStars 2026 source fixture, 2, 3–4, and 5+ dealt-in caps and no-flop-no-drop and rounding match source; other venue presets never mislabeled",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V415",
+    "scope": "cash",
+    "title": "Cash wallet and table ledger transfers",
+    "acceptance": "Buy-in/top-up/cash-out are internal transfers; manual wallet edit is external; per-hand net unaffected by those events; zero negative or phantom balances",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V416",
+    "scope": "cash",
+    "title": "Invisible-card counterfactual invariance",
+    "acceptance": "Holding bot observation and independent bot random stream constant, altering only unseen Hero cards or undealt deck cannot alter legal action distribution/sample",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V417",
+    "scope": "both",
+    "title": "Calibration labels preserve human evidence status",
+    "acceptance": "Synthetic samples can only earn synthetic matched status; empirical label rejected unless consent/licensing, population match, independent holdout and metrics recorded",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V418",
+    "scope": "cash",
+    "title": "Bot response versus table composition and Hero strategy",
+    "acceptance": "Same profile plays across three table mixes and two Hero policies; results report node-conditioned deltas and fails if hard-coded VPIP quota destroys rational conditional behavior",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V419",
+    "scope": "both",
+    "title": "Multi-street sequence and sizing consistency",
+    "acceptance": "Compare flop→turn→river action transition probabilities and bet-size distributions by board, position and role on held-out data, or explicitly report no human benchmark",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V420",
+    "scope": "both",
+    "title": "Observed card censoring and data provenance",
+    "acceptance": "Imported observations mark folded/mucked cards unknown and must not infer exact combo or classify player with future cards; consent/license lineage and context recorded",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V421",
+    "scope": "cash",
+    "title": "Node-opportunity denominators",
+    "acceptance": "VPIP/PFR/3bet/raise/check-raise/fold-to-Cbet reported using eligible opportunities with demonstrable test histories; minimum N and CI or “insufficient sample”",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V422",
+    "scope": "tournament",
+    "title": "True hand-for-hand across multiple tables",
+    "acceptance": "All tables complete exactly one hand then wait; multiple eliminations share synchronized round and event-specific tie-break; no extra background hands",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V423",
+    "scope": "tournament",
+    "title": "Tournament event time versus user latency",
+    "acceptance": "Same strategy/seeds with different browser rendering, tab suspension or user thought time preserves configured event-clock outcomes per pause policy",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V424",
+    "scope": "tournament",
+    "title": "Tournament accounting identities",
+    "acceptance": "Starting chips + chips from authorized additional entries/rebuys = live + committed chips; fees, guarantee subsidies, payouts and bounty monetary pools separately reconcile",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V425",
+    "scope": "tournament",
+    "title": "KO/PKO split pot and multiple victims",
+    "acceptance": "Side-pot eligibility determines who earns each knockout; split knockouts and progressive bounty carryover/paid cash reconcile to payout specification",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V426",
+    "scope": "cash",
+    "title": "bb/100 mixed blind levels, refunds and no double rake",
+    "acceptance": "Each dealt hand yields net in own BB, count correct, rake applied once, skip demo/lab; mixed stake views disclose mixing and use independent dollar profit",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V427",
+    "scope": "tournament",
+    "title": "Tournament ROI and blind-normalized chips separated",
+    "acceptance": "Payout minus total entry/reentry/fee costs computes ROI correctly; tournament chipEV cannot be equated with prize $EV or cash-game bb/100",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V428",
+    "scope": "both",
+    "title": "All-in adjusted display is not decision EV",
+    "acceptance": "All-in-adjusted only on separately validated eligible locked pots with known cards; unsupported displays N/A; no solver/true-EV badge without reference",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V429",
+    "scope": "cash",
+    "title": "Playability of initial vertical slice and game speed",
+    "acceptance": "User completes 100 continuous hands 2–10 seats with zero invalid state; quick/normal/live-like time modes vary animation only, never dealt cards or rules",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V430",
+    "scope": "both",
+    "title": "Snapshot recovery and idempotent settlement",
+    "acceptance": "Crash/refresh precisely after bot command, street close, unmatched-return and payout; resulting single valid state equals uninterrupted oracle, no double payout",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V431",
+    "scope": "both",
+    "title": "Replay and safe history import",
+    "acceptance": "Export/import versioned hand with state hashes; redacted user export excludes future deck/unknown latent profile; malformed source fails safely without changing history",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V432",
+    "scope": "cash",
+    "title": "Draw-price profile editor actually affects behavior",
+    "acceptance": "Controlled gutshot/OESD/flush/combo draws on each street facing 25–200% pot: configurable response curve shifts relevant action frequencies without overriding legality",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V433",
+    "scope": "cash",
+    "title": "Bot archetypes actually differ",
+    "acceptance": "Eight initial profiles pass predeclared pairwise conditional-action/sizing diversity metrics in multiple strata; avoid granting any human-like certificate absent human comparison",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V434",
+    "scope": "cash",
+    "title": "Opponent adaptive memory stays realistic",
+    "acceptance": "Repeated Hero aggression affects bounded belief updates using only public actions and disclosed cards, with priors/forgetting; impossible immediate perfect read is rejected",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V435",
+    "scope": "both",
+    "title": "Mobile and 10-seat UI acceptance",
+    "acceptance": "On actual 360–430 px mobile view and desktop, action labels, min/max sizing, pot, sidepots and turn readable; confirmation blocks accidental jam/double-submit",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V436",
+    "scope": "both",
+    "title": "Platform policy and research compliance",
+    "acceptance": "Site explicitly states simulator is offline/practice and not real-money or real-time assistance; data ingestion requires right to use; no integration with live poker client",
+    "source": "V4_new36",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V501",
+    "scope": "cash",
+    "title": "Differential 5/7-card hand-ranking oracle",
+    "acceptance": "Use independent PokerKit (or another separately implemented comparator) to agree on randomized legal hands and targeted wheels, ties, quads, straight flush, board play; record seed/version; comparator disagreement blocks release.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V502",
+    "scope": "both",
+    "title": "Differential hand-state and payout oracle",
+    "acceptance": "Replay identical legal actions against independent reference engine for matched supported rule settings; compare active actor, wagers, refunds, eligible pots, and final awards; mark unsupported rules explicitly.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V503",
+    "scope": "both",
+    "title": "Suit relabel metamorphic property",
+    "acceptance": "Permute suit labels consistently across deck and all hands; winner rankings, legal actions and chip outcomes remain identical, ignoring optional suit-display artwork.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V504",
+    "scope": "both",
+    "title": "Integer chip unit round-trip and stake scaling",
+    "acceptance": "All money uses exact smallest integer units. Convert stakes and all payments to units without floating drift; scaled cash fixtures preserve legal/action ratios and reconciliation.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V505",
+    "scope": "cash",
+    "title": "Bet control equivalence including nonzero commitment",
+    "acceptance": "For each faced bet and pre-existing street commitment, `pot`, `half-pot`, custom percent and numeric raise-to map to legal cumulative street totals; no silent minraise clipping.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V506",
+    "scope": "tournament",
+    "title": "Dead-button versus forward-moving divergence",
+    "acceptance": "An elimination fixture produces proper button/blind order under 2026 TDA dead-button and PokerStars forward-moving selectable tournament profiles; choices do not silently cross-contaminate.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V507",
+    "scope": "tournament",
+    "title": "TDA BB-ante finishing-order calculation",
+    "acceptance": "Two players bust same hand at a BB-ante table and begin with different relevant stack-after-ante amounts; finish order/bounty are calculated per configured 2026 TDA Rule 22.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V508",
+    "scope": "tournament",
+    "title": "All-in card reveal after remaining betting",
+    "acceptance": "All-in main-pot player with two players still able to bet side pot remains concealed until all betting action concludes, then all required hands are tabled under 2026 TDA Rule 17.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V509",
+    "scope": "both",
+    "title": "Unknown HUD never leaks seed or latent profile",
+    "acceptance": "Unknown/Random named identities, private parameters, deck remainder and unrevealed hole cards remain absent from hero projection, HUD tooltips and client-facing analytics.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V510",
+    "scope": "both",
+    "title": "Replay honors reveal/muck rules",
+    "acceptance": "Public replay includes only cards legitimately exposed at showdown; mucked cards hidden in hero view. Developer full-state diagnostics are distinctly gated and marked non-training.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V511",
+    "scope": "both",
+    "title": "Export import redaction and integrity",
+    "acceptance": "Player export omits future deck, internal bot profile, unrevealed cards and private seeds; imported player data cannot forge ledger wins and must pass schema/hash validation.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V512",
+    "scope": "cash",
+    "title": "Two active tabs, one ledger writer",
+    "acceptance": "Two browser tabs try to issue action concurrently: only one action commits, losing tab reloads authoritative state with explicit conflict notice; never duplicate winnings.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V513",
+    "scope": "both",
+    "title": "Mobile suspend and resume with pending bot move",
+    "acceptance": "Suspend/kill tab while bot thinking or a settlement pending; on recovery state/action revision and payouts match pre-interruption committed events.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V514",
+    "scope": "cash",
+    "title": "Stakes preset provenance shown and persisted",
+    "acceptance": "Default live $1/$2, $1/$3, $2/$5 and higher or online presets disclose synthetic vs human-calibrated status, rake assumptions, rule version, table mix; changes logged in session stats.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V515",
+    "scope": "cash",
+    "title": "Human action benchmark needs held-out scoring",
+    "acceptance": "Where consented dataset exists, score actions and sizes using opportunity-stratified log-loss and calibration on fully held-out players/sessions/venue; no claim for missing stratum.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V516",
+    "scope": "cash",
+    "title": "Human-likeness discrimination baseline",
+    "acceptance": "Blinded experts distinguish human actions vs matched bots with confidence; compare to human-vs-human variation, naive baseline and finite sample uncertainty; disclose failure/unavailable data.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V517",
+    "scope": "cash",
+    "title": "Synthetic skill robustness under matched samples",
+    "acceptance": "Fixed independent naive, balanced, and exploit agents play matched scenarios with independent seeds; report CI and sensitivity to rake/lineup and fail hard on accidental Hero-favoring bias.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V518",
+    "scope": "both",
+    "title": "Performance and accessible table interaction",
+    "acceptance": "Measure p50/p95 bot response, render time, memory and action error rates on declared reference devices during repeated 2/6/10-seat play; check keyboard/screen reader/color-independent card labels.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V519",
+    "scope": "cash",
+    "title": "Bankroll edit with an open hand",
+    "acceptance": "Edit virtual wallet during unsettled pot: external change is appended to ledger without modifying table bets or pot, or safely queued until hand ends; entire transaction reversible by new adjustment.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V520",
+    "scope": "tournament",
+    "title": "Tourney event independent of Hero reading speed",
+    "acceptance": "Run same scripted hero decisions and field seeds at different real user think times and UI animation speeds; final tournament event results remain identical when event-time configuration is identical.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V521",
+    "scope": "both",
+    "title": "Scope lock for tempting competitor features",
+    "acceptance": "First release remains NLHE cash plus staged tournament; extra games, RTA, peer multiplayer, run-it-twice, chat, dealer-error floor rulings marked optional and cannot block first vertical slice.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V522",
+    "scope": "both",
+    "title": "Executable evidence pipeline and specification precedence",
+    "acceptance": "Every required critical test has runnable command/fixture plus build+seed+evidence; CI blocks errors; canonical V5 document is authority; V4 archive cannot override it.",
+    "source": "V5_new22",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V601",
+    "scope": "R1",
+    "title": "R1 launch independent from tournaments",
+    "acceptance": "CI and release criteria permit publishing R1 with every T1/T2/T3 still NOT_EXECUTED, provided every R1 critical cash gate passes. R1 is playable 2–10 seats and not scaffold-only.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V602",
+    "scope": "engine",
+    "title": "V5 fixture FIX06 becomes independently executable",
+    "acceptance": "Construct concrete seat/button/bust before/after state, independently approve TDA dead and PokerStars moving-button expected positions and action order, then run under both profiles; old placeholder cannot PASS.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V603",
+    "scope": "cash",
+    "title": "Host Setup known bot but Live Table hides type",
+    "acceptance": "Configure visible host labeled nit or station; enter Live Table before a hand; no seat label/tooltips/state leak reveals type, exact traits or policy while actions and bankroll remain unchanged.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V604",
+    "scope": "cash",
+    "title": "Changing view never changes game or bot policy",
+    "acceptance": "On same frozen seeded state, switch Host/Live/Study views and confirm identical hand state/revisions, legal actions, bot distributions and settled result.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V605",
+    "scope": "engine",
+    "title": "RNG fails closed when secure entropy absent",
+    "acceptance": "Mock browser crypto secure random unavailable; normal mode refuses to deal and displays actionable error; no Math.random silent fallback. Lab deterministic RNG remains isolated.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V606",
+    "scope": "cash",
+    "title": "Private production hand snapshot supports exact recovery",
+    "acceptance": "Start genuine CSPRNG hand, suspend after preflop and after bot action, reload from private snapshot/events; resume exactly same remaining cards, stacks, bot policy version with no double charge.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V607",
+    "scope": "cash",
+    "title": "Player export cannot reveal hidden unknown information",
+    "acceptance": "Export midhand and after hand with mucked cards; JSON cannot contain unrevealed villain cards, future deck, private seed, bot latent vector or diagnostics. Import public export cannot forge unpaid/duplicated outcomes.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V608",
+    "scope": "bot",
+    "title": "Opponent editor independent conditional effect",
+    "acceptance": "Matched 100k or enough observable opportunities for 25–300% draw call surfaces: modify OESD turn curve only, and show directional frequency effect on targeted cases without unmotivated global VPIP drift or illegal sizes. Report uncertainty.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V609",
+    "scope": "bot",
+    "title": "Individual bot memory cannot cross-infer private hands",
+    "acceptance": "Two villains share a Hero opponent but not private cards; perturb one villain private cards/unknown folded information and validate second villain policy observation and beliefs unchanged.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V610",
+    "scope": "bot",
+    "title": "High-volume unfamiliar lineup transfer audit",
+    "acceptance": "Freeze model cards, run Hero benchmark agents on several heldout table compositions/rake/stack-depths including intentionally counterexploiting bot behavior; report per-lineup sample N, CI and vulnerabilities. No live profit claim.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V611",
+    "scope": "cash",
+    "title": "Wallet external edits and mixed-stakes bb/100 period",
+    "acceptance": "Play cash $1/$2 then $2/$5, edit wallet, rebuy and cash out; verify net profit excludes external edit, per-stake stats computed correctly, mixed metric clearly labeled and old history unchanged.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V612",
+    "scope": "cash",
+    "title": "Large bet mobile preview and double input",
+    "acceptance": "On 360px view facing a 3bet with previous street contribution: pot slider, raise-to dollar amount, additional amount, and exact min/max are legible; rapid double tap only one action is committed.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V613",
+    "scope": "cash",
+    "title": "R1 statistical honesty actual vs hypothetical pace",
+    "acceptance": "Complete exactly N hands with fast and live-like animation controls: observed bb/100 independent of animation speed; app-clock $/hr changes with actual duration; hypothetical live-paced estimate is visibly assumption driven.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V614",
+    "scope": "bot",
+    "title": "R1 human behavior label evidence tier",
+    "acceptance": "For every initial persona card status reads DESIGNED/SYNTHETIC_MATCHED (unless external legal data exists); cannot show human-data fitted, calibrated live room or solver-certified without links and heldout evidence.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V615",
+    "scope": "release",
+    "title": "Post-release feature flag stays disabled",
+    "acceptance": "Before R1 verify run-it-twice/bomb pots/extra games not accessible via UI, URL or local flags without new compatible authority and tests; backlog IDs preserved.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V616",
+    "scope": "tourney",
+    "title": "Tournament event admission and prize accounting",
+    "acceptance": "At R2 stage, verified STT ticket splits entry/fee and prize; completing event leaves no unpaid liability or phantom cash pot; replay same seed yields same payout and placement.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V617",
+    "scope": "tourney",
+    "title": "MTT whole-field replay vs hero wall-clock",
+    "acceptance": "At R3 stage, run complete real 18/45/90-player fields with identical field seeds but different Hero think times; elimination and payout agree given same scripted Hero actions and event-time policy.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V618",
+    "scope": "tourney",
+    "title": "Tournament field variant isolation",
+    "acceptance": "STT and MTT never apply cash rake or cash wallet stack resets to tournament pot; cash game can be played before and after tournament without altered cash session history.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V619",
+    "scope": "release",
+    "title": "Feature register integrity and priority",
+    "acceptance": "Every deferred item has a stable FUT ID, status, dependency and testable behavior; release build turns cannot silently upgrade into R1 without explicit scope decision and new tests.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V620",
+    "scope": "release",
+    "title": "Source and build provenance pinned for actual QA",
+    "acceptance": "Every passing critical test records commit/build, engine+policy+room versions, test input/seed when applicable, actual expected/observed, runtime environment and artifact path; missing evidence blocks release.",
+    "source": "V6_addition",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V701",
+    "scope": "cash",
+    "title": "Bot decision idempotence under UI rerender",
+    "acceptance": "Freeze legal observation+decisionId; rerender 100 times, pause/resume then retry bot callback; one action+size draw and exactly one reducer event; no extra RNG/ledger change.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V702",
+    "scope": "cash",
+    "title": "Late asynchronous bot worker response",
+    "acceptance": "Start hand A decision, change hand/session/revision via valid action; deliver A result after B starts; reject stale response, no cash/pot/policy change.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V703",
+    "scope": "cash",
+    "title": "Crash between bot policy sample and reducer commit",
+    "acceptance": "Persist pending sealed action, simulate crash before/after dispatch; resume exactly one legal outcome with unchanged deck and wallet total.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V704",
+    "scope": "bot",
+    "title": "Allowed opponent-memory event taxonomy",
+    "acceptance": "After folded private hand and all-in showdown, assert bots record only public legal actions/revealed hole cards, not mucked/future deck or other bot private vectors.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V705",
+    "scope": "bot",
+    "title": "Sparse conditional data cannot pass calibration",
+    "acceptance": "Provide N<10 legitimate gutshot-vs-200%-pot opportunities; outcome explicitly INSUFFICIENT_DATA with denominator and uncertainty; not 0% or human calibrated.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V706",
+    "scope": "cash",
+    "title": "Rule-profile freeze across in-progress hand",
+    "acceptance": "Change rake/blinds/straddle/denomination with active action; settled hand uses original version, next hand new version, ledger/hand replay consistent.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V707",
+    "scope": "release",
+    "title": "Cash interface bet sizing comprehension",
+    "acceptance": "Three new test users on specified mobile/desktop view must locate minraise, raise-to total and call/additional amount, play 25 hands; record each actual misclick and observed ambiguity. No fictional completion.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V708",
+    "scope": "release",
+    "title": "Browser storage quota failure recovery",
+    "acceptance": "Force private snapshot save failure and cross-tab stale ownership; visible error, controlled pause/export, no reset or duplicated settled event on reload.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V709",
+    "scope": "tourney",
+    "title": "Tournament level snapshot with H4H boundary",
+    "acceptance": "Advance event timer during active H4H hand, freeze level at hand start for all tables, apply next level to following hands per chosen profile; no partial event payout.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  },
+  {
+    "id": "V710",
+    "scope": "tourney",
+    "title": "MTT background scheduler load and cancel",
+    "acceptance": "On specified phone/desktop seed 18/45/90-player fields, cancel/restart worker during active hand; no phantom elimination, chip creation, stale payouts, report UI latency and resources.",
+    "source": "V7_targeted_delta",
+    "source_status": "NOT_EXECUTED"
+  }
+]

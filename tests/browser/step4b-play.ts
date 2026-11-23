@@ -1,0 +1,8 @@
+export {};
+const frame=document.querySelector<HTMLIFrameElement>('#qa-frame')!;
+const selected=(id:string)=>document.querySelector<HTMLSelectElement>(`#qa-${id}`)!.value;
+const output=document.querySelector('#qa-result')!;
+function load(){frame.style.width=`${selected('width')}px`;frame.src=`./step4b-play-frame.html?seats=${selected('seats')}&population=${selected('population')}`;output.textContent='LOADING';}
+document.querySelector('#qa-load')!.addEventListener('click',load);
+document.querySelector('#qa-run')!.addEventListener('click',()=>frame.contentWindow!.postMessage({kind:'run-ui-hands',hands:Number(selected('hands'))},location.origin));
+window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===frame.contentWindow&&event.data?.kind==='ui-hand-report')output.textContent=JSON.stringify(event.data.result,null,2);});load();

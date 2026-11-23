@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Patch19 isolated test review diagnosis</title><button id="run">Read isolated Patch19 test records</button><pre id="result">NOT_EXECUTED</pre><textarea id="evidence" style="width:95%;height:400px"></textarea><script type="module">
+import {BlackjackController} from '../../src/blackjack/controller.ts';
+import {BlackjackPersistence} from '../../src/blackjack/persistence.ts';
+const target='1d346fea-42a4-4980-b457-cce8613efba4';
+document.querySelector('#run').onclick=async()=>{const found=[];try{for(const db of await indexedDB.databases()){
+ if(!db.name?.startsWith('poker-night-ai-blackjack-test:browser37-patch19-'))continue;
+ const port=new BlackjackPersistence(db.name);const existing=await port.load();if(!existing){port.close();continue}
+ const controller=new BlackjackController(port);await controller.init();if(controller.status!=='ready')throw Error(controller.error);
+ const exported=JSON.parse(await controller.exportHistory());const decisions=exported.decisions.filter(d=>d.roundId.includes(target));if(decisions.length)found.push({database:db.name,decisions,segments:exported.segments.filter(s=>s.id===target).map(s=>({id:s.id,rounds:s.rounds}))});controller.close();
+}document.querySelector('#result').textContent=found.length?'FOUND '+found.length+' matching synthetic test save':'NOT FOUND';document.querySelector('#evidence').value=JSON.stringify({target,found});}catch(e){document.querySelector('#result').textContent='FAIL '+e}};
+</script></html>

@@ -1,0 +1,132 @@
+/* Blackjack lobby, table, count coach and count trainer. Reuses the lobby and strip styles
+   from tournament.css. Loaded after it. */
+.view-blackjack .room-details,.view-blackjack .save-status{display:none}
+.bj-tabs{margin:0 0 16px;max-width:420px}
+.blackjack-lobby h3,.bj-trainer h3{margin:20px 0 8px;font-size:13px;letter-spacing:.4px;color:#c9ae7b;font-weight:600}
+.bj-rules{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px 16px;font-size:13px;color:#d5ddd9}
+.bj-rules li{padding-left:14px;position:relative}.bj-rules li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:#c9ae7b}
+.bj-side-info{border:1px solid #ffffff0f;border-radius:9px;background:#101a1f;margin-top:8px}
+.bj-side-info>summary{cursor:pointer;min-height:44px;padding:8px 12px;display:flex;flex-direction:column;justify-content:center;gap:2px;font-size:14px;font-weight:600}
+.bj-side-info>summary small{font-size:12px;font-weight:400;color:#a3b0ae}
+.bj-side-info .payout-table{margin:0 12px 10px;width:calc(100% - 24px)}
+
+/* ---- Table ---- */
+.bj-strip .strip-cell b{font-size:14px}
+.bj-shoe-bar{position:relative;display:block;height:6px;border-radius:3px;background:#ffffff14;margin-top:4px;min-width:60px}
+.bj-shoe-bar>span{display:block;height:100%;border-radius:3px;background:#69c8a8}
+.bj-shoe-bar>i{position:absolute;top:-3px;width:2px;height:12px;background:#e8c58b}
+.bj-felt-panel{padding:0;overflow:hidden}
+.bj-felt{background:radial-gradient(120% 90% at 50% 0%,#1f6a55 0%,#14483b 55%,#0e332b 100%);padding:18px 14px 20px;display:grid;gap:14px;justify-items:center;min-height:420px;align-content:space-between}
+.bj-dealer,.bj-hands{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%}
+.bj-dealer .eyebrow{color:#cfe9dd}
+.bj-cards{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;min-height:84px;align-items:center}
+.bj-card{position:relative;width:58px;height:82px;font-size:20px}
+.bj-tag{position:absolute;right:-6px;top:-8px;min-width:24px;padding:1px 5px;border-radius:999px;background:#0e171c;border:1px solid #d5b16f;color:#f0dfb8;font:600 12px/1.4 inherit;font-style:normal;text-align:center}
+.bj-empty{color:#cfe9ddb3;font-size:13px}
+.bj-total{font-size:16px;color:#f4f6f2;background:#0000004d;border-radius:999px;padding:3px 12px;font-variant-numeric:tabular-nums}
+.bj-felt-text{margin:0;font-size:12px;letter-spacing:1.5px;color:#cfe9dd99;text-align:center}
+.bj-hands{flex-direction:row;justify-content:center;align-items:flex-start;flex-wrap:wrap;gap:12px}
+.bj-hand{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 10px;border-radius:12px;border:1px solid transparent;min-width:120px}
+.bj-hand.acting{border-color:#8fe0bd;background:#0000002e}
+.bj-hand.won{border-color:#e8c58b}.bj-hand.lost{opacity:.72}
+.bj-hand-info{display:flex;flex-direction:column;align-items:center;gap:2px}
+.bj-bet,.bj-hand-state{font-size:13px;color:#e3ece7;font-variant-numeric:tabular-nums}
+.bj-hand.won .bj-hand-state{color:#f0dfb8;font-weight:600}
+.bj-hands.many .bj-card{width:44px;height:62px;font-size:16px}.bj-hands.many .bj-hand{min-width:96px;padding:6px}
+.bj-bet-circle{width:104px;height:104px;border-radius:50%;border:2px dashed #cfe9dd66;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#cfe9dd}
+.bj-bet-circle.placed{border-style:solid;border-color:#e8c58b;background:#0000002e}
+.bj-bet-circle small{font-size:12px;letter-spacing:1.5px}.bj-bet-circle b{font-size:20px;color:#f4f6f2}
+.bj-side-spots{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;width:100%}
+.bj-side-spot{min-height:48px;min-width:96px;padding:4px 10px;border-radius:10px;border:1px dashed #cfe9dd66;background:#0000001f;color:#e3ece7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:12px}
+.bj-side-spot b{font-size:13px}.bj-side-spot.placed{border-style:solid;border-color:#e8c58b}.bj-side-spot.won{background:#e8c58b26;border-color:#e8c58b}.bj-side-spot:disabled{opacity:1;cursor:default}
+.blackjack-play .table-toolbar{padding:8px 12px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px}.blackjack-play .table-toolbar #bj-leave{margin-left:auto;min-height:44px}
+.bj-chips{display:flex;gap:8px;justify-content:space-between}
+.bj-chip{flex:1 1 0;aspect-ratio:1;max-width:72px;min-width:48px;min-height:48px;border-radius:50%;border:3px dashed #f0dfb8;background:#7c2d2d;color:#fff;font-weight:700;font-size:14px}
+.bj-chip:nth-child(2){background:#8a2f2f;border-color:#fff}.bj-chip:nth-child(1){background:#e9e9e4;color:#1a2428;border-color:#5a6a70}.bj-chip:nth-child(3){background:#1f6a55;border-color:#fff}.bj-chip:nth-child(4){background:#1b1f24;border-color:#d5b16f}
+.bj-chip:disabled{opacity:.35}
+.bj-bet-tools{display:flex;gap:6px}.bj-bet-tools .button{flex:1 1 0;min-height:48px}.bj-bet-tools .button.primary{flex:1.4 1 0}
+.t-action-panel .action-buttons.bj-actions{grid-template-columns:repeat(auto-fit,minmax(0,1fr));grid-auto-flow:column}
+.t-action-panel .action-buttons.bj-two{grid-template-columns:1fr 1.4fr}
+.bj-actions .button{min-height:52px;padding:8px 4px}
+.bj-hint,.bj-mistake{margin:0;padding:8px 12px;border-radius:9px;font-size:13px;line-height:1.45;border:1px solid #69c8a84d;background:#12251f;color:#cfe9dd}
+.bj-mistake{border-color:#e8c58b66;background:#2a2416;color:#f0dfb8}
+.bj-hint-button{min-height:44px}
+.bj-count,.bj-session{margin-top:16px;padding:16px}
+.bj-count-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.bj-count-head h2{margin:0 auto 0 0;font-size:18px}
+.bj-count-head select,.bj-trainer-settings select{min-height:44px;border-radius:7px;border:1px solid #ffffff1f;background:#172228;color:#e8eae6;padding:0 10px;font-size:14px;max-width:100%}
+.bj-count-facts{margin-top:12px}
+.bj-count-check{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;margin-top:12px}.bj-count-check label{grid-column:1 / -1;font-size:13px}
+.bj-count-check input{min-height:44px;min-width:0;border-radius:7px;border:1px solid #536961;background:#0b171c;color:#eee;padding:0 12px;font-size:16px}
+.bj-count-check .button{min-height:44px;min-width:88px}
+.bj-count-result{margin:10px 0 0;padding:8px 12px;border-radius:9px;font-size:13px;line-height:1.45}.bj-count-result.right{border:1px solid #69c8a84d;background:#12251f;color:#cfe9dd}.bj-count-result.wrong{border:1px solid #e8c58b66;background:#2a2416;color:#f0dfb8}
+.bj-session>summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-size:14px}
+.bj-trainer-settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:14px 0}
+.bj-trainer-settings label{display:grid;gap:4px;font-size:13px;color:#a3b0ae}
+.bj-trainer-cards{min-height:110px;margin:10px 0}.bj-trainer-cards .bj-card{width:68px;height:96px;font-size:24px}
+.bj-tag-table th,.bj-tag-table td{text-align:center!important;padding:7px 4px}
+.bj-trainer .bj-bet-tools{margin-top:16px}
+@media(max-width:1180px){.blackjack-play{padding-bottom:calc(250px + env(safe-area-inset-bottom))}.bj-grid .t-action-panel{position:fixed}}
+@media(max-width:700px){
+ .bj-felt{min-height:0;padding:12px 8px 14px;gap:10px}
+ .bj-card{width:50px;height:70px;font-size:18px}.bj-cards{min-height:72px}
+ .bj-strip .strip-rules{display:none}.bj-strip .strip-cell span:not(.bj-shoe-bar){display:none}.bj-strip .bj-shoe-bar{display:block}
+ .bj-hands.many .bj-card{width:38px;height:54px;font-size:14px}.bj-hands.many .bj-hand{min-width:80px;padding:4px}.bj-hands{gap:6px}
+ .bj-side-spot{min-width:84px}
+ .bj-trainer-cards .bj-card{width:60px;height:84px}
+ .bj-count,.bj-session{padding:12px}
+}
+/* Five actions (tables with surrender): Surrender and Split share a row above Double, Stand, Hit. */
+.t-action-panel .action-buttons.bj-actions.bj-five{grid-template-columns:repeat(6,minmax(0,1fr));grid-auto-flow:row}
+.bj-five .button{grid-column:span 2}.bj-five .button:nth-child(-n+2){grid-column:span 3;min-height:44px}
+@media(max-width:700px){
+ .bj-felt-text span{display:none}
+ .bj-strip .strip-cell:first-child{display:none}
+}
+/* Short phones: keep both hands of cards above the pinned controls. */
+@media(max-width:700px) and (max-height:700px){
+ .bj-felt{padding:8px 6px 10px;gap:6px}.bj-felt-text{display:none}
+ .bj-card{width:42px;height:58px;font-size:15px}.bj-cards{min-height:58px;gap:4px}
+ .bj-dealer,.bj-hand{gap:4px}.bj-hand{padding:4px 6px;min-width:96px}.bj-total{font-size:14px;padding:2px 10px}
+ .bj-hands.many .bj-card{width:34px;height:48px;font-size:13px}.bj-hands.many .bj-hand{min-width:72px}
+ .bj-bet-circle{width:80px;height:80px}.bj-bet-circle b{font-size:17px}
+ .bj-side-spot{min-height:44px;min-width:76px;padding:2px 6px}
+ .bj-actions .button{min-height:48px}.bj-chip{max-width:56px}
+}
+@media(max-width:700px) and (max-height:700px){.bj-dealer .eyebrow{display:none}.bj-hands.many .bj-bet{display:none}.bj-hands.many .bj-hand-state{font-size:12px}}
+.bj-trainer-settings select{width:100%;min-width:0}.bj-trainer-settings label{min-width:0}
+/* ---- Strategy coach, count plays ---- */
+.bj-tabs{max-width:none;flex-wrap:nowrap}.bj-tabs .segment{padding:0 6px;font-size:13px;white-space:normal;line-height:1.15}
+.bj-drill{display:grid;gap:12px;margin-top:6px}
+.bj-drill-felt{background:radial-gradient(120% 90% at 50% 0%,#1f6a55 0%,#14483b 55%,#0e332b 100%);border-radius:12px;padding:14px 10px;display:grid;gap:10px;justify-items:center}
+.bj-drill-count{margin:0;padding:4px 14px;border-radius:999px;background:#0e171c;border:1px solid #d5b16f;color:#f0dfb8;font-size:14px}.bj-drill-count b{font-size:17px;font-variant-numeric:tabular-nums}
+.bj-coach .action-buttons.bj-drill-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));grid-auto-flow:column;gap:6px}
+.bj-drill-actions .button{min-height:52px;padding:8px 2px;font-size:14px}
+.bj-drill-actions .button:disabled{opacity:.55}.bj-drill-actions .button.primary:disabled{opacity:1}
+.bj-drill-score{flex:2 1 0;align-self:center;font-size:13px;color:#a3b0ae}
+.bj-values{display:flex;flex-wrap:wrap;gap:4px 14px}.bj-values span{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bj-charts{display:grid;gap:14px;margin-top:10px}
+.bj-chart{width:100%;border-collapse:separate;border-spacing:2px;font-size:13px;table-layout:fixed}
+.bj-chart caption{text-align:left;font-size:13px;letter-spacing:.4px;color:#c9ae7b;font-weight:600;padding-bottom:4px}
+.bj-chart th{font-weight:600;color:#a3b0ae;font-size:12px;padding:4px 0;text-align:center}.bj-chart tbody th{width:44px;text-align:left;color:#d5ddd9}
+.bj-chart td{text-align:center;padding:5px 0;border-radius:4px;font-weight:700;font-size:12px}
+.bj-play-hit{background:#3a2326;color:#f5c9c2}.bj-play-stand{background:#1d3a31;color:#bfe9d6}.bj-play-double{background:#3a3220;color:#f0dfb8}.bj-play-split{background:#23324a;color:#c9dcf7}.bj-play-surrender{background:#33333a;color:#dcdce6}
+.bj-legend span{display:inline-block;min-width:22px;padding:1px 5px;border-radius:4px;font-weight:700;font-size:12px;text-align:center;margin-left:8px}.bj-legend span:first-child{margin-left:0}
+.bj-index-table th,.bj-index-table td{white-space:normal!important}
+@media(max-width:700px){.bj-tabs{gap:4px}.bj-tabs .segment{font-size:12px;padding:0 4px}.bj-drill-actions .button{font-size:13px}}
+
+/* Live blackjack: transactional state and phone-safe controls. */
+.bj-live-fieldset{border:0;margin:0;padding:0;min-width:0}
+.bj-live-fieldset:disabled .t-action-panel{opacity:.7}
+.bj-record-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.bj-account{padding:16px;margin-top:16px}.bj-account summary{min-height:44px;cursor:pointer}
+.bj-account form{display:grid;gap:12px;max-width:480px}.bj-account label,.bj-amount-label{display:grid;gap:5px;font-size:13px}
+.bj-account input,.bj-amount-label input{font-size:16px;min-width:0;width:100%;min-height:44px;background:#0b171c;border:1px solid #536961;color:#eee;border-radius:7px;padding:6px 10px}
+.bj-review{margin-top:16px;padding:16px}.bj-review li{margin:12px 0}
+.bj-grid #bj-bet-help{font-size:12px;margin:0}
+.bj-grid .t-action-panel{max-height:calc(100dvh - 64px);overflow-y:auto;overscroll-behavior:contain}
+@media(max-width:700px){.blackjack-play{padding-bottom:calc(350px + env(safe-area-inset-bottom))}.bj-record-actions{padding-bottom:calc(350px + env(safe-area-inset-bottom))}}
+/* Patch 19: the count stays on screen during play. */
+.bj-strip-count b{color:#f0dfb8;font-variant-numeric:tabular-nums}
+.bj-strip .strip-cell span.bj-strip-true{display:block;font-size:12px;color:#a3b0ae;white-space:nowrap;font-variant-numeric:tabular-nums}
+.blackjack-play .t-action-title{flex-wrap:wrap;row-gap:2px}
+.blackjack-play .table-toolbar{row-gap:0}

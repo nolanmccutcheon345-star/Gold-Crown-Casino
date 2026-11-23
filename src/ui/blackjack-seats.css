@@ -1,0 +1,62 @@
+/* A seated table (other players on the felt): one compact layout so the dealer, every seat, your
+   hand and the count strip fit above the pinned controls. Loaded last. Applies only to .bj-full. */
+.blackjack-play .bj-felt.bj-full{gap:8px}
+.blackjack-play .bj-full .bj-felt-print{max-width:420px}
+.blackjack-play .bj-full .bj-seats{margin:2px 0 0}
+.blackjack-play .bj-full .bj-seat{min-height:0;padding:4px 2px 5px;gap:2px}
+.blackjack-play .bj-full .bj-seat.hero{background:#e8c58b26;border:1.5px solid #e8c58b;box-shadow:0 0 0 2px #e8c58b33}
+.blackjack-play .bj-full .bj-seat.hero .bj-seat-note{color:#f0dfb8}
+.blackjack-play .bj-full .bj-seat-hand.won .bj-seat-total b{color:#e8c58b}
+/* Your hand: total and status on one line to save a row. */
+.blackjack-play .bj-full .bj-hand-info{grid-template-columns:1fr auto auto auto 1fr}
+.blackjack-play .bj-full .bj-hand-info .bj-total{grid-column:2}
+.blackjack-play .bj-full .bj-hand-info .bj-stack{grid-column:3}
+.blackjack-play .bj-full .bj-hand-info .bj-bet{grid-column:4}
+.blackjack-play .bj-full .bj-hand-state{grid-column:1 / -1}
+/* Desktop: a little less felt print so the whole table fits a laptop screen. */
+@media(min-width:1181px){
+ .blackjack-play .bj-felt.bj-full{--bj-cw:64px;padding-bottom:28px}
+ .blackjack-play .bj-full .bj-hands.many{--bj-cw:52px}
+ .blackjack-play .bj-full .bj-dealer .eyebrow{display:none}
+}
+@media(max-width:700px){
+ .blackjack-play .bj-felt.bj-full{--bj-cw:46px;padding:0 6px 26px;gap:6px}
+ .blackjack-play .bj-full .bj-hands.many{--bj-cw:38px}
+ /* Phones: no printed arcs, chip rack or DEALER label; shoe and discards stay in the corners. */
+ .blackjack-play .bj-full .bj-felt-print,.blackjack-play .bj-full .bj-rack,.blackjack-play .bj-full .bj-dealer .eyebrow{display:none}
+ .blackjack-play .bj-full .bj-dealer-rail{position:absolute;left:8px;right:8px;top:0;width:auto;pointer-events:none}
+ .blackjack-play .bj-full .bj-discard,.blackjack-play .bj-full .bj-shoe-box{margin-top:6px;height:18px}
+ .blackjack-play .bj-full .bj-dealer{padding-top:8px;gap:4px}
+ .blackjack-play .bj-full .bj-total{padding:2px 10px;font-size:15px}
+ .blackjack-play .bj-full .bj-hand{padding:2px 4px 0}
+ .blackjack-play .bj-full .bj-hand-info .bj-stack{display:none}
+ .blackjack-play .bj-full .bj-seats{padding-bottom:8px;gap:3px}
+ .blackjack-play .bj-full .bj-seat:nth-child(2),.blackjack-play .bj-full .bj-seat:nth-child(6){transform:translateY(3px)}
+ .blackjack-play .bj-full .bj-seat:nth-child(3),.blackjack-play .bj-full .bj-seat:nth-child(5){transform:translateY(6px)}
+ .blackjack-play .bj-full .bj-seat:nth-child(4){transform:translateY(7px)}
+}
+@media(max-width:700px) and (max-height:760px){
+ .blackjack-play .bj-felt.bj-full{--bj-cw:40px;padding-bottom:20px;gap:4px}
+ .blackjack-play .bj-full .bj-hands.many{--bj-cw:34px}
+ .blackjack-play .bj-full .bj-seat{padding:2px 1px 3px}
+ .blackjack-play .bj-full .bj-hand-state{font-size:12px;padding:0 8px}
+ .blackjack-play .bj-full .bj-total{font-size:14px;padding:1px 9px}
+}
+/* Tall phones have room to spare: bigger cards and the printed felt come back. */
+@media(max-width:700px) and (min-height:761px){
+ .blackjack-play .bj-felt.bj-full{--bj-cw:54px;gap:8px}
+ .blackjack-play .bj-full .bj-hands.many{--bj-cw:42px}
+ .blackjack-play .bj-full .bj-felt-print{display:block;margin-top:-2px}
+}
+@media(max-width:359px){.blackjack-play .bj-full .bj-felt-print{display:none}}
+/* Phones: seat cards wrap rather than overlap, so every rank stays readable for the count; seat labels wrap too. */
+@media(max-width:700px){
+ .blackjack-play .bj-full .bj-minis{gap:1px}
+ .blackjack-play .bj-full .bj-seat-hand+.bj-seat-hand{padding-top:2px}
+ .blackjack-play .bj-full .bj-seat-total{white-space:normal;line-height:1.15;text-align:center}
+}
+/* The narrowest phones: four- and five-letter names fit without being cut off. */
+@media(max-width:360px){.blackjack-play .bj-full .bj-seat{padding-left:0;padding-right:0}.blackjack-play .bj-full .bj-seat-name{letter-spacing:-.4px}}
+/* Locked controls look locked: while cards are being revealed (or another seat acts) the action
+   buttons keep their place but lose their colour, so the gold Hit never looks tappable. */
+.blackjack-play .t-action-panel [data-blackjack-action]:disabled{opacity:.38;filter:saturate(.15);box-shadow:none;cursor:default}

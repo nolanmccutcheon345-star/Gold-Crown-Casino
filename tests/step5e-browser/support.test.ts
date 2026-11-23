@@ -1,0 +1,22 @@
+import {describe,it,expect} from 'vitest';
+import {parameters,namespaceFor,encodeReceipt,decodeReceipt,distribution,taskWindows,type PreparedReceipt} from '../browser/step5e-support';
+const args=parameters('?run=123-456&hands=10000&reader=candidate&scenario=pending&storage=normal');
+const receipt:PreparedReceipt={version:1,parameters:args,namespace:namespaceFor(args),expected:{wallet:400000,hands:10000,activeDigest:'a'.repeat(64)},evidence:{scope:'preparation, not executed browser results'}};
+describe('Step5E browser evidence preparation safeguards',()=>{
+ it('accepts every exact matched fixture size',()=>{for(const n of [0,100,500,1000,5000,10000])expect(parameters(`?run=1-2&hands=${n}&reader=baseline&scenario=closed&storage=conversion`).hands).toBe(n);});
+ it('rejects missing hands rather than treating it as zero',()=>expect(()=>parameters('?run=1-2&reader=baseline&scenario=closed&storage=normal')).toThrow());
+ it('rejects arbitrary database names and nonfixture sizes',()=>{expect(()=>parameters('?run=production&hands=100&reader=baseline&scenario=closed&storage=normal')).toThrow();expect(()=>parameters('?run=1-2&hands=300&reader=baseline&scenario=closed&storage=normal')).toThrow();});
+ it('requires explicit measured storage path',()=>expect(()=>parameters('?run=1-2&hands=100&reader=candidate&scenario=closed')).toThrow());
+ it('round trips bounded preparation evidence',()=>expect(decodeReceipt(encodeReceipt(receipt),args)).toEqual(receipt));
+ it('rejects corrupted preparation bytes',()=>expect(()=>decodeReceipt(encodeReceipt(receipt).replace('400000','400001'),args)).toThrow('corrupted'));
+ it('rejects a receipt from another run or workload',()=>{expect(()=>decodeReceipt(encodeReceipt(receipt),{...args,run:'123-457'})).toThrow('parameters');expect(()=>decodeReceipt(encodeReceipt(receipt),{...args,storage:'conversion'})).toThrow('parameters');});
+ it('prevents accidentally retaining large historical data across the fresh document',()=>expect(()=>encodeReceipt({...receipt,evidence:{data:'x'.repeat(17000)}})).toThrow('historical data'));
+ it('rejects malformed expected committed state despite a valid receipt hash',()=>expect(()=>decodeReceipt(encodeReceipt({...receipt,expected:{...receipt.expected,wallet:.1}}),args)).toThrow('committed state'));
+ it('records nearest-rank distributions without altering input order',()=>{const input=[4,1,5,2,3];expect(distribution(input)).toEqual({n:5,p50:3,p95:5,p99:5,max:5,method:'nearest-rank'});expect(input).toEqual([4,1,5,2,3]);});
+ it('requires real finite samples',()=>{for(const values of [[],[NaN],[-1],[Infinity]])expect(()=>distribution(values)).toThrow();});
+ it('retains sample size one so a single observation cannot be represented as many trials',()=>expect(distribution([12])).toEqual({n:1,p50:12,p95:12,p99:12,max:12,method:'nearest-rank'}));
+ it('classifies the observed9.067s boundary-straddling task as history rather than completed startup',()=>{const result=taskWindows([{start:33630.8,ms:9067}],{ready:29400,historyStart:33631.2,historyEnd:45000,auditStart:45001,auditEnd:98000});expect(result.historyOverlapMs).toBe(9067);expect(result.completedBeforeHistoryMs).toBe(0);expect(result.completedBeforeReadyMs).toBe(0);});
+ it('reports readiness-crossing rendering separately from completed pre-ready tasks',()=>{const result=taskWindows([{start:100,ms:75},{start:190,ms:80}],{ready:200,historyStart:300,historyEnd:500,auditStart:600,auditEnd:900});expect(result.completedBeforeReadyMs).toBe(75);expect(result.crossingReadyMs).toBe(80);expect(result.completedBeforeHistoryMs).toBe(80);});
+ it('keeps empty and nonoverlapping history/audit intervals at zero',()=>expect(taskWindows([{start:0,ms:51}],{ready:100,historyStart:200,historyEnd:400,auditStart:500,auditEnd:800})).toEqual({completedBeforeReadyMs:51,crossingReadyMs:0,completedBeforeHistoryMs:51,historyOverlapMs:0,auditOverlapMs:0}));
+ it('does not pretend overlapping task windows are additive CPU measurements',()=>{const result=taskWindows([{start:350,ms:250}],{ready:100,historyStart:200,historyEnd:400,auditStart:450,auditEnd:900});expect(result.historyOverlapMs).toBe(250);expect(result.auditOverlapMs).toBe(250);expect(result.completedBeforeHistoryMs).toBe(0);});
+});

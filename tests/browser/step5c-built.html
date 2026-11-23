@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Step 5C built candidate verification</title><style>#built-proof{padding:12px;background:#fff8dd;color:#201c10;font:13px system-ui;overflow-wrap:anywhere}</style></head><body><aside id="built-proof" role="status">Loading the generated production bundle into an isolated guest database…</aside><div id="app"></div><script type="module">
+import {sha256} from '@noble/hashes/sha2.js';
+const proof=document.querySelector('#built-proof');
+try{
+ const query=new URLSearchParams(location.search),run=query.get('run');
+ if(!run||!/^[A-Za-z0-9-]{8,100}$/.test(run))throw Error('Explicit isolated build-test identity is required.');
+ const namespace='ai-texas-step5c-built-'+run,nativeOpen=indexedDB.open.bind(indexedDB);
+ // Only this QA document remaps the production default database. The actual
+ // generated application bundle, controller, engine and storage code are intact.
+ indexedDB.open=(name,version)=>{if(name!=='ai-texas-hold-em-guest')throw Error('Unexpected database requested by built application');return nativeOpen(namespace,version);};
+ const manifestResponse=await fetch('/TEST_EVIDENCE/step5c/integrated-final-candidate/manifest.json');
+ if(!manifestResponse.ok)throw Error('Final executed build receipt is unavailable.');
+ const receipt=await manifestResponse.json();if(receipt.status!=='PASS')throw Error('Build receipt did not pass.');
+ const page=await fetch('/tests/browser/built-artifact/index.html.bin');if(!page.ok)throw Error('Built index is unavailable.');
+ const html=await page.text(),doc=new DOMParser().parseFromString(html,'text/html');
+ const hex=bytes=>Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');
+ if(hex(sha256(new TextEncoder().encode(html)))!==receipt.buildHashes['dist/index.html'])throw Error('Built HTML hash differs from executed build receipt.');
+ const assets=[];
+ for(const element of doc.querySelectorAll('link[rel="stylesheet"],script[type="module"][src]')){
+  const path=element.getAttribute('src')??element.getAttribute('href');if(!/^\/assets\/[A-Za-z0-9_.-]+\.(js|css)$/.test(path??''))throw Error('Unsupported built asset path');
+  const url='/tests/browser/built-artifact/'+path.split('/').at(-1)+'.bin',response=await fetch(url);if(!response.ok)throw Error('Built asset unavailable');
+  const bytes=new Uint8Array(await response.arrayBuffer()),hash=hex(sha256(bytes));if(hash!==receipt.buildHashes['dist'+path])throw Error('Served asset differs from executed build receipt: '+path);
+  assets.push({url,sha256:hash,kind:path.endsWith('.css')?'css':'js',bytes});
+ }
+ proof.textContent=JSON.stringify({status:'BUNDLE_HASHES_VERIFIED',sourceCommit:receipt.sourceCommit,assets:assets.map(({url,sha256})=>({url,sha256})),namespace,productionDatabaseAccessed:false,mode:'Exact generated JS/CSS bytes verified and loaded through typed Blob URLs to avoid Vite instrumentation; QA database-name isolation only',browser:navigator.userAgent});
+ for(const asset of assets){const url=URL.createObjectURL(new Blob([asset.bytes],{type:asset.kind==='css'?'text/css':'text/javascript'}));if(asset.kind==='css'){const link=document.createElement('link');link.rel='stylesheet';link.href=url;document.head.append(link);}else{const script=document.createElement('script');script.type='module';script.src=url;document.body.append(script);}}
+}catch(error){proof.textContent='FAIL: '+error.message;}
+</script></body></html>
