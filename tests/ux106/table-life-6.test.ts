@@ -98,7 +98,7 @@ describe('fix: races with a scratched horse',()=>{
 describe('poker',()=>{
  it('twenty more conversations, each with follow-ups, using only real personalities',()=>{
   const ids=new Set(PERSONAS.map(p=>p.id));const src=readFileSync('src/bots/conversations.ts','utf8');
-  expect(THREADS.length).toBe(70);
+  expect(THREADS.length).toBe(142);
   for(const t of THREADS)for(const k of Object.keys(t.reply))if(k!=='any')expect(ids.has(k)).toBe(true);
   for(const open of ['Who’s cooking Thanksgiving this year?','Coffee here tastes like it was made Tuesday.','How about the Thunder this season?'])expect(src).toContain(open);
   const opens=new Set<string>();const seats=[{id:1,name:'Mabel'},{id:2,name:'Rex'},{id:3,name:'Jo'}];
