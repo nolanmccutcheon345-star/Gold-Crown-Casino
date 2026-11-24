@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 180" role="img" aria-hidden="true">
+ <defs>
+ <linearGradient id="bg" x2=".9" y2="1"><stop stop-color="#20040a"/><stop offset=".55" stop-color="#6a0e1c"/><stop offset="1" stop-color="#20040a"/></linearGradient>
+ <linearGradient id="metal" x2=".35" y2="1"><stop stop-color="#fff5d5"/><stop offset=".33" stop-color="#ffde98"/><stop offset=".6" stop-color="#94601d"/><stop offset="1" stop-color="#fff4bd"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#ff5a6a" stop-opacity=".5"/><stop offset="1" stop-color="#ff5a6a" stop-opacity="0"/></radialGradient>
+ <pattern id="spark" width="43" height="33" patternUnits="userSpaceOnUse"><circle cx="12" cy="7" r="1" fill="#ffd98a" opacity=".65"/><circle cx="33" cy="26" r=".65" fill="white" opacity=".5"/></pattern>
+</defs>
+ <rect width="480" height="180" fill="url(#bg)"/>
+ <ellipse cx="240" cy="65" rx="230" ry="110" fill="url(#light)"/>
+ <rect width="480" height="180" fill="url(#spark)" opacity=".4"/>
+ <g><circle cx="240" cy="88" r="52" fill="none" stroke="url(#metal)" stroke-width="5" stroke-dasharray="7 6"/><path d="M186 116 L196 62 L224 88 L240 50 L256 88 L284 62 L294 116 Z" fill="url(#metal)" stroke="#6a3a00" stroke-width="2"/><rect x="186" y="116" width="108" height="13" rx="4" fill="url(#metal)" stroke="#6a3a00" stroke-width="2"/><circle cx="240" cy="96" r="7" fill="#a03be0"/><circle cx="240" cy="44" r="6" fill="#2f8bea"/></g>
+ <path d="M3 32V12Q3 3 12 3H468Q477 3 477 12v20M3 150v18q0 9 9 9h456q9 0 9-9v-18" fill="none" stroke="url(#metal)" stroke-width="3" opacity=".8"/>
+</svg>
