@@ -7,7 +7,7 @@ import {machineById} from './machines';
 import {playSpin,reloadSlots,saveSlots,gamble,GAMBLE_ROUNDS,type SlotsState,type GambleChoice} from './state';
 import {betFor,smallestBet,type SlotsUi} from './view';
 
-export type SlotSound='flip'|'lose'|'shuffle'|'reel'|'anticipate'|'levelup'|'chip'|'flip'|'money'|'win'|'champion'|'bigwin'|'fold';
+export type SlotSound='flip'|'lose'|'shuffle'|'reel'|'anticipate'|'levelup'|'chip'|'flip'|'money'|'win'|'champion'|'bigwin'|'fold'|'bells';
 export interface SlotDeps {render():void;sound(kind:SlotSound):void;active():boolean;motion():boolean}
 export interface AutoPlan {count:number;stopFeature:boolean;stopBig:boolean;
  /** Stop when you are this many cents down since autoplay started (0 = no limit). */
@@ -82,20 +82,22 @@ export class SlotsPlayer {
   Object.assign(this.ui,{result,pending:result.total,phase:'spinning',stopped:0,step:0,picked:[],overlay:null,anticipate:anticipatedReels(m,result.grid)});
   this.ui.bet[m.id]=bet;
   this.deps.sound('shuffle');
-  const gap=150,lead=this.deps.motion()?520:60;
+  // Phase 6 pacing: a plain base spin now resolves in ~1s (lead + per-reel stops + settle),
+  // toward the ~1.5s commercial cycle; anticipation still earns its longer hold.
+  const gap=110,lead=this.deps.motion()?340:60;
   const stopNext=()=>{this.ui.stopped++;this.deps.sound('reel');
-   if(this.ui.stopped<m.reels.length){const slow=this.ui.anticipate.includes(this.ui.stopped);if(slow)this.deps.sound('anticipate');this.wait(slow?gap+780:gap,stopNext);}
+   if(this.ui.stopped<m.reels.length){const slow=this.ui.anticipate.includes(this.ui.stopped);if(slow)this.deps.sound('anticipate');this.wait(slow?gap+500:gap,stopNext);}
    else{this.ui.anticipate=[];this.wait(120,()=>this.afterBase());}};
   this.wait(lead,stopNext);
   this.deps.render();
  }
- private intro(title:string,sub:string,then:()=>void){this.ui.overlay={kind:'intro',title,sub,amount:0};this.deps.sound('levelup');this.wait(1500,()=>{this.ui.overlay=null;then();});}
+ private intro(title:string,sub:string,then:()=>void,sound:SlotSound='levelup'){this.ui.overlay={kind:'intro',title,sub,amount:0};this.deps.sound(sound);this.wait(1500,()=>{this.ui.overlay=null;then();});}
  private afterBase(){
   const r=this.ui.result!,m=this.m!,stages:(()=>void)[]=[];
   const next=()=>{const st=stages.shift();if(st)st();else this.outro();};
-  if(r.cascade&&r.cascade.frames.length>1)stages.push(()=>{this.ui.phase='cascade';this.ui.step=0;const step=()=>{if(this.ui.step<r.cascade!.frames.length-1){this.ui.step++;this.deps.sound('chip');this.wait(this.ui.auto?520:760,step);}else this.wait(500,next);};this.wait(this.ui.auto?600:900,step);});
-  if(r.free)stages.push(()=>this.intro('FREE SPINS',`${r.free!.spins.length} free spins${m.scatter!.freeMultiplier>1?` · every win ×${m.scatter!.freeMultiplier}`:m.ways?.freeWild?' · wilds ×2 or ×3':''}`,()=>{this.ui.phase='free';this.ui.step=0;const step=()=>{if(this.ui.step<r.free!.spins.length-1){this.ui.step++;this.deps.sound(r.free!.spins[this.ui.step].total>0?'chip':'flip');this.wait(this.ui.auto?420:780,step);}else this.wait(700,next);};this.wait(900,step);}));
-  if(r.hold)stages.push(()=>this.intro('HOLD & SPIN',`${r.hold!.frames[0].grid.flat().filter(x=>x!==null).length} coins locked · 3 respins`,()=>{this.ui.phase='hold';this.ui.step=0;const step=()=>{if(this.ui.step<r.hold!.frames.length-1){this.ui.step++;this.deps.sound('chip');this.wait(560,step);}else this.wait(800,next);};this.wait(700,step);}));
+  if(r.cascade&&r.cascade.frames.length>1)stages.push(()=>{this.ui.phase='cascade';this.ui.step=0;const step=()=>{if(this.ui.step<r.cascade!.frames.length-1){this.ui.step++;this.deps.sound('chip');this.wait(this.ui.auto?380:430,step);}else this.wait(350,next);};this.wait(this.ui.auto?450:620,step);});
+  if(r.free)stages.push(()=>this.intro('FREE SPINS',`${r.free!.spins.length} free spins${m.scatter!.freeMultiplier>1?` · every win ×${m.scatter!.freeMultiplier}`:m.ways?.freeWild?' · wilds ×2 or ×3':''}`,()=>{this.ui.phase='free';this.ui.step=0;const step=()=>{if(this.ui.step<r.free!.spins.length-1){this.ui.step++;this.deps.sound(r.free!.spins[this.ui.step].total>0?'money':'flip');this.wait(this.ui.auto?360:600,step);}else this.wait(500,next);};this.wait(650,step);},'bells'));
+  if(r.hold)stages.push(()=>this.intro('HOLD & SPIN',`${r.hold!.frames[0].grid.flat().filter(x=>x!==null).length} coins locked · 3 respins`,()=>{this.ui.phase='hold';this.ui.step=0;const step=()=>{if(this.ui.step<r.hold!.frames.length-1){this.ui.step++;this.deps.sound('chip');this.wait(460,step);}else this.wait(600,next);};this.wait(550,step);}));
   if(r.wheel)stages.push(()=>this.intro('BONUS WHEEL',`Spin for up to ${Math.max(...m.wheel!.segments.map(s=>s.x))}× your bet`,()=>{this.ui.phase='wheel';this.wait(2900,next);}));
   if(r.pick)stages.push(()=>this.intro('TREASURE CHESTS',`Pick ${r.pick!.prizes.length} chests`,()=>{this.ui.phase='pick';this.ui.picked=[];this.pickDone=next;if(this.ui.auto)this.wait(900,()=>this.autoPick());}));
   next();
@@ -112,9 +114,9 @@ export class SlotsPlayer {
  private outro(){
   const r=this.ui.result!,feature=(r.free?.total??0)+(r.hold?.total??0)+(r.wheel?.amount??0)+(r.pick?.amount??0)+(r.cascade&&r.cascade.frames.length>1?r.lineTotal:0);
   const celebrate=()=>{const tier=winTier(r.total,r.bet);
-   if(tier&&!this.ui.turbo){this.ui.overlay={kind:'big',title:tier,sub:`${Math.round(r.total/r.bet)}× your bet`,amount:r.total};this.deps.sound('bigwin');this.wait(tier==='BIG WIN'?2600:3600,()=>{this.ui.overlay=null;this.finish();});}
+   if(tier&&!this.ui.turbo){this.ui.overlay={kind:'big',title:tier,sub:`${Math.round(r.total/r.bet)}× your bet`,amount:r.total};this.deps.sound('bigwin');this.wait(tier==='BIG WIN'?2200:3000,()=>{this.ui.overlay=null;this.finish();});}
    else this.finish();};
-  if((r.free||r.hold||r.wheel||r.pick)&&feature>0){this.ui.overlay={kind:'outro',title:'FEATURE WIN',sub:r.free?`${r.free.spins.length} free spins`:r.hold?(r.hold.full?'GRAND JACKPOT!':`${r.hold.coins.length} coins`):r.wheel?`Wheel ×${r.wheel.x}`:'Treasure',amount:feature};this.deps.sound('money');this.wait(1900,()=>{this.ui.overlay=null;celebrate();});}
+  if((r.free||r.hold||r.wheel||r.pick)&&feature>0){this.ui.overlay={kind:'outro',title:'FEATURE WIN',sub:r.free?`${r.free.spins.length} free spins`:r.hold?(r.hold.full?'GRAND JACKPOT!':`${r.hold.coins.length} coins`):r.wheel?`Wheel ×${r.wheel.x}`:'Treasure',amount:feature};this.deps.sound('money');this.wait(1500,()=>{this.ui.overlay=null;celebrate();});}
   else celebrate();
  }
  private finish(){

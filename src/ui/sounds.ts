@@ -7,7 +7,7 @@ type TableView=Pick<HeroViewModel,'handId'|'street'|'events'|'payouts'>;
 export type SoundKind='deal'|'card'|'chip'|'check'|'fold'|'turn'|'win'|
  /* Patch 80 */'allin'|'collect'|'shuffle'|'blackjack'|'bust'|'push'|'lose'|'flip'|
  /* Patch 83 */'levelup'|'money'|'champion'|'knockout'|'promo'|'matchwin'|'matchlose'|'tap'|
- /* Patch 92: slots */'reel'|'anticipate'|'bigwin'|
+ /* Patch 92: slots */'reel'|'anticipate'|'bigwin'|'bells'|
  /* Patch 102: casino tables */'ballroll'|'balldrop'|'dice'|'cardsnap'|'bugle'|'crowd';
 /** Patch 102: every sound the casino tables use, for checking that each one has a voice. */
 export const CASINO_KINDS:readonly SoundKind[]=['ballroll','balldrop','dice','cardsnap','bugle','crowd','chip','shuffle','money','win','fold'];
@@ -119,6 +119,9 @@ export function playSound(kind:SoundKind,delay=0):void {
   // The crowd roaring down the stretch.
   case 'crowd':rumble(t,2.8,.16,700,.6,.9);rumble(t+.2,2.4,.08,1500,.9,.8);break;
   case 'bigwin':[523,659,784,1047,1319,1047,1319,1568].forEach((f,i)=>tone(t+i*.12,f,i===7?.8:.22,.09,'triangle'));for(let i=0;i<14;i++)tone(t+.4+i*.06,2200+((i*277)%900),.05,.05,'triangle');break;
+  // Phase 6: a peal of slot bells for the free-spins trigger — bright sine strikes with the
+  // inharmonic partial a real bell carries, rung in a rising then answering pattern.
+  case 'bells':[1568,2093,2637,2093,1568,2093,2637,3136].forEach((f,i)=>{tone(t+i*.13,f,1.1,.055,'sine');tone(t+i*.13,f*2.76,.5,.014,'sine');});break;
  }
 }
 export const playCues=(cues:readonly SoundKind[]):void=>cues.forEach((kind,index)=>playSound(kind,index*.12));

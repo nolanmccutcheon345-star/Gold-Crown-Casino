@@ -2119,6 +2119,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     on('#slots-skip', () => slotsPlayer.skip());
     root.querySelectorAll<HTMLButtonElement>('[data-slot-pick]').forEach(b => b.addEventListener('click', () => slotsPlayer.pick(Number(b.dataset.slotPick)), live));
     on('#slots-max', slotDo(() => slotsPlayer.maxBet()));
+    on('#slots-pays', () => { const table = root.querySelector<HTMLDetailsElement>('#slot-paytable'); if (table) { table.open = true; table.scrollIntoView({ block: 'start' }); } });
     on('#slots-turbo', slotDo(() => slotsPlayer.toggleTurbo()));
     on('#slots-auto', slotDo(() => { slotsUi.autoOpen = !slotsUi.autoOpen; }));
     on('#slots-auto-start', () => slotsPlayer.startAuto());
