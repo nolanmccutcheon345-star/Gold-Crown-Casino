@@ -31,12 +31,27 @@ function roomMarquee(game:CasinoView):string {
 }
 
 
+/** Phase 6: the round currently being animated was settled in state the moment it started
+ * (presentation-only design), so its wager/return already sit inside the saved record.
+ * While it is still playing out on screen, the record line must not show it: a race that is
+ * still running cannot already read "bet $25 · back $0". Returns the in-flight round's
+ * {wagered, returned} for the games that have one, else null. Display only — state is
+ * never touched. */
+function inFlight(p:CasinoPlayer,game:CasinoView):{wagered:number;returned:number}|null {
+ const ui=p.ui;
+ if(game==='races'&&ui.races.phase==='running')return {wagered:ui.races.wagered,returned:ui.races.returned};
+ if(game==='roulette'&&ui.roulette.phase==='spinning'&&ui.roulette.result)return {wagered:ui.roulette.result.wagered,returned:ui.roulette.result.returned};
+ if(game==='baccarat'&&ui.baccarat.phase==='dealing')return {wagered:ui.baccarat.wagered,returned:ui.baccarat.returned};
+ if(game==='craps'&&ui.craps.phase==='rolling'){const last=p.state.recent.filter(r=>r.game==='craps').at(-1);if(last)return {wagered:last.wagered,returned:last.returned};}
+ return null;
+}
 function wallet(p:CasinoPlayer,game:CasinoView):string {
  const s=p.state,ui=p.ui,rec=s.games[game],pend=game==='craps'?0:p.pending(game);
+ const fly=inFlight(p,game),shownRec=rec&&fly&&rec.rounds>=1?{rounds:rec.rounds-1,wagered:rec.wagered-fly.wagered,returned:rec.returned-fly.returned}:rec;
  return `<div class="cz-wallet"><div class="cz-balance"><span>CASINO BALANCE</span><b data-testid="casino-balance">${money(s.balance-pend)}</b>${pend?`<small>${money(pend)} on the table</small>`:''}</div>
  <div class="cz-chips" role="group" aria-label="Chip value">${CHIPS.map(c=>`<button type="button" class="cz-chip-pick v${c}${ui.chip===c?' on':''}" data-casino-chip="${c}" aria-pressed="${ui.chip===c}">${short(c)}</button>`).join('')}</div>
  ${s.balance<100&&!pend?'<button type="button" class="button secondary" id="casino-reload">Reload $1,000</button>':''}
- ${rec?`<small class="cz-record">${TITLES[game]}: ${rec.rounds} round${rec.rounds===1?'':'s'} · bet ${money(rec.wagered)} · back ${money(rec.returned)}</small>`:''}</div>
+ ${shownRec?`<small class="cz-record">${TITLES[game]}: ${shownRec.rounds} round${shownRec.rounds===1?'':'s'} · bet ${money(shownRec.wagered)} · back ${money(shownRec.returned)}</small>`:''}</div>
  ${ui.error?`<p class="cz-error" role="alert">${esc(ui.error)}</p>`:''}${ui.notice?`<p class="cz-notice" role="status">${esc(ui.notice)}</p>`:''}`;
 }
 
@@ -55,7 +70,11 @@ function patronsMarkup(p:CasinoPlayer,game:CasinoView):string {
  * line of your running total over those rounds. */
 const signed=(c:number)=>c>0?`+${money(c)}`:c<0?`−${money(-c)}`:money(0);
 function roundsPanel(p:CasinoPlayer,game:CasinoView):string {
- const list=p.state.recent.filter(r=>r.game===game).slice(-25),net=p.ui.session[game];
+ // Phase 6: while a round is still animating, its (already settled) record is the last
+ // entry — hide it and take its delta back out of the visit net until it finishes.
+ const fly=inFlight(p,game);
+ const all=p.state.recent.filter(r=>r.game===game);
+ const list=(fly?all.slice(0,-1):all).slice(-25),net=p.ui.session[game]-(fly?fly.returned-fly.wagered:0);
  if(!list.length)return '';
  let acc=0;const run=[0,...list.map(r=>acc+=r.returned-r.wagered)];
  const W=260,H=60,lo=Math.min(...run),hi=Math.max(...run),span=hi-lo||1,x=(i:number)=>6+i*(W-12)/Math.max(1,run.length-1),y=(v:number)=>6+(H-12)*(hi-v)/span;
@@ -101,7 +120,7 @@ function rouletteLayout(ui:CasinoUi):string {
   :`<div class="rl-cell green zero${hit===0?' hit':''}" style="grid-column:2/5;grid-row:1">${spot('straight',[0],'rl-num','0','Straight 0')}</div>`;
  const dozens=[0,1,2].map(w=>`<div class="rl-out dz" style="grid-column:1;grid-row:${2+4*w}/span 4">${spot('dozen',outside('dozen',w),'rl-ob',['1st 12','2nd 12','3rd 12'][w],`${['First','Second','Third'][w]} dozen`)}</div>`).join('');
  const cols=[0,1,2].map(w=>`<div class="rl-out cl" style="grid-column:${w+2};grid-row:14">${spot('column',outside('column',w),'rl-ob','2 to 1',`Column ${w+1}`)}</div>`).join('');
- const even=(['low','even','red','black','odd','high'] as const).map((k,i)=>`<div class="rl-out em" style="grid-column:5;grid-row:${2+2*i}/span 2">${spot(k,outside(k),`rl-ob ${k}`,{low:'1–18',even:'EVEN',red:'<i class="dia red"></i>',black:'<i class="dia black"></i>',odd:'ODD',high:'19–36'}[k],{low:'Low 1 to 18',even:'Even',red:'Red',black:'Black',odd:'Odd',high:'High 19 to 36'}[k])}</div>`).join('');
+ const even=(['low','even','red','black','odd','high'] as const).map((k,i)=>`<div class="rl-out em" style="grid-column:5;grid-row:${2+2*i}/span 2">${spot(k,outside(k),`rl-ob ${k}`,{low:'1–18',even:'EVEN',red:'<i class="dia red"></i> RED',black:'<i class="dia black"></i> BLACK',odd:'ODD',high:'19–36'}[k],{low:'Low 1 to 18',even:'Even',red:'Red',black:'Black',odd:'Odd',high:'High 19 to 36'}[k])}</div>`).join('');
  return `<div class="rl-layout${am?' american':''}" data-testid="roulette-layout">${zeros}${cells.join('')}${dozens}${cols}${even}</div>`;
 }
 /** Patch 100: the French racetrack. Tap a number for it and two neighbours each side; tap a section for the
@@ -123,19 +142,20 @@ function statsMarkup(board:number[]):string {
 export function rouletteMarkup(p:CasinoPlayer):string {
  const ui=p.ui,r=ui.roulette,board=(p.state.boards?.roulette??[]) as number[],shownBoard=r.phase==='spinning'?board.slice(0,-1):board;
  const spinning=r.phase==='spinning',res=r.result&&!spinning?r.result:null;
- return `<section class="panel cz-game roulette" data-testid="roulette">${roomMarquee('roulette')}${wallet(p,'roulette')}${patronsMarkup(p,'roulette')}
- <div class="cz-felt rl-top"><div class="rl-wheel-col">${wheelSvg(ui)}<p class="cz-call" aria-live="polite">${spinning?'No more bets…':res?esc(p.rouletteCall()):'Place your bets.'}</p>${res?`<p class="cz-result ${res.returned>res.wagered?'up':res.returned?'even':'down'}">${res.returned?`You get back ${money(res.returned)} on ${money(res.wagered)}`:`No win · ${money(res.wagered)} lost`}</p>`:''}</div>
+ return `<section class="panel cz-game roulette" data-testid="roulette">${roomMarquee('roulette')}${wallet(p,'roulette')}
+ <div class="rl-stage"><div class="cz-felt rl-top"><div class="rl-wheel-col">${wheelSvg(ui)}<p class="cz-call" aria-live="polite">${spinning?'No more bets…':res?esc(p.rouletteCall()):'Place your bets.'}</p>${res?`<p class="cz-result ${res.returned>res.wagered?'up':res.returned?'even':'down'}">${res.returned?`You get back ${money(res.returned)} on ${money(res.wagered)}`:`No win · ${money(res.wagered)} lost`}</p>`:''}</div>
   <div class="rl-side"><div class="cz-seg" role="group" aria-label="Wheel"><button type="button" data-wheel="european" class="${r.wheel==='european'?'on':''}" ${spinning?'disabled':''}>Single zero</button><button type="button" data-wheel="american" class="${r.wheel==='american'?'on':''}" ${spinning?'disabled':''}>Double zero</button></div>
   ${r.wheel==='european'?`<label class="auto-deal-toggle"><input type="checkbox" id="rl-partage" ${r.partage?'checked':''} ${spinning?'disabled':''}>La Partage: even-money bets lose only half on zero (1.35% edge)</label>`:''}
   <div class="rl-history" aria-label="Last numbers">${shownBoard.slice(-12).reverse().map((n,i)=>`<span class="${colourOf(n)}${i===0?' latest':''}">${label(n)}</span>`).join('')||'<small>No spins yet</small>'}</div>
   <p class="cz-fine">${r.wheel==='european'?`Single zero: 2.70% house edge on every bet${r.partage?' (1.35% on even money with La Partage)':''}.`:'Double zero: 5.26% house edge (7.89% on the top line).'} Straight 35:1 · split 17:1 · street 11:1 · corner 8:1 · six line 5:1 · dozens and columns 2:1 · even money 1:1.</p></div></div>
- ${rouletteLayout(ui)}
+ ${rouletteLayout(ui)}</div>
  <div class="rl-specials" role="group" aria-label="Named bets"><b>Named bets</b>${(['snake','redSplits','blackSplits'] as Special[]).map(k=>`<button type="button" class="button secondary" data-special="${k}" ${spinning?'disabled':''} title="${esc(SPECIALS[k].blurb)}" aria-label="${esc(SPECIALS[k].name)}: ${esc(SPECIALS[k].blurb)}, ${money(SPECIALS[k].pieces.length*ui.chip)}">${esc(SPECIALS[k].name)} <small>${SPECIALS[k].pieces.length} chips · ${short(SPECIALS[k].pieces.length*ui.chip)}</small></button>`).join('')}</div>
  ${r.wheel==='european'?racetrack(p):''}
  ${statsMarkup(shownBoard)}
  <div class="rl-tools"><div class="rl-favs"><b>Favourites</b>${(p.state.favs??[]).map((f,i)=>`<span class="rl-fav"><button type="button" class="button secondary" data-fav="${i}" ${spinning?'disabled':''}>${esc(f.name)}</button><button type="button" class="rc-x" data-fav-del="${i}" aria-label="Delete saved layout">×</button></span>`).join('')}<button type="button" class="button secondary" id="rl-save" ${spinning||(!r.bets.length&&!r.last.length)?'disabled':''}>Save layout</button></div>
   <div class="rl-auto">${r.auto?`<span>Auto-spin: ${r.auto.left} left${r.auto.stopOnWin?' · stops on a win':''}</span><button type="button" class="button secondary" id="casino-stop-auto">Stop</button>`:`<b>Auto-spin</b>${[5,10,25].map(n=>`<button type="button" class="button secondary" data-auto-spin="${n}" ${spinning||(!r.bets.length&&!r.last.length)?'disabled':''}>${n}</button>`).join('')}<label class="auto-deal-toggle"><input type="checkbox" id="rl-stop-win" checked>Stop on a win</label>`}</div></div>
- <div class="cz-actions"><button type="button" class="button secondary" id="roulette-undo" ${spinning||!r.bets.length?'disabled':''}>Undo</button><button type="button" class="button secondary" id="roulette-clear" ${spinning||!r.bets.length?'disabled':''}>Clear</button><button type="button" class="button secondary" id="roulette-rebet" ${spinning||!r.last.length?'disabled':''}>Rebet</button><button type="button" class="button secondary" id="roulette-double" ${spinning||(!r.bets.length&&!r.last.length)?'disabled':''}>Double</button><button type="button" class="button cz-go" id="roulette-spin" ${spinning?'disabled':''}>${!r.bets.length&&r.phase==='done'&&r.last.length?`Spin again · ${money(r.last.reduce((a,b)=>a+b.amount,0))}`:`Spin${r.bets.length?` · ${money(p.pending('roulette'))}`:''}`}</button></div>
+ <div class="cz-actions"><button type="button" class="button secondary" id="roulette-undo" ${spinning||!r.bets.length?'disabled':''}>Undo</button><button type="button" class="button secondary" id="roulette-clear" ${spinning||!r.bets.length?'disabled':''}>Clear</button><button type="button" class="button secondary" id="roulette-rebet" ${spinning||!r.last.length?'disabled':''}>Rebet</button><button type="button" class="button secondary" id="roulette-double" ${spinning||(!r.bets.length&&!r.last.length)?'disabled':''}>Double</button><button type="button" class="button cz-go" id="roulette-spin" ${spinning?'disabled':''}>${!r.bets.length&&r.phase==='done'&&r.last.length?`Spin again · ${money(r.last.reduce((a,b)=>a+b.amount,0))}`:`Spin${r.bets.length?` · ${money(r.bets.reduce((a,b)=>a+b.amount,0))}`:''}`}</button></div>
+ ${patronsMarkup(p,'roulette')}
  ${roundsPanel(p,'roulette')}
  </section>`;
 }
@@ -162,19 +182,24 @@ export function baccaratMarkup(p:CasinoPlayer):string {
  const spot=(s:BaccaratSpot,title:string,pays:string)=>{const a=b.bets[s]??0,won=done&&(b.bySpot[s]??0)>(b.last[s]??0),push=done&&b.bySpot[s]!==undefined&&b.bySpot[s]===(b.last[s]??0);
   return `<button type="button" class="bc-spot ${s}${a?' has-chip':''}${won?' won':''}${push?' push':''}" data-bspot="${s}" ${dealing?'disabled':''} aria-label="${title}, pays ${pays}${a?`, ${money(a)} on it`:''}"><b>${title}</b><small>${pays}</small>${chipMark(done?(b.last[s]??0):a)}</button>`;};
  const face=(x:{c:string;down:boolean},i:number)=>x.down?`<button type="button" class="cz-card down" data-bac-peel style="--i:${i}" aria-label="Peel the card"><span>PEEL</span></button>`:cardFace(x.c,i);
- const hand=(name:string,cards:{c:string;down:boolean}[],who:'player'|'banker')=>`<div class="bc-hand ${who}${done&&coup?.winner===who?' winner':''}"><span class="bc-hand-name">${name}</span><div class="bc-cards">${cards.map(face).join('')||'<span class="cz-card-slot"></span><span class="cz-card-slot"></span>'}</div><b class="bc-total">${cards.length&&!cards.some(x=>x.down)?bacTotal(cards.map(x=>x.c)):cards.length?'?':''}</b></div>`;
+ /* Phase 6: the big felt hands ARE bet controls for pointer players — tapping the PLAYER
+  * or BANKER hand puts the selected chip on that side, exactly like the labelled spot
+  * buttons below (which remain the keyboard/screen-reader controls). placeBaccarat
+  * itself refuses taps while dealing. */
+ const hand=(name:string,cards:{c:string;down:boolean}[],who:'player'|'banker')=>{const a=b.bets[who]??0;return `<div class="bc-hand ${who}${done&&coup?.winner===who?' winner':''}" data-bspot="${who}" title="Tap to bet on ${name}"><span class="bc-hand-name">${name}</span><div class="bc-cards">${cards.map(face).join('')||'<span class="cz-card-slot"></span><span class="cz-card-slot"></span>'}</div><b class="bc-total">${cards.length&&!cards.some(x=>x.down)?bacTotal(cards.map(x=>x.c)):cards.length?'?':''}</b><span class="bc-hand-bet">${a?chipMark(a):'<small>Tap the felt to bet</small>'}</span></div>`;};
  const beads=(p.state.boards?.baccarat??[]) as string[],shownBeads=dealing?beads.slice(0,-1):beads;
  const cols=Math.max(12,Math.ceil(shownBeads.length/6));
  const plate=Array.from({length:cols*6},(_,i)=>{const col=Math.floor(i/6),row=i%6,v=shownBeads[col*6+row];return `<span class="bead ${v==='P'?'p':v==='B'?'b':v==='T'?'t':''}">${v??''}</span>`;}).slice(-72).join('');
  const res=done?(b.returned>b.wagered?`You get back ${money(b.returned)} on ${money(b.wagered)}`:b.returned?`Back ${money(b.returned)} on ${money(b.wagered)}`:`No win · ${money(b.wagered)} lost`):'';
- return `<section class="panel cz-game baccarat" data-testid="baccarat">${roomMarquee('baccarat')}${wallet(p,'baccarat')}${patronsMarkup(p,'baccarat')}
+ return `<section class="panel cz-game baccarat" data-testid="baccarat">${roomMarquee('baccarat')}${wallet(p,'baccarat')}
  <div class="cz-felt bc-felt"><p class="bc-arc">${b.ez?'EZ BACCARAT · NO COMMISSION · BANKER 3-CARD 7 PUSHES':'BANKER PAYS 19 TO 20 · TIE PAYS 8 TO 1'}</p>
   <div class="bc-hands">${hand('PLAYER',shownP,'player')}${hand('BANKER',shownB,'banker')}</div>
   <p class="cz-call" aria-live="polite">${b.waiting?'Squeeze it… tap the card to peel.':dealing?'Cards…':done?esc(p.baccaratCall())+(b.ez&&coup&&coup.winner==='banker'&&coup.banker.length===3&&coup.bankerTotal===7?' Dragon 7!':b.ez&&coup&&coup.winner==='player'&&coup.player.length===3&&coup.playerTotal===8?' Panda 8!':''):'Place your bets.'}</p>${res?`<p class="cz-result ${b.returned>b.wagered?'up':b.returned?'even':'down'}">${res}</p>`:''}
   <div class="bc-spots">${spot('playerPair','P pair','11:1')}${spot('tie','TIE','8:1')}${spot('bankerPair','B pair','11:1')}${spot('player','PLAYER','1:1')}${spot('banker','BANKER',b.ez?'1:1 · 3-card 7 pushes':'0.95:1')}${b.ez?spot('dragon7','DRAGON 7','40:1')+spot('panda8','PANDA 8','25:1'):''}${spot('lucky6','LUCKY 6','12:1 · 3 cards 20:1')}${spot('dragonP','DRAGON P','win by 4–9 · up to 30:1')}${spot('dragonB','DRAGON B','win by 4–9 · up to 30:1')}</div></div>
+ <div class="cz-actions"><button type="button" class="button secondary" id="bac-clear" ${dealing?'disabled':''}>Clear</button><button type="button" class="button secondary" id="bac-rebet" ${dealing||!Object.keys(b.last).length?'disabled':''}>Rebet</button><button type="button" class="button cz-go" id="bac-deal" ${dealing?'disabled':''}>${done&&Object.keys(b.last).length?'Deal again':'Deal'}${p.pending('baccarat')?` · ${money(p.pending('baccarat'))}`:done&&Object.keys(b.last).length?` · ${money(Object.values(b.last).reduce((x:number,y)=>x+(y??0),0))}`:''}</button></div>
+ ${patronsMarkup(p,'baccarat')}
  <div class="bc-shoe" data-testid="bac-shoe"><span class="bc-shoe-box" style="--fill:${(100*left/sh.cards.length).toFixed(1)}%" aria-hidden="true"></span><span>Shoe ${sh.number} · <b>${left}</b> cards left${sh.cutOut&&!sh.last?' · <em>cut card is out: last hand</em>':sh.last?' · <em>shuffling before the next hand</em>':''}</span>${b.shuffled?`<span class="bc-burn">New shoe. Burn card ${cardFace(sh.burned[0],0)} → ${sh.burned.length-1} burned. Fresh roads.</span>`:''}<button type="button" class="button secondary" id="bac-shuffle" ${dealing?'disabled':''}>Shuffle now</button></div>
  <div class="bc-options"><label class="auto-deal-toggle"><input type="checkbox" id="bac-ez" ${b.ez?'checked':''} ${dealing?'disabled':''}>EZ Baccarat (no commission)</label><label class="auto-deal-toggle"><input type="checkbox" id="bac-squeeze" ${b.squeeze?'checked':''}>Squeeze my cards</label>${b.auto>0?`<span>Auto-deal: ${b.auto} left</span><button type="button" class="button secondary" id="casino-stop-auto">Stop</button>`:`<span class="bc-auto"><b>Auto-deal</b>${[5,10,25].map(n=>`<button type="button" class="button secondary" data-auto-deal="${n}" ${dealing?'disabled':''}>${n}</button>`).join('')}</span>`}</div>
- <div class="cz-actions"><button type="button" class="button secondary" id="bac-clear" ${dealing?'disabled':''}>Clear</button><button type="button" class="button secondary" id="bac-rebet" ${dealing||!Object.keys(b.last).length?'disabled':''}>Rebet</button><button type="button" class="button cz-go" id="bac-deal" ${dealing?'disabled':''}>${done&&Object.keys(b.last).length?'Deal again':'Deal'}${p.pending('baccarat')?` · ${money(p.pending('baccarat'))}`:done&&Object.keys(b.last).length?` · ${money(Object.values(b.last).reduce((x:number,y)=>x+(y??0),0))}`:''}</button></div>
  <div class="bc-road"><h3>Big road</h3>${bigRoadMarkup(shownBeads as ('P'|'B'|'T')[])}${derivedMarkup(shownBeads as ('P'|'B'|'T')[])}<h3>Bead plate <small>P ${beads.filter(x=>x==='P').length} · B ${beads.filter(x=>x==='B').length} · T ${beads.filter(x=>x==='T').length}</small></h3><div class="bead-plate" style="--cols:${Math.min(cols,12)}">${plate}</div>
  <p class="cz-fine">Eight decks in a shoe that lasts from hand to hand: the first card says how many to burn, and the cut card sits 14 cards from the end (one more hand after it comes out, then a new shoe and fresh roads). Player draws on 0–5; Banker draws by the standard table. ${b.ez?'EZ: Banker 1.02% · Player 1.24% · Dragon 7 7.6% · Panda 8 10.2% house edge.':'Banker 1.06% · Player 1.24% · Tie 14.4% house edge.'} Lucky 6 (Banker wins with 6) 16.68%. Dragon Bonus: your side wins with a natural 1:1 (a natural tie pushes), or wins by 9 30:1, 8 10:1, 7 6:1, 6 4:1, 5 2:1, 4 1:1; Player 2.65%, Banker 9.37%. With squeeze on, the cards for the side you backed most come face down: tap to peel.</p></div>
  ${roundsPanel(p,'baccarat')}
@@ -193,7 +218,7 @@ export function crapsMarkup(p:CasinoPlayer):string {
  const dice=last?last.dice:[3,4] as [number,number];
  const net=c.lastReturned;
  const sh=c.shooter,locked=oddsUp(t);
- return `<section class="panel cz-game craps" data-testid="craps">${roomMarquee('craps')}${wallet(p,'craps')}${patronsMarkup(p,'craps')}
+ return `<section class="panel cz-game craps" data-testid="craps">${roomMarquee('craps')}${wallet(p,'craps')}
  <div class="cr-oddsx"><div class="cz-seg" role="group" aria-label="Table odds"><button type="button" data-odds-x="345" class="${t.oddsX==='345'?'on':''}" aria-pressed="${t.oddsX==='345'}" ${rolling||(locked&&t.oddsX!=='345')?'disabled':''}>3-4-5x odds</button><button type="button" data-odds-x="10" class="${t.oddsX==='10'?'on':''}" aria-pressed="${t.oddsX==='10'}" ${rolling||(locked&&t.oddsX!=='10')?'disabled':''}>10x odds</button></div><small>${locked?'Odds are up: take them down to change the limit.':t.oddsX==='10'?'Take 10x on every point; lay 20x on 4/10, 15x on 5/9, 12x on 6/8.':'Take 3x on 4/10, 4x on 5/9, 5x on 6/8; lay up to 6x.'}</small><label class="auto-deal-toggle"><input type="checkbox" id="craps-working" ${t.working?'checked':''} ${rolling?'disabled':''}>Working on the come-out: place, buy and hardway bets and come odds</label></div>
  <div class="cz-felt cr-felt">
   <div class="cr-head"><span class="cr-puck${point?' on':''}" aria-label="${point?`Point is ${point}`:'Point is off'}">${point?'ON':'OFF'}</span><div class="cr-dice">${die(dice[0],rolling,0)}${die(dice[1],rolling,1)}</div><p class="cz-call" aria-live="polite">${rolling?'Dice are out…':last?esc(last.call):'Coming out! Bet the Pass line.'}${!rolling&&last&&last.pointBefore&&last.sum===7?` The dice go to ${esc(p.shooterName())}.`:''}</p><span class="cr-shooter" data-testid="shooter">Shooter: <b>${esc(p.shooterName())}</b> · ${sh.rolls} roll${sh.rolls===1?'':'s'} · ${sh.points} point${sh.points===1?'':'s'} made${sh.best?` · best hand ${sh.best} rolls`:''}</span></div>
@@ -211,6 +236,7 @@ export function crapsMarkup(p:CasinoPlayer):string {
   <div class="cr-fire">${spot('fire',`<b>🔥 FIRE BET</b><small>4 points 24:1 · 5 points 249:1 · 6 points 999:1</small>`,'cr-fire-spot',`Fire Bet`)}<span class="cr-fire-points" aria-label="Points made by this shooter">${POINTS.map(n=>`<i class="${t.firePoints.includes(n)?'lit':''}">${n}</i>`).join('')}</span>${t.newShooter&&!t.point?'':'<small class="cr-fire-note">Fire Bet opens for the next shooter.</small>'}</div>
  </div>
  <div class="cz-actions">${Object.keys(t.place).length||Object.keys(t.buy).length?`<button type="button" class="button secondary" id="craps-press" ${rolling?'disabled':''}>Press</button>`:''}${c.lastLayout&&!t.point&&!rolling?`<button type="button" class="button secondary" id="craps-same">Same bets · ${money(Object.values(c.lastLayout).reduce((a:number,b)=>a+(b??0),0))}</button>`:''}<button type="button" class="button secondary${c.takeDown?' on':''}" id="craps-takedown" aria-pressed="${c.takeDown}" ${rolling?'disabled':''}>${c.takeDown?'Tap a bet to take it down':'Take down'}</button><button type="button" class="button cz-go" id="craps-roll" ${rolling?'disabled':''}>${p.shooterName()==='You'?'Roll the dice':`${esc(p.shooterName())} rolls`}</button></div>
+ ${patronsMarkup(p,'craps')}
  <div class="cr-history" aria-label="Recent rolls">${shownHist.slice(-14).reverse().map(([a,b2],i)=>`<span class="${a+b2===7?'seven':''}${i===0?' latest':''}">${a+b2}</span>`).join('')||'<small>No rolls yet</small>'}</div>
  ${diceChart((p.state.boards?.craps??[]) as [number,number][],rolling)}
  <p class="cz-fine">The dice pass to the next player after each seven-out. Odds (${t.oddsX==='10'?'10x':'3-4-5x'} at this table), on the line or behind Come and Don’t Come bets, pay true odds with no house edge; come odds are off on the come-out. Lay bets pay true odds against the number less 5% of the win (4/10 1.67%, 5/9 2%, 6/8 2.27%) and work on every roll. Big 6 and Big 8 pay even money (9.09%). C&amp;E is a chip each on Any craps and Yo; World is the Horn plus Any 7. Buy 4, 5, 9 and 10 pay true odds less 5% of the bet on a win (4/10 1.67%, 5/9 2%). Place, buy and hardway bets and come odds are off on the come-out unless you turn on “Working on the come-out”. Pass 1.41% · Don’t pass 1.36% · Field 2.78% · Place 6/8 1.52% · Any 7 16.7% house edge.</p>
@@ -228,12 +254,15 @@ function diceChart(hist:[number,number][],rolling:boolean):string {
 }
 
 /* ---------- Races ---------- */
-const horse=(fill:string,trim:string)=>`<svg viewBox="0 0 64 40" class="rc-horse-svg" aria-hidden="true"><path stroke="#f3e3c3" stroke-width="1.2" d="M6 26c4-1 7-6 10-9 4-4 12-5 18-4 4 1 8 0 11-3 2-2 5-4 8-4l3 2-2 3c2 1 4 3 3 5l-4 1-3-2c-2 3-2 6-1 9l-2 9h-3l1-8-6-1c-3 2-9 2-13 1l-4 8h-3l2-9c-3 2-7 3-10 3z" fill="#2a170b"/><path d="M27 8l6 1 2 7-5 3-5-2z" fill="${fill}"/><path d="M27 12l8 1" stroke="${trim}" stroke-width="2"/><circle cx="31" cy="5" r="3" fill="${trim}"/></svg>`;
+/* Phase 6: every runner reads as its own horse — a coat from a stable palette by number,
+ * a saddle cloth in the silk colours carrying the number, and the jockey up in the silks. */
+const COATS=['#2a170b','#4a2c14','#6e4520','#232326','#7a7d82','#8c5a2b','#5b2333','#274156','#3d5a3a','#704214','#936639','#191919'];
+const horse=(fill:string,trim:string,no=1)=>`<svg viewBox="0 0 64 40" class="rc-horse-svg" aria-hidden="true"><path stroke="#f3e3c3" stroke-width="1.2" d="M6 26c4-1 7-6 10-9 4-4 12-5 18-4 4 1 8 0 11-3 2-2 5-4 8-4l3 2-2 3c2 1 4 3 3 5l-4 1-3-2c-2 3-2 6-1 9l-2 9h-3l1-8-6-1c-3 2-9 2-13 1l-4 8h-3l2-9c-3 2-7 3-10 3z" fill="${COATS[(no-1)%COATS.length]}"/><path d="M21 11h13l1.5 9-13 1.5z" fill="${fill}" stroke="${trim}" stroke-width="1.2"/><text x="28.5" y="20" text-anchor="middle" font-size="9" font-weight="800" fill="${trim}">${no}</text><path d="M27 8l6 1 2 7-5 3-5-2z" fill="${fill}"/><path d="M27 12l8 1" stroke="${trim}" stroke-width="2"/><circle cx="31" cy="5" r="3" fill="${trim}"/></svg>`;
 export function racesMarkup(p:CasinoPlayer):string {
  const h=p.ui.races,c=h.card,running=h.phase==='running',done=h.phase==='done',frame=h.frame;
  // A scratched horse has no path and must never enter the running-order display.
  const pos=(no:number)=>h.paths?.[no]?.[Math.min(frame,RACE_FRAMES)]??-1;
- const lanes=c.runners.map(r=>r.scratched?`<div class="rc-lane scr"><span class="rc-lane-no" style="--silk:${r.silks[0]};--trim:${r.silks[1]}">${r.no}</span><small>scratched</small></div>`:`<div class="rc-lane"><span class="rc-lane-no" style="--silk:${r.silks[0]};--trim:${r.silks[1]}">${r.no}</span><span class="rc-runner" data-race-horse="${r.no}" style="--x:${pos(r.no)}">${horse(r.silks[0],r.silks[1])}<b class="rc-cloth" style="--silk:${r.silks[0]};--trim:${r.silks[1]}">${r.no}</b></span></div>`).join('');
+ const lanes=c.runners.map(r=>r.scratched?`<div class="rc-lane scr"><span class="rc-lane-no" style="--silk:${r.silks[0]};--trim:${r.silks[1]}">${r.no}</span><small>scratched</small></div>`:`<div class="rc-lane"><span class="rc-lane-no" style="--silk:${r.silks[0]};--trim:${r.silks[1]}">${r.no}</span><span class="rc-runner" data-race-horse="${r.no}" style="--x:${pos(r.no)}">${horse(r.silks[0],r.silks[1],r.no)}<b class="rc-cloth" style="--silk:${r.silks[0]};--trim:${r.silks[1]}">${r.no}</b></span></div>`).join('');
  const kinds:[RaceKind|'dd'|'atb',string][]=[['win','Win'],['place','Place'],['show','Show'],['atb','Across the board'],['exacta','Exacta'],['quinella','Quinella'],['trifecta','Trifecta'],['superfecta','Superfecta'],['dd','Daily Double']];
  const dd=h.kind==='dd',atb=h.kind==='atb',leg2=dd&&h.picking.length===1,card=leg2?h.next:c;
  const multi=!dd&&!atb&&PICKS[h.kind as RaceKind]>1,ORD=['1st','2nd','3rd','4th'],boxing=h.box&&BOXABLE.includes(h.kind as RaceKind);
@@ -251,10 +280,13 @@ export function racesMarkup(p:CasinoPlayer):string {
   ...h.dd.map((d,i)=>`<li><span><b>DAILY DOUBLE</b> ${esc(c.runners[d.picks[0]-1].name)} + ${esc(h.next.runners[d.picks[1]-1].name)} <small>(race ${c.number + 1}) at ${d.odds.toFixed(1)} to 1</small></span><span>${money(d.amount)} → ${money(d.amount+Math.floor(d.amount*d.odds))}</span>${h.phase==='betting'?`<button type="button" class="rc-x" data-race-remove="${h.bets.length+i}" aria-label="Remove bet">×</button>`:''}</li>`)].join('');
  const riding=p.day.dd.filter(d=>d.race===c.number-1),alive=p.day.dd.filter(d=>d.race===c.number);
  const ridingMarkup=riding.length&&!done?`<p class="rc-dd-live">Daily Double alive: ${riding.map(d=>`#${d.picks[1]} ${esc(c.runners[d.picks[1]-1].name)} wins → ${money(d.amount+Math.floor(d.amount*d.odds))}`).join(' · ')}</p>`:alive.length&&done?`<p class="rc-dd-live">Daily Double: first leg won! Now riding on ${alive.map(d=>`#${d.picks[1]} ${esc(h.next.runners[d.picks[1]-1].name)}`).join(', ')} in race ${c.number+1}.</p>`:'';
- const board=p.day.results.length?`<details class="rc-board"><summary>Today’s results (${p.day.results.length})</summary><table class="rc-table"><tr><th>Race</th><th>Track</th><th>Winner</th><th>Odds</th></tr>${[...p.day.results].reverse().map(r=>`<tr><td>${r.number}</td><td>${esc(r.track)}</td><td>#${r.no} ${esc(r.name)}</td><td>${r.odds?oddsLabel(r.odds):'—'}</td></tr>`).join('')}</table></details>`:'';
- return `<section class="panel cz-game races" data-testid="races">${roomMarquee('races')}${wallet(p,'races')}${patronsMarkup(p,'races')}
- <div class="rc-card-head"><b>Race ${c.number} · ${esc(c.track)}</b><span>${esc(c.distance)} · ${esc(c.going)} · purse ${esc(c.purse)}</span><label class="auto-deal-toggle"><input type="checkbox" id="race-quick" ${h.quick?'checked':''} ${running?'disabled':''}>Quick race (7 seconds)</label></div>
- <div class="cz-felt rc-track" data-testid="race-track"><div class="rc-rail"></div><div class="rc-finish" aria-hidden="true"></div>${lanes}${h.call==='Photo finish!'?'<p class="rc-photo" data-testid="photo-finish">PHOTO</p>':''}<p class="rc-caller" aria-live="polite">${esc(h.call||'Post time. Place your bets.')}</p></div>
+ // Phase 6 spoiler fix: the current race's winner is recorded the moment the race starts
+ // (presentation-only settlement), so while it is still running the board must not list it.
+ const shownResults=running?p.day.results.filter(r=>r.number!==c.number):p.day.results;
+ const board=shownResults.length?`<details class="rc-board"><summary>Today’s results (${shownResults.length})</summary><table class="rc-table"><tr><th>Race</th><th>Track</th><th>Winner</th><th>Odds</th></tr>${[...shownResults].reverse().map(r=>`<tr><td>${r.number}</td><td>${esc(r.track)}</td><td>#${r.no} ${esc(r.name)}</td><td>${r.odds?oddsLabel(r.odds):'—'}</td></tr>`).join('')}</table></details>`:'';
+ return `<section class="panel cz-game races" data-testid="races">${roomMarquee('races')}${wallet(p,'races')}
+ <div class="rc-card-head"><b>Race ${c.number} · ${esc(c.track)}</b><span>${esc(c.distance)} · ${esc(c.going)} · purse ${esc(c.purse.replace(/\B(?=(\d{3})+(?!\d))/g,','))}</span><label class="auto-deal-toggle"><input type="checkbox" id="race-quick" ${h.quick?'checked':''} ${running?'disabled':''}>Quick race (7 seconds)</label></div>
+ <div class="cz-felt rc-track${running?' running':''}" data-testid="race-track"><div class="rc-rail"></div><div class="rc-finish" aria-hidden="true"></div>${lanes}${h.call==='Photo finish!'?'<p class="rc-photo" data-testid="photo-finish">PHOTO</p>':''}<p class="rc-caller" aria-live="polite">${esc(h.call||'Post time. Place your bets.')}</p></div>
  ${running||done?`<p class="rc-order" aria-hidden="true">Running order <b data-race-order>${c.runners.filter(r=>!r.scratched).sort((a,b)=>pos(b.no)-pos(a.no)).slice(0,4).map((r,i)=>`${i+1}. #${r.no}`).join('  ')}</b></p>`:''}
  ${done&&h.order?`<div class="rc-result"><span>1st <b>${esc(c.runners[h.order[0]-1].name)}</b></span><span>2nd <b>${esc(c.runners[h.order[1]-1].name)}</b></span><span>3rd <b>${esc(c.runners[h.order[2]-1].name)}</b></span><p class="cz-result ${h.returned>h.wagered?'up':h.returned?'even':'down'}">${h.returned?`You get back ${money(h.returned)} on ${money(h.wagered)}`:`No winners · ${money(h.wagered)} lost`}</p></div>`:''}
  <div class="cz-seg rc-kinds" role="group" aria-label="Bet type">${kinds.map(([k,l])=>`<button type="button" data-race-kind="${k}" class="${h.kind===k?'on':''}" ${h.phase!=='betting'?'disabled':''}>${l}</button>`).join('')}</div>
@@ -263,6 +295,7 @@ export function racesMarkup(p:CasinoPlayer):string {
  <table class="rc-table"><thead><tr><th>#</th><th>Horse</th><th title="Win odds">Odds</th><th>${multi||dd?'Pick':atb?'W·P·S':h.kind[0].toUpperCase()+h.kind.slice(1)}</th></tr></thead><tbody>${leg2?`<tr class="rc-leg2"><td colspan="4">Race ${h.next.number} · ${esc(h.next.track)} · ${esc(h.next.distance)}</td></tr>`:''}${rows}</tbody></table>
  <div class="rc-slip"><h3>Bet slip</h3>${slip?`<ul>${slip}</ul>`:'<p class="muted">No bets yet. Pick a horse.</p>'}</div>
  <div class="cz-actions">${done?'<button type="button" class="button secondary" id="race-replay">Replay</button><button type="button" class="button cz-go" id="race-next">Next race</button>':`<button type="button" class="button secondary" id="race-clear" ${running||!p.pending('races')?'disabled':''}>Clear</button><button type="button" class="button cz-go" id="race-start" ${running?'disabled':''}>${running?(h.replay?'Replay…':'They’re running…'):`Start the race${p.pending('races')?` · ${money(p.pending('races'))}`:''}`}</button>`}</div>
+ ${patronsMarkup(p,'races')}
  ${board}
  <p class="cz-fine">Fixed odds from each horse’s true chance with a ${Math.round(TAKE*100)}% take, like a track’s pools: every bet returns about ${100-Math.round(TAKE*100)}% over time. Prices under 1/10 are not offered. Paddock notes are what a railbird would see: a hint, not a promise.</p>
  ${roundsPanel(p,'races')}

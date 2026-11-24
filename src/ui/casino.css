@@ -65,9 +65,11 @@
 .dia{display:inline-block;width:18px;height:18px;transform:rotate(45deg);border-radius:2px}.dia.red{background:#c62828}.dia.black{background:#111;box-shadow:0 0 0 1px #fff5}
 .hs{position:absolute;z-index:3;border:0;padding:0;background:transparent;cursor:pointer;border-radius:4px}
 .hs:hover{background:#e8c58b55}
-.hs-r{right:-7px;top:22%;width:14px;height:56%}.hs-b{bottom:-7px;left:22%;width:56%;height:14px}.hs-br{right:-8px;bottom:-8px;width:16px;height:16px;z-index:5;border-radius:50%}
-.hs-l{left:-7px;top:22%;width:14px;height:56%}.hs-bl{left:-8px;bottom:-8px;width:16px;height:16px;z-index:5;border-radius:50%}
-.hs-t{top:-7px;left:22%;width:56%;height:14px}.hs-tl{top:-7px;left:8%;width:38%;height:14px}.hs-tr{top:-7px;right:8%;width:38%;height:14px}.hs-tc{top:-8px;left:-8px;width:16px;height:16px;z-index:5;border-radius:50%}
+/* Phase 6: split/corner/street hotspots get real touch targets — at least 30px across,
+ * centred on the seam they bet on (the visible chip stays small; corners sit above strips). */
+.hs-r{right:-15px;top:22%;width:30px;height:56%}.hs-b{bottom:-15px;left:22%;width:56%;height:30px}.hs-br{right:-15px;bottom:-15px;width:30px;height:30px;z-index:5;border-radius:50%}
+.hs-l{left:-15px;top:22%;width:30px;height:56%}.hs-bl{left:-15px;bottom:-15px;width:30px;height:30px;z-index:5;border-radius:50%}
+.hs-t{top:-15px;left:22%;width:56%;height:30px}.hs-tl{top:-15px;left:8%;width:38%;height:30px}.hs-tr{top:-15px;right:8%;width:38%;height:30px}.hs-tc{top:-15px;left:-15px;width:30px;height:30px;z-index:5;border-radius:50%}
 .hs .cz-chip{min-width:22px;height:22px;font-size:9px}
 @media (prefers-reduced-motion:reduce){.rl-rotor{transition:none}.rl-ball-orbit.spinning,.rl-ball-orbit.spinning .rl-ball{animation:none}}
 
@@ -170,13 +172,17 @@
 .rc-x{border:0;background:transparent;color:inherit;font-size:18px;cursor:pointer}
 @media (prefers-reduced-motion:reduce){.rc-runner{transition:none}.races .rc-track .rc-runner{animation:none}.cz-die.rolling{animation:none}.cz-card{animation:none}}
 .theme-light .cz-balance{background:#fffaf0;color:#1d2a2e}
-/* Wide screens: the wheel and the layout side by side. */
+/* Wide screens: the wheel and the layout side by side inside the stage (Phase 6: the
+ * wheel block and the layout now share one .rl-stage wrapper so they travel together,
+ * and everything under the stage spans the full width). */
 @media (min-width:960px){
  .roulette{display:grid;grid-template-columns:minmax(280px,340px) minmax(0,1fr);gap:14px;align-items:start}
- .roulette>.cz-wallet,.roulette>.cz-error,.roulette>.cz-notice{grid-column:1/-1}
- .roulette .rl-top{grid-template-columns:1fr;grid-column:1}
- .roulette .rl-layout{grid-column:2;grid-row:2/span 2;max-width:560px}
- .roulette .cz-actions{grid-column:1}
+ .roulette>.cz-wallet,.roulette>.cz-error,.roulette>.cz-notice,.roulette>.cz-mode-banner{grid-column:1/-1}
+ .roulette .rl-stage{grid-column:1/-1;display:grid;grid-template-columns:minmax(280px,340px) minmax(0,1fr);gap:14px;align-items:start}
+ .roulette .rl-top{grid-template-columns:1fr}
+ .roulette .rl-layout{max-width:560px;margin-inline:auto}
+ .roulette .cz-actions{grid-column:1/-1}
+ .roulette>.rl-specials,.roulette>.rt,.roulette>.rl-stats,.roulette>.rl-tools,.roulette>.cz-patrons,.roulette>.cz-rounds{grid-column:1/-1}
 }
 
 /* ---------- Patch 100 ---------- */
@@ -375,3 +381,24 @@
 .coach-review.matched{box-shadow:inset 3px 0 0 #6fcf97}.coach-review.missed{box-shadow:inset 3px 0 0 #f2c94c}
 .coach-review small{opacity:.7}
 .coach-wait{font-size:13px;opacity:.7;margin:0}
+
+/* ---------- Phase 6 Stage B: one-screen tables, felt bet controls, race scene ---------- */
+/* The primary action bar (Spin / Deal / Roll / Start the race) sticks to the bottom of
+ * the viewport, so the main verb of every table is always reachable. */
+.cz-game .cz-actions{position:sticky;bottom:8px;z-index:7}
+/* Baccarat: the PLAYER and BANKER hands are bet controls (pointer). */
+.bc-hand{position:relative}
+.bc-hand[data-bspot]{cursor:pointer}
+.bc-hand[data-bspot]:hover{box-shadow:inset 0 0 0 2px var(--gold)}
+.bc-hand-bet{min-height:20px;display:grid;place-items:center}
+.bc-hand-bet small{font-size:11px;letter-spacing:.08em;opacity:.75;text-transform:uppercase}
+.bc-hand-bet .cz-chip{position:static;translate:none}
+/* The racecourse reads as a place: a grandstand crowd over the rail, furlong markers
+ * down the track, and a gallop that only settles into a sway at the gate. */
+.rc-track{background:repeating-linear-gradient(90deg,transparent 0 calc(12.5% - 1px),#ffffff12 calc(12.5% - 1px) 12.5%),linear-gradient(#b48a5a,#9b7346)}
+.rc-track::before{content:'';position:absolute;left:0;right:0;top:0;height:24px;background:radial-gradient(circle,#2b1c10 1.2px,transparent 1.9px) 0 6px/9px 9px repeat-x,radial-gradient(circle,#e8c58b 1px,transparent 1.7px) 4px 13px/11px 9px repeat-x,linear-gradient(#3a2410,#3a241000);opacity:.55;pointer-events:none}
+.rc-track:not(.running) .rc-runner{animation-duration:1.7s}
+.rc-track.running .rc-lane:nth-of-type(3n) .rc-runner{animation-duration:.26s}
+.rc-track.running .rc-lane:nth-of-type(4n) .rc-runner{animation-duration:.38s}
+.rc-track.running .rc-lane:nth-of-type(5n) .rc-runner{animation-duration:.3s}
+@media (prefers-reduced-motion:reduce){.rc-track:not(.running) .rc-runner{animation:none}}
