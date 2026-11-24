@@ -1,7 +1,7 @@
 import {idleActivity} from '../bots/table-life';
 /** Patch 74: the Omaha screen: a lobby, then the table with four cards each and pot-limit betting buttons. */
 import type {Card} from '../contracts';
-import {legalPlo,potSizes,type PloHand} from './engine';
+import {legalPlo,potSizes} from './engine';
 import {PLO_PLAYERS} from './bots';
 import {PLO_STAKES,type PloTable} from './table';
 import {seatSpots,actorLine} from '../ui/replayer';

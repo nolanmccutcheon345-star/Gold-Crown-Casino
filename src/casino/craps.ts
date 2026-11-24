@@ -111,7 +111,7 @@ export function rollDice(random:Random):[number,number] {return [random(6)+1,ran
 /** Resolve one roll. */
 export function roll(t0:CrapsTable,dice:[number,number]):RollResult {
  const [d1,d2]=dice,sum=d1+d2,hardRoll=d1===d2;
- let t:CrapsTable={...freshTable(),...t0,comeOn:{...t0.comeOn},dontComeOn:{...t0.dontComeOn},place:{...t0.place},hard:{...t0.hard},comeOdds:{...(t0.comeOdds??{})},dontComeOdds:{...(t0.dontComeOdds??{})},buy:{...(t0.buy??{})},hop:{...(t0.hop??{})},lay:{...(t0.lay??{})},big6:t0.big6??0,big8:t0.big8??0,oddsX:t0.oddsX??'345',working:t0.working??false,firePoints:[...(t0.firePoints??[])],fire:t0.fire??0,newShooter:t0.newShooter??true};
+ const t:CrapsTable={...freshTable(),...t0,comeOn:{...t0.comeOn},dontComeOn:{...t0.dontComeOn},place:{...t0.place},hard:{...t0.hard},comeOdds:{...(t0.comeOdds??{})},dontComeOdds:{...(t0.dontComeOdds??{})},buy:{...(t0.buy??{})},hop:{...(t0.hop??{})},lay:{...(t0.lay??{})},big6:t0.big6??0,big8:t0.big8??0,oddsX:t0.oddsX??'345',working:t0.working??false,firePoints:[...(t0.firePoints??[])],fire:t0.fire??0,newShooter:t0.newShooter??true};
  const settled:Paid[]=[];let restaked=0;
  const pay=(spot:string,stake:number,back:number,stays=false)=>{if(stake>0){settled.push({spot,stake,back,stays});if(stays&&back>0)restaked+=stake;}};
  const comeOut=t.point===null;

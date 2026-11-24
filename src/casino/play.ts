@@ -231,7 +231,7 @@ export class CasinoPlayer {
   b.bets={...b.bets,[spot]:(b.bets[spot]??0)+this.ui.chip};this.ui.error='';this.deps.sound('chip');this.deps.render();
  }
  autoDeal(n:number){const b=this.ui.baccarat;if(b.phase==='dealing')return;b.auto=n;b.squeeze=false;this.dealBaccarat();if(this.ui.error)b.auto=0;}
- setEz(on:boolean){const b=this.ui.baccarat;if(b.phase==='dealing')return;b.ez=on;if(!on){const {dragon7:_d,panda8:_p,...rest}=b.bets;b.bets=rest;}b.last={};this.deps.render();}
+ setEz(on:boolean){const b=this.ui.baccarat;if(b.phase==='dealing')return;b.ez=on;if(!on){const rest={...b.bets};delete rest.dragon7;delete rest.panda8;b.bets=rest;}b.last={};this.deps.render();}
  setSqueeze(on:boolean){this.ui.baccarat.squeeze=on;this.deps.render();}
  /** Turn over the card being squeezed, and carry on dealing. */
  peel(){const b=this.ui.baccarat;if(!b.waiting)return;b.waiting=false;this.dealStep?.();}

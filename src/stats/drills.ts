@@ -3,7 +3,7 @@
  * happened, and a rough guide: your chance to win against a range for that player (built only from
  * what they showed at the table this session) compared with the price of the call.
  * A guide, not a solver. Screen only. */
-import type {Card,HeroViewModel} from '../contracts';
+import type {Card} from '../contracts';
 import type {StoredHand} from '../session/types';
 import {evaluate,compareRanks,handLabel} from '../core/evaluator';
 import {handFeatures} from '../bots/features';

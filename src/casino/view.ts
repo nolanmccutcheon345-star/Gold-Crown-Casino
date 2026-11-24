@@ -2,7 +2,7 @@
 import {CHIPS,money,type CasinoState} from './wallet';
 import {ORDER,DOUBLE_ZERO,colourOf,label,outside,stats,ANNOUNCED,sectionOf,PAYS,SPECIALS,type Special,type BetKind as RBetKind,type Announced} from './roulette';
 import {total as bacTotal,bigRoad,derivedRoad,ask,cardsLeft,type BaccaratSpot} from './baccarat';
-import {POINTS,HARD,BUYS,SPOT_LABEL,maxOdds,maxLay,oddsMultiple,layMultiple,oddsUp,type Spot} from './craps';
+import {POINTS,HARD,BUYS,SPOT_LABEL,maxOdds,maxLay,oddsUp,type Spot} from './craps';
 import {odds,oddsLabel,settleBet,paddockNote,BOXABLE,TAKE,PICKS,type BetKind as RaceKind} from './races';
 import {RACE_FRAMES,type CasinoUi,type CasinoPlayer} from './play';
 import {CHAT,type PatronLine} from './patrons';

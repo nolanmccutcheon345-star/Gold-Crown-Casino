@@ -1,6 +1,5 @@
 /** Patch 74: a Pot-Limit Omaha cash table. Its own virtual balance (like tournaments and blackjack), kept on this
  * device. Every step re-checks that chips are conserved; a save that fails its checks is set aside, never trusted. */
-import {personaFor} from '../bots/personas';
 import {gestureFor,heroQuestionLine,lineToHero,rivalPair,smallTalk} from '../bots/banter';
 import type {Card} from '../contracts';
 import {secureDeck,secureIndex} from '../core/deck';

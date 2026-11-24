@@ -12,7 +12,7 @@ import type {TableInsight} from '../bots/insight';
 import {mttStandings,standingsAtTable} from './multi-table';
 import {validateField,markRegulars,type EventField} from './field';
 import {seedStream} from '../bots/profiles';
-import {blindSchedule,entryCost,handsPerLevel,payoutLadder,ladderFor,type EventPreset,type EventPace,type BlindLevel} from './presets';
+import {blindSchedule,entryCost,handsPerLevel,ladderFor,type EventPreset,type EventPace,type BlindLevel} from './presets';
 import type {TournamentView,TournamentRecord} from './view-model';
 import {allHeroHands,mttProfileAt,mttTournamentView,validateMttEvent,type TournamentEventMtt} from './mtt-event';
 import {seatTargetOf} from './presets';

@@ -1,5 +1,5 @@
 import {heroReadsSnapshot} from './human-context';
-import type {Action,BotProfile} from '../contracts';
+import type {Action} from '../contracts';
 import {heroCanReEnter,requestHeroReEntry} from './multi-table';
 import {applyCommand,startHand,nextTournamentHand,observeBot,replayTournamentHand} from '../core/engine';
 import {chooseTournamentDecision,NEW_EVENT_TOURNAMENT_POLICY,policyUsesReads} from './bot-policy';

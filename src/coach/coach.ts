@@ -14,7 +14,7 @@ import {evaluate,compareRanks,handLabel} from '../core/evaluator';
 import {positionOf} from '../stats/leaks';
 import {equityVsRange} from '../stats/drills';
 import {oddsHelp,boardCategory} from '../ui/odds-helper';
-import {ORDER,RANKS,handClass,percentile,inTop,describeTop,openWidth,BB_DEFEND,shoveWidth,valueThreeBet,bluffThreeBet,speculative,type HandClass} from './ranges';
+import {ORDER,RANKS,handClass,percentile,inTop,describeTop,openWidth,BB_DEFEND,shoveWidth,valueThreeBet,bluffThreeBet,speculative} from './ranges';
 import {LESSONS,NOTECARDS,OVERLAYS,type Lesson,type Notecard} from './lessons';
 
 export type CoachAction='fold'|'check'|'call'|'bet'|'raise'|'all-in';
@@ -158,7 +158,7 @@ export function advise(view:HeroViewModel,o:CoachOptions):Advice|null {
 
 type Draft={action:CoachAction;to?:number|null;close?:boolean;job:string;why:Why;numbers?:CoachNumber[];lesson:string;card:string;sizeNote?:string};
 function finish(c:Ctx,d:Draft):Advice {
- const l=c.view.legal,m=c.o.money;let action=d.action,to=d.to??null;
+ const l=c.view.legal,m=c.o.money;let action=d.action;const to=d.to??null;
  // Never recommend something the rules do not allow here.
  if((action==='bet'||action==='raise'||action==='all-in')&&to===null)action=c.call>0?'call':'check';
  if(action==='check'&&!l.check)action=c.call>0?'fold':'check';

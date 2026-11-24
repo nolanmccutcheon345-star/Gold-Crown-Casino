@@ -13,7 +13,7 @@ import {applyCommand,assertAccounting,projectSpectatorView,projectView,replayTou
 import {completeProfile,createProfile} from '../bots/profiles';
 import {supportedPolicy} from '../bots/policy';
 import {NEW_EVENT_TOURNAMENT_POLICY,supportedTournamentPolicy} from './bot-policy';
-import {blindSchedule,entryCost,handsPerLevel,payoutLadder,ladderFor,type EventPace,type EventPreset} from './presets';
+import {blindSchedule,entryCost,handsPerLevel,ladderFor,type EventPace,type EventPreset} from './presets';
 import {heroCanReEnter,MTT_VERSION,TABLE_SIZE,checkMtt,createMtt,heroTable,mttLevel,mttProfile,mttStandings,mttSummary,playOtherTables,playerAt,seatDecision,settleRound,type MttDeps,type MttHandRecord,type MttState} from './multi-table';
 import {policyUsesStandings,policyUsesMood,policyUsesIcm} from './bot-policy';
 import {recentResultsByName} from './human-context';
