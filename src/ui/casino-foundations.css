@@ -1,17 +1,19 @@
 /* 1 — Design tokens and shared controls. Warm brass is reserved for brand, active state,
    numbers and trim. Body copy stays high-contrast neutral; green conveys positive values. */
+/* Phase 1 (2026-11-23): the --casino-* set is aliased onto the single Gold Crown
+   token layer in tokens.css (--gc-*). Change brand values there, not here. */
 :root{
- --casino-onyx:#070e13;
- --casino-ink:#0b151a;
- --casino-surface:#142328;
- --casino-emerald:#00654f;
- --casino-felt:#0d5c48;
- --casino-felt-light:#22785e;
- --casino-brass:#d9ae65;
- --casino-brass-light:#fff0c1;
- --casino-brass-dark:#855521;
- --casino-copy:#f1f1e9;
- --casino-secondary:#bacbc4;
+ --casino-onyx:var(--gc-midnight);
+ --casino-ink:var(--gc-midnight);
+ --casino-surface:var(--gc-panel);
+ --casino-emerald:var(--gc-felt-light);
+ --casino-felt:var(--gc-felt);
+ --casino-felt-light:var(--gc-felt-light);
+ --casino-brass:var(--gc-gold);
+ --casino-brass-light:var(--gc-gold-bright);
+ --casino-brass-dark:var(--gc-gold-deep);
+ --casino-copy:var(--gc-ivory);
+ --casino-secondary:var(--gc-sage);
  --casino-border:color-mix(in srgb,var(--casino-brass) 44%,transparent);
  --casino-border-soft:color-mix(in srgb,var(--casino-brass) 24%,transparent);
  --casino-lift:inset 0 1px 0 #fff4d51e,0 12px 26px #0007;

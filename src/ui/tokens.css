@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+/**
+ * Gold Crown Casino — design-token foundation (Phase 1, 2026-11-23).
+ *
+ * The single token layer for the whole app. Values come from the Gold Crown
+ * design system (~/workspace/gold-crown-casino/design-system.md): crown gold,
+ * felt emerald, midnight, ivory/sage text, Cinzel display + Inter body.
+ * Every other stylesheet should consume these tokens instead of declaring
+ * one-off values; the legacy variable sets are aliased onto them:
+ *   - styles.css          --gold / --muted / --panel / --green  -> tokens below
+ *   - casino-foundations  --casino-*                           -> tokens below
+ *
+ * Breakpoints (media queries cannot read variables, so these are the contract
+ * every shell/responsive rule follows):
+ *   phone    : max-width 767px
+ *   tablet   : 768px - 1199px
+ *   desktop  : min-width 1200px
+ *   short landscape (phones sideways): orientation landscape + max-height 520px
+ *
+ * Contrast (WCAG, computed against these exact hex values — see PHASE1-REPORT):
+ *   ivory on midnight 16.9:1 · ivory on panel 15.6:1 · ivory on felt 10.6:1
+ *   sage  on felt      5.7:1 · sage  on panel  8.4:1 · sage on midnight 9.1:1
+ *   gold on midnight 8.0:1 · gold-bright on midnight 12.2:1 · gold on panel 7.4:1
+ *   dark text on gold 7.8:1 (primary buttons) · win green on midnight 8.2:1
+ * All text pairs meet WCAG AA (>= 4.5:1); gold is an accent, never a large-area fill.
+ * --gc-danger (#D64545) is a state/fill color (4.4:1 on midnight — fine for
+ * indicators and large elements); danger TEXT uses --gc-danger-text (5.8:1).
+ */
+:root {
+  /* Brand palette — design system section 2 */
+  --gc-gold: #C9A227;
+  --gc-gold-bright: #F2C94C;
+  --gc-gold-deep: #7A5C14;
+  --gc-felt: #0B3D2E;
+  --gc-felt-deep: #06231B;
+  --gc-felt-light: #1C6A4C; /* derived mid-felt for gradients/highlights */
+  --gc-midnight: #0A0E0D;
+  --gc-panel: #12181A;
+  --gc-panel-raised: #1A2226; /* derived: one step above panel */
+  --gc-ivory: #F5EFE0;
+  --gc-sage: #9DB8A6;
+  --gc-red: #B01E24;
+  --gc-chip-blue: #2456A6;
+  --gc-win: #2FBF71;
+  --gc-danger: #D64545;
+  --gc-danger-text: #E06565; /* AA-passing danger for text on dark surfaces */
+
+  /* Treatments */
+  --gc-gold-gradient: linear-gradient(100deg, #7A5C14 0%, #C9A227 42%, #F2C94C 55%, #C9A227 100%);
+  --gc-rail-gradient: linear-gradient(145deg, #4A3418, #C9A227 130%);
+  --gc-felt-gradient: radial-gradient(ellipse at 50% 35%, var(--gc-felt-light), var(--gc-felt) 72%, var(--gc-felt-deep));
+  --gc-border-gold: color-mix(in srgb, var(--gc-gold) 38%, transparent);
+  --gc-border-gold-soft: color-mix(in srgb, var(--gc-gold) 22%, transparent);
+
+  /* Type — Cinzel display (engraved plaque), Inter body, tabular numbers */
+  --gc-font-display: 'Cinzel', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --gc-font-body: 'Inter', 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --gc-fs-1: 0.75rem;   /* 12px at the app root — floor for money/labels only */
+  --gc-fs-2: 0.875rem;  /* 14px */
+  --gc-fs-3: 1rem;      /* 16px */
+  --gc-fs-4: 1.25rem;   /* 20px */
+  --gc-fs-5: 1.5rem;    /* 24px */
+  --gc-fs-6: 2rem;      /* 32px */
+
+  /* Shape */
+  --gc-radius-s: 6px;
+  --gc-radius-m: 10px;
+  --gc-radius-l: 14px;
+  --gc-radius-pill: 999px;
+
+  /* Elevation */
+  --gc-shadow-panel: inset 0 1px 0 #f2c94c14, 0 12px 26px #00000073;
+  --gc-shadow-lift: 0 4px 14px #00000080;
+  --gc-glow-gold: 0 0 0 1px var(--gc-border-gold), 0 0 18px #c9a2272e;
+
+  /* Spacing */
+  --gc-space-1: 4px;
+  --gc-space-2: 8px;
+  --gc-space-3: 12px;
+  --gc-space-4: 16px;
+  --gc-space-5: 24px;
+  --gc-space-6: 32px;
+
+  /* Motion (design system: every animation <= 600ms and skippable) */
+  --gc-dur: 160ms;
+  --gc-ease: cubic-bezier(.2, .7, .3, 1);
+
+  /* Layers */
+  --gc-z-header: 40;
+  --gc-z-bottom-nav: 50;
+  --gc-z-overlay: 60;
+}
+
+/* Tabular figures for stacks, pots, odds and timers (design system section 3). */
+.gc-num { font-variant-numeric: tabular-nums; }
+.gc-display { font-family: var(--gc-font-display); }
