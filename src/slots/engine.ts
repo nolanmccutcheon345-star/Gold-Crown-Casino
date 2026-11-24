@@ -28,6 +28,12 @@ export interface Machine {
  /** Line pays as multiples of the line bet, by symbol and count of a kind (index = count). */
  pays:Record<Sym,number[]>;
  wild?:Sym;scatter?:ScatterSpec;coin?:CoinSpec;wheel?:WheelSpec;
+ /** Phase 4: a symbol that pays by count anywhere on the window, as multiples of the total bet (the largest
+  * threshold met pays). Line machines only; the symbol never pays on a line. */
+ scatterPay?:{sym:Sym;pays:Record<number,number>};
+ /** Phase 4: a wild that fills its whole reel when it lands anywhere on it (line machines only). The symbol is
+  * the machine's wild; expansion happens before lines, scatters and features are read from the grid. */
+ expandWild?:Sym;
  /** Classic-machine extras: cherries pay anywhere on the line, and any three bars pay. */
  cherry?:{sym:Sym;pays:number[]};anyBar?:{syms:Sym[];pay:number};
  /** Patch 92: a classic wild that multiplies the line it helps (each wild multiplies again). */
@@ -84,7 +90,7 @@ function lineWins(m:Machine,grid:Sym[][],lineBet:number):LineWin[] {
    return;
   }
   const first=syms.find(s=>s!==m.wild)??m.wild!;
-  if(first===m.scatter?.sym||first===m.coin?.sym)return;
+  if(first===m.scatter?.sym||first===m.coin?.sym||first===m.wheel?.sym||first===m.scatterPay?.sym)return;
   let n=0;while(n<syms.length&&(syms[n]===first||syms[n]===m.wild))n++;
   // A run of wilds can pay as wilds when that pays more.
   let w=0;while(w<syms.length&&syms[w]===m.wild)w++;
@@ -139,10 +145,14 @@ function baseSpin(m:Machine,bet:number,random:Random,multiplier=1,free=false):Sp
   if(m.scatter){const n=countSym(grid,m.scatter.sym);scatterWin=Math.round((m.scatter.pays[Math.min(n,5)]??0)*bet*multiplier);}
   return {grid,wins,scatterWin,lineTotal,total:lineTotal+scatterWin,bet,...(fw?{wildMultipliers:mults}:{})};
  }
- const grid=stopGrid(m,random),lineBet=bet/m.lines.length,wins=lineWins(m,grid,lineBet).map(w=>({...w,amount:Math.round(w.amount*multiplier)}));
+ const grid=stopGrid(m,random);
+ // An expanding wild fills any reel it lands on, before anything is read from the grid.
+ if(m.expandWild)for(let c=0;c<grid.length;c++)if(grid[c].includes(m.expandWild))grid[c]=grid[c].map(()=>m.expandWild!);
+ const lineBet=bet/m.lines.length,wins=lineWins(m,grid,lineBet).map(w=>({...w,amount:Math.round(w.amount*multiplier)}));
  const lineTotal=wins.reduce((a,w)=>a+w.amount,0);
  let scatterWin=0;
  if(m.scatter){const n=countSym(grid,m.scatter.sym);scatterWin=Math.round((m.scatter.pays[Math.min(n,5)]??0)*bet*multiplier);}
+ if(m.scatterPay){const n=countSym(grid,m.scatterPay.sym);let pay=0;for(const k of Object.keys(m.scatterPay.pays))if(n>=Number(k))pay=Math.max(pay,m.scatterPay.pays[Number(k)]);scatterWin+=Math.round(pay*bet*multiplier);}
  return {grid,wins,scatterWin,lineTotal,total:lineTotal+scatterWin,bet};
 }
 /** One paid spin, with any feature it triggers played out in full. `bet` is the total bet in cents. */
