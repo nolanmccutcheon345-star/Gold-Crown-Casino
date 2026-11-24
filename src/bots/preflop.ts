@@ -128,26 +128,18 @@ function classWeight(c:Readonly<StartingClass>,p:ReturnType<typeof completeProfi
  // First-in initiative is distinct from paying an established value range.
  // Position/competence recognize fold equity and realization; passive/low-skill
  // profiles retain their mistakes. This is an authored prior, not a target RFI.
- const openingInitiativeCredit=node==='unopened'?3.5+(4+8*p.skill)*(.55+.45*t.positionAwareness)+Math.max(0,5-playersBehind)*2*t.positionAwareness*p.skill+(m.seats===2?8*(.5+.5*p.skill):0):0;
+ const openingInitiativeCredit=node==='unopened'?(4+8*p.skill)*(.55+.45*t.positionAwareness)+Math.max(0,5-playersBehind)*2*t.positionAwareness*p.skill+(m.seats===2?8*(.5+.5*p.skill):0):0;
  const depthEffect=c.pair&&c.highRank<=9?b.smallPair*clamp((11-c.highRank)/7):c.suited&&c.highRank===14?b.suitedAce:c.suited&&c.highRank-c.lowRank<=3?b.suitedConnectors*clamp((5-(c.highRank-c.lowRank))/4):!c.suited&&!c.pair&&c.lowRank>=10?b.offsuitBroadway:0;
  const score=c.baseScore+depthEffect;
- const nodePressure=node==='facing-4bet'?31:node==='facing-3bet'?14:node==='facing-open'?8:node==='limped'?1:0;
+ const nodePressure=node==='facing-4bet'?31:node==='facing-3bet'?20:node==='facing-open'?8:node==='limped'?1:0;
  const reference=node==='facing-4bet'?24:node==='facing-3bet'?10:node==='facing-open'?3:1;
  const pricePressure=node!=='unopened'&&m.callBB>0?Math.log2(clamp(m.callBB/reference,.25,16))*(3+t.sizeSensitivity*5):0;
  const oddsPressure=node==='unopened'?0:Math.max(0,m.price-.25)*(6+t.sizeSensitivity*10);
  const openerPressure=m.openerPosition==='UTG'?3*p.skill:m.openerPosition==='BTN'?-3*t.positionAwareness:0;
  const multiway=(m.coldCallers+m.limpers*.35)*t.multiwayCaution*(c.speculative>.5?-.7:1.6);
  const tablePressure=node==='unopened'?0:Math.max(-4,m.seats-6)*t.multiwayCaution*.7;
- const environment=p.environment==='low'?-1.3:p.environment==='high'?.8:0;
- // Phase 5 calibration (BOT-004): full-ring tables play looser per seat than
- // 6-max at the same archetype mix — live full-ring pools famously so. The
- // credit grows with seats beyond six and is larger for lower-skill profiles,
- // whose holders adjust least to the extra players behind them.
- // The credit is a first-in / facing-a-single-open looseness: facing a
- // re-raise even full-ring pools tighten sharply, so it mostly switches off.
- const fullRingNodeFactor=node==='facing-3bet'?.35:node==='facing-4bet'?0:1;
- const fullRingCredit=m.seats>6?(m.seats-6)*(2.1+(1-p.skill)*2.2)*fullRingNodeFactor:0;
- const cutoff=positional-openingInitiativeCredit-(p.looseness-base.looseness)*24+nodePressure+pricePressure+oddsPressure+openerPressure+multiway+tablePressure+environment+m.rakeFraction*20-fullRingCredit;
+ const environment=p.environment==='low'?-.8:p.environment==='high'?.8:0;
+ const cutoff=positional-openingInitiativeCredit-(p.looseness-base.looseness)*24+nodePressure+pricePressure+oddsPressure+openerPressure+multiway+tablePressure+environment+m.rakeFraction*20;
  const width=4.5+t.mistakeRate*2.5;
  let continuation=sigmoid((score-cutoff)/width);
  const firstIn=node==='unopened'||node==='limped';
@@ -156,7 +148,6 @@ function classWeight(c:Readonly<StartingClass>,p:ReturnType<typeof completeProfi
  let protection=firstIn?coreValue:smooth((c.baseScore-(node==='facing-open'?78:node==='facing-3bet'?82:88))/(node==='facing-open'?22:node==='facing-3bet'?18:12));
  if(!firstIn){
   protection+=(1-protection)*clamp((60-effectiveBB)/40)*coreValue*.35;
-  if(node==='facing-open')protection*=.94;
   protection-=Math.max(0,Math.log2(Math.max(1,m.callBB/reference)))*t.sizeSensitivity*.15*protection*(1-protection);
  }
  continuation=Math.max(continuation,clamp(protection));
@@ -164,25 +155,15 @@ function classWeight(c:Readonly<StartingClass>,p:ReturnType<typeof completeProfi
  const valueSpan=node==='facing-4bet'?9:node==='facing-3bet'?12:node==='facing-open'?18:20;
  const premiumValue=smooth((c.baseScore-valueThreshold)/valueSpan);
  const trapProbability=clamp(t.slowPlay*(1-p.aggression)*(.08+.32*(1-p.skill))*(node==='facing-3bet'?1.4:node==='facing-4bet'?1.25:1),0,.3);
- // Full-ring first-in raising is damped (limp-heavy live pools): the same
- // profile open-raises less and limps more at 7+ seats than at 6-max.
- const openingPreference=sigmoid((p.aggression+p.skill*.65-.36)*8)*(m.seats>6?.78:1);
- // Phase 5 calibration (BOT-004): re-raise frequency rises with the pool's
- // stake environment (the designed prior already tightens continuation at
- // higher environments via the cutoff term; the same gradient applies here).
- // Full-ring re-raises are damped: at 7+ seats a raise faces more responders
- // behind, and full-ring pools re-raise far less than 6-max pools.
- let ordinaryRaise=firstIn?openingPreference:(.105+p.aggression*.32+(p.environment==='high'?.13:p.environment==='mid'?.05:.02))*(m.seats>6?.55:1);
- if(node==='limped')ordinaryRaise*=.85+Math.min(.25,m.limpers*.07)+p.aggression*.15;
+ const openingPreference=sigmoid((p.aggression+p.skill*.65-.55)*8);
+ let ordinaryRaise=firstIn?openingPreference:.06+p.aggression*.32;
+ if(node==='limped')ordinaryRaise*=.65+Math.min(.25,m.limpers*.07)+p.aggression*.15;
  if(m.squeeze)ordinaryRaise+=t.bluffFrequency*p.aggression*.16*c.blocker;
  if(!firstIn)ordinaryRaise+=Number(c.suited)*c.blocker*t.bluffFrequency*p.aggression*.12;
  // Value benefits dominate normal passive style; trapping remains deliberately bounded.
  let raiseConditional=ordinaryRaise*(1-premiumValue)+(1-trapProbability)*premiumValue;
  const shortCommit=clamp((55-effectiveBB)/35)*premiumValue*t.riskTolerance;
  if(!firstIn)raiseConditional+=shortCommit*.16;
- // Full-ring re-raise damping also reaches the premium blend: at 7+ seats
- // even strong hands flat an open more often (more responders behind).
- if(!firstIn&&m.seats>6)raiseConditional*=.88;
  raiseConditional=clamp(raiseConditional,0,1);
  const mistakes=t.mistakeRate*(1-p.skill*.8)*.025*(1-coreValue);
  continuation=clamp(continuation*(1-mistakes)+p.looseness*.35*mistakes);
