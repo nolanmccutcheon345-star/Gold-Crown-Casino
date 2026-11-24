@@ -371,3 +371,35 @@
 .casino-home-copy h2,.casino-home-copy>p,.casino-home-copy .casino-kicker{text-shadow:0 2px 14px #000,0 0 34px #000c}
 .casino-hero-signature{display:none}
 @media(max-width:560px){.casino-hero-games{font-size:.58rem;letter-spacing:.1em;line-height:2;padding-top:8px;margin-top:2px}}
+
+/* Phase 7 polish: the five Stage B residual nits. */
+/* (1) Slot meter values never wrap mid-number ("$1,00 / 0"). */
+.slot-cabinet .slot-meters b{white-space:nowrap;overflow-wrap:normal}
+/* (2) Phone poker: inset the perimeter seat layer so side nameplates and
+ * avatars keep clear of the screen edges. */
+@media(max-width:700px){.table-scene.perimeter-table{padding-inline:14px}}
+/* (3) The sticky casino action bar is a solid control deck, so table rows
+ * pass behind a deliberate surface instead of dimming behind bare buttons. */
+.cz-game .cz-actions{background:linear-gradient(180deg,#132620,#0a1512);border:1px solid #ddb87555;border-radius:12px;padding:10px 12px;box-shadow:0 12px 26px #000b}
+/* (4) Game panels scroll into view clear of the sticky header and subnav
+ * (the slots machine header stat line used to slide underneath both). */
+:is(.table-panel,.tournament-table,.blackjack-play,.panel.slots,.cz-game){scroll-margin-top:124px}
+@media(max-width:900px){:is(.table-panel,.tournament-table,.blackjack-play,.panel.slots,.cz-game){scroll-margin-top:76px}}
+/* (5) Cabinet marquee art spans the marquee as a banner instead of sitting
+ * as a small framed inset inside a wide empty panel. */
+.slot-marquee>.casino-slot-art{width:100%;height:auto;aspect-ratio:16/7;max-height:250px}
+/* The element actually scrolled into view when a machine opens: its margin
+ * must clear the sticky chrome AND the machine head above the cabinet
+ * (~87px), so the head's stat line lands fully visible. On phones the
+ * cabinet keeps Phase 6's cabinet-first fit (head + cabinet + bottom nav
+ * cannot all fit a short screen); landscape keeps the slim margin. */
+[data-testid="slot-machine"]{scroll-margin-top:200px}
+@media(max-width:700px){[data-testid="slot-machine"]{scroll-margin-top:76px}}
+@media(max-height:500px){[data-testid="slot-machine"]{scroll-margin-top:56px}}
+/* Phone poker, corrected lever: narrow the scene itself (margin, not
+ * padding — the seat layer spans the padding box) so the perimeter seats
+ * and their plates sit inside the screen. */
+@media(max-width:700px){
+ .view-live.has-game .table-panel .table-scene.perimeter-table{margin-inline:16px}
+ .tournament-table .table-scene.perimeter-table{margin-inline:16px}
+}
