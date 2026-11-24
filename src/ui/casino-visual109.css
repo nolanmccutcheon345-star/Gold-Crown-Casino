@@ -344,3 +344,30 @@
 .game-detail .detail-two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 28px}
 .game-detail .detail-two-col h4{margin:0 0 6px}
 .game-card .detail-open{margin-top:12px}
+
+/* Phase 7 home: the concept-board lobby — brighter room hero, photographic
+ * game tiles with gold title bands, and the board's feature strip. */
+.casino-home-hero{background-image:linear-gradient(100deg,#031213e8 0%,#041917bd 38%,#09262057 66%,#10151114 100%),url('/casino-art/lobby-hero.webp')}
+.casino-hero-games{grid-column:1/-1;justify-self:stretch;text-align:center;margin-top:6px;padding-top:12px;border-top:1px solid #ddb87555;color:#f3d489;font-family:Cinzel,serif;font-size:.78rem;letter-spacing:.32em;text-shadow:0 2px 8px #000}
+.casino-hero-games i{font-style:normal;color:#9db4a8;margin:0 .35em}
+.home-tiles{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin:16px 0 4px}
+.home-tile{position:relative;display:flex;flex-direction:column;text-align:left;padding:0;border:1px solid #ddb87566;border-radius:14px;overflow:hidden;background:#0a1512;cursor:pointer;grid-column:span 3;color:inherit;font:inherit;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.home-tile.wide{grid-column:span 4}
+.home-tile:hover,.home-tile:focus-visible{transform:translateY(-3px);border-color:#e7c37d;box-shadow:0 14px 30px #000a,0 0 0 1px #e7c37d55;outline:none}
+.home-tile-art{display:block;aspect-ratio:16/9;background-size:cover;background-position:center;box-shadow:inset 0 0 46px #0007}
+.home-tile-band{display:flex;flex-direction:column;gap:2px;padding:10px 14px 12px;background:linear-gradient(180deg,#0e231b,#08120e);border-top:1px solid #ddb87555}
+.home-tile-band b{font-family:Cinzel,serif;color:#f3d489;letter-spacing:.09em;font-size:1rem;text-transform:uppercase}
+.home-tile-band small{color:#cfe0d4;font-size:.82rem}
+.home-features{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0 20px}
+.home-features>div{border:1px solid #ddb87544;border-radius:10px;padding:10px 14px;background:#0a1512}
+.home-features b{display:block;color:#f3d489;font-family:Cinzel,serif;letter-spacing:.05em;font-size:.86rem;text-transform:uppercase}
+.home-features small{color:#cfe0d4}
+@media(max-width:900px){.home-tile,.home-tile.wide{grid-column:span 6}}
+@media(max-width:560px){.home-tile{grid-column:span 6}.home-tile.wide{grid-column:span 12}.casino-hero-games{letter-spacing:.18em;font-size:.68rem}}
+@media(forced-colors:active){.home-tile{border:2px solid CanvasText}}
+/* Phase 7 home, second pass: keep the copy zone readable over the brighter
+ * photo, and retire the corner signature — the games ticker replaces it. */
+.casino-home-hero{background-image:linear-gradient(100deg,#031213f2 0%,#041917cc 38%,#09262066 66%,#1015111a 100%),url('/casino-art/lobby-hero.webp')}
+.casino-home-copy h2,.casino-home-copy>p,.casino-home-copy .casino-kicker{text-shadow:0 2px 14px #000,0 0 34px #000c}
+.casino-hero-signature{display:none}
+@media(max-width:560px){.casino-hero-games{font-size:.58rem;letter-spacing:.1em;line-height:2;padding-top:8px;margin-top:2px}}
