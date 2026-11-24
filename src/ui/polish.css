@@ -709,6 +709,20 @@ main.view-anim-1>:not(.game-layout){animation:pna-view-b .24s ease-out backwards
 .game-card .pos{color:#8fd6ad}.game-card .neg{color:#f0a39a}
 .theme-light .game-card .pos{color:#1f7a47}.theme-light .game-card .neg{color:#a3392c}
 
+/* ===== Phase 2: career stats, snapshots, reset point (token-driven) ===== */
+.career-overview{margin:12px 0}
+.stats-block{margin:18px 0;padding-top:14px;border-top:1px solid var(--gc-border-gold-soft)}
+.stats-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:var(--gc-fs-2)}
+.stats-table th,.stats-table td{padding:7px 9px;text-align:right;border-bottom:1px solid var(--gc-border-gold-soft);font-variant-numeric:tabular-nums}
+.stats-table th:first-child,.stats-table td:first-child{text-align:left}
+.stats-table thead th{color:var(--gc-sage);font-weight:600}
+.stats-table .pos{color:var(--gc-win)}.stats-table .neg{color:var(--gc-danger-text)}
+.snapshot-save{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin:10px 0}
+.snapshot-save input{background:var(--gc-panel);border:1px solid var(--gc-border-gold);border-radius:10px;color:var(--gc-ivory);padding:9px 11px;font:inherit}
+.snapshot-list{list-style:none;margin:10px 0;padding:0;display:grid;gap:8px}
+.snapshot-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--gc-border-gold-soft);border-radius:12px;background:var(--gc-panel)}
+@media(max-width:767px){.stats-table th,.stats-table td{padding:6px 5px}}
+
 /* ===== Patch 67: card room life, faster flow ===== */
 .table-list{list-style:none;margin:10px 0;padding:0;display:grid;gap:8px}
 .table-choice{width:100%;text-align:left;display:grid;gap:4px;padding:12px;border-radius:12px;border:1px solid #ffffff22;background:#ffffff08;color:inherit;font:inherit;cursor:pointer;min-height:48px}

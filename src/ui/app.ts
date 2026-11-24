@@ -12,7 +12,12 @@ import { ordinal } from '../tournament/screens';
 import { readCareer, saveCareer, startCareer, careerStatus, newMilestones, changeLevel, stakeName, LADDER, MOVE_UP_BUYINS, MOVE_DOWN_BUYINS, MOVE_UP_HANDS, BUYIN_BB, type Career } from './career';
 import { tableChoices, seatPreview, moveSeat, straddleTable, type TableChoice } from './table-picker';
 import { findLeaks, leakTrends, type Leak } from '../stats/leaks';
-import { cashResult, tournamentResult, blackjackResult, omahaResult, type GameResult } from '../stats/by-game';
+import { cashResult, tournamentResult, blackjackResult, omahaResult, slotsResult, casinoResult, type GameResult } from '../stats/by-game';
+import { careerStats, slotsMachines, CAREER_GAMES, type CareerSources, type CareerStats } from '../stats/career';
+import { readStatsBook, saveStatsBook, takeSnapshot, deleteSnapshot, resetCounters, clearBaseline, cursorsFromSources, periodStats, periodArchives, type StatsBook } from '../stats/snapshots';
+import { CASINO_GAMES } from '../casino/wallet';
+import { machineById } from '../slots/machines';
+import { newHandId } from '../identity';
 import { readSlots, saveSlots, type GambleChoice } from '../slots/state';
 import { SlotsPlayer } from '../slots/play';
 import { CasinoPlayer } from '../casino/play';
@@ -1553,19 +1558,73 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
   function gameCard(r: GameResult, format: (n: number) => string): string {
     const signed = (x: number) => `${x >= 0 ? '+' : '−'}${Math.abs(Math.round(x * 10) / 10)}`;
     const verdictText = r.verdict === 'winning' ? 'Likely winning' : r.verdict === 'losing' ? 'Likely losing' : 'Too early to tell';
-    const range = r.rate ? `<p class="game-rate"><b>${signed(r.rate.mean)}</b> ${escape(r.rateLabel)}</p><p class="muted">Likely between ${signed(r.rate.low)} and ${signed(r.rate.high)} (95% range, ${r.samples.toLocaleString()} ${r.unit}).</p>` : `<p class="muted">Play at least 2 ${r.unit} to see a rate.</p>`;
-    const more = r.samples < r.minimum ? `<p class="muted">A fair read needs at least ${r.minimum.toLocaleString()} ${r.unit}; you have ${r.samples.toLocaleString()} and need ${(r.minimum-r.samples).toLocaleString()} more.</p>` : r.verdict === 'too-early' && r.more ? `<p class="muted">If your average held, about ${r.more.toLocaleString()} more ${r.unit} would settle it.</p>` : '';
-    return `<article class="game-card ${r.verdict}" data-testid="game-${r.game}"><div class="game-head"><h3>${escape(r.label)}</h3><span class="game-verdict">${verdictText}</span></div>${range}<p>Total: <b class="${r.net >= 0 ? 'pos' : 'neg'}">${r.net >= 0 ? '+' : '−'}${format(Math.abs(r.net))}</b></p>${more}</article>`;
+    const n = r.rateSamples ?? r.samples;
+    const range = r.rate ? `<p class="game-rate"><b>${signed(r.rate.mean)}</b> ${escape(r.rateLabel)}</p><p class="muted">Likely between ${signed(r.rate.low)} and ${signed(r.rate.high)} (95% range, ${n.toLocaleString()} ${r.unit}).</p>` : `<p class="muted">Play at least 2 ${r.unit} to see a rate.</p>`;
+    const more = n < r.minimum ? `<p class="muted">A fair read needs at least ${r.minimum.toLocaleString()} ${r.unit}; you have ${n.toLocaleString()} and need ${(r.minimum-n).toLocaleString()} more.</p>` : r.verdict === 'too-early' && r.more ? `<p class="muted">If your average held, about ${r.more.toLocaleString()} more ${r.unit} would settle it.</p>` : '';
+    const detail = r.detail ? `<p class="muted">${escape(r.detail)}</p>` : '';
+    return `<article class="game-card ${r.verdict}" data-testid="game-${r.game}"><div class="game-head"><h3>${escape(r.label)}</h3><span class="game-verdict">${verdictText}</span></div>${range}<p>Total: <b class="${r.net >= 0 ? 'pos' : 'neg'}">${r.net >= 0 ? '+' : '−'}${format(Math.abs(r.net))}</b></p>${detail}${more}</article>`;
+  }
+  /* Phase 2: stats snapshots and the reset point, in their own saved record.
+   * Career totals are always projected live from the games' own records; the
+   * book only holds snapshots and the baseline a reset leaves behind. */
+  const statsBookRead = readStatsBook();
+  let statsBook: StatsBook = statsBookRead.book;
+  let statsNotice = statsBookRead.notice;
+  let compareSnapshotId: string | null = null;
+  let statsResetConfirm = false;
+  function careerSources(): CareerSources {
+    return {
+      cashHands: controller.data?.hands ?? [],
+      tournamentEvents: tournament?.data ? tournamentStats(tournament.data).events : [],
+      blackjackRounds: blackjackRounds.rounds,
+      omahaHands: (plo ??= new PloTable()).state.hands,
+      slots: slotsPlayer.state,
+      casino: casino.state,
+    };
+  }
+  const netCell = (net: number) => `<b class="${net >= 0 ? 'pos' : 'neg'}">${net >= 0 ? '+' : '−'}${money(Math.abs(net))}</b>`;
+  function totalsTable(stats: CareerStats): string {
+    return `<table class="stats-table"><thead><tr><th scope="col">Game</th><th scope="col">Played</th><th scope="col">Wagered</th><th scope="col">Net</th><th scope="col">Biggest win</th></tr></thead><tbody>${CAREER_GAMES.map(g => { const t = stats.games[g]; return `<tr><th scope="row">${escape(t.label)}</th><td>${t.samples.toLocaleString()} ${t.unit}</td><td>${t.wagered === null ? '—' : money(t.wagered)}</td><td>${netCell(t.net)}</td><td>${t.biggest === null ? '—' : money(t.biggest)}</td></tr>`; }).join('')}</tbody></table>`;
+  }
+  function periodSection(career: CareerStats, sources: CareerSources): string {
+    const baseline = statsBook.baseline;
+    const resetArea = statsResetConfirm
+      ? `<p>Reset the current counters to zero? Your career totals, hand history, game records and snapshots all stay exactly as they are — only the "since reset" counting starts over.</p><button type="button" class="button primary" id="stats-reset-confirm">Confirm reset</button> <button type="button" class="button secondary" id="stats-reset-cancel">Cancel</button>`
+      : `<button type="button" class="button secondary" id="stats-reset">Reset current counters…</button>${baseline ? ` <button type="button" class="button secondary" id="stats-baseline-clear">Clear the reset point</button>` : ''}`;
+    if (!baseline) return `<div class="stats-block" data-testid="stats-period"><h3>Current counters</h3><p class="muted">No reset point yet, so your current counters are your whole career. When you have worked on your game and want to measure what changes, save a snapshot below, then reset: the counters start again from zero while your career totals and records stay untouched.</p>${resetArea}</div>`;
+    const period = periodStats(career, baseline);
+    const arch = periodArchives(sources, baseline.cursors);
+    const rateCards = [
+      arch.located.cash ? gameCard(cashResult(arch.cashHands), money) : '',
+      arch.located.tournaments ? gameCard(tournamentResult(arch.tournamentEvents), money) : '',
+      arch.located.blackjack ? gameCard(blackjackResult(arch.blackjackRounds), money) : '',
+      arch.located.omaha ? gameCard(omahaResult(arch.omahaHands, label => PLO_STAKES.find(x => x.label === label)?.bigBlind), money) : '',
+    ].join('');
+    const unlocated = (['cash', 'tournaments', 'blackjack', 'omaha'] as const).filter(g => !arch.located[g]);
+    return `<div class="stats-block" data-testid="stats-period"><h3>Since your reset · ${escape(new Date(baseline.at).toLocaleDateString())}</h3><p class="muted">${period.totalSamples.toLocaleString()} rounds of play since the reset · net ${netCell(period.totalNet)}. Biggest-win records are career-only: a reset never rewrites them, and a period record cannot be worked out from totals alone.</p>${totalsTable(period)}${rateCards ? `<div class="game-grid">${rateCards}</div>` : ''}${unlocated.length ? `<p class="muted">Rates for ${unlocated.map(g => career.games[g].label).join(', ')} need the records around the reset point loaded; the totals above already count everything since the reset. <button id="load-older-history" class="button secondary" ${unavailable() ? 'disabled' : ''}>Load older hands</button></p>` : ''}${resetArea}</div>`;
+  }
+  function snapshotsSection(career: CareerStats): string {
+    const period = periodStats(career, statsBook.baseline);
+    const rows = statsBook.snapshots.map(s => `<li class="snapshot-row"><div><b>${escape(s.name)}</b> <span class="muted">${escape(new Date(s.at).toLocaleString())} · ${s.career.totalSamples.toLocaleString()} played · net ${netCell(s.career.totalNet)}</span></div><div><button type="button" class="button secondary" data-snapshot-compare="${escape(s.id)}" aria-pressed="${compareSnapshotId === s.id}">Compare</button> <button type="button" class="button secondary" data-snapshot-delete="${escape(s.id)}">Delete</button></div></li>`).join('');
+    const chosen = statsBook.snapshots.find(s => s.id === compareSnapshotId);
+    const compare = chosen ? `<div class="stats-block" data-testid="stats-compare"><h3>${escape(chosen.name)} vs now</h3><p class="muted">Saved ${escape(new Date(chosen.at).toLocaleString())}. "Since reset" is what has happened since your reset point — compare it with the snapshot to see what changed after you saved it.</p><table class="stats-table"><thead><tr><th scope="col">Game</th><th scope="col">Snapshot</th><th scope="col">Since reset</th><th scope="col">Career now</th></tr></thead><tbody>${CAREER_GAMES.map(g => { const a = chosen.career.games[g], b = period.games[g], c = career.games[g]; const cell = (t: typeof a) => `${t.samples.toLocaleString()} ${t.unit} · ${netCell(t.net)}`; return `<tr><th scope="row">${escape(c.label)}</th><td>${cell(a)}</td><td>${cell(b)}</td><td>${cell(c)}</td></tr>`; }).join('')}</tbody></table><button type="button" class="button secondary" id="stats-compare-close">Close comparison</button></div>` : '';
+    return `<div class="stats-block" data-testid="stats-snapshots"><h3>Snapshots</h3><p class="muted">Save your career stats as they stand, then reset the counters and play on. Snapshots are kept on this device and are never changed by a reset.</p>${statsNotice ? `<p role="status">${escape(statsNotice)}</p>` : ''}<div class="snapshot-save"><label>Snapshot name <input id="snapshot-name" type="text" maxlength="60" placeholder="e.g. Before coaching block"></label> <button type="button" class="button primary" id="snapshot-save">Save snapshot</button></div>${statsBook.snapshots.length ? `<ul class="snapshot-list">${rows}</ul>` : '<p class="muted">No snapshots saved yet.</p>'}${compare}</div>`;
   }
   function byGameView(): string {
     if (blackjackRounds.state === 'idle') loadBlackjackRounds();
-    const cash = cashResult(controller.data?.hands ?? []);
-    const tStats = tournament?.data ? tournamentStats(tournament.data) : null;
-    const tour = tournamentResult(tStats?.events ?? []);
-    const bj = blackjackResult(blackjackRounds.rounds);
+    const sources = careerSources();
+    const career = careerStats(sources);
+    const cash = cashResult(sources.cashHands);
+    const tour = tournamentResult(sources.tournamentEvents);
+    const bj = blackjackResult(sources.blackjackRounds);
     const bjCard = blackjackRounds.state === 'ready' ? gameCard(bj, money) : `<article class="game-card" data-testid="game-blackjack"><div class="game-head"><h3>Blackjack</h3></div><p class="muted">${blackjackRounds.state === 'error' ? escape(blackjackRounds.note) : 'Reading your blackjack history…'}</p></article>`;
     const partial = controller.historyLoaded ? '' : `<p class="muted">Cash uses the ${controller.data?.hands.length ?? 0} hands loaded on this screen. <button id="load-older-history" class="button secondary" ${unavailable() ? 'disabled' : ''}>Load older hands</button></p>`;
-    return `<section class="panel by-game" data-testid="by-game"><span class="eyebrow">ALL GAMES · VIRTUAL CHIPS</span><h2>Results by game</h2><p class="muted">Each game's average result with a likely range. Short-term swings are big, so the verdict waits until the whole range is above or below zero.</p>${partial}<div class="game-grid">${gameCard(cash, money)}${tournament?.data ? gameCard(tour, money) : `<article class="game-card" data-testid="game-tournaments"><h3>Tournaments</h3><p class="muted">${escape(tournament?.error || 'Reading your tournament history…')}</p></article>`}${bjCard}${gameCard(omahaResult((plo ??= new PloTable()).state.hands, label => PLO_STAKES.find(x => x.label === label)?.bigBlind), money)}</div>${(() => { const all = Object.values(slotsPlayer.state.machines), spins = all.reduce((a, r) => a + r.spins, 0), bet = all.reduce((a, r) => a + r.wagered, 0), won = all.reduce((a, r) => a + r.won, 0); return spins ? `<div class="slots-result" data-testid="slots-result"><h3>Slots</h3><p>${spins.toLocaleString()} spins · bet ${money(bet)} · paid back ${money(won)} · <b class="${won >= bet ? 'positive' : 'negative'}">${signed(won - bet)}</b> (${(100 * won / bet).toFixed(1)}% back). Slots have no skill edge: over time every machine returns about its posted payback, 94–96%.</p></div>` : ''; })()}<p class="muted">Cash rate is big blinds won per 100 hands. Tournament rate is profit as a share of your average buy-in, per event. Blackjack rate is your result per round as a share of your opening bet, so +0.5 means a 0.5% edge. Simulator results do not predict real-money play.</p></section>`;
+    const gamesPlayed = CAREER_GAMES.filter(g => career.games[g].samples > 0).length;
+    const biggest = CAREER_GAMES.map(g => career.games[g]).filter(t => t.biggest !== null).sort((a, b) => (b.biggest ?? 0) - (a.biggest ?? 0))[0];
+    const overview = `<div class="hub-balances career-overview" data-testid="career-overview"><div><span class="eyebrow">CAREER NET · ALL GAMES</span><b>${signed(career.totalNet)}</b></div><div><span class="eyebrow">ROUNDS PLAYED</span><b>${career.totalSamples.toLocaleString()}</b></div><div><span class="eyebrow">GAMES PLAYED</span><b>${gamesPlayed} of ${CAREER_GAMES.length}</b></div><div><span class="eyebrow">BIGGEST WIN</span><b>${biggest ? `${money(biggest.biggest ?? 0)} · ${escape(biggest.label)}` : '—'}</b></div><div><span class="eyebrow">CAREER SINCE</span><b>${career.since ? escape(new Date(career.since).toLocaleDateString()) : 'On this device'}</b></div></div>`;
+    const machines = slotsMachines(sources.slots);
+    const slotsDetail = machines.length ? `<div class="slots-result" data-testid="slots-result"><h3>Slots by machine</h3><p>${career.games.slots.samples.toLocaleString()} spins · bet ${money(career.games.slots.wagered ?? 0)} · paid back ${money((career.games.slots.wagered ?? 0) + career.games.slots.net)} · <b class="${career.games.slots.net >= 0 ? 'positive' : 'negative'}">${signed(career.games.slots.net)}</b>${(career.games.slots.wagered ?? 0) > 0 ? ` (${(100 * ((career.games.slots.wagered ?? 0) + career.games.slots.net) / (career.games.slots.wagered ?? 1)).toFixed(1)}% back)` : ''}. Slots have no skill edge: over time every machine returns about its posted payback, 94–96%.</p><table class="stats-table"><thead><tr><th scope="col">Machine</th><th scope="col">Spins</th><th scope="col">Bet</th><th scope="col">Paid back</th><th scope="col">Net</th><th scope="col">Biggest spin</th><th scope="col">Features</th></tr></thead><tbody>${machines.map(m => `<tr><th scope="row">${escape(machineById(m.id)?.name ?? m.id)}</th><td>${m.spins.toLocaleString()}</td><td>${money(m.wagered)}</td><td>${money(m.won)}${m.payback !== null ? ` (${m.payback.toFixed(1)}%)` : ''}</td><td>${netCell(m.net)}</td><td>${money(m.biggest)}</td><td>${m.features.toLocaleString()}</td></tr>`).join('')}</tbody></table>${sources.slots.gamble ? `<p class="muted">Double-up gamble: ${sources.slots.gamble.rounds.toLocaleString()} rounds · wagered ${money(sources.slots.gamble.wagered)} · won ${money(sources.slots.gamble.won)}.</p>` : ''}</div>` : '';
+    return `<section class="panel by-game" data-testid="by-game"><span class="eyebrow">CAREER · ALL GAMES · VIRTUAL CHIPS</span><h2>Results by game</h2><p class="muted">Your whole career in every game, not just recent sessions. Each game's average result comes with a likely range; short-term swings are big, so the verdict waits until the whole range is above or below zero. Slots and casino rates rest on the recent rounds those games keep on this device; their totals are all-time.</p>${partial}${overview}<div class="game-grid">${gameCard(cash, money)}${tournament?.data ? gameCard(tour, money) : `<article class="game-card" data-testid="game-tournaments"><h3>Tournaments</h3><p class="muted">${escape(tournament?.error || 'Reading your tournament history…')}</p></article>`}${bjCard}${gameCard(omahaResult(sources.omahaHands, label => PLO_STAKES.find(x => x.label === label)?.bigBlind), money)}${gameCard(slotsResult(sources.slots), money)}${CASINO_GAMES.map(g => gameCard(casinoResult(g, sources.casino), money)).join('')}</div>${slotsDetail}${periodSection(career, sources)}${snapshotsSection(career)}<p class="muted">Cash rate is big blinds won per 100 hands. Tournament rate is profit as a share of your average buy-in, per event. Blackjack rate is your result per round as a share of your opening bet, so +0.5 means a 0.5% edge. Slots and casino rates are the result per spin or round as a share of the stake, over recent play. Simulator results do not predict real-money play.</p></section>`;
   }
   /** Patch 67: the home screen hub. */
   function homeView(): string {
@@ -1970,6 +2029,16 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     for (const selector of ['#configure', '#open-setup']) on(selector, () => { refreshHostSettings(); view = 'host'; render(); });
     on('#back-live', () => { view = 'live'; render(); });
     on('#load-older-history',()=>{void controller.loadFullHistory().catch(cause=>{error=(cause as Error).message;render();});});
+    /* Phase 2: stats snapshots + reset point. Every action rewrites only the
+     * stats book; game records, archives and balances are never touched. */
+    on('#snapshot-save',()=>{try{statsBook=takeSnapshot(statsBook,careerStats(careerSources()),newHandId(),new Date().toISOString(),root.querySelector<HTMLInputElement>('#snapshot-name')?.value??'');saveStatsBook(statsBook);statsNotice='Snapshot saved. It will not change when you reset or keep playing.';}catch(cause){statsNotice=(cause as Error).message;}render();});
+    root.querySelectorAll<HTMLButtonElement>('[data-snapshot-compare]').forEach(b=>b.addEventListener('click',()=>{compareSnapshotId=compareSnapshotId===b.dataset.snapshotCompare?null:b.dataset.snapshotCompare!;render();},live));
+    root.querySelectorAll<HTMLButtonElement>('[data-snapshot-delete]').forEach(b=>b.addEventListener('click',()=>{statsBook=deleteSnapshot(statsBook,b.dataset.snapshotDelete!);saveStatsBook(statsBook);if(compareSnapshotId===b.dataset.snapshotDelete)compareSnapshotId=null;statsNotice='Snapshot deleted.';render();},live));
+    on('#stats-compare-close',()=>{compareSnapshotId=null;render();});
+    on('#stats-reset',()=>{statsResetConfirm=true;render();});
+    on('#stats-reset-cancel',()=>{statsResetConfirm=false;render();});
+    on('#stats-reset-confirm',()=>{const sources=careerSources();statsBook=resetCounters(statsBook,careerStats(sources),cursorsFromSources(sources),new Date().toISOString());saveStatsBook(statsBook);statsResetConfirm=false;statsNotice='Counters reset. Your career totals, records and snapshots are unchanged.';render();});
+    on('#stats-baseline-clear',()=>{statsBook=clearBaseline(statsBook);saveStatsBook(statsBook);statsNotice='Reset point cleared. Your current counters are your whole career again.';render();});
     on('#history-newer',()=>{historyPage=Math.max(0,historyPage-1);render();});
     on('#history-older',()=>{historyPage++;render();});
     for(const [selector,key] of [['#results-filter-session','sessionId'],['#results-filter-stake','stake']] as const)root.querySelector<HTMLSelectElement>(selector)?.addEventListener('change',event=>{resultsFilter={...resultsFilter,[key]:(event.target as HTMLSelectElement).value};filteredCache=null;configurationHistoryPage=0;if(!controller.historyLoaded&&(resultsFilter.sessionId!=='all'||resultsFilter.stake!=='all'))void controller.loadFullHistory().catch(cause=>{error=(cause as Error).message;render();});render();}, live);

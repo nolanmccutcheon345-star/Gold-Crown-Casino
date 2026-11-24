@@ -60,7 +60,7 @@ export function slotsResult(slots:SlotsState):GameResult {
  const recent=slots.recent.filter(r=>r.bet>0),per=recent.map(r=>100*(r.total-r.bet)/r.bet),i=interval(per);
  const payback=wagered>0?Math.round(1000*won/wagered)/10:null;
  return {game:'slots',label:'Slots',samples:spins,unit:'spins',net:won-wagered,rate:i,rateLabel:'% result per spin vs your bet (recent spins)',rateSamples:recent.length,
-  detail:spins?`${spins.toLocaleString()} spins all-time across ${machines.length} machine${machines.length===1?'':'s'} · ${payback}% paid back overall`:'',...judged(i,recent.length,30)};
+  detail:spins?`${spins.toLocaleString()} spins all-time across ${machines.length} machine${machines.length===1?'':'s'} · ${payback?.toFixed(1)}% paid back overall`:'',...judged(i,recent.length,30)};
 }
 const CASINO_LABELS:Record<CasinoGame,string>={roulette:'Roulette',craps:'Craps',baccarat:'Baccarat',races:'Horse racing'};
 /** Phase 2: roulette, craps, baccarat and the races. All-time totals come from the
@@ -71,5 +71,5 @@ export function casinoResult(game:CasinoGame,state:CasinoState):GameResult {
  const recent=state.recent.filter(x=>x.game===game&&x.wagered>0),per=recent.map(x=>100*(x.returned-x.wagered)/x.wagered),i=interval(per);
  const back=r.wagered>0?Math.round(1000*r.returned/r.wagered)/10:null;
  return {game,label:CASINO_LABELS[game],samples:r.rounds,unit:'rounds',net:r.returned-r.wagered,rate:i,rateLabel:'% result per round vs your stake (recent rounds)',rateSamples:recent.length,
-  detail:r.rounds?`${r.rounds.toLocaleString()} rounds all-time · ${back}% of stakes returned · biggest round ${money(r.biggest)}`:'',...judged(i,recent.length,60)};
+  detail:r.rounds?`${r.rounds.toLocaleString()} rounds all-time · ${back?.toFixed(1)}% of stakes returned · biggest round ${money(r.biggest)}`:'',...judged(i,recent.length,60)};
 }

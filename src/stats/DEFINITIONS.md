@@ -21,3 +21,30 @@ Rake paid is shown as **contributed attribution**, not a separate financial debi
 Position reports use physical order after BB with BTN, SB, BB and late-position labels CO/HJ/LJ, then UTG/UTG+n; heads-up button is BTN/SB. Group by stakes and exact seat-count/rules/rake configuration. Opponent private construction profiles never drive Hero statistics.
 
 Each percentage exposes numerator, denominator and descriptive 95% Wilson interval. Fewer than 100 opportunities is INSUFFICIENT_SAMPLE; zero denominator is null/NO_OPPORTUNITIES, never 0%. Within-session observations can be correlated, so intervals may be too narrow and are not a skill confidence guarantee. No invented EV, real-world income or external human calibration claim.
+
+## Career and snapshot statistics (Phase 2, 2026-11-23)
+
+Separate namespace from the cash definitions above. Career statistics are pure
+projections of records the games already keep; they never write game state.
+
+- Career totals per game: cash (completed saved hands), tournaments (saved event
+  results), blackjack (saved rounds with a bet), Omaha (saved hand records),
+  slots (the slots save's per-machine records), roulette/craps/baccarat/races
+  (the casino save's per-game records). A game with no record reports zero;
+  nothing is back-filled or estimated. Slots and casino saves keep no start
+  date, so "career since" is the earliest dated archive entry (cash hand start
+  or tournament finish) and is labelled as device evidence, not a promise.
+- Rates for slots and the casino games rest on the recent rounds those saves
+  keep (last 30 spins; last 60 rounds per casino game), as result per spin/round
+  against the stake, with the same 95% interval discipline as the other games.
+  Their totals are all-time even though their rates are recent-window.
+- Wagered is reported only where the game tracks stakes (tournaments,
+  blackjack, slots, casino games). Cash and Omaha buy-ins are table transfers,
+  not wagers, so no wagered figure is shown for them.
+- A snapshot is a named, dated copy of the career aggregates in a separate
+  versioned on-device record. Resetting the counters stores a baseline (the
+  aggregates plus archive cursors); period statistics are career minus
+  baseline. A reset never deletes archives, game records, snapshots or career
+  totals, and clearing the baseline restores the career as the current view.
+- Biggest-win records are career-only. A period biggest cannot be derived from
+  aggregates, so period views show none rather than inventing one.
