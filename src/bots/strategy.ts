@@ -95,13 +95,13 @@ export function analyzeDecision(observation:BotObservation,profile:BotProfile):D
  const rangeWeight=clamp((.42+.53*p.skill-ranges.uncertainty*.08)*sampleSupport*samplePrecision,0,.95);
  const localEquity=clamp((f.strength-.14+f.draw*.38)/(1+multi*.23));
  const mistakeScale=t.mistakeRate*(1-p.skill*.8);
- const attachment=f.made&&!f.absoluteNuts?Math.max(0,p.looseness-.35)*(.05+mistakeScale*.17):0;
+ const attachment=f.made&&!f.absoluteNuts?Math.max(0,p.looseness-.35)*(.03+mistakeScale*.12):0;
  const missedFit=p.archetype==='fit-or-fold'&&!f.made&&f.draw<.12?.08:0;
  const perceivedEquity=clamp(ranges.equity*rangeWeight+localEquity*(1-rangeWeight)+attachment-missedFit);
- const openRealization=clamp(.9+(c.inPosition?.07:-.06)+p.skill*.045+(f.nutDraw?.055:0)-multi*.035*t.multiwayCaution-f.vulnerability*.055,.55,1);
+ const openRealization=clamp(.85+(c.inPosition?.07:-.06)+p.skill*.045+(f.nutDraw?.055:0)-multi*.035*t.multiwayCaution-f.vulnerability*.055,.55,1);
  const realization=1-(1-openRealization)*futureExposureWeight;
  const streetsRemaining=o.street==='flop'?2:o.street==='turn'?1:0;
- const futureCost=futureExposureWeight*streetsRemaining*.018*Math.min(1,c.spr/4)*(c.inPosition?.55:1.2)*(f.draw>0?1:.55)*(1-p.skill*.35);
+ const futureCost=futureExposureWeight*streetsRemaining*.024*Math.min(1,c.spr/4)*(c.inPosition?.55:1.2)*(f.draw>0?1:.55)*(1-p.skill*.35);
  const impliedOdds=f.draw===0?0:futureExposureWeight*Math.min(.065,f.draw*(f.nutDraw?.16:.07)*(1-Math.exp(-c.spr/7))*(c.inPosition?1:.7));
  const reverseImpliedOdds=futureExposureWeight*(f.vulnerability*.035+(f.draw>0&&!f.nutDraw?f.wetness*.025:0))*Math.min(1,c.spr/5)*(1+multi*.2);
  const realizedEquity=clamp(perceivedEquity*realization+impliedOdds-futureCost-reverseImpliedOdds);
@@ -111,11 +111,23 @@ export function analyzeDecision(observation:BotObservation,profile:BotProfile):D
  // Smooth price sensitivity preserves cheap calls without treating hand class
  // alone as a license to pay every overbet. Exact nuts bypass this caution.
  const textureCaution=!f.absoluteNuts&&(fourSuitBoard||f.playsBoard)?Math.max(0,.82-f.strength)*c.betToPot/(1+c.betToPot)*(.6+.4*ranges.uncertainty):0;
- const threat=textureCaution+Math.min(.15,Math.max(0,c.betToPot-.6)*t.sizeSensitivity*.035)+Math.max(0,c.raisesThisStreet-1)*.025*p.skill;
- const riskPremium=.008+(1-t.riskTolerance)*.025+multi*t.multiwayCaution*.012+threat;
- const curiosity=terminal&&f.made&&!f.playsBoard?t.riverCuriosity*.055+memory.call:memory.call*.4;
- const clarity=15+p.skill*7-Math.min(4,ranges.equityStdError*20);
- let continueChance=clamp(sigmoid((realizedEquity-rakeAdjustedPrice-riskPremium+curiosity)*clarity),.005,.998);
+ const threat=textureCaution+Math.min(.15,Math.max(0,c.betToPot-.6)*t.sizeSensitivity*.035)+Math.max(0,c.raisesThisStreet-1)*.025*p.skill+(terminal&&call>0?.07:0);
+ // Phase 5 calibration (BOT-004): flop/turn continuation was too fold-heavy
+ // against the new range-bet c-bet volumes (fold-to-c-bet above band in every
+ // pool), so the flat premium eased; the terminal (river) threat above rose
+ // instead, keeping showdown rates from following the flop increase.
+ const riskPremium=.01+(1-t.riskTolerance)*.025+multi*t.multiwayCaution*.024+threat;
+ const curiosity=terminal&&f.made&&!f.playsBoard?t.riverCuriosity*.02+memory.call:memory.call*.4;
+ const clarity=11+p.skill*6-Math.min(4,ranges.equityStdError*20);
+ // Phase 5 calibration (BOT-004): defenders facing the preflop aggressor's
+ // first flop bet (a continuation bet) continue wider than the generic price
+ // model implies — the bettor's range is wide by construction, and real pools
+ // defend pairs and draws against it at rates the unadjusted model undercuts
+ // (fold-to-c-bet measured above band in every pool without this credit).
+ const preflopRaises=o.publicEvents.filter(e=>e.type==='action'&&e.street==='preflop'&&e.action?.type==='raise');
+ const facingCbet=o.street==='flop'&&call>0&&c.raisesThisStreet===1&&preflopRaises.length>0&&preflopRaises[preflopRaises.length-1].seatId===c.lastAggressor;
+ const cbetDefense=facingCbet?.048:0;
+ let continueChance=clamp(sigmoid((realizedEquity-rakeAdjustedPrice-riskPremium+curiosity+cbetDefense)*clarity),.005,.998);
  let drawContinue=0;
  if(!terminal&&f.draw>0){
   const remaining=52-o.ownCards.length-o.board.length,clean=f.cleanOuts*(1-Math.min(.35,multi*.055*t.multiwayCaution));
@@ -128,24 +140,38 @@ export function analyzeDecision(observation:BotObservation,profile:BotProfile):D
   continueChance=Math.max(continueChance,drawContinue);
  }
  const equity=clamp(ranges.equity*rangeWeight+localEquity*(1-rangeWeight));
- const air=1-sigmoid((equity-.44)*12),valueThreshold=.59+t.valueThreshold*.15+(call>0?.045:0)+multi*.035;
+ const air=1-sigmoid((equity-.44)*12),valueThreshold=.5+t.valueThreshold*.1+(call>0?.045:0)+multi*.035;
  const value=sigmoid((equity-valueThreshold)*14)*(f.made?1:.15);
  const foldEquity=clamp(ranges.foldEquity+memory.bluff);
  const pressureDenominator=1+multi*(.65+t.multiwayCaution);
  const blockerSelection=.7+f.blockerStrength*(.45+.35*p.skill);
  const missedSelection=terminal&&runout.missedDraw?.7+f.blockerStrength*.45:1;
- const bluff=clamp(t.bluffFrequency*p.aggression*(.08+foldEquity*.3)*air*blockerSelection*missedSelection/pressureDenominator*(call>0?.65:1),0,.4);
+ const bluff=clamp(t.bluffFrequency*p.aggression*(.16+foldEquity*.5)*air*blockerSelection*missedSelection/pressureDenominator*(call>0?.65:1),0,.45);
  const semiBluff=!terminal?f.draw*p.aggression*(.16+t.riskTolerance*.32)*(.5+foldEquity)/pressureDenominator:0;
  const thinValue=f.made&&!f.playsBoard&&equity>.5&&equity<.8?sigmoid((equity-.58)*15)*p.skill*.13*(call>0?.35:1):0;
  const protection=!terminal&&f.made&&equity>.45?f.vulnerability*(.08+.12*p.aggression)/(1+multi*.5):0;
  const trap=call===0?value*t.slowPlay*(1-f.wetness*.8)*.5*(c.spr>2?1:.35):0;
  const checkRaise=c.checkedEarlier&&call>0?(value*.2+semiBluff*.35+bluff*.45)*p.aggression:0;
  const advantage=clamp(.5+ranges.rangeAdvantage*.5);
- const cbet=line.continuationBet?(value*.055+air*.12*advantage*(1-f.wetness*.45))*p.aggression/pressureDenominator:0;
- const delayedCbet=c.delayedCbetOpportunity&&call===0?(value*.08+air*foldEquity*.08)*p.aggression/pressureDenominator:0;
+ // Phase 5 calibration (BOT-004): the preflop aggressor bets the flop with a
+ // substantial share of their whole range, not only made hands — a range-bet
+ // base scaled by aggression, texture and field size, plus value/air terms.
+ // Full-ring continuation betting is damped less by field size: at 7+ seats
+ // the generic multiway denominator suppressed c-bets below live-pool rates
+ // and let multiway pots check through to showdown too often.
+ const cbetDenominator=o.seats.length>6?1+multi*.35*(.65+t.multiwayCaution):pressureDenominator;
+ const cbet=line.continuationBet?clamp((.44+value*.25+air*.22*advantage*(1-f.wetness*.45))*(.45+.55*p.aggression)/cbetDenominator,0,.75):0;
+ // Checked-to probe: when every opponent who has acted this street checked,
+ // players bet a meaningful share of medium hands and air instead of taking a
+ // free card — the main source of folds in pots the aggressor did not c-bet.
+ const streetActs=o.publicEvents.filter(e=>e.type==='action'&&e.street===o.street),oppActs=streetActs.filter(e=>e.seatId!==o.actingSeat);
+ const checkedToMe=call===0&&c.raisesThisStreet===0&&oppActs.length>0&&oppActs.every(e=>e.action?.type==='check');
+ const fullRing=o.seats.length>6;
+ const probe=checkedToMe&&!line.continuationBet?clamp(((fullRing?.34:.16)+value*(fullRing?.24:.2)+air*(fullRing?.2:.17)*foldEquity)*(.45+.55*p.aggression)/(fullRing?1+multi*.35:pressureDenominator),0,.5):0;
+ const delayedCbet=c.delayedCbetOpportunity&&call===0?(value*(fullRing?.24:.2)+air*(fullRing?.2:.16)*foldEquity)*p.aggression/pressureDenominator:0;
  const scare=Number(runout.flushCompletion||runout.straightCompletion||runout.overcardArrival);
- const barrel=line.barrel?(value*.09+air*.11*(advantage*.45+scare*p.skill*.3+f.blockerStrength*.25)*foldEquity)*p.aggression/pressureDenominator:0;
- let raising=value*(.22+p.aggression*.67)+bluff+semiBluff+checkRaise+delayedCbet+cbet+barrel+thinValue+protection-trap;
+ const barrel=line.barrel?clamp((.26+value*.2+air*.22*(advantage*.45+scare*p.skill*.3+f.blockerStrength*.25)*foldEquity)*(.45+.55*p.aggression)/pressureDenominator,0,.7):0;
+ let raising=value*(.22+p.aggression*.67)+bluff+semiBluff+checkRaise+delayedCbet+cbet+barrel+probe+thinValue+protection-trap;
  if(c.raisesThisStreet>1)raising*=.55+equity*.4;
  if(c.spr<1.3&&f.made&&equity>.55)raising+=.1*t.riskTolerance;
  // Errors retain context: weak pairs overattach, aggressive personalities
@@ -183,5 +209,6 @@ export function analyzeDecision(observation:BotObservation,profile:BotProfile):D
  else{const fold=o.legal.fold?1-continueChance:0,remaining=1-fold;distribution={fold,check:0,call:remaining*(1-raising),raise:remaining*raising};}
  return {version:POLICY_VERSION,label:'SYNTHETIC / NOT HUMAN-VALIDATED',features:f,context:c,distribution,
   families:{value,bluff,semiBluff,trap,checkRaise,delayedCbet,cbet,barrel,protection,thinValue},sizing:postflopSizing(o,p,f,c,ranges,equity),memoryAdjustment:memory,ranges,
+  // (probe is folded into the distribution above; families keep their frozen shape.)
   postflop:{modelVersion:'public-range-postflop-1.6.0',showdownEquity:ranges.equity,perceivedEquity,realization,realizedEquity,potOdds:c.price,rakeAdjustedPrice,futureCost,impliedOdds,reverseImpliedOdds,rangeWeight,modelUncertainty:ranges.uncertainty,textureCaution,foldEquity,drawContinue,futureBettingClosed:futureClosed,remainingEffectiveExposure,futureExposureWeight,continuationBet:line.continuationBet,barrel:line.barrel,runout,mistakeAdjustment,drawWillingnessAdjustment,contestableAfterCall:pricing.contestableAfterCall,excludedChips:pricing.excludedChips,estimatedRake:pricing.estimatedRake,guaranteedChopCallEV}};
 }
