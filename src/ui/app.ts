@@ -28,7 +28,8 @@ import { slotsMarkup, freshSlotsUi } from '../slots/view';
 import { deepStats, heroExtras, pct as countPct, aggressionFactor, aggressionFrequency, type PlayerStats, type Count } from '../stats/deep';
 import { findTournamentLeaks, pushDrills, tournamentCoachHands } from '../stats/tournament-coach';
 import { buildDrills, answerDrill, observedStyle, type Drill, type DrillAnswer, type DrillChoice } from '../stats/drills';
-import { advise } from '../coach/coach';
+import { advise, type TournamentCoachContext } from '../coach/coach';
+import { mttStandings, playerAt } from '../tournament/multi-table';
 import { coachMarkup, coachReviewMarkup, freshCoachUi, saveCoachUi, reviewAction } from '../coach/view';
 import {cashGrudges,cashIdentity} from '../session/human-context';
 import {grudge} from '../bots/rivalry';
@@ -1405,9 +1406,26 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
       <div class="action-footnote" id="action-guidance">${allInCall ? `Calling puts your remaining ${money(hero.stack)} all-in. Confirm with Call all-in above.` : 'Size buttons only set the amount. Nothing is bet until you tap Bet or Raise.'}</div><details id="sizing-basis" class="sizing-basis"><summary>How pot sizes are calculated</summary><p id="pot-sizing-basis">${POT_SIZING_BASIS}</p></details></div></details></section>`;
   }
   /** Patch 105: the Live coach panel. It reads the same view Hero sees: Hero's cards, the board and the public action. */
+  /** Phase 3: the tournament payout context for the coach (players left, places paid, remaining prizes and
+   * stacks, Hero and the current bettor located in the stack list), so tournament advice can price prize
+   * equity (ICM) instead of chips alone. Public information only; undefined whenever it cannot be built. */
+  function coachTournamentContext(shown: HeroViewModel): TournamentCoachContext | undefined {
+    try {
+      const event = tournament?.data?.active; if (!event) return undefined;
+      const bettor = shown.seats.filter(s => s.id !== 0 && !s.folded).sort((a, b) => b.streetCommitted - a.streetCommitted)[0];
+      if (event.mtt) {
+        const base = mttStandings(event.mtt.state, true), ids = base.playerIds ?? [];
+        const table = event.mtt.state.tables.find(t => t.game.handId === event.game.handId);
+        const opponentPlayer = table && bettor ? playerAt(table, bettor.id) : undefined;
+        return { playersLeft: base.playersLeft, paidPlaces: base.paid, prizes: base.prizes, stacks: base.stacks, heroIndex: ids.indexOf(0) >= 0 ? ids.indexOf(0) : undefined, opponentIndex: opponentPlayer !== undefined && ids.indexOf(opponentPlayer) >= 0 ? ids.indexOf(opponentPlayer) : undefined };
+      }
+      const seatsIn = event.game.seats.filter(s => s.startingStack > 0), ids = seatsIn.map(s => s.id);
+      return { playersLeft: ids.length, paidPlaces: event.ladder.filter(p => p > 0).length, prizes: event.ladder.slice(0, ids.length), stacks: seatsIn.map(s => s.startingStack), heroIndex: ids.indexOf(0) >= 0 ? ids.indexOf(0) : undefined, opponentIndex: bettor && ids.indexOf(bettor.id) >= 0 ? ids.indexOf(bettor.id) : undefined };
+    } catch { return undefined; }
+  }
   function coachPanel(shown: HeroViewModel, turn: boolean, mode: 'cash' | 'tournament', format: (n: number) => string): string {
     const hero = shown.seats.find(s => s.id === 0);
-    const advice = coachUi.on && turn ? advise(shown, { mode, money: format, styleOf: mode === 'cash' ? coachStyle : undefined }) : null;
+    const advice = coachUi.on && turn ? advise(shown, { mode, money: format, styleOf: mode === 'cash' ? coachStyle : undefined, tournament: mode === 'tournament' ? coachTournamentContext(shown) : undefined }) : null;
     if (advice) coachUi.last = advice;
     return coachMarkup(coachUi, advice, { waiting: !turn && !!hero && !hero.folded && shown.street !== 'complete', tournament: mode === 'tournament' });
   }
