@@ -35,8 +35,8 @@ describe('all-in sweats',()=>{
 });
 describe('hellos and goodbyes',()=>{
   it('reads the table news and says goodbye or welcome by name, or remarks on a rebuy',()=>{
-    let bye=0,hi=0,rebuy=0;
-    for(let k=0;k<300;k++){const g=table(`f${k}`);const l=farewellLine(g,['Pete Novak busts and leaves. Rosa Lin sits down.'],who(g));if(l){expect(l.seatId).not.toBe(2);if(/Pete/.test(l.text))bye++;if(/Rosa/.test(l.text))hi++;expect(l.text).not.toMatch(/\{[nm]\}/);}
+    let bye=0,rebuy=0;
+    for(let k=0;k<300;k++){const g=table(`f${k}`);const l=farewellLine(g,['Pete Novak busts and leaves. Rosa Lin sits down.'],who(g));if(l){expect(l.seatId).not.toBe(2);if(/Pete/.test(l.text))bye++;expect(l.text).not.toMatch(/\{[nm]\}/);}
       if(farewellLine(g,['Big Mike rebuys.'],who(g))?.seatId!==undefined)rebuy++;expect(farewellLine(g,[],who(g))).toBeNull();}
     expect(bye).toBeGreaterThan(40);expect(rebuy).toBeGreaterThan(100);
   });

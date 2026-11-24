@@ -9,7 +9,7 @@ describe('tournament chip stack parity',()=>{
   expect(src).toContain('chipStackMarkup(seat.streetCommitted,shown.profile.bigBlind)+chips(seat.streetCommitted)');
   expect(src).toContain("chipStackMarkup(award,shown.profile.bigBlind)+'+'+chips(award)");
   expect(src).toContain("shown.pot,shown.profile.bigBlind,' pot-chips'");
-  expect(src).not.toContain('for=\"table-motion\"');
+  expect(src).not.toContain('for="table-motion"');
   expect(chipStackMarkup(500,100)).toContain('aria-hidden="true"');
  });
 });

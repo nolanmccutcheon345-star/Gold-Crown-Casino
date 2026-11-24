@@ -10,7 +10,7 @@ import {startHand,applyCommand,projectView} from '../../src/core/engine';
  *   3. heads-up, a bet with nothing won the pot more often than its price needs, on more boards than the coach bet;
  *   4. a re-raise over callers was too small.
  * Bigger opening raises were also tried and did not gain, so the opening sizes stay as they were. Display only. */
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const {advise,assumed,POOL,MEASURED}=await import('../../src/coach/coach');
 const {LESSONS}=await import('../../src/coach/lessons');
 const {coachMarkup,freshCoachUi}=await import('../../src/coach/view');

@@ -7,9 +7,9 @@ import {startHand,applyCommand,projectView,legalActions} from '../../src/core/en
  * (Ranges, Objective, Responses, Alternatives, Future), with every number labelled exact, estimate, pool or rule
  * (Patch 106 adds a fifth label, measured: see tests/ux108).
  * Display only; it reads only Hero's cards and public information. */
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const {ORDER,percentile,inTop,openWidth,topHands,shoveWidth,valueThreeBet,bluffThreeBet}=await import('../../src/coach/ranges');
-const {advise,readHand,texture,beatsShare,equityVsTop,equityVsHands,POOL}=await import('../../src/coach/coach');
+const {advise,readHand,texture,beatsShare,equityVsTop,equityVsHands}=await import('../../src/coach/coach');
 const {LESSONS,NOTECARDS,OVERLAYS}=await import('../../src/coach/lessons');
 const {coachMarkup,freshCoachUi,reviewAction,saveCoachUi,COACH_KEY}=await import('../../src/coach/view');
 

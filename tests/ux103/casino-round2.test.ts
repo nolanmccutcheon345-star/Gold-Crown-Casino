@@ -4,9 +4,9 @@ import {readFileSync} from 'node:fs';
 /* Patch 101: backups for slots and the casino, La Partage, finals, favourites, auto-spin, hop bets, the Fire Bet,
  * shooters, horn and press, the derived roads, auto-deal, scratches, the Daily Double, the race day and replays. */
 let queue:(()=>void)[]=[];const intervals=new Map<number,()=>void>();let ids=0;
-(globalThis as any).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void)=>{const id=++ids;intervals.set(id,f);return id;}};
-(globalThis as any).clearInterval=(id:number)=>{intervals.delete(id);};
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+(globalThis as Record<string, unknown>).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void)=>{const id=++ids;intervals.set(id,f);return id;}};
+(globalThis as Record<string, unknown>).clearInterval=(id:number)=>{intervals.delete(id);};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const {ORDER,resolve,finals,outside}=await import('../../src/casino/roulette');
 const {freshTable,addBet,roll,cannotAdd,checkTable,POINTS}=await import('../../src/casino/craps');
 const {derivedRoad,ask}=await import('../../src/casino/baccarat');
@@ -29,7 +29,7 @@ describe('backups',()=>{
     const ok=makeBackup(cash,null,null);ok.slots=freshSlots();ok.casino={...freshCasino(),balance:123456,favs:[{name:'x',wheel:'european',bets:[{kind:'red',numbers:outside('red'),amount:500}]}]};
     const back=await readBackup(JSON.stringify(ok));expect(back.casino!.balance).toBe(123456);expect(back.casino!.favs!.length).toBe(1);expect(back.slots).toBeTruthy();
     const old=makeBackup(cash,null,null);const o=await readBackup(JSON.stringify(old));expect(o.casino).toBeUndefined();expect(o.slots).toBeUndefined();
-    const bad=makeBackup(cash,null,null);(bad as any).casino={balance:-1};await expect(readBackup(JSON.stringify(bad))).rejects.toThrow(/casino part/);
+    const bad=makeBackup(cash,null,null);Object.assign(bad,{casino:{balance:-1}});await expect(readBackup(JSON.stringify(bad))).rejects.toThrow(/casino part/);
     const app=readFileSync('src/ui/app.ts','utf8');expect(app).toContain('backup.casino=structuredClone(casino.state)');expect(app).toContain('casino.restore(backup.casino)');
   });
 });
@@ -76,7 +76,7 @@ describe('craps',()=>{
     expect(checkTable({...freshTable(),hop:undefined,fire:undefined,firePoints:undefined,newShooter:undefined})).toEqual(freshTable());void POINTS;
   });
   it('the dice pass around the table; horn and press place the right chips',()=>{
-    for(let k=0;k<10;k++){const p=player(k);p.setChip(500);p.crapsSpot('pass');let seats=new Set<string>([p.shooterName()]);
+    for(let k=0;k<10;k++){const p=player(k);p.setChip(500);p.crapsSpot('pass');const seats=new Set<string>([p.shooterName()]);
       for(let i=0;i<120;i++){if(!p.craps.point&&!p.craps.pass)p.crapsSpot('pass');p.rollCraps();flush();seats.add(p.shooterName());}
       expect(seats.size).toBeGreaterThan(1);expect(casinoMarkup(p,'craps')).toContain('data-testid="shooter"');}
     const p=player(2);p.setChip(500);const b0=p.state.balance;p.placeHorn();expect(p.craps.aces+p.craps.aceDeuce+p.craps.yo+p.craps.twelve).toBe(2000);expect(p.state.balance).toBe(b0-2000);

@@ -7,9 +7,9 @@ import {freshSlotsUi,slotsMarkup} from '../../src/slots/view';
 
 /* Patch 93: the double-up, measured machine facts, the floor and reel life. */
 let queue:(()=>void)[]=[];
-(globalThis as any).window={setTimeout:(f:()=>void)=>{queue.push(f);return queue.length;},clearTimeout:()=>{},setInterval:()=>0};
-(globalThis as any).clearInterval=()=>{};
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+(globalThis as Record<string, unknown>).window={setTimeout:(f:()=>void)=>{queue.push(f);return queue.length;},clearTimeout:()=>{},setInterval:()=>0};
+(globalThis as Record<string, unknown>).clearInterval=()=>{};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const rng=(seed:number)=>{let s=seed>>>0;return (n:number)=>{s=(Math.imul(s^(s>>>15),0x2c1b3c6d)+0x6d2b79f5)>>>0;return Math.floor(s/4294967296*n);};};
 describe('double-up',()=>{
   it('is even money: colour wins half the time at 2×, suit a quarter at 4×',()=>{
@@ -27,7 +27,7 @@ describe('double-up',()=>{
     for(let k=0;k<200;k++){queue=[];const ui=freshSlotsUi(),p=new SlotsPlayer(freshSlots(),ui,deps);p.open('lucky-sevens');p.spin();
       for(let i=0;i<300&&ui.phase!=='done';i++){if(ui.overlay)p.skip();else{const f=queue.shift();f?.();}}
       if(!p.canGamble)continue;offered++;const before=p.state.balance;p.openGamble();expect(p.canGamble).toBe(false);
-      let stake=ui.gamble!.stake;p.choose('black');const g=ui.gamble!;
+      const stake=ui.gamble!.stake;p.choose('black');const g=ui.gamble!;
       if(g.done==='lost')expect(p.state.balance).toBe(before-stake);else expect(p.state.balance).toBe(before+stake);
       p.collect();expect(ui.gamble).toBeNull();p.openGamble();expect(ui.gamble).toBeNull();}
     expect(offered).toBeGreaterThan(20);

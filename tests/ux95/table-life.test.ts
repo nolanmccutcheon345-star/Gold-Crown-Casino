@@ -1,6 +1,6 @@
 import {describe,it,expect} from 'vitest';
 import type {GameState,RuleProfile,Action} from '../../src/contracts';
-import {startHand,applyCommand} from '../../src/core/engine';
+import {startHand} from '../../src/core/engine';
 import {regularProfile} from '../../src/bots/regulars';
 import {CALM} from '../../src/bots/human';
 import {thinkPlan,difficultyOf,pacedMs,READ_HOLD_MS,MIN_THINK_MS,MAX_THINK_MS} from '../../src/ui/think-time';
@@ -12,7 +12,6 @@ import {readFileSync} from 'node:fs';
 
 /* Patch 94: snap the easy decisions, tank the hard ones, hold for tells; more table talk. Display only. */
 const tRules:RuleProfile={id:'human',version:'1',mode:'tournament',smallBlind:100,bigBlind:200,chipUnit:1,rake:{basisPoints:0,cap:0,noFlopNoDrop:true},shortRaiseReopens:'cumulative',oddChipOrder:'clockwise-from-button',tournament:{bigBlindAnte:200,antePriority:'blind-first',buttonRule:'dead-button'}};
-const act=(s:GameState,action:Action)=>applyCommand(s,{handId:s.handId,revision:s.revision,seatId:s.actor!,decisionId:`d:${s.revision}`,action});
 const table=(id='h')=>startHand({handId:id,button:0,profile:tRules,seats:Array.from({length:6},(_,seat)=>({id:seat,name:['Hero','Walt Dobbs','Rosa Lin','Big Mike','Dee Carter','Sam Ortiz'][seat],stack:8000}))});
 const prof=regularProfile('walt','mid');
 const seq=(seed:number)=>{let s=seed>>>0;return ()=>{s=(Math.imul(s^(s>>>15),0x2c1b3c6d)+0x6d2b79f5)>>>0;return s/4294967296;};};
@@ -20,7 +19,7 @@ const median=(xs:number[])=>{const a=[...xs].sort((x,y)=>x-y);return a[a.length>
 
 describe('think time',()=>{
   it('snaps easy preflop folds in under ~0.6 s',()=>{
-    let folds:number[]=[];
+    const folds:number[]=[];
     for(let k=0;k<60;k++){const g=table(`f${k}`);if(liveTells(g,prof,{type:'fold'})?.cue)continue;const p=thinkPlan(g,{type:'fold'},prof,CALM,seq(k));expect(p.snap).toBe(true);folds.push(p.ms);}
     expect(folds.length).toBeGreaterThan(20);expect(Math.max(...folds)).toBeLessThanOrEqual(650);expect(Math.min(...folds)).toBeGreaterThanOrEqual(MIN_THINK_MS);
   });

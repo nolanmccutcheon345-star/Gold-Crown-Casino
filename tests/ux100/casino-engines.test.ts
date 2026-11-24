@@ -21,7 +21,6 @@ describe('casino balance',()=>{
   });
 });
 describe('roulette',()=>{
-  const wheels:Wheel[]=['european','american'];
   it('wheels hold every pocket once, in the real order',()=>{
     expect([...ORDER.european].sort((a,b)=>a-b)).toEqual(Array.from({length:37},(_,i)=>i));
     expect([...ORDER.american].sort((a,b)=>a-b)).toEqual(Array.from({length:38},(_,i)=>i));

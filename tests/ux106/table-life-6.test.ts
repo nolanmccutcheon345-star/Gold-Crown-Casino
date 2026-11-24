@@ -1,13 +1,14 @@
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
+import type {TalkHand,TalkRound} from '../../src/blackjack/table-talk';
 
 /* Patch 104: life at the casino tables (players notice you, answer each other, do things, come and go, and answer
  * what you say), twenty more poker conversations, more for players to do, blackjack reactions, and the slot
  * neighbour's small talk. */
 let queue:(()=>void)[]=[];const intervals=new Map<number,()=>void>();let ids=0;
-(globalThis as any).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void)=>{const id=++ids;intervals.set(id,f);return id;}};
-(globalThis as any).clearInterval=(id:number)=>{intervals.delete(id);};
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+(globalThis as Record<string, unknown>).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void)=>{const id=++ids;intervals.set(id,f);return id;}};
+(globalThis as Record<string, unknown>).clearInterval=(id:number)=>{intervals.delete(id);};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const {CasinoPlayer,RACE_FRAMES}=await import('../../src/casino/play');
 const {casinoMarkup}=await import('../../src/casino/view');
 const {turnover,patronsFor,chatAnswers,CHAT}=await import('../../src/casino/patrons');
@@ -111,8 +112,8 @@ describe('poker',()=>{
 });
 
 describe('blackjack and slots',()=>{
- const seat=(n:number,hands:any[])=>({seat:n,name:['Ann','Bo','Cy'][n-1],style:null,hands});
- const run=(r:(i:number)=>any,re:RegExp)=>{for(let i=0;i<400;i++){const out=roundChatter(r(i),[]);if(out.some(l=>re.test(l.text)))return true;}return false;};
+ const seat=(n:number,hands:TalkHand[])=>({seat:n,name:['Ann','Bo','Cy'][n-1],style:null,hands});
+ const run=(r:(i:number)=>TalkRound,re:RegExp)=>{for(let i=0;i<400;i++){const out=roundChatter(r(i),[]);if(out.some(l=>re.test(l.text)))return true;}return false;};
  it('reacts to your surrender, split aces, a five-card winner and your insurance; a second player echoes a cheer',()=>{
   const others=[seat(1,[{cards:['Ts','8d'],total:18,status:'stood',result:'win'}]),seat(2,[{cards:['9s','9d'],total:18,status:'stood',result:'win'}])];
   expect(run(i=>({id:`r${i}`,dealer:['Ts','7d'],hero:[{cards:['Ts','6d'],total:16,status:'surrendered',result:'surrender'}],seats:others}),/Surrender|Half back|Live to fight|Saved half|ugly/)).toBe(true);

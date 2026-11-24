@@ -7,9 +7,9 @@ import {freshSlotsUi,slotsMarkup} from '../../src/slots/view';
 
 /* Patch 92: slot gameplay and presentation. */
 let queue:(()=>void)[]=[];
-(globalThis as any).window={setTimeout:(f:()=>void)=>{queue.push(f);return queue.length;},clearTimeout:()=>{},setInterval:()=>0};
-(globalThis as any).clearInterval=()=>{};
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+(globalThis as Record<string, unknown>).window={setTimeout:(f:()=>void)=>{queue.push(f);return queue.length;},clearTimeout:()=>{},setInterval:()=>0};
+(globalThis as Record<string, unknown>).clearInterval=()=>{};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const drain=(n=400)=>{for(let i=0;i<n&&queue.length;i++){const f=queue.shift()!;f();}};
 
 describe('anticipation',()=>{

@@ -5,9 +5,9 @@ import {readFileSync} from 'node:fs';
  * lay bets, Big 6/8, C&E and World, the dice chart, a real baccarat shoe with burn and cut cards, Lucky 6, across
  * the board, paddock notes and quick races. */
 let queue:(()=>void)[]=[];const intervals=new Map<number,()=>void>();let ids=0,lastTick=0;
-(globalThis as any).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void,ms:number)=>{const id=++ids;lastTick=ms;intervals.set(id,f);return id;}};
-(globalThis as any).clearInterval=(id:number)=>{intervals.delete(id);};
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+(globalThis as Record<string, unknown>).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void,ms:number)=>{const id=++ids;lastTick=ms;intervals.set(id,f);return id;}};
+(globalThis as Record<string, unknown>).clearInterval=(id:number)=>{intervals.delete(id);};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const {freshTable,addBet,roll,cannotAdd,checkTable,maxOdds,maxLay,POINTS}=await import('../../src/casino/craps');
 const {deal,payout,newShoe,dealShoe,checkShoe,cardsLeft,pointOf,CUT_FROM_END}=await import('../../src/casino/baccarat');
 const {newRace,odds,paddockNote}=await import('../../src/casino/races');
@@ -96,8 +96,8 @@ describe('baccarat',()=>{
   const p=player(11);p.setChip(100);p.placeBaccarat('lucky6');p.dealBaccarat();flush();
   const first=p.shoe();expect(first.number).toBe(1);
   const q=player(99,true);expect(q.shoe().next).toBe(first.next);expect(q.shoe().cards.join()).toBe(first.cards.join());
-  let shuffledAt=-1,hands=1,roadBefore=0;
-  for(let i=0;i<200&&shuffledAt<0;i++){p.placeBaccarat('player');roadBefore=(p.state.boards!.baccarat as unknown[]).length;p.dealBaccarat();flush();hands++;if(p.ui.baccarat.shuffled)shuffledAt=i;}
+  let shuffledAt=-1,roadBefore=0;
+  for(let i=0;i<200&&shuffledAt<0;i++){p.placeBaccarat('player');roadBefore=(p.state.boards!.baccarat as unknown[]).length;p.dealBaccarat();flush();if(p.ui.baccarat.shuffled)shuffledAt=i;}
   expect(shuffledAt).toBeGreaterThan(0);expect(p.shoe().number).toBe(2);expect(roadBefore).toBeGreaterThan(40);expect((p.state.boards!.baccarat as unknown[]).length).toBe(1);
   const m=casinoMarkup(p,'baccarat');expect(m).toContain('Shoe 2');expect(m).toContain('New shoe. Burn card');expect(m).toContain('data-bspot="lucky6"');
   p.shuffleShoe();expect(p.shoe().number).toBe(3);expect((p.state.boards!.baccarat as unknown[]).length).toBe(0);

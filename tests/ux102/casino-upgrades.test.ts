@@ -4,9 +4,9 @@ import {readFileSync} from 'node:fs';
 /* Patch 100: racetrack bets, come odds and buy bets, EZ Baccarat and the Big Road, quinella and trifecta, other
  * players at the tables. */
 let queue:(()=>void)[]=[];const intervals=new Map<number,()=>void>();let ids=0;
-(globalThis as any).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void)=>{const id=++ids;intervals.set(id,f);return id;}};
-(globalThis as any).clearInterval=(id:number)=>{intervals.delete(id);};
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+(globalThis as Record<string, unknown>).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void)=>{const id=++ids;intervals.set(id,f);return id;}};
+(globalThis as Record<string, unknown>).clearInterval=(id:number)=>{intervals.delete(id);};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const {ORDER,resolve,validBet,announcedBets,neighbours,ANNOUNCED,stats}=await import('../../src/casino/roulette');
 const {freshTable,addBet,roll,cannotAdd,checkTable}=await import('../../src/casino/craps');
 const {bankerDraws,deal,payout,bigRoad,isDragon7,isPanda8}=await import('../../src/casino/baccarat');

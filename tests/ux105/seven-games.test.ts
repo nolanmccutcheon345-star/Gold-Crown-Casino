@@ -1,13 +1,14 @@
 import {describe,it,expect} from 'vitest';
 import {readFileSync} from 'node:fs';
+import type {BlackjackView} from '../../src/blackjack/view-model';
 
 /* Patch 103: the odds helper (poker), dealer odds and the strategy card (blackjack), favourites and sorting (slots),
  * named roulette bets, craps bets working on the come-out, the Dragon Bonus (baccarat), and the Superfecta and box
  * bets (races). */
 let queue:(()=>void)[]=[];
-(globalThis as any).window={setTimeout:(f:()=>void)=>{queue.push(f);return queue.length;},clearTimeout:()=>{},setInterval:()=>0};
-(globalThis as any).clearInterval=()=>{};
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+(globalThis as Record<string, unknown>).window={setTimeout:(f:()=>void)=>{queue.push(f);return queue.length;},clearTimeout:()=>{},setInterval:()=>0};
+(globalThis as Record<string, unknown>).clearInterval=()=>{};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const {oddsHelp,oddsHelperMarkup,boardCategory}=await import('../../src/ui/odds-helper');
 const {dealerOdds}=await import('../../src/blackjack/dealer-odds');
 const {handAids}=await import('../../src/blackjack/screens');
@@ -19,7 +20,6 @@ const {newRace,chance,odds,settleBet,boxBets,TAKE}=await import('../../src/casin
 const {CasinoPlayer}=await import('../../src/casino/play');
 const {casinoMarkup}=await import('../../src/casino/view');
 const seq=(seed:number)=>{let s=seed>>>0;return (n:number)=>{s=(Math.imul(s^(s>>>15),0x2c1b3c6d)+0x6d2b79f5)>>>0;s^=s>>>13;return Math.floor((s>>>0)/4294967296*n);};};
-const flush=()=>{for(let i=0;i<400&&queue.length;i++)queue.shift()!();};
 const player=(seed=1)=>{store.clear();queue=[];return new CasinoPlayer({render(){},sound(){},active:()=>true},seq(seed));};
 const DICE=Array.from({length:36},(_,i)=>[1+Math.floor(i/6),1+i%6] as [number,number]);
 
@@ -60,11 +60,11 @@ describe('blackjack: dealer odds and the strategy card',()=>{
  });
  it('shows the bust line on your turn and, with the coach on, your strategy row with the dealer card marked',()=>{
   const table=BLACKJACK_TABLES.find(t=>t.variant==='classic')!;
-  const view:any={phase:'player',table,dealer:{cards:['6s',null],total:6,soft:false},hands:[{cards:['Ts','6h'],total:16,soft:false}],activeHand:0,legal:{actions:['hit','stand','double']}};
+  const view={phase:'player',table,dealer:{cards:['6s',null],total:6,soft:false},hands:[{cards:['Ts','6h'],total:16,soft:false}],activeHand:0,legal:{actions:['hit','stand','double']}} as unknown as BlackjackView;
   const off=handAids(view,false);expect(off).toContain('data-testid="dealer-odds"');expect(off).toContain('Dealer shows a 6');expect(off).not.toContain('strategy-card');
   const on=handAids(view,true);expect(on).toContain('data-testid="strategy-card"');expect(on).toMatch(/Hard 16<\/b> against a 6: <b>Stand<\/b>/);expect((on.match(/class="bj-sc-[a-z]+ here"/g)??[]).length).toBe(1);
-  const pair:any={...view,dealer:{cards:['8d',null]},hands:[{cards:['8s','8h'],total:16,soft:false}],legal:{actions:['hit','stand','double','split']}};expect(handAids(pair,true)).toMatch(/8,8<\/b> against a 8: <b>Split/);
-  const three:any={...view,dealer:{cards:['5d',null]},hands:[{cards:['3s','4h','4d'],total:11,soft:false}],legal:{actions:['hit','stand']}};expect(handAids(three,true)).toMatch(/Hit<\/b> <small>\(double is not allowed now\)/);
+  const pair={...view,dealer:{cards:['8d',null]},hands:[{cards:['8s','8h'],total:16,soft:false}],legal:{actions:['hit','stand','double','split']}} as unknown as BlackjackView;expect(handAids(pair,true)).toMatch(/8,8<\/b> against a 8: <b>Split/);
+  const three={...view,dealer:{cards:['5d',null]},hands:[{cards:['3s','4h','4d'],total:11,soft:false}],legal:{actions:['hit','stand']}} as unknown as BlackjackView;expect(handAids(three,true)).toMatch(/Hit<\/b> <small>\(double is not allowed now\)/);
   const free=BLACKJACK_TABLES.find(t=>t.variant==='free-bet');if(free)expect(handAids({...view,table:free},true)).toBe('');
   expect(handAids({...view,phase:'settled'},true)).toBe('');
  });
@@ -72,7 +72,7 @@ describe('blackjack: dealer odds and the strategy card',()=>{
 
 describe('slots: favourites and sorting',()=>{
  it('stars machines, keeps them on this device, and sorts the floor',async()=>{
-  const {MACHINES}=await import('../../src/slots/machines');const {sortMachines,freshSlotsUi,slotsMarkup}=await import('../../src/slots/view') as any;
+  const {MACHINES}=await import('../../src/slots/machines');const {sortMachines,freshSlotsUi,slotsMarkup}=await import('../../src/slots/view');
   const {SlotsPlayer}=await import('../../src/slots/play');const {freshSlots}=await import('../../src/slots/state');
   store.clear();const ui=freshSlotsUi(),p=new SlotsPlayer(freshSlots(),ui,{render(){},sound(){},active:()=>true,motion:()=>false});
   p.toggleFav(MACHINES[2].id);p.toggleFav(MACHINES[0].id);p.toggleFav('no-such');expect(ui.favs).toEqual([MACHINES[2].id,MACHINES[0].id]);p.toggleFav(MACHINES[2].id);expect(ui.favs).toEqual([MACHINES[0].id]);
@@ -81,7 +81,7 @@ describe('slots: favourites and sorting',()=>{
   const byPay=sortMachines(MACHINES,'payback',freshSlots());for(let i=1;i<byPay.length;i++)expect(byPay[i-1].rtp).toBeGreaterThanOrEqual(byPay[i].rtp);
   const calm=sortMachines(MACHINES,'calm',freshSlots());for(let i=1;i<calm.length;i++)expect(calm[i-1].stats.swing).toBeLessThanOrEqual(calm[i].stats.swing);
   const s={...freshSlots(),machines:{[MACHINES[3].id]:{spins:9,wagered:1,won:0,biggest:0,features:0}}};expect(sortMachines(MACHINES,'played',s)[0].id).toBe(MACHINES[3].id);
-  expect(sortMachines(MACHINES,'floor',s).map((m:any)=>m.id)).toEqual(MACHINES.map(m=>m.id));
+  expect(sortMachines(MACHINES,'floor',s).map((m)=>m.id)).toEqual(MACHINES.map(m=>m.id));
   if(slotsMarkup){ui.floor='fav';const m=slotsMarkup(freshSlots(),ui);expect(m).toContain('data-slot-fav');expect(m).toContain('★ Favourites (1)');}
  });
 });
@@ -103,9 +103,9 @@ describe('craps: working on the come-out',()=>{
   const w={...base,working:true};expect(roll(w,[2,4]).settled.find(x=>x.spot==='place6')).toMatchObject({back:1300,stays:true});
   expect(roll(w,[4,4]).settled.find(x=>x.spot==='hard8')).toMatchObject({back:5000});expect(roll(w,[2,2]).settled.find(x=>x.spot==='buy4')!.back).toBe(2000+4000-100);
   const seven=roll(w,[3,4]);expect(seven.settled.filter(x=>x.back===0).map(x=>x.spot).sort()).toEqual(['buy4','hard8','place6']);
-  const come={...freshTable(),point:null,comeOn:{6:500},comeOdds:{6:500}};expect(roll(come as any,[3,4]).settled.find(x=>x.spot==='comeOdds6')!.back).toBe(500);
-  expect(roll({...come,working:true} as any,[3,4]).settled.find(x=>x.spot==='comeOdds6')!.back).toBe(0);
-  expect(roll({...come,working:true} as any,[3,3]).settled.find(x=>x.spot==='comeOdds6')!.back).toBe(1100);
+  const come={...freshTable(),point:null,comeOn:{6:500},comeOdds:{6:500}};expect(roll(come,[3,4]).settled.find(x=>x.spot==='comeOdds6')!.back).toBe(500);
+  expect(roll({...come,working:true},[3,4]).settled.find(x=>x.spot==='comeOdds6')!.back).toBe(0);
+  expect(roll({...come,working:true},[3,3]).settled.find(x=>x.spot==='comeOdds6')!.back).toBe(1100);
   const old=JSON.parse(JSON.stringify(freshTable()));delete old.working;expect(checkTable(old).working).toBe(false);expect(()=>checkTable({...freshTable(),working:'yes'})).toThrow();
   const p=player(4);p.setWorking(true);expect(p.craps.working).toBe(true);expect(casinoMarkup(p,'craps')).toContain('id="craps-working" checked');
  });

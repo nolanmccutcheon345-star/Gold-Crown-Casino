@@ -3,9 +3,9 @@ import {readFileSync} from 'node:fs';
 
 /* Patch 99: the casino tables' controller and screens. */
 let queue:(()=>void)[]=[];const intervals=new Map<number,()=>void>();let ids=0;
-(globalThis as any).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void)=>{const id=++ids;intervals.set(id,f);return id;}};
-(globalThis as any).clearInterval=(id:number)=>{intervals.delete(id);};
-const store=new Map<string,string>();(globalThis as any).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
+(globalThis as Record<string, unknown>).window={setTimeout:(f:()=>void)=>{queue.push(f);return ++ids;},clearTimeout:()=>{},setInterval:(f:()=>void)=>{const id=++ids;intervals.set(id,f);return id;}};
+(globalThis as Record<string, unknown>).clearInterval=(id:number)=>{intervals.delete(id);};
+const store=new Map<string,string>();(globalThis as Record<string, unknown>).localStorage={getItem:(k:string)=>store.get(k)??null,setItem:(k:string,v:string)=>store.set(k,v)};
 const {CasinoPlayer,RACE_FRAMES}=await import('../../src/casino/play');
 const {casinoMarkup}=await import('../../src/casino/view');
 const {CASINO_KEY,CASINO_START}=await import('../../src/casino/wallet');

@@ -24,7 +24,7 @@ describe('one face hook for every game',()=>{
     const html=otherSeatsMarkup({actingSeat:null,pace:'casino',seats:[
       {seat:1,kind:'player',name:'Dot',style:null,hands:[],bet:500,lastAction:null},
       {seat:2,kind:'hero',name:'You',style:null,hands:[],bet:500,lastAction:null},
-      {seat:3,kind:'empty',name:'',style:null,hands:[],bet:0,lastAction:null}] as any});
+      {seat:3,kind:'empty',name:'',style:null,hands:[],bet:0,lastAction:null}]});
     expect(html).toContain('data-face="Dot"');expect(html).toContain('data-face="HERO"');expect(seen[0]).toEqual(['Dot']);
     setTableFaces(null);
   });

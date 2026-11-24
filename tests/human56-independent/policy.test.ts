@@ -6,7 +6,7 @@ import {seededHand,act} from '../verification/helpers';
 import {seedStream} from '../../src/bots/profiles';
 import {regularProfile} from '../../src/bots/regulars';
 import {emptyPlayerRead} from '../../src/bots/table-reads';
-import {chooseTournamentDecision,TOURNAMENT_POLICY_V29,TOURNAMENT_POLICY_V210,TOURNAMENT_POLICY_V215} from '../../src/tournament/bot-policy';
+import {chooseTournamentDecision,TOURNAMENT_POLICY_V29,TOURNAMENT_POLICY_V210} from '../../src/tournament/bot-policy';
 const rules:RuleProfile={id:'independent55',version:'1',mode:'tournament',smallBlind:100,bigBlind:200,chipUnit:1,rake:{basisPoints:0,cap:0,noFlopNoDrop:true},shortRaiseReopens:'cumulative',oddChipOrder:'clockwise-from-button',tournament:{bigBlindAnte:200,antePriority:'blind-first',buttonRule:'dead-button'}};
 function reads(){const r=emptyPlayerRead();r.hands=48;r.vpip={count:32,chances:48};r.pfr={count:25,chances:48};r.limp={count:7,chances:48};r.reads.hands=48;r.reads.foldToCbet={count:14,chances:24};return {0:r};}
 const standings={playersLeft:18,paid:3,stacks:Array(18).fill(10000)};

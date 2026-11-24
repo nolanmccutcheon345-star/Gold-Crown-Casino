@@ -5,11 +5,10 @@ import {DEFAULT_SETTINGS,SessionController} from '../../src/session/controller';
 import {startHand,applyCommand,observeBot,legalActions} from '../../src/core/engine';
 import {seedStream,createProfile} from '../../src/bots/profiles';
 import {regularProfile} from '../../src/bots/regulars';
-import {HUMAN_LAYER_V115} from '../../src/bots/human';
 import {breakAt,breakChance,LAST_ORBIT_LINES} from '../../src/bots/routines';
 import {stabPlay} from '../../src/bots/showdown';
 import {cashBreak} from '../../src/session/human-context';
-import {NEW_EVENT_TOURNAMENT_POLICY,TOURNAMENT_POLICY_V218} from '../../src/tournament/bot-policy';
+import {NEW_EVENT_TOURNAMENT_POLICY} from '../../src/tournament/bot-policy';
 
 /* Patch 47: live-game routines (breaks, announced last orbits) and the showdown retune (cash human-1.15.0, tournament 2.18.0). */
 // This long-session behavior fixture starts fresh and only needs a revision receipt.
@@ -33,8 +32,8 @@ function turn(id:string){let s=hand(id);for(const a of [{type:'fold'},{type:'fol
 
 describe('breaks',()=>{
   it('come now and then, last 5 to 18 hands, never in the first 10, and more often for recreational players',()=>{
-    for(const p of [earl,hiro]){let on=0,starts=0,backs=0;const lengths:number[]=[];let current=0;
-      for(let i=0;i<20000;i++){const b=breakAt('k',p,i);if(i<10)expect(b.onBreak).toBe(false);if(b.onBreak){on++;current++;}if(b.starting)starts++;if(b.returning){backs++;lengths.push(current);current=0;}}
+    for(const p of [earl,hiro]){let starts=0,backs=0;const lengths:number[]=[];let current=0;
+      for(let i=0;i<20000;i++){const b=breakAt('k',p,i);if(i<10)expect(b.onBreak).toBe(false);if(b.onBreak){current++;}if(b.starting)starts++;if(b.returning){backs++;lengths.push(current);current=0;}}
       expect(Math.min(...lengths)).toBeGreaterThanOrEqual(5);expect(Math.max(...lengths)).toBeLessThanOrEqual(18);expect(Math.abs(starts-backs)).toBeLessThanOrEqual(1);
       expect(starts/20000).toBeGreaterThan(breakChance(p)*.5);expect(starts/20000).toBeLessThan(breakChance(p)*1.3);}
     expect(breakChance(earl)).toBeGreaterThan(breakChance(hiro)*2);

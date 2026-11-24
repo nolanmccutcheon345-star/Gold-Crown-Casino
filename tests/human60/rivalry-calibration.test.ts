@@ -10,7 +10,7 @@ import {bigPot,grudgesFrom,grudge,rivalryProfile,rivalryPlay,GRUDGE_LINES,type R
 import {calibrationPlay,stationLike} from '../../src/bots/calibration';
 import {handChatter} from '../../src/bots/talk';
 import {cashGrudges,cashIdentity} from '../../src/session/human-context';
-import {NEW_EVENT_TOURNAMENT_POLICY,TOURNAMENT_POLICY_V212,TOURNAMENT_POLICY_V215,supportedTournamentPolicy,policyUsesGrudges} from '../../src/tournament/bot-policy';
+import {NEW_EVENT_TOURNAMENT_POLICY,TOURNAMENT_POLICY_V212,supportedTournamentPolicy,policyUsesGrudges} from '../../src/tournament/bot-policy';
 import {TournamentController} from '../../src/tournament/controller';
 import {MemoryTournamentPersistence} from '../../src/tournament/persistence';
 import {auditTournamentData} from '../../src/tournament/runtime';

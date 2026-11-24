@@ -18,9 +18,9 @@ describe('art',()=>{
 });
 describe('Triple Diamond',()=>{
   it('one wild triples a line and two pay nine times',()=>{
-    const m=machineById('triple-diamond')!;const r=rng(1);let one=0,two=0;
+    const m=machineById('triple-diamond')!;const r=rng(1);let one=0;
     for(let i=0;i<60000;i++){const x=spin(m,90,r);for(const w of x.wins){const cells=w.cells.map(([a,b])=>x.grid[a][b]),n=cells.filter(c=>c==='DW').length;
-      if(w.sym==='B1'&&n===1){one++;expect(w.amount).toBe(10*10*3);}if(w.sym==='B1'&&n===2){two++;expect(w.amount).toBe(10*10*9);}}}
+      if(w.sym==='B1'&&n===1){one++;expect(w.amount).toBe(10*10*3);}if(w.sym==='B1'&&n===2){expect(w.amount).toBe(10*10*9);}}}
     expect(one).toBeGreaterThan(0);
   });
 });
