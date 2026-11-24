@@ -67,8 +67,8 @@
 .hs:hover{background:#e8c58b55}
 /* Phase 6: split/corner/street hotspots get real touch targets — at least 32px across,
  * centred on the seam they bet on (the visible chip stays small; corners sit above strips). */
-.hs-r{right:-16px;top:22%;width:32px;height:56%}.hs-b{bottom:-16px;left:22%;width:56%;height:32px}.hs-br{right:-16px;bottom:-16px;width:32px;height:32px;z-index:5;border-radius:50%}
-.hs-l{left:-16px;top:22%;width:32px;height:56%}.hs-bl{left:-16px;bottom:-16px;width:32px;height:32px;z-index:5;border-radius:50%}
+.hs-r{right:-16px;top:calc(50% - 16px);width:32px;height:32px}.hs-b{bottom:-16px;left:22%;width:56%;height:32px}.hs-br{right:-16px;bottom:-16px;width:32px;height:32px;z-index:5;border-radius:50%}
+.hs-l{left:-16px;top:calc(50% - 16px);width:32px;height:32px}.hs-bl{left:-16px;bottom:-16px;width:32px;height:32px;z-index:5;border-radius:50%}
 .hs-t{top:-16px;left:22%;width:56%;height:32px}.hs-tl{top:-16px;left:8%;width:38%;height:32px}.hs-tr{top:-16px;right:8%;width:38%;height:32px}.hs-tc{top:-16px;left:-16px;width:32px;height:32px;z-index:5;border-radius:50%}
 .hs .cz-chip{min-width:22px;height:22px;font-size:9px}
 @media (prefers-reduced-motion:reduce){.rl-rotor{transition:none}.rl-ball-orbit.spinning,.rl-ball-orbit.spinning .rl-ball{animation:none}}
