@@ -34,7 +34,10 @@ export function coachReviewMarkup(ui:CoachUi):string {
 }
 export function coachMarkup(ui:CoachUi,advice:Advice|null,o:{waiting:boolean;tournament:boolean}):string {
  const head=`<div class="coach-switches"><label class="t-watch-result"><input id="coach-on" type="checkbox" ${ui.on?'checked':''}>Live coach</label>${ui.on?`<label class="t-watch-result"><input id="coach-test" type="checkbox" ${ui.test?'checked':''}>Test me first</label>`:''}</div>`;
- if(!ui.on)return `<div class="coach-row">${head}</div>`;
+ /* Phase 6 (F-15): while the coach is off, say what it is — a bare checkbox in a
+  * settings cluster meant nobody ever found the playbook coach. One line and a
+  * one-tap way to switch it on; the choice itself still belongs to the player. */
+ if(!ui.on)return `<div class="coach-row">${head}<p class="coach-teaser">The Live coach reads each decision like the playbook — pot odds in plain words, and the principle behind the play. <button type="button" class="coach-teaser-on" id="coach-enable">Turn on the coach</button></p></div>`;
  const review=coachReviewMarkup(ui);
  if(!advice)return `<div class="coach-row">${head}${review}${o.waiting?'<p class="coach-wait">The coach speaks when it is your turn.</p>':''}</div>`;
  const ask=`<p><b>${advice.card.id} ${esc(advice.card.name)}:</b> ${esc(advice.card.master)}</p><p><b>${advice.overlay.id} ${esc(advice.overlay.name)}:</b> ${esc(advice.overlay.master)}</p>`;

@@ -2162,6 +2162,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     root.querySelectorAll<HTMLButtonElement>('[data-odds-x]').forEach(b => b.addEventListener('click', () => casino.setOddsX(b.dataset.oddsX as '345' | '10'), live));
     // Patch 105: the Live coach.
     root.querySelector<HTMLInputElement>('#coach-on')?.addEventListener('change', e => { coachUi.on = (e.target as HTMLInputElement).checked; if (!coachUi.on) { coachUi.review = null; coachUi.last = null; } saveCoachUi(coachUi); render(); }, live);
+    on('#coach-enable', () => { coachUi.on = true; saveCoachUi(coachUi); render(); });
     root.querySelector<HTMLInputElement>('#coach-test')?.addEventListener('change', e => { coachUi.test = (e.target as HTMLInputElement).checked; coachUi.revealed = null; saveCoachUi(coachUi); render(); }, live);
     on('#coach-reveal', () => { coachUi.revealed = coachUi.last?.key ?? null; render(); });
     root.querySelectorAll<HTMLButtonElement>('[data-coach-size]').forEach(b => b.addEventListener('click', () => { const to = Number(b.dataset.coachSize); if (!Number.isSafeInteger(to)) return; if (view === 'tournaments') tournamentDraft = String(to); else { raiseValue = to; sliderPercent = null; } render(); }, live));

@@ -6,7 +6,10 @@
 .tournament-table .table-watermark::before{background-image:url('/casino-art/table-tournament.svg')}
 /* Legacy wordmark is kept as actual text; engravings sit behind the action area. */
 .plo-print::before{content:"";display:block;width:132px;height:52px;margin:0 auto 3px;background:url('/casino-art/table-omaha.svg') center/contain no-repeat;opacity:.35;pointer-events:none}
-.bj-felt-print{background:url('/casino-art/table-blackjack.svg') center top/190px auto no-repeat;background-origin:border-box}
+/* Phase 6: no crest behind the blackjack felt print — the engraved art sat directly
+   under the arc text and garbled the middle rule line ("DEALER MUST HIT SOFT 17").
+   The printed arc stands alone, as on a real felt. */
+.bj-felt-print{background:none}
 /* Visually distinguish the heads-up ladder without modifying match rules. */
 .hu-stack-bar{border:1px solid #d9b773b0;box-shadow:0 0 0 1px #2d24196b,var(--room-edge-inset),0 8px 22px #000a}
 .hu-rung:where(:not(.locked)){background-image:linear-gradient(140deg,#e8c47d1a,transparent 70%)}
