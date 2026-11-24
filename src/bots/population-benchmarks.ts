@@ -144,14 +144,14 @@ export const BENCHMARK_BANDS: Readonly<Record<PoolEnvironmentKey, Readonly<Recor
  * online pools the base POPULATION_WEIGHTS describe.
  */
 export const LIVE_FLAVOR_MULTIPLIERS: Readonly<Record<Archetype, number>> = Object.freeze({
-  nit: 1.1,
-  station: 1.5,
-  tag: 0.7,
-  lag: 0.6,
-  'fit-or-fold': 1.25,
-  maniac: 1.0,
-  'passive-reg': 1.4,
-  'stronger-reg': 0.4,
+  nit: 1.05,
+  station: 2.2,
+  tag: 0.62,
+  lag: 0.5,
+  'fit-or-fold': 1.35,
+  maniac: 1.1,
+  'passive-reg': 2.05,
+  'stronger-reg': 0.3,
 });
 
 /**
@@ -178,6 +178,12 @@ export function flavorWeights(preset: PopulationPreset, venue: Venue): Record<Ar
 /** Convenience wrapper: venue defaults to 'online' (base weights unchanged). */
 export function weightsFor(preset: PopulationPreset, venue: Venue = 'online'): Record<Archetype, number> {
   return flavorWeights(preset, venue);
+}
+
+/** Weights as an array in ARCHETYPES order, for createProfile's override parameter. */
+export function weightsArrayFor(preset: PopulationPreset, venue: Venue = 'online'): readonly number[] {
+  const record = flavorWeights(preset, venue);
+  return ARCHETYPES.map((archetype) => record[archetype]);
 }
 
 /** Verdict for one measured rate (percent) against its target band. */

@@ -5,6 +5,7 @@
  * identities and history follow the existing checked path. Designed behaviour, not fitted data. */
 import type {AppData,ActiveTable,CashSettings} from './types';
 import {completeProfile,createProfile} from '../bots/profiles';
+import {weightsArrayFor} from '../bots/population-benchmarks';
 import {tiltProneness} from '../bots/human';
 import {REGULARS,regularConfig,regularFor,regularById,regularBuyInForProfile,type Stake} from '../bots/regulars';
 import {regularOfProfile} from '../bots/talk';
@@ -43,7 +44,7 @@ export function planChurn(data:AppData,active:ActiveTable,styled=false,routines=
  const newcomer=(id:number,left:string|undefined)=>{
   const roll=unit(`${hand}:${id}:who`),pool=REGULARS.filter(r=>r.stakes.includes(cashStake(bb))&&!seated.has(r.id)&&!names.has(r.name)&&r.id!==left);
   const sit=(config:NonNullable<CashSettings['opponents']>[number])=>{settings.opponents![id-1]=config;
-   const profile=styled?createProfile(config,config.personalitySeed??0,settings.population??'neutral'):null;
+   const profile=styled?createProfile(config,config.personalitySeed??0,settings.population??'neutral',settings.venue==='live'?weightsArrayFor(settings.population??'neutral','live'):undefined):null;
    stacks[id]=profile?styleBuyIn(buyInStyle(profile,regularBuyInForProfile(profile)),settings):buyIn;};
   if(roll<.5&&pool.length){const r=pool[Math.floor(unit(`${hand}:${id}:reg`)*pool.length)];seated.add(r.id);sit(regularConfig(r.id));names.add(r.name);return r.name;}
   const free=STRANGER_NAMES.filter(n=>!names.has(n)),name=free[Math.floor(unit(`${hand}:${id}:name`)*free.length)]??`Player ${id+1}`;names.add(name);

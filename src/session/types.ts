@@ -14,6 +14,10 @@ export interface CashSettings {
  liveStraddle?:boolean;
  /** Optional for legacy saves; new sessions persist resolved persona seeds. */
  population?:PopulationPreset; opponents?:OpponentConfig[]; tableMode?:'live'|'study';
+ /** Phase 5 (BOT-004): pool flavour for random opponent draws — 'live' uses the
+  * looser/passive live-casino mixture from population-benchmarks.ts; absent or
+  * 'online' keeps the base POPULATION_WEIGHTS exactly as before. */
+ venue?:'live'|'online';
  /** Patch 73: a heads-up challenge match against one regular. Nobody joins, leaves or rebuys during the match. */
  challenge?:{rung:number;opponent:string};
 }

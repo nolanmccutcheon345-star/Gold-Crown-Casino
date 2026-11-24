@@ -1,5 +1,6 @@
 import type { BotProfile, GameState, OpponentConfig, RuleProfile } from '../contracts';
 import { createProfile, POLICY_VERSION, resolveConfig } from '../bots/profiles';
+import { weightsArrayFor } from '../bots/population-benchmarks';
 import { regularFor, isRegularName, regularById } from '../bots/regulars';
 import { pokerStarsProfile } from '../rules/pokerstars';
 import { appendMoney, canonical, cents, requireData } from '../storage/integrity';
@@ -82,8 +83,8 @@ export function tableProfiles(settings:TableSettings,previousSettings?:TableSett
  for(const id of occupiedSeatIds(settings).filter(id=>id!==0)){
   const config=settings.opponents?.[id-1];
   requireData(config&&config.personalitySeed!==undefined,'Resolve opponent identities before creating a table.');
-  const unchanged=previousProfiles?.[id]&&((settings.chipUnit??1)===1||previousProfiles[id].policyVersion===POLICY_VERSION)&&(previousSettings?.population??'neutral')===(settings.population??'neutral')&&canonical(previousSettings?.opponents?.[id-1])===canonical(config);
-  profiles[id]=unchanged?structuredClone(previousProfiles[id]):createProfile(config,config.personalitySeed,settings.population??'neutral');
+  const unchanged=previousProfiles?.[id]&&((settings.chipUnit??1)===1||previousProfiles[id].policyVersion===POLICY_VERSION)&&(previousSettings?.population??'neutral')===(settings.population??'neutral')&&(previousSettings?.venue??'online')===(settings.venue??'online')&&canonical(previousSettings?.opponents?.[id-1])===canonical(config);
+  profiles[id]=unchanged?structuredClone(previousProfiles[id]):createProfile(config,config.personalitySeed,settings.population??'neutral',settings.venue==='live'?weightsArrayFor(settings.population??'neutral','live'):undefined);
  }
  return profiles;
 }

@@ -20,10 +20,16 @@ const PRESETS:Record<Archetype,{aggression:number;looseness:number;skill:number;
 export const DEFAULT_CUSTOM_TRAITS:Readonly<BotTraits>=Object.freeze({...PRESETS.tag.traits});
 /** A stock archetype's trait values (copy). */
 export function presetTraits(archetype:Archetype):BotTraits {if(!Object.hasOwn(PRESETS,archetype))throw new Error('Unknown bot archetype.');return {...PRESETS[archetype].traits};}
-/** Designed population priors, never empirical frequencies or stake-to-skill inference. */
+/** Population mixture priors per stake preset. Phase 5 calibration (BOT-004): these weights are the
+ * ONLINE-flavoured base mixture, tuned so the simulated population's measured VPIP/PFR/3-bet/limp
+ * distributions sit inside the published target bands in population-benchmarks.ts (see
+ * POPULATION_BENCHMARKS.md and scripts/step5-population-report.ts for the executed evidence).
+ * Live-casino flavour is derived from these by the documented multipliers in flavorWeights().
+ * They remain designed priors fitted to published target bands, never measured human frequencies
+ * and never a stake-to-skill inference for an individual player. */
 export const POPULATION_WEIGHTS:Readonly<Record<PopulationPreset,readonly number[]>>=Object.freeze({
- low:Object.freeze([.1,.23,.1,.06,.13,.09,.25,.04]),mid:Object.freeze([.12,.12,.24,.16,.08,.06,.12,.1]),
- high:Object.freeze([.08,.05,.26,.23,.03,.04,.07,.24]),neutral:Object.freeze(Array(8).fill(.125)),
+ low:Object.freeze([.11,.07,.25,.16,.1,.05,.1,.16]),mid:Object.freeze([.11,.06,.27,.2,.06,.05,.08,.17]),
+ high:Object.freeze([.08,.03,.27,.25,.02,.03,.05,.27]),neutral:Object.freeze(Array(8).fill(.125)),
 });
 export function seedStream(seed:number):()=>number {
  if(!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw new Error('Invalid personality seed: expected uint32.');
@@ -42,13 +48,15 @@ export function resolveConfig(config:OpponentConfig,seed:number):OpponentConfig 
  if(config.drawResponses)normalized.drawResponses=normalizeDrawResponses(config.drawResponses);
  return normalized;
 }
-export function createProfile(config:OpponentConfig,seed:number,environment:PopulationPreset):BotProfile {
+export function createProfile(config:OpponentConfig,seed:number,environment:PopulationPreset,weightsOverride?:readonly number[]):BotProfile {
  if(!Object.hasOwn(POPULATION_WEIGHTS,environment))throw new Error('Unknown population environment.');
+ if(weightsOverride!==undefined&&(!Array.isArray(weightsOverride)||weightsOverride.length!==8||weightsOverride.some(w=>!Number.isFinite(w)||w<0)||Math.abs(weightsOverride.reduce((a,b)=>a+b,0)-1)>.01))throw new Error('Invalid population weights override.');
+ const weights=weightsOverride??POPULATION_WEIGHTS[environment];
  const c=resolveConfig(config,seed),random=seedStream(seed),selectionDraw=random();
  let archetype:Archetype;
  if(c.selection==='random'||c.selection==='unknown'){
   if(c.baseArchetype)archetype=c.baseArchetype;
-  else{let cumulative=0;archetype=ARCHETYPES[7];for(let i=0;i<8;i++){cumulative+=POPULATION_WEIGHTS[environment][i];if(selectionDraw<cumulative){archetype=ARCHETYPES[i];break;}}}
+  else{let cumulative=0;archetype=ARCHETYPES[7];for(let i=0;i<8;i++){cumulative+=weights[i];if(selectionDraw<cumulative){archetype=ARCHETYPES[i];break;}}}
  }else archetype=c.selection==='custom'?(c.baseArchetype??'tag'):c.selection;
  const base=PRESETS[archetype],activity=(random()-.5)*.09,caution=(random()-.5)*.08;
  const stableTraits={} as BotTraits;
