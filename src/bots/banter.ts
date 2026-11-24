@@ -5,7 +5,8 @@
 import type {GameState} from '../contracts';
 import type {Chatter,TalkLine} from './talk';
 import {personaFor} from './personas';
-import {replyTo,threadFor,turnsFor} from './conversations';
+import {THREADS,replyTo,threadFor,turnsFor} from './conversations';
+import {RecentLines,pickFresh} from './talk-memory';
 import {callbackLine,dealerLine,grudgeLine,moodLine,type Showdown} from './table-life';
 
 const hash=(seed:string)=>{let h=2166136261;for(let i=0;i<seed.length;i++){h^=seed.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}h^=h>>>13;h=Math.imul(h,0x5bd1e995)>>>0;return (h^(h>>>15))>>>0;};
@@ -52,7 +53,7 @@ export interface HeroHistory {
 }
 type NameOf=(seatId:number)=>{name:string;regular?:string}|undefined;
 /** Something said to you at the end of a hand, if anything. */
-export function heroBanter(game:GameState,who:NameOf,history:HeroHistory,taken:readonly number[]):TalkLine|null {
+export function heroBanter(game:GameState,who:NameOf,history:HeroHistory,taken:readonly number[],memory?:RecentLines):TalkLine|null {
  if(game.street!=='complete')return null;
  const hero=game.seats.find(s=>s.id===0);if(!hero)return null;
  const bb=game.profile.bigBlind,net=((game.payouts?.[0]??0)-hero.totalCommitted)/bb;
@@ -73,7 +74,13 @@ export function heroBanter(game:GameState,who:NameOf,history:HeroHistory,taken:r
  const seats=game.seats.filter(s=>s.id!==0&&!taken.includes(s.id)&&who(s.id));if(!seats.length)return null;
  const speaker=seats[hash(`${seed}:who`)%seats.length],p=who(speaker.id)!;
  const persona=personaFor(p.name,p.regular).id,pool=TO_HERO[moment];
- return {seatId:speaker.id,text:withNick(pick([...(pool[persona]??[]),...(pool[persona]??[]),...pool.any],`${seed}:line`),heroNickname(history.recent),seed)};
+ const weighted=[...(pool[persona]??[]),...(pool[persona]??[]),...pool.any];
+ // Phase 5 (6A): with a session memory, prefer a line the table has not said recently. Without one the
+ // pick below is exactly the original seeded pick.
+ const base=memory?pickFresh(weighted,`${seed}:line`,memory):pick(weighted,`${seed}:line`);
+ const text=withNick(base,heroNickname(history.recent),seed);
+ if(memory&&text!==base)memory.add(text);
+ return {seatId:speaker.id,text};
 }
 /** After a showdown between two computer players: the loser says something to the winner, who may answer. */
 export function rivalBanter(game:GameState,who:NameOf,taken:readonly number[]):TalkLine[] {
@@ -148,17 +155,30 @@ export function answerBlackjack(phrase:BjPhrase,seats:readonly {id:number;name:s
  return {seatId:s.id,text:say(BJ_ANSWERS[phrase]??{any:['Ha.']},persona.id,`${seed}:line`)};
 }
 
-/** Patch 95: a short conversation between two (sometimes three) players, from names alone. */
-export function smallTalk(seats:readonly {id:number;name:string;regular?:string}[],seed:string,turns=true):TalkLine[] {
+/** Patch 95: a short conversation between two (sometimes three) players, from names alone.
+ * Phase 5 (6A): pass a session `memory` (talk-memory) and every line is picked fresh — a thread opener,
+ * reply, follow-up or last word the table has not said within the memory's window, whenever the pools
+ * still hold an unseen line. Without `memory` the picks are exactly the original seeded ones. */
+export function smallTalk(seats:readonly {id:number;name:string;regular?:string}[],seed:string,turns=true,memory?:RecentLines):TalkLine[] {
  if(seats.length<2)return [];
  const a=seats[hash(`${seed}:a`)%seats.length],rest=seats.filter(s=>s.id!==a.id),b=rest[hash(`${seed}:b`)%rest.length];
- const pa=personaFor(a.name,a.regular).id,pb=personaFor(b.name,b.regular).id,t=threadFor(pa,`${seed}:thread`);
- const out:TalkLine[]=[{seatId:a.id,text:t.open},{seatId:b.id,text:replyTo(t,pb,`${seed}:reply`)}];
+ const pa=personaFor(a.name,a.regular).id,pb=personaFor(b.name,b.regular).id;
+ let t=threadFor(pa,`${seed}:thread`);
+ if(memory){
+  if(memory.seen(t.open)){
+   // Scan the threads this speaker could start, from the seeded slot, for an opener not said recently.
+   const eligible=THREADS.filter(x=>!x.by||x.by===pa),start=hash(`${seed}:thread:fresh`)%eligible.length;
+   for(let i=0;i<eligible.length;i++){const cand=eligible[(start+i)%eligible.length];if(!memory.seen(cand.open)){t=cand;break;}}
+  }
+  memory.add(t.open);
+ }
+ const replyPool=(persona:string)=>{const own=t.reply[persona]??[];return [...own,...own,...t.reply.any];};
+ const out:TalkLine[]=[{seatId:a.id,text:t.open},{seatId:b.id,text:memory?pickFresh(replyPool(pb),`${seed}:reply`,memory):replyTo(t,pb,`${seed}:reply`)}];
  // Patch 97: back and forth. The first player comes back, and the other sometimes has the last word.
  const more=turns?turnsFor(t.open):undefined;
- if(more&&unit(`${seed}:turns`)<.6){out.push({seatId:a.id,text:more.follow[hash(`${seed}:follow`)%more.follow.length]});if(unit(`${seed}:back`)<.7)out.push({seatId:b.id,text:more.back[hash(`${seed}:backline`)%more.back.length]});return out;}
+ if(more&&unit(`${seed}:turns`)<.6){out.push({seatId:a.id,text:memory?pickFresh(more.follow,`${seed}:follow`,memory):more.follow[hash(`${seed}:follow`)%more.follow.length]});if(unit(`${seed}:back`)<.7)out.push({seatId:b.id,text:memory?pickFresh(more.back,`${seed}:backline`,memory):more.back[hash(`${seed}:backline`)%more.back.length]});return out;}
  const third=seats.filter(s=>s.id!==a.id&&s.id!==b.id);
- if(third.length&&unit(`${seed}:third`)<.4){const c=third[hash(`${seed}:c`)%third.length],line=replyTo(t,personaFor(c.name,c.regular).id,`${seed}:c:reply`);if(line!==out[1].text)out.push({seatId:c.id,text:line});}
+ if(third.length&&unit(`${seed}:third`)<.4){const c=third[hash(`${seed}:c`)%third.length],line=memory?pickFresh(replyPool(personaFor(c.name,c.regular).id),`${seed}:c:reply`,memory):replyTo(t,personaFor(c.name,c.regular).id,`${seed}:c:reply`);if(line!==out[1].text)out.push({seatId:c.id,text:line});}
  return out;
 }
 /** Patch 95: players out of the hand react when someone bets big or goes all in. */
@@ -293,3 +313,68 @@ export function heroNickname(recent:readonly {played:boolean;raised:boolean;won?
  return null;
 }
 const withNick=(text:string,nick:string|null,seed:string)=>!nick||unit(`${seed}:nick`)>=.4||!/[.!?]$/.test(text)||/\{n\}/.test(text)?text:text.replace(/([.!?])$/,`, ${nick}$1`);
+
+/* ---------- Phase 5 (6A): bot-versus-bot moments that do not involve the hero ----------
+ * Two bots played a big pot, one took a bad beat from the other, a player sits down or leaves, someone
+ * reloads, a cooler lands between two bots. The speaker is a bot at the table; `{n}` in a line is the
+ * first name of the other player the moment is about (`otherName`), or "friend" when none is named.
+ * Presentation only, like everything here: lines come from names and personalities alone. */
+export type BotMoment='botBigPot'|'botBadBeat'|'botJoins'|'botLeaves'|'botRebuy'|'botCooler';
+export const BOT_EVENT_LINES:Record<BotMoment,Pools>={
+ botBigPot:{any:['That was a pot.','Somebody counted that twice.','Big one between those two.','The rest of us just watched that happen.','That pot had its own weather system.','Hope somebody tipped the dealer after that.'],
+  comedian:['I folded preflop and still felt poor watching that.','That pot could pay my rent. Twice.'],needler:['{n} played that… interestingly.','Big pot, small brain. Not saying whose.'],grinder:['Forty big blinds. Noted.'],coach:['That’s how you build a pot. Both of them wanted it.'],storyteller:['That’s going in the stories, that pot.'],'old-timer':['Now that was a hand of poker.'],cowboy:['Them two went full rodeo on that one.'],tourist:['Was that a lot?! That looked like a lot!'],zen:['Big pot. Same game.']},
+ botBadBeat:{any:['Ouch. That one hurt from here.','The river is a cruel place.','{n} needed one card and got it.','Somebody’s going to be telling that one for weeks.','That’s the worst seat in the room right now.','Brutal. Just brutal.'],
+  needler:['{n}, you call that a call? Wow.','Tough luck. Should’ve folded on the turn. Obviously.'],comedian:['I felt that beat and I wasn’t even in the hand.','Somebody check on him. And his wallet.'],superstitious:['The river heard somebody brag. That’s what happens.'],coach:['Money went in good. That’s all you can ask.'],cowboy:['Got bucked clean off by the river.'],zen:['It happens. It passes.'],storyteller:['Worst beat since the one I took in Biloxi. Ask me about it.'],tourist:['Oh no! Is he okay? That seemed bad!']},
+ botJoins:{any:['Hey, {n}. Seat’s warm.','Welcome, {n}.','Fresh player. Everybody behave.','{n}! Good to see you.','Pull up a stack, {n}.','Room for one more. Always.'],
+  comedian:['New money! I mean — welcome, {n}.','{n}, we were just talking about you. Nothing bad. Much.'],tourist:['Hi {n}! I’m new too! Well, newer.'],needler:['{n}. Great. Another genius.'],'old-timer':['Sit down, {n}. Cards are cold, coffee’s worse.'],cowboy:['Howdy, {n}. Saddle up.'],grinder:['{n}. Game just got tougher. Or didn’t.'],'high-roller':['{n}. Finally, somebody interesting.'],rookie:['Hi! I’m still learning, {n}, so go easy.']},
+ botLeaves:{any:['See you, {n}.','Good night, {n}.','{n}’s calling it. Smart, probably.','One seat opens. The game goes on.','Drive safe, {n}.','Same time tomorrow, {n}?'],
+  comedian:['{n} leaves and takes the fun with him. Mostly.','Another one escapes. The rest of us remain.'],needler:['{n} quitting while he’s behind? Shocking.'],grinder:['{n} booked his hours. Respect.'],zen:['Everyone leaves when it’s time.'],'old-timer':['Goodnight, {n}. In my day we stayed till sunrise.'],cowboy:['Happy trails, {n}.'],tourist:['Bye {n}! Come back soon!'],storyteller:['{n} left? He missed the best story. It was coming.']},
+ botRebuy:{any:['{n}’s back in. Reload.','Fresh stack for {n}.','{n} reloads. The game thanks you.','And {n} rises again.','New stack, new luck, {n}?','The ATM run paid off for {n}.'],
+  needler:['{n} buying in again? The table accepts donations.'],comedian:['{n}’s second stack is always luckier. Science.'],grinder:['{n}’s on his third bullet. Long night.'],superstitious:['New stack, change of socks too, {n}. Trust me.'],cowboy:['Back in the saddle, {n}.'],'high-roller':['One rebuy, {n}? Rookie numbers.'],coach:['Reloading is fine. Chasing isn’t, {n}.'],zen:['A new stack is just a stack, {n}.']},
+ botCooler:{any:['Cooler. Nothing either of them could do.','Set over set. Sick.','That’s just the deck being cruel to both of them.','{n} had the second-best of it. Happens.','Nobody folds that. Nobody.','Cold deck for those two.'],
+  coach:['Textbook cooler. Both played it right.'],comedian:['The deck planned that one. Maliciously.'],superstitious:['I felt that cooler coming. The air changed.'],needler:['{n} could’ve folded. I would’ve known. Sure.'],storyteller:['Saw a cooler like that in Tunica. Room went silent.'],'old-timer':['Coolers were invented before all of you. I was there.'],zen:['No one’s fault. Next hand.'],grinder:['Standard cooler. Move on.'],cowboy:['Two bulls, one gate. Somebody was getting thrown.']},
+};
+/** One bot's line about a bot-versus-bot moment. `name` is the speaker; `otherName` is the player the
+ * moment is about (the new arrival, the leaver, the reloader, the winner of the pot) and fills `{n}`. */
+export function botEventLine(moment:BotMoment,name:string,seed:string,otherName?:string):string {
+ const persona=personaFor(name).id,line=say(BOT_EVENT_LINES[moment],persona,`${seed}:botevent`);
+ const first=otherName?otherName.split(' ')[0]:'friend';
+ return line.replaceAll('{n}',first);
+}
+
+/* ---------- Phase 5 (6A): session-story moments — context the table remembers about YOUR night ----------
+ * HeroHistory (recent hands) carries no amounts and no per-bot counts, so these two moments are keyed on
+ * counts the caller tracks and passes in — nothing is inferred here and the HeroHistory interface is
+ * unchanged. Presentation only, like all talk: the counts describe public session results (pots won and
+ * lost at showdown are public), never cards. */
+export interface HeroSessionStory {
+ /** Big blinds you were down at your lowest point this session, if the caller tracks it. */
+ lowestDownBB?:number;
+ /** Big blinds in the big pot that completed the comeback. */
+ comebackPotBB?:number;
+ /** How many times one single bot has beaten you (or needled you after beating you) this session. */
+ sameBotBeats?:number;
+ /** That bot's name, used for `{n}` in rivalry lines. */
+ rivalName?:string;
+}
+export type HeroStoryMoment='heroComeback'|'heroRivalry';
+/** Which session-story moment, if any, the counts describe: a comeback needs a deep hole (>= 40bb down)
+ * dug out of with a genuinely big pot (>= 25bb); a rivalry needs the same bot over you at least 3 times. */
+export function heroStoryMoment(story:HeroSessionStory):HeroStoryMoment|null {
+ if((story.lowestDownBB??0)>=40&&(story.comebackPotBB??0)>=25)return 'heroComeback';
+ if((story.sameBotBeats??0)>=3)return 'heroRivalry';
+ return null;
+}
+export const HERO_STORY_LINES:Record<HeroStoryMoment,Pools>={
+ heroComeback:{any:['Look who’s back. Buried an hour ago.','That’s a comeback. Respect.','From the felt to a stack. Well done.','You were down to lint earlier. Look at you now.','The comeback is real. Somebody write it down.','Never count this one out. Noted.'],
+  comedian:['He was dead! I saw the body! Great resurrection, though.','Comeback of the night. I’ll be telling people I knew you when.'],needler:['Even a comeback ends. Enjoy the view.','You got lucky climbing out. There, I said it.'],grinder:['Dug out of a real hole. That’s the job.'],coach:['Didn’t panic, didn’t punt. That’s how you come back.'],'old-timer':['Seen a hundred quit from where you were. You didn’t.'],cowboy:['Picked himself up out of the dirt. That’s the stuff.'],zen:['Down, up. Same player.'],superstitious:['Knew that seat would turn. Felt it.'],storyteller:['That comeback’s going in the stories. Chapter one.'],tourist:['You were losing and now you’re NOT! Amazing!']},
+ heroRivalry:{any:['{n} again. It’s personal now.','You and {n}. Every pot, it’s you two.','Somebody settle this thing between you and {n}.','{n}’s got your number tonight. Or thinks so.','This table has a main event and it’s you versus {n}.'],
+  needler:['{n} owns you. I’m just reporting it.','Careful. {n}’s in your head rent-free.'],comedian:['You two need couples therapy. I know a guy.','Popcorn. This feud is my favourite show.'],coach:['Don’t chase {n}. Play your game, not the grudge.'],cowboy:['A feud! Like the old range wars, but with chips.'],storyteller:['Every room has a rivalry. Tonight it’s you and {n}.'],'old-timer':['A good rival makes you better. Or poorer.'],zen:['A rival is just a mirror. Breathe.'],grinder:['{n}. Again. Noted in the spreadsheet of life.']},
+};
+/** A bot's line about your session story. `name` is the speaker; `{n}` is the rival's first name (from
+ * `story.rivalName`, or an explicit `rivalName`, or "your friend" when nobody is named). */
+export function heroStoryLine(moment:HeroStoryMoment,name:string,seed:string,story:HeroSessionStory={}):string {
+ const persona=personaFor(name).id,line=say(HERO_STORY_LINES[moment],persona,`${seed}:story`);
+ const rival=story.rivalName?.split(' ')[0]??'your friend';
+ return line.replaceAll('{n}',rival);
+}
