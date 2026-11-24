@@ -255,4 +255,9 @@
 @media (max-width:767px) and (orientation:portrait){
   .view-live.has-game .action-panel{bottom:calc(64px + env(safe-area-inset-bottom));border-radius:14px 14px 0 0;max-height:calc(100dvh - 130px)}
   .view-live.has-game main{padding-bottom:calc(320px + env(safe-area-inset-bottom))}
+  /* Recovery catch: the casino tables' sticky action bar (.cz-actions, bottom:8px,
+     z-index 7) parks inside the fixed bottom nav's band (z-index 50, 64px + safe-area)
+     on phone portrait — Deal / Spin / Start sat under the nav at rest. Raise it the
+     same way as the poker action panel. */
+  .cz-game .cz-actions{bottom:calc(72px + env(safe-area-inset-bottom))}
 }
