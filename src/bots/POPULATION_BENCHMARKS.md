@@ -5,6 +5,31 @@ Companion to `src/bots/population-benchmarks.ts`. Related defect: **BOT-004**
 uncalibrated population realism remains open." This card is the population
 realism tracking artifact for that defect; it does not close it.
 
+## Calibration status (Phase 5, executed 2026-11-24)
+
+The calibration loop below was executed end-to-end. Reporter runs at
+40 blocks × 25 hands per environment, seed base 0x5b000000, before and after
+calibration (same seed base so movement is attributable):
+
+- **Before calibration** (benchmarks committed, population untuned):
+  **20 of 45** environment-metric pairs inside their bands. Flop c-bet sat at
+  10–20% in every pool (bands 40–68) and WTSD at 59–81% (bands 26–36).
+- **After calibration**: **35 of 45** pairs inside their bands. Flop c-bet
+  44–68%, WTSD 24–32% in four of five pools, VPIP/PFR/3-bet/limp inside or
+  within half a point of their bands in nearly every pool.
+- **Remaining residuals** (documented, with mechanisms, in the Phase 5
+  report): live WWSF ≈ 2 points low in both live pools; online-low PFR
+  17.5 vs band 19–23 (the low pool's passive third caps the pool raise
+  share); online-mid PFR 17.8 vs 18; online-high 3-bet 7.7 vs 8,
+  fold-to-3-bet 66.9 vs 64, flop c-bet a hair over 68, WTSD 23.7 vs 26;
+  live-low VPIP 29.5 vs 30; live-mid fold-to-c-bet 56.5 vs 54.
+- A seeded lock-in test (`tests/bots/population-calibration.test.ts`)
+  asserts every non-residual metric stays in band and no residual degrades
+  past its recorded deviation.
+- BOT-004 is **MITIGATED** on this evidence, not FIXED: the bands are public
+  targets, agreement is descriptive, and the residuals above remain open
+  modelling questions.
+
 ## Honesty label
 
 The bands in this card are **TARGET bands from public poker knowledge** —
@@ -35,13 +60,14 @@ mixture via `flavorWeights(preset, venue)`:
 - **Online**: `POPULATION_WEIGHTS[preset]` from `src/bots/profiles.ts`,
   unchanged.
 - **Live**: the same preset weights adjusted by documented multipliers
-  (`LIVE_FLAVOR_MULTIPLIERS`): mass shifts toward `station` (×1.5),
-  `passive-reg` (×1.4) and `fit-or-fold` (×1.25), away from `stronger-reg`
-  (×0.4), `lag` (×0.6) and `tag` (×0.7); `nit` ×1.1, `maniac` ×1.0; then
+  (`LIVE_FLAVOR_MULTIPLIERS`): mass shifts toward `station` (×2.2),
+  `passive-reg` (×2.05) and `fit-or-fold` (×1.35), away from `stronger-reg`
+  (×0.3), `lag` (×0.5) and `tag` (×0.62); `nit` ×1.05, `maniac` ×1.1; then
   renormalised to sum 1. Rationale: live pools are publicly observed to hold
   proportionally more loose-passive recreational players and fewer studied
   regulars than online pools. This is a modelling assumption, not a
-  measurement.
+  measurement. (Multipliers as tuned by the Phase 5 calibration loop —
+  see "Calibration status" below.)
 
 ## Target bands (percent)
 
