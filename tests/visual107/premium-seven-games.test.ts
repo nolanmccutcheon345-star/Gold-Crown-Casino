@@ -20,8 +20,10 @@ describe('Patch 107 — visual-only premium Card Room', () => {
  });
  it('puts the approved identity on the actual application and live home routes',()=>{
   const home=casinoHomeHero();
-  expect(casinoWordmark()).toContain('THE CARD ROOM');
-  expect(casinoWordmark()).toContain('POKER NIGHT AI');
+  // Phase 6 Stage B rebrand (owner directive 2026-11-24): the shipped product identity is
+  // Gold Crown Casino; the wordmark assertions follow the player-visible brand change.
+  expect(casinoWordmark()).toContain('GOLD CROWN');
+  expect(casinoWordmark()).toContain('CASINO');
   expect(home).toContain('Virtual chips only');
   expect(home).toContain('data-view="slots"');
   expect(home).toContain('href="#home-game-collection"');

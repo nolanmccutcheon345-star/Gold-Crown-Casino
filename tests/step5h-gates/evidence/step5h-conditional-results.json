@@ -1,0 +1,2382 @@
+{
+  "kind": "Synthetic functional contrast; not expert assessment, human calibration or solver verification",
+  "policyVersion": "synthetic-cash-1.6.0",
+  "identitySeeds": [
+    6212241,
+    6212342,
+    6212443,
+    6212544
+  ],
+  "trialsPerIdentity": 128,
+  "method": "Each row has512 legal decision opportunities:4 stable identities times128 paired action streams. Wilson intervals describe Monte Carlo action sampling within these fixed synthetic contexts, not human-population uncertainty. No minimum calling quota or policy edit. Exact actor cards and public prefixes are test-only diagnostics.",
+  "rows": {
+    "station": {
+      "archetype": "station",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 408,
+      "folds": 102,
+      "raises": 2,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "legal": {
+        "actor": 0,
+        "fold": true,
+        "check": false,
+        "callAmount": 1000,
+        "minRaiseTo": 2000,
+        "maxRaiseTo": 29000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F08:weak-pair",
+        "revision": 7,
+        "street": "river",
+        "board": [
+          "Jh",
+          "9s",
+          "2c",
+          "3d",
+          "Ks"
+        ],
+        "pot": 3000,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F08:weak-pair:0",
+            "handId": "5h:F08:weak-pair",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F08:weak-pair:1",
+            "handId": "5h:F08:weak-pair",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 0,
+            "amount": 100
+          },
+          {
+            "id": "5h:F08:weak-pair:2",
+            "handId": "5h:F08:weak-pair",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 200
+          },
+          {
+            "id": "5h:F08:weak-pair:3",
+            "handId": "5h:F08:weak-pair",
+            "revision": 1,
+            "type": "action",
+            "seatId": 0,
+            "amount": 900,
+            "action": {
+              "type": "raise",
+              "to": 1000
+            },
+            "decisionId": "public-prefix:0",
+            "street": "preflop"
+          },
+          {
+            "id": "5h:F08:weak-pair:4",
+            "handId": "5h:F08:weak-pair",
+            "revision": 2,
+            "type": "action",
+            "seatId": 1,
+            "amount": 800,
+            "action": {
+              "type": "call"
+            },
+            "decisionId": "public-prefix:1",
+            "street": "preflop"
+          },
+          {
+            "id": "5h:F08:weak-pair:5",
+            "handId": "5h:F08:weak-pair",
+            "revision": 2,
+            "type": "street",
+            "street": "flop",
+            "cards": [
+              "Jh",
+              "9s",
+              "2c"
+            ]
+          },
+          {
+            "id": "5h:F08:weak-pair:6",
+            "handId": "5h:F08:weak-pair",
+            "revision": 3,
+            "type": "action",
+            "seatId": 1,
+            "amount": 0,
+            "action": {
+              "type": "check"
+            },
+            "decisionId": "public-prefix:2",
+            "street": "flop"
+          },
+          {
+            "id": "5h:F08:weak-pair:7",
+            "handId": "5h:F08:weak-pair",
+            "revision": 4,
+            "type": "action",
+            "seatId": 0,
+            "amount": 0,
+            "action": {
+              "type": "check"
+            },
+            "decisionId": "public-prefix:3",
+            "street": "flop"
+          },
+          {
+            "id": "5h:F08:weak-pair:8",
+            "handId": "5h:F08:weak-pair",
+            "revision": 4,
+            "type": "street",
+            "street": "turn",
+            "cards": [
+              "3d"
+            ]
+          },
+          {
+            "id": "5h:F08:weak-pair:9",
+            "handId": "5h:F08:weak-pair",
+            "revision": 5,
+            "type": "action",
+            "seatId": 1,
+            "amount": 0,
+            "action": {
+              "type": "check"
+            },
+            "decisionId": "public-prefix:4",
+            "street": "turn"
+          },
+          {
+            "id": "5h:F08:weak-pair:10",
+            "handId": "5h:F08:weak-pair",
+            "revision": 6,
+            "type": "action",
+            "seatId": 0,
+            "amount": 0,
+            "action": {
+              "type": "check"
+            },
+            "decisionId": "public-prefix:5",
+            "street": "turn"
+          },
+          {
+            "id": "5h:F08:weak-pair:11",
+            "handId": "5h:F08:weak-pair",
+            "revision": 6,
+            "type": "street",
+            "street": "river",
+            "cards": [
+              "Ks"
+            ]
+          },
+          {
+            "id": "5h:F08:weak-pair:12",
+            "handId": "5h:F08:weak-pair",
+            "revision": 7,
+            "type": "action",
+            "seatId": 1,
+            "amount": 1000,
+            "action": {
+              "type": "raise",
+              "to": 1000
+            },
+            "decisionId": "public-prefix:6",
+            "street": "river"
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.18339048854966267,
+            "check": 0,
+            "call": 0.8125264638930857,
+            "raise": 0.004083047557251687
+          },
+          "range": {
+            "modelVersion": "public-action-ranges-1.1.0",
+            "equity": 0.22395833333333334,
+            "uncertainty": 0.49,
+            "opponents": [
+              {
+                "seatId": 1,
+                "observedActions": 4,
+                "updates": [
+                  {
+                    "eventId": "5h:F08:weak-pair:4",
+                    "street": "preflop",
+                    "action": "call",
+                    "effectiveCombos": 407.57904138240895,
+                    "premiumMass": 0.08207035173537719
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:6",
+                    "street": "flop",
+                    "action": "check",
+                    "effectiveCombos": 439.42123733673424,
+                    "premiumMass": 0.06767593714603275
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:9",
+                    "street": "turn",
+                    "action": "check",
+                    "effectiveCombos": 453.2805214845096,
+                    "premiumMass": 0.0589978998361111
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:12",
+                    "street": "river",
+                    "action": "raise",
+                    "effectiveCombos": 250.45273020087828,
+                    "premiumMass": 0.12811197540196168
+                  }
+                ],
+                "effectiveCombos": 250.45273020087828
+              }
+            ]
+          }
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.18164028383832687,
+            "check": 0,
+            "call": 0.8142679175808648,
+            "raise": 0.004091798580808366
+          },
+          "range": {
+            "modelVersion": "public-action-ranges-1.1.0",
+            "equity": 0.22395833333333334,
+            "uncertainty": 0.49,
+            "opponents": [
+              {
+                "seatId": 1,
+                "observedActions": 4,
+                "updates": [
+                  {
+                    "eventId": "5h:F08:weak-pair:4",
+                    "street": "preflop",
+                    "action": "call",
+                    "effectiveCombos": 407.57904138240895,
+                    "premiumMass": 0.08207035173537719
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:6",
+                    "street": "flop",
+                    "action": "check",
+                    "effectiveCombos": 439.42123733673424,
+                    "premiumMass": 0.06767593714603275
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:9",
+                    "street": "turn",
+                    "action": "check",
+                    "effectiveCombos": 453.2805214845096,
+                    "premiumMass": 0.0589978998361111
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:12",
+                    "street": "river",
+                    "action": "raise",
+                    "effectiveCombos": 250.45273020087828,
+                    "premiumMass": 0.12811197540196168
+                  }
+                ],
+                "effectiveCombos": 250.45273020087828
+              }
+            ]
+          }
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.19621130744523563,
+            "check": 0,
+            "call": 0.7997697490919905,
+            "raise": 0.0040189434627738215
+          },
+          "range": {
+            "modelVersion": "public-action-ranges-1.1.0",
+            "equity": 0.22395833333333334,
+            "uncertainty": 0.49,
+            "opponents": [
+              {
+                "seatId": 1,
+                "observedActions": 4,
+                "updates": [
+                  {
+                    "eventId": "5h:F08:weak-pair:4",
+                    "street": "preflop",
+                    "action": "call",
+                    "effectiveCombos": 407.57904138240895,
+                    "premiumMass": 0.08207035173537719
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:6",
+                    "street": "flop",
+                    "action": "check",
+                    "effectiveCombos": 439.42123733673424,
+                    "premiumMass": 0.06767593714603275
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:9",
+                    "street": "turn",
+                    "action": "check",
+                    "effectiveCombos": 453.2805214845096,
+                    "premiumMass": 0.0589978998361111
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:12",
+                    "street": "river",
+                    "action": "raise",
+                    "effectiveCombos": 250.45273020087828,
+                    "premiumMass": 0.12811197540196168
+                  }
+                ],
+                "effectiveCombos": 250.45273020087828
+              }
+            ]
+          }
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.19091508662522771,
+            "check": 0,
+            "call": 0.8050394888078984,
+            "raise": 0.004045424566873862
+          },
+          "range": {
+            "modelVersion": "public-action-ranges-1.1.0",
+            "equity": 0.22395833333333334,
+            "uncertainty": 0.49,
+            "opponents": [
+              {
+                "seatId": 1,
+                "observedActions": 4,
+                "updates": [
+                  {
+                    "eventId": "5h:F08:weak-pair:4",
+                    "street": "preflop",
+                    "action": "call",
+                    "effectiveCombos": 407.57904138240895,
+                    "premiumMass": 0.08207035173537719
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:6",
+                    "street": "flop",
+                    "action": "check",
+                    "effectiveCombos": 439.42123733673424,
+                    "premiumMass": 0.06767593714603275
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:9",
+                    "street": "turn",
+                    "action": "check",
+                    "effectiveCombos": 453.2805214845096,
+                    "premiumMass": 0.0589978998361111
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:12",
+                    "street": "river",
+                    "action": "raise",
+                    "effectiveCombos": 250.45273020087828,
+                    "premiumMass": 0.12811197540196168
+                  }
+                ],
+                "effectiveCombos": 250.45273020087828
+              }
+            ]
+          }
+        }
+      ],
+      "raiseInterval95": [
+        0.0010718890803936704,
+        0.014129407144654047
+      ],
+      "callInterval95": [
+        0.7598748962512072,
+        0.8294534619133311
+      ]
+    },
+    "tag": {
+      "archetype": "tag",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 221,
+      "folds": 288,
+      "raises": 3,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "legal": {
+        "actor": 0,
+        "fold": true,
+        "check": false,
+        "callAmount": 1000,
+        "minRaiseTo": 2000,
+        "maxRaiseTo": 29000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F08:weak-pair",
+        "revision": 7,
+        "street": "river",
+        "board": [
+          "Jh",
+          "9s",
+          "2c",
+          "3d",
+          "Ks"
+        ],
+        "pot": 3000,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F08:weak-pair:0",
+            "handId": "5h:F08:weak-pair",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F08:weak-pair:1",
+            "handId": "5h:F08:weak-pair",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 0,
+            "amount": 100
+          },
+          {
+            "id": "5h:F08:weak-pair:2",
+            "handId": "5h:F08:weak-pair",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 200
+          },
+          {
+            "id": "5h:F08:weak-pair:3",
+            "handId": "5h:F08:weak-pair",
+            "revision": 1,
+            "type": "action",
+            "seatId": 0,
+            "amount": 900,
+            "action": {
+              "type": "raise",
+              "to": 1000
+            },
+            "decisionId": "public-prefix:0",
+            "street": "preflop"
+          },
+          {
+            "id": "5h:F08:weak-pair:4",
+            "handId": "5h:F08:weak-pair",
+            "revision": 2,
+            "type": "action",
+            "seatId": 1,
+            "amount": 800,
+            "action": {
+              "type": "call"
+            },
+            "decisionId": "public-prefix:1",
+            "street": "preflop"
+          },
+          {
+            "id": "5h:F08:weak-pair:5",
+            "handId": "5h:F08:weak-pair",
+            "revision": 2,
+            "type": "street",
+            "street": "flop",
+            "cards": [
+              "Jh",
+              "9s",
+              "2c"
+            ]
+          },
+          {
+            "id": "5h:F08:weak-pair:6",
+            "handId": "5h:F08:weak-pair",
+            "revision": 3,
+            "type": "action",
+            "seatId": 1,
+            "amount": 0,
+            "action": {
+              "type": "check"
+            },
+            "decisionId": "public-prefix:2",
+            "street": "flop"
+          },
+          {
+            "id": "5h:F08:weak-pair:7",
+            "handId": "5h:F08:weak-pair",
+            "revision": 4,
+            "type": "action",
+            "seatId": 0,
+            "amount": 0,
+            "action": {
+              "type": "check"
+            },
+            "decisionId": "public-prefix:3",
+            "street": "flop"
+          },
+          {
+            "id": "5h:F08:weak-pair:8",
+            "handId": "5h:F08:weak-pair",
+            "revision": 4,
+            "type": "street",
+            "street": "turn",
+            "cards": [
+              "3d"
+            ]
+          },
+          {
+            "id": "5h:F08:weak-pair:9",
+            "handId": "5h:F08:weak-pair",
+            "revision": 5,
+            "type": "action",
+            "seatId": 1,
+            "amount": 0,
+            "action": {
+              "type": "check"
+            },
+            "decisionId": "public-prefix:4",
+            "street": "turn"
+          },
+          {
+            "id": "5h:F08:weak-pair:10",
+            "handId": "5h:F08:weak-pair",
+            "revision": 6,
+            "type": "action",
+            "seatId": 0,
+            "amount": 0,
+            "action": {
+              "type": "check"
+            },
+            "decisionId": "public-prefix:5",
+            "street": "turn"
+          },
+          {
+            "id": "5h:F08:weak-pair:11",
+            "handId": "5h:F08:weak-pair",
+            "revision": 6,
+            "type": "street",
+            "street": "river",
+            "cards": [
+              "Ks"
+            ]
+          },
+          {
+            "id": "5h:F08:weak-pair:12",
+            "handId": "5h:F08:weak-pair",
+            "revision": 7,
+            "type": "action",
+            "seatId": 1,
+            "amount": 1000,
+            "action": {
+              "type": "raise",
+              "to": 1000
+            },
+            "decisionId": "public-prefix:6",
+            "street": "river"
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.5647333593372363,
+            "check": 0,
+            "call": 0.426954786147534,
+            "raise": 0.008311854515229629
+          },
+          "range": {
+            "modelVersion": "public-action-ranges-1.1.0",
+            "equity": 0.22395833333333334,
+            "uncertainty": 0.49,
+            "opponents": [
+              {
+                "seatId": 1,
+                "observedActions": 4,
+                "updates": [
+                  {
+                    "eventId": "5h:F08:weak-pair:4",
+                    "street": "preflop",
+                    "action": "call",
+                    "effectiveCombos": 407.57904138240895,
+                    "premiumMass": 0.08207035173537719
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:6",
+                    "street": "flop",
+                    "action": "check",
+                    "effectiveCombos": 439.42123733673424,
+                    "premiumMass": 0.06767593714603275
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:9",
+                    "street": "turn",
+                    "action": "check",
+                    "effectiveCombos": 453.2805214845096,
+                    "premiumMass": 0.0589978998361111
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:12",
+                    "street": "river",
+                    "action": "raise",
+                    "effectiveCombos": 250.45273020087828,
+                    "premiumMass": 0.12811197540196168
+                  }
+                ],
+                "effectiveCombos": 250.45273020087828
+              }
+            ]
+          }
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.5660284879401826,
+            "check": 0,
+            "call": 0.42430761772465375,
+            "raise": 0.00966389433516371
+          },
+          "range": {
+            "modelVersion": "public-action-ranges-1.1.0",
+            "equity": 0.22395833333333334,
+            "uncertainty": 0.49,
+            "opponents": [
+              {
+                "seatId": 1,
+                "observedActions": 4,
+                "updates": [
+                  {
+                    "eventId": "5h:F08:weak-pair:4",
+                    "street": "preflop",
+                    "action": "call",
+                    "effectiveCombos": 407.57904138240895,
+                    "premiumMass": 0.08207035173537719
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:6",
+                    "street": "flop",
+                    "action": "check",
+                    "effectiveCombos": 439.42123733673424,
+                    "premiumMass": 0.06767593714603275
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:9",
+                    "street": "turn",
+                    "action": "check",
+                    "effectiveCombos": 453.2805214845096,
+                    "premiumMass": 0.0589978998361111
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:12",
+                    "street": "river",
+                    "action": "raise",
+                    "effectiveCombos": 250.45273020087828,
+                    "premiumMass": 0.12811197540196168
+                  }
+                ],
+                "effectiveCombos": 250.45273020087828
+              }
+            ]
+          }
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.5726509110910171,
+            "check": 0,
+            "call": 0.41925406303277524,
+            "raise": 0.008095025876207737
+          },
+          "range": {
+            "modelVersion": "public-action-ranges-1.1.0",
+            "equity": 0.22395833333333334,
+            "uncertainty": 0.49,
+            "opponents": [
+              {
+                "seatId": 1,
+                "observedActions": 4,
+                "updates": [
+                  {
+                    "eventId": "5h:F08:weak-pair:4",
+                    "street": "preflop",
+                    "action": "call",
+                    "effectiveCombos": 407.57904138240895,
+                    "premiumMass": 0.08207035173537719
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:6",
+                    "street": "flop",
+                    "action": "check",
+                    "effectiveCombos": 439.42123733673424,
+                    "premiumMass": 0.06767593714603275
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:9",
+                    "street": "turn",
+                    "action": "check",
+                    "effectiveCombos": 453.2805214845096,
+                    "premiumMass": 0.0589978998361111
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:12",
+                    "street": "river",
+                    "action": "raise",
+                    "effectiveCombos": 250.45273020087828,
+                    "premiumMass": 0.12811197540196168
+                  }
+                ],
+                "effectiveCombos": 250.45273020087828
+              }
+            ]
+          }
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.5774423309625707,
+            "check": 0,
+            "call": 0.4136558577485055,
+            "raise": 0.008901811288923818
+          },
+          "range": {
+            "modelVersion": "public-action-ranges-1.1.0",
+            "equity": 0.22395833333333334,
+            "uncertainty": 0.49,
+            "opponents": [
+              {
+                "seatId": 1,
+                "observedActions": 4,
+                "updates": [
+                  {
+                    "eventId": "5h:F08:weak-pair:4",
+                    "street": "preflop",
+                    "action": "call",
+                    "effectiveCombos": 407.57904138240895,
+                    "premiumMass": 0.08207035173537719
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:6",
+                    "street": "flop",
+                    "action": "check",
+                    "effectiveCombos": 439.42123733673424,
+                    "premiumMass": 0.06767593714603275
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:9",
+                    "street": "turn",
+                    "action": "check",
+                    "effectiveCombos": 453.2805214845096,
+                    "premiumMass": 0.0589978998361111
+                  },
+                  {
+                    "eventId": "5h:F08:weak-pair:12",
+                    "street": "river",
+                    "action": "raise",
+                    "effectiveCombos": 250.45273020087828,
+                    "premiumMass": 0.12811197540196168
+                  }
+                ],
+                "effectiveCombos": 250.45273020087828
+              }
+            ]
+          }
+        }
+      ],
+      "raiseInterval95": [
+        0.0019946757921860923,
+        0.017083780683944113
+      ],
+      "callInterval95": [
+        0.38940389657104313,
+        0.4748954946410697
+      ]
+    },
+    "unopened:premium:maniac": {
+      "archetype": "maniac",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 0,
+      "folds": 0,
+      "raises": 512,
+      "ownCards": [
+        "As",
+        "Ad"
+      ],
+      "legal": {
+        "actor": 3,
+        "fold": true,
+        "check": false,
+        "callAmount": 200,
+        "minRaiseTo": 400,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:unopened",
+        "revision": 0,
+        "street": "preflop",
+        "board": [],
+        "pot": 300,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:unopened:0",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:unopened:1",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:unopened:2",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.0010321540939994822,
+            "raise": 0.9989678459060005
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.000254302806340867,
+            "raise": 0.9997456971936591
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.0007307433067635927,
+            "raise": 0.9992692566932364
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.0010202668733655385,
+            "raise": 0.9989797331266345
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.9925530242771171,
+        0.9999999999999999
+      ],
+      "callInterval95": [
+        0,
+        0.007446975722882739
+      ]
+    },
+    "unopened:premium:nit": {
+      "archetype": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 33,
+      "folds": 0,
+      "raises": 479,
+      "ownCards": [
+        "As",
+        "Ad"
+      ],
+      "legal": {
+        "actor": 3,
+        "fold": true,
+        "check": false,
+        "callAmount": 200,
+        "minRaiseTo": 400,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:unopened",
+        "revision": 0,
+        "street": "preflop",
+        "board": [],
+        "pot": 300,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:unopened:0",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:unopened:1",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:unopened:2",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.053676583956945745,
+            "raise": 0.9463234160430543
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.04675456507877318,
+            "raise": 0.9532454349212268
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.05164440482601507,
+            "raise": 0.9483555951739849
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.05464591181983036,
+            "raise": 0.9453540881801696
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.9108659024588599,
+        0.9537408335325352
+      ],
+      "callInterval95": [
+        0.046259166467464766,
+        0.08913409754114011
+      ]
+    },
+    "unopened:broadway:maniac": {
+      "archetype": "maniac",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 7,
+      "folds": 43,
+      "raises": 462,
+      "ownCards": [
+        "Kh",
+        "Ts"
+      ],
+      "legal": {
+        "actor": 3,
+        "fold": true,
+        "check": false,
+        "callAmount": 200,
+        "minRaiseTo": 400,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:unopened",
+        "revision": 0,
+        "street": "preflop",
+        "board": [],
+        "pot": 300,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:unopened:0",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:unopened:1",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:unopened:2",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.08269332694313192,
+            "check": 0,
+            "call": 0.009603215032766243,
+            "raise": 0.9077034580241018
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.07947496394163378,
+            "check": 0,
+            "call": 0.007417414905740767,
+            "raise": 0.9131076211526254
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.08462654292451965,
+            "check": 0,
+            "call": 0.009495508361986467,
+            "raise": 0.9058779487134939
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.07342479427530457,
+            "check": 0,
+            "call": 0.007980274843838299,
+            "raise": 0.9185949308808571
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.8735560090639636,
+        0.9251390026590292
+      ],
+      "callInterval95": [
+        0.006638096992250363,
+        0.0279490004882098
+      ]
+    },
+    "unopened:broadway:nit": {
+      "archetype": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 1,
+      "folds": 509,
+      "raises": 2,
+      "ownCards": [
+        "Kh",
+        "Ts"
+      ],
+      "legal": {
+        "actor": 3,
+        "fold": true,
+        "check": false,
+        "callAmount": 200,
+        "minRaiseTo": 400,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:unopened",
+        "revision": 0,
+        "street": "preflop",
+        "board": [],
+        "pot": 300,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:unopened:0",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:unopened:1",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:unopened:2",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.9923553126416136,
+            "check": 0,
+            "call": 0.003447396839644037,
+            "raise": 0.004197290518742351
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.9920013119128022,
+            "check": 0,
+            "call": 0.0030934376871829907,
+            "raise": 0.004905250400014887
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.9931933670877012,
+            "check": 0,
+            "call": 0.003053864960325538,
+            "raise": 0.003752767951973258
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.9919439913451554,
+            "check": 0,
+            "call": 0.003244843051680654,
+            "raise": 0.004811165603163934
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.0010718890803936704,
+        0.014129407144654047
+      ],
+      "callInterval95": [
+        0.00034485776154337486,
+        0.010979278212421853
+      ]
+    },
+    "unopened:weak:maniac": {
+      "archetype": "maniac",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 0,
+      "folds": 509,
+      "raises": 3,
+      "ownCards": [
+        "7h",
+        "2d"
+      ],
+      "legal": {
+        "actor": 3,
+        "fold": true,
+        "check": false,
+        "callAmount": 200,
+        "minRaiseTo": 400,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:unopened",
+        "revision": 0,
+        "street": "preflop",
+        "board": [],
+        "pot": 300,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:unopened:0",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:unopened:1",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:unopened:2",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.9917657046028407,
+            "check": 0,
+            "call": 0.0000862042233691845,
+            "raise": 0.008148091173790083
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.99157430358132,
+            "check": 0,
+            "call": 0.00006789265230066013,
+            "raise": 0.008357803766379294
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.9923947888368431,
+            "check": 0,
+            "call": 0.00007889167599981556,
+            "raise": 0.007526319487157159
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.9917737205988314,
+            "check": 0,
+            "call": 0.000070850126528247,
+            "raise": 0.008155429274640379
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.0019946757921860923,
+        0.017083780683944113
+      ],
+      "callInterval95": [
+        0,
+        0.007446975722882739
+      ]
+    },
+    "unopened:weak:nit": {
+      "archetype": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 0,
+      "folds": 512,
+      "raises": 0,
+      "ownCards": [
+        "7h",
+        "2d"
+      ],
+      "legal": {
+        "actor": 3,
+        "fold": true,
+        "check": false,
+        "callAmount": 200,
+        "minRaiseTo": 400,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:unopened",
+        "revision": 0,
+        "street": "preflop",
+        "board": [],
+        "pot": 300,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:unopened:0",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:unopened:1",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:unopened:2",
+            "handId": "5h:F09:unopened",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.9999196197012762,
+            "check": 0,
+            "call": 0.0000362477593653313,
+            "raise": 0.00004413253935844208
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.9999152996237248,
+            "check": 0,
+            "call": 0.00003275728884936158,
+            "raise": 0.00005194308742583991
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.9999394332930638,
+            "check": 0,
+            "call": 0.00002717386796935873,
+            "raise": 0.000033392838966819094
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.9999299106399232,
+            "check": 0,
+            "call": 0.000028230974268523092,
+            "raise": 0.00004185838580826735
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0,
+        0.007446975722882739
+      ],
+      "callInterval95": [
+        0,
+        0.007446975722882739
+      ]
+    },
+    "facing-open:premium:maniac": {
+      "archetype": "maniac",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 0,
+      "folds": 0,
+      "raises": 512,
+      "ownCards": [
+        "As",
+        "Ad"
+      ],
+      "legal": {
+        "actor": 4,
+        "fold": true,
+        "check": false,
+        "callAmount": 600,
+        "minRaiseTo": 1000,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:facing-open",
+        "revision": 1,
+        "street": "preflop",
+        "board": [],
+        "pot": 900,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:facing-open:0",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:facing-open:1",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:facing-open:2",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          },
+          {
+            "id": "5h:F09:facing-open:3",
+            "handId": "5h:F09:facing-open",
+            "revision": 1,
+            "type": "action",
+            "seatId": 3,
+            "amount": 600,
+            "action": {
+              "type": "raise",
+              "to": 600
+            },
+            "decisionId": "public-prefix:0",
+            "street": "preflop"
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.0010321540939994822,
+            "raise": 0.9989678459060005
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.000254302806340867,
+            "raise": 0.9997456971936591
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.0007307433067635927,
+            "raise": 0.9992692566932364
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.0010202668733655385,
+            "raise": 0.9989797331266345
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.9925530242771171,
+        0.9999999999999999
+      ],
+      "callInterval95": [
+        0,
+        0.007446975722882739
+      ]
+    },
+    "facing-open:premium:nit": {
+      "archetype": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 33,
+      "folds": 0,
+      "raises": 479,
+      "ownCards": [
+        "As",
+        "Ad"
+      ],
+      "legal": {
+        "actor": 4,
+        "fold": true,
+        "check": false,
+        "callAmount": 600,
+        "minRaiseTo": 1000,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:facing-open",
+        "revision": 1,
+        "street": "preflop",
+        "board": [],
+        "pot": 900,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:facing-open:0",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:facing-open:1",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:facing-open:2",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          },
+          {
+            "id": "5h:F09:facing-open:3",
+            "handId": "5h:F09:facing-open",
+            "revision": 1,
+            "type": "action",
+            "seatId": 3,
+            "amount": 600,
+            "action": {
+              "type": "raise",
+              "to": 600
+            },
+            "decisionId": "public-prefix:0",
+            "street": "preflop"
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.053676583956945745,
+            "raise": 0.9463234160430543
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.04675456507877318,
+            "raise": 0.9532454349212268
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.05164440482601507,
+            "raise": 0.9483555951739849
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0,
+            "check": 0,
+            "call": 0.05464591181983036,
+            "raise": 0.9453540881801696
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.9108659024588599,
+        0.9537408335325352
+      ],
+      "callInterval95": [
+        0.046259166467464766,
+        0.08913409754114011
+      ]
+    },
+    "facing-open:broadway:maniac": {
+      "archetype": "maniac",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 187,
+      "folds": 203,
+      "raises": 122,
+      "ownCards": [
+        "Kh",
+        "Ts"
+      ],
+      "legal": {
+        "actor": 4,
+        "fold": true,
+        "check": false,
+        "callAmount": 600,
+        "minRaiseTo": 1000,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:facing-open",
+        "revision": 1,
+        "street": "preflop",
+        "board": [],
+        "pot": 900,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:facing-open:0",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:facing-open:1",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:facing-open:2",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          },
+          {
+            "id": "5h:F09:facing-open:3",
+            "handId": "5h:F09:facing-open",
+            "revision": 1,
+            "type": "action",
+            "seatId": 3,
+            "amount": 600,
+            "action": {
+              "type": "raise",
+              "to": 600
+            },
+            "decisionId": "public-prefix:0",
+            "street": "preflop"
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.383527114810188,
+            "check": 0,
+            "call": 0.3950159627594593,
+            "raise": 0.22145692243035264
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.3790297693232757,
+            "check": 0,
+            "call": 0.39163642605206045,
+            "raise": 0.22933380462466388
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.39649867872051425,
+            "check": 0,
+            "call": 0.385656596809336,
+            "raise": 0.21784472447014971
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.3642227079317144,
+            "check": 0,
+            "call": 0.4040178938356937,
+            "raise": 0.2317593982325919
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.2034138362657694,
+        0.27704669008917704
+      ],
+      "callInterval95": [
+        0.32467475624740916,
+        0.4078011864278991
+      ]
+    },
+    "facing-open:broadway:nit": {
+      "archetype": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 0,
+      "folds": 512,
+      "raises": 0,
+      "ownCards": [
+        "Kh",
+        "Ts"
+      ],
+      "legal": {
+        "actor": 4,
+        "fold": true,
+        "check": false,
+        "callAmount": 600,
+        "minRaiseTo": 1000,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:facing-open",
+        "revision": 1,
+        "street": "preflop",
+        "board": [],
+        "pot": 900,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:facing-open:0",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:facing-open:1",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:facing-open:2",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          },
+          {
+            "id": "5h:F09:facing-open:3",
+            "handId": "5h:F09:facing-open",
+            "revision": 1,
+            "type": "action",
+            "seatId": 3,
+            "amount": 600,
+            "action": {
+              "type": "raise",
+              "to": 600
+            },
+            "decisionId": "public-prefix:0",
+            "street": "preflop"
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.9996073895129508,
+            "check": 0,
+            "call": 0.0003395168997272921,
+            "raise": 0.00005309358732193865
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.9995998790369498,
+            "check": 0,
+            "call": 0.00034197726682040316,
+            "raise": 0.000058143696229842844
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.9996749052441297,
+            "check": 0,
+            "call": 0.00028056714528024846,
+            "raise": 0.000044527610590012744
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.9996295611402523,
+            "check": 0,
+            "call": 0.0003183813769758774,
+            "raise": 0.00005205748277187436
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0,
+        0.007446975722882739
+      ],
+      "callInterval95": [
+        0,
+        0.007446975722882739
+      ]
+    },
+    "facing-open:weak:maniac": {
+      "archetype": "maniac",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 0,
+      "folds": 510,
+      "raises": 2,
+      "ownCards": [
+        "7h",
+        "2d"
+      ],
+      "legal": {
+        "actor": 4,
+        "fold": true,
+        "check": false,
+        "callAmount": 600,
+        "minRaiseTo": 1000,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:facing-open",
+        "revision": 1,
+        "street": "preflop",
+        "board": [],
+        "pot": 900,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:facing-open:0",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:facing-open:1",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:facing-open:2",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          },
+          {
+            "id": "5h:F09:facing-open:3",
+            "handId": "5h:F09:facing-open",
+            "revision": 1,
+            "type": "action",
+            "seatId": 3,
+            "amount": 600,
+            "action": {
+              "type": "raise",
+              "to": 600
+            },
+            "decisionId": "public-prefix:0",
+            "street": "preflop"
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.9960028326229532,
+            "check": 0,
+            "call": 0.002561256070927911,
+            "raise": 0.0014359113061189054
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.9959847680640277,
+            "check": 0,
+            "call": 0.002532345364544442,
+            "raise": 0.0014828865714278797
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.9962360174722427,
+            "check": 0,
+            "call": 0.0024053049113913483,
+            "raise": 0.001358677616366036
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.9961702274456524,
+            "check": 0,
+            "call": 0.0024337085652172976,
+            "raise": 0.0013960639891302626
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0.0010718890803936704,
+        0.014129407144654047
+      ],
+      "callInterval95": [
+        0,
+        0.007446975722882739
+      ]
+    },
+    "facing-open:weak:nit": {
+      "archetype": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "opportunities": 512,
+      "calls": 0,
+      "folds": 512,
+      "raises": 0,
+      "ownCards": [
+        "7h",
+        "2d"
+      ],
+      "legal": {
+        "actor": 4,
+        "fold": true,
+        "check": false,
+        "callAmount": 600,
+        "minRaiseTo": 1000,
+        "maxRaiseTo": 30000,
+        "canRaise": true,
+        "shortAllInTo": null,
+        "reopened": true
+      },
+      "publicState": {
+        "handId": "5h:F09:facing-open",
+        "revision": 1,
+        "street": "preflop",
+        "board": [],
+        "pot": 900,
+        "button": 0,
+        "events": [
+          {
+            "id": "5h:F09:facing-open:0",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "start",
+            "detail": "practice-cash@0.1.0"
+          },
+          {
+            "id": "5h:F09:facing-open:1",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 1,
+            "amount": 100
+          },
+          {
+            "id": "5h:F09:facing-open:2",
+            "handId": "5h:F09:facing-open",
+            "revision": 0,
+            "type": "blind",
+            "seatId": 2,
+            "amount": 200
+          },
+          {
+            "id": "5h:F09:facing-open:3",
+            "handId": "5h:F09:facing-open",
+            "revision": 1,
+            "type": "action",
+            "seatId": 3,
+            "amount": 600,
+            "action": {
+              "type": "raise",
+              "to": 600
+            },
+            "decisionId": "public-prefix:0",
+            "street": "preflop"
+          }
+        ],
+        "profile": {
+          "id": "practice-cash",
+          "version": "0.1.0",
+          "mode": "cash",
+          "smallBlind": 100,
+          "bigBlind": 200,
+          "chipUnit": 1,
+          "rake": {
+            "basisPoints": 0,
+            "cap": 0,
+            "noFlopNoDrop": true
+          },
+          "shortRaiseReopens": "cumulative",
+          "oddChipOrder": "clockwise-from-button"
+        }
+      },
+      "identities": [
+        {
+          "seed": 6212241,
+          "distribution": {
+            "fold": 0.9999201454925883,
+            "check": 0,
+            "call": 0.00006905560518629655,
+            "raise": 0.000010798902225405867
+          },
+          "range": null
+        },
+        {
+          "seed": 6212342,
+          "distribution": {
+            "fold": 0.999915842703005,
+            "check": 0,
+            "call": 0.00007192795446137195,
+            "raise": 0.000012229342533555984
+          },
+          "range": null
+        },
+        {
+          "seed": 6212443,
+          "distribution": {
+            "fold": 0.9999398541322071,
+            "check": 0,
+            "call": 0.00005190780264014308,
+            "raise": 0.00000823806515276342
+          },
+          "range": null
+        },
+        {
+          "seed": 6212544,
+          "distribution": {
+            "fold": 0.9999303873381321,
+            "check": 0,
+            "call": 0.00005983004902767541,
+            "raise": 0.000009782612840243456
+          },
+          "range": null
+        }
+      ],
+      "raiseInterval95": [
+        0,
+        0.007446975722882739
+      ],
+      "callInterval95": [
+        0,
+        0.007446975722882739
+      ]
+    }
+  }
+}

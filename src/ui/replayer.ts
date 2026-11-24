@@ -62,7 +62,7 @@ export async function replayImage(frame:HeroViewModel,title:string,lines:ImageLi
   g.fillStyle='#cfe3c4';g.font='22px system-ui,sans-serif';g.fillText(money(s.stack)+((frame.payouts[s.id]??0)>0&&frame.street==='complete'?`  +${money(frame.payouts[s.id])}`:''),x,y+42);}
  g.textAlign='left';g.fillStyle='#ffffff';g.font='bold 34px system-ui,sans-serif';g.fillText(title,40,700);
  lines.slice(0,24).forEach((l,i)=>{g.fillStyle=l.bold?'#e6c48a':'#dfe7e3';g.font=`${l.bold?'bold ':''}26px system-ui,sans-serif`;g.fillText(l.text.slice(0,70),40,750+i*lineH);});
- g.fillStyle='#7f8b86';g.font='20px system-ui,sans-serif';g.fillText('Poker Night AI · virtual chips · hidden cards stay hidden',40,H-20);
+ g.fillStyle='#7f8b86';g.font='20px system-ui,sans-serif';g.fillText('Gold Crown Casino · virtual chips · hidden cards stay hidden',40,H-20);
  return await new Promise<Blob|null>(resolve=>c.toBlob(b=>resolve(b),'image/png'));
 }
 

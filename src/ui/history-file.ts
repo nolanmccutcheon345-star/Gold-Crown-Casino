@@ -22,5 +22,5 @@ export function shareableFile(files:HistoryFiles,port:Partial<SharePort>):File|n
 /** Call directly from the tap handler; do not await payload construction first. */
 export function sharePreparedHistory(files:HistoryFiles,port:Partial<SharePort>):Promise<'shared'|'cancelled'|'unavailable'|'failed'>{
  const file=shareableFile(files,port);if(!file||!port.share)return Promise.resolve('unavailable');
- try{return port.share({files:[file],title:'Poker Night AI hand history'}).then(()=> 'shared' as const).catch(error=>error?.name==='AbortError'?'cancelled' as const:'failed' as const);}catch{return Promise.resolve('failed');}
+ try{return port.share({files:[file],title:'Gold Crown Casino hand history'}).then(()=> 'shared' as const).catch(error=>error?.name==='AbortError'?'cancelled' as const:'failed' as const);}catch{return Promise.resolve('failed');}
 }

@@ -27,7 +27,7 @@ const ROOM_LABELS:Record<CasinoView,{type:string;subtitle:string;seal:string}>={
 };
 function roomMarquee(game:CasinoView):string {
  const r=ROOM_LABELS[game];
- return `<header class="cz-mode-banner"><span class="cz-mode-seal" aria-hidden="true">${r.seal}</span><div class="cz-mode-copy"><small>THE CARD ROOM · ${r.type}</small><h2>${TITLES[game]}</h2><p>${r.subtitle}</p></div><span class="cz-mode-ornament" aria-hidden="true">♠</span></header>`;
+ return `<header class="cz-mode-banner"><span class="cz-mode-seal" aria-hidden="true">${r.seal}</span><div class="cz-mode-copy"><small>GOLD CROWN CASINO · ${r.type}</small><h2>${TITLES[game]}</h2><p>${r.subtitle}</p></div><span class="cz-mode-ornament" aria-hidden="true">♛</span></header>`;
 }
 
 

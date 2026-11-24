@@ -1,13 +1,16 @@
-/** Shared premium Card Room presentation. This module has no game or storage dependencies. */
+/** Shared premium Gold Crown Casino presentation. This module has no game or storage dependencies. */
 export type CasinoGame = 'live' | 'tournaments' | 'omaha' | 'heads-up' | 'blackjack' | 'slots' | 'career' | 'roulette' | 'craps' | 'baccarat' | 'races';
 
-/** Decorative, accessible-label-free spade crest. Pure SVG: scalable and crisp on a retina phone. */
+/** Decorative, accessible-label-free crown crest: the Gold Crown mark — a five-point crown
+ * with a small spade cut into the body, a nod to the card room inside the casino. Pure SVG:
+ * scalable and crisp on a retina phone. The gradient id keeps its historical name so existing
+ * stylesheet/test references stay valid. */
 export function casinoCrest(): string {
- return `<svg class="casino-crest" viewBox="0 0 64 64" fill="none" aria-hidden="true" focusable="false"><defs><linearGradient id="casino-spade-gold" x1=".1" y1="0" x2=".9" y2="1"><stop stop-color="#fff7cb"/><stop offset=".44" stop-color="#e7b45f"/><stop offset=".7" stop-color="#916027"/><stop offset="1" stop-color="#ffe6a5"/></linearGradient></defs><path d="M32 5C24 19 6 26 6 39c0 7.3 5.4 13 12 13 5.8 0 9.6-3.8 11.7-7.6L25 58h14l-4.7-13.6C36.5 48.2 40.3 52 46 52c6.6 0 12-5.7 12-13C58 26 40 19 32 5Z" stroke="url(#casino-spade-gold)" stroke-width="3" stroke-linejoin="round"/><path d="M32 15C26 26 13 30 13 39c0 3.4 2.1 6 5 6 5.7 0 10.6-5.9 14-10 3.4 4.1 8.3 10 14 10 2.9 0 5-2.6 5-6 0-9-13-13-19-24Z" fill="url(#casino-spade-gold)" opacity=".17"/></svg>`;
+ return `<svg class="casino-crest" viewBox="0 0 64 64" fill="none" aria-hidden="true" focusable="false"><defs><linearGradient id="casino-spade-gold" x1=".1" y1="0" x2=".9" y2="1"><stop stop-color="#fff7cb"/><stop offset=".44" stop-color="#e7b45f"/><stop offset=".7" stop-color="#916027"/><stop offset="1" stop-color="#ffe6a5"/></linearGradient></defs><path d="M8 46 5 20l14 11L32 12l13 19 14-11-3 26Z" fill="url(#casino-spade-gold)" opacity=".2"/><path d="M8 46 5 20l14 11L32 12l13 19 14-11-3 26Z" stroke="url(#casino-spade-gold)" stroke-width="3" stroke-linejoin="round"/><circle cx="5" cy="17" r="3.4" fill="url(#casino-spade-gold)"/><circle cx="32" cy="9" r="3.8" fill="url(#casino-spade-gold)"/><circle cx="59" cy="17" r="3.4" fill="url(#casino-spade-gold)"/><rect x="8" y="50" width="48" height="6" rx="2" fill="url(#casino-spade-gold)"/><path d="M32 26c-2.6 4.2-7.4 5.8-7.4 10 0 2.7 2.1 4.7 4.5 4.7 1.9 0 3.2-1.1 4-2.7l-1.3 3.8h2.7L33.2 38c.8 1.6 2.1 2.7 4 2.7 2.4 0 4.5-2 4.5-4.7 0-4.2-4.8-5.8-7.4-10Z" fill="#0A0E0D" opacity=".55"/></svg>`;
 }
-/** Original product identity is retained; The Card Room is the visual sub-brand. */
+/** The shipped product identity: Gold Crown Casino. */
 export function casinoWordmark(): string {
- return `<span class="casino-wordmark">${casinoCrest()}<span class="casino-wordmark-type"><b>THE CARD ROOM</b><small>POKER NIGHT AI · VIRTUAL CHIPS</small></span></span>`;
+ return `<span class="casino-wordmark">${casinoCrest()}<span class="casino-wordmark-type"><b>GOLD CROWN</b><small>CASINO · VIRTUAL CHIPS</small></span></span>`;
 }
 const gameAssets: Partial<Record<CasinoGame,string>> = {
  live: 'cards',tournaments:'trophy',omaha:'diamond', 'heads-up':'duel',blackjack:'blackjack',slots:'slots',career:'trophy',roulette:'wheel',craps:'dice',baccarat:'baccarat',races:'horse'
@@ -30,7 +33,7 @@ export function casinoGameArt(game: CasinoGame): string {
  return `<svg class="casino-game-art" viewBox="0 0 100 90" fill="none" aria-hidden="true" focusable="false"><circle cx="51" cy="45" r="40" stroke="currentColor" opacity=".14"/><circle cx="51" cy="45" r="34" stroke="currentColor" opacity=".13"/> <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" fill="currentColor" fill-opacity=".11">${shapes[which]}</g></svg>`;
 }
 export function casinoHomeHero(): string {
- return `<div class="casino-home-hero"><div class="casino-home-copy"><span class="casino-kicker">♠ &nbsp; A PRIVATE VIRTUAL CARD ROOM &nbsp; ♠</span><h2>THE <em>CARD ROOM</em></h2><p>Premium poker, blackjack, roulette, craps, baccarat and racing. Eight illustrated slots. Your decisions.</p><div class="casino-hero-actions"><a href="#home-game-collection" class="casino-hero-link">Explore the games <span aria-hidden="true">↗</span></a><button type="button" class="button secondary" data-view="slots">Visit the slot floor</button></div><small>Practice simulator · Virtual chips only · No real-money wagering</small></div><div class="casino-home-art" aria-hidden="true"><span class="casino-hero-medallion">${casinoCrest()}</span><span class="casino-fan casino-fan-one">A♠</span><span class="casino-fan casino-fan-two">K♠</span><span class="casino-chip-art">♠</span></div><div class="casino-hero-signature" aria-hidden="true">EST. IN THE CARDS <b>♠</b> ALL GAMES · ONE CARD ROOM</div></div>`;
+ return `<div class="casino-home-hero"><div class="casino-home-copy"><span class="casino-kicker">♛ &nbsp; A PRIVATE VIRTUAL CASINO &nbsp; ♛</span><h2>GOLD <em>CROWN</em></h2><p>Premium poker, blackjack, roulette, craps, baccarat and racing — and a floor of thirteen slot machines. Your decisions.</p><div class="casino-hero-actions"><a href="#home-game-collection" class="casino-hero-link">Explore the games <span aria-hidden="true">↗</span></a><button type="button" class="button secondary" data-view="slots">Visit the slot floor</button></div><small>Practice simulator · Virtual chips only · No real-money wagering</small></div><div class="casino-home-art" aria-hidden="true"><span class="casino-hero-medallion">${casinoCrest()}</span><span class="casino-fan casino-fan-one">A♠</span><span class="casino-fan casino-fan-two">K♠</span><span class="casino-chip-art">♛</span></div><div class="casino-hero-signature" aria-hidden="true">EST. IN THE CARDS <b>♛</b> ALL GAMES · ONE CASINO</div></div>`;
 }
 
 /** Visual-only preview links to real supported lobby routes. No invented jackpots, balances or actions. */
