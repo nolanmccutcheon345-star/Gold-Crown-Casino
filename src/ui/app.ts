@@ -1879,13 +1879,12 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     /* Phase 7: the concept-board game grid. Each tile's art is a named slot in
      * public/casino-art (tile-*.webp) layered over a production fallback, so a
      * tile whose art has not landed yet still shows a rich casino image.
-     * tile-slots.webp is the one outstanding slot: until it lands, the Slots
-     * tile shows the Stampede Run marquee. */
+     * All seven generated tiles have landed and are wired in as WebP. */
     const tile = (o: { view?: View; id?: string; name: string; sub: string; art: string; pos?: string; wide?: boolean }) => `<button type="button" class="home-tile${o.wide ? ' wide' : ''}"${o.id ? ` id="${o.id}"` : ''}${o.view ? ` data-view="${o.view}"` : ''}><span class="home-tile-art" style="background-image:${o.art}${o.pos ? `;background-position:${o.pos}` : ''}" aria-hidden="true"></span><span class="home-tile-band"><b>${o.name}</b><small>${o.sub}</small></span></button>`;
     const tiles = [
       active ? tile({ view: 'live', name: 'Poker', sub: 'Texas Hold\u2019em · back to your table', art: `url('/casino-art/tile-poker.webp'),url('/casino-art/lobby-hero.webp')`, wide: true })
         : tile({ id: 'home-pick', name: 'Poker', sub: 'Texas Hold\u2019em · pick a table, choose your seat', art: `url('/casino-art/tile-poker.webp'),url('/casino-art/lobby-hero.webp')`, wide: true }),
-      tile({ view: 'slots', name: 'Slots', sub: 'Thirteen unique virtual-chip machines', art: `url('/casino-art/tile-slots.webp'),url('/casino-art/stampede-run-marquee.webp')`, wide: true }),
+      tile({ view: 'slots', name: 'Slots', sub: 'Thirteen unique virtual-chip machines', art: `url('/casino-art/tile-slots.webp')`, wide: true }),
       tile({ view: 'blackjack', name: 'Blackjack', sub: 'Count, bet, beat the shoe', art: `url('/casino-art/tile-blackjack.webp'),url('/casino-art/lobby-hero.webp')`, pos: 'right center', wide: true }),
       tile({ view: 'baccarat', name: 'Baccarat', sub: 'Player, Banker or Tie', art: `url('/casino-art/tile-baccarat.webp'),url('/casino-art/room-atmosphere.webp')` }),
       tile({ view: 'roulette', name: 'Roulette', sub: 'Single or double zero', art: `url('/casino-art/tile-roulette.webp'),url('/casino-art/room-atmosphere.webp')` }),
