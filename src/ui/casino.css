@@ -364,7 +364,9 @@
 .coach-numbers li{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;padding:4px 8px;border-radius:8px;background:#ffffff0a;font-size:13px}
 .coach-numbers li span{flex:1 1 100%;opacity:.8}.coach-numbers li b{flex:1 1 auto}
 .coach-numbers .basis{font-size:10px;text-transform:uppercase;letter-spacing:.05em;padding:1px 6px;border-radius:999px;background:#ffffff1a}
-.coach-numbers .basis.exact{background:#2e7d3255}.coach-numbers .basis.estimate{background:#1565c055}.coach-numbers .basis.pool{background:#6a1b9a55}.coach-numbers .basis.rule{background:#8d6e0055}.coach-numbers .basis.measured{background:#00838f66}
+.coach-numbers .basis.exact{background:#2e7d3255}.coach-numbers .basis.estimate{background:#1565c055}.coach-numbers .basis.pool{background:#6a1b9a55}.coach-numbers .basis.rule{background:#8d6e0055}.coach-numbers .basis.measured{background:#00838f66}.coach-numbers .basis.icm{background:#ad145766}
+.coach-spot{margin:2px 0 0;opacity:.75}.coach-gap{margin:4px 0 0;color:var(--gold,#c9a227)}
+.coach-alternatives{margin-top:8px}.coach-alt-head{margin:0 0 2px}.coach-alt-note{flex:1 1 100%;opacity:.75}
 .coach-lesson,.coach-ask{margin-top:6px;border-top:1px solid #ffffff1a;padding-top:6px}
 .coach-lesson summary,.coach-ask summary{cursor:pointer;font-weight:600}
 .coach-questions{margin:4px 0 6px;padding-left:20px}

@@ -14,7 +14,7 @@ export function freshCoachUi():CoachUi {
 }
 export function saveCoachUi(ui:CoachUi):void {try{localStorage.setItem(COACH_KEY,ui.on?'on':'off');localStorage.setItem(COACH_TEST_KEY,ui.test?'on':'off');}catch{/* this visit only */}}
 const esc=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]!);
-const BASIS:Record<Basis,string>={exact:'exact',estimate:'estimate',pool:'pool average',rule:'rule of thumb',measured:'measured here'};
+const BASIS:Record<Basis,string>={exact:'exact',estimate:'estimate',pool:'pool average',rule:'rule of thumb',measured:'measured here',icm:'ICM'};
 const PLAY:Record<string,string>={fold:'folded',check:'checked',call:'called'};
 
 /** Compare what Hero did with the coach's play for that decision, and keep the running tally. */
@@ -43,10 +43,13 @@ export function coachMarkup(ui:CoachUi,advice:Advice|null,o:{waiting:boolean;tou
  return `<div class="coach-row">${head}${review}<div class="coach-card" data-testid="coach-advice" data-coach-action="${advice.action}">
   <p class="coach-play"><span class="eyebrow">COACH</span> <b data-testid="coach-headline">${esc(advice.headline)}</b>${advice.close?' <small class="coach-close">Close spot: another play is reasonable</small>':''}${advice.to!==null?` <button type="button" class="button secondary coach-use" data-coach-size="${advice.to}">Use this size</button>`:''}</p>
   <p class="coach-job"><b>Your hand:</b> ${esc(advice.job)}</p>
+  ${advice.spot?`<p class="coach-spot"><small>${esc(advice.spot)}</small></p>`:''}
+  ${advice.gap?`<p class="coach-gap"><small>${esc(advice.gap)}</small></p>`:''}
   <dl class="coach-why">${rows.map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
   ${advice.numbers.length?`<ul class="coach-numbers">${advice.numbers.map(n=>`<li><span>${esc(n.label)}</span><b>${esc(n.value)}</b><small class="basis ${n.basis}">${BASIS[n.basis]}</small></li>`).join('')}</ul>`:''}
+  ${advice.alternatives?.length?`<div class="coach-alternatives"><p class="coach-alt-head"><b>Close alternatives</b> <small>EV against folding; an estimate is only shown where the math supports one</small></p><ul class="coach-numbers">${advice.alternatives.map(a=>`<li><span>${esc(a.action)}${a.recommended?' · the coach’s play':''}</span><b>${esc(a.evLabel??'—')}</b><small class="basis ${a.basis}">${BASIS[a.basis]}</small><small class="coach-alt-note">${esc(a.note)}</small></li>`).join('')}</ul></div>`:''}
   <details class="coach-lesson" open><summary>Learn: ${esc(advice.lesson.title)}</summary><p>${esc(advice.lesson.body)}</p></details>
   <details class="coach-ask"><summary>Ask yourself (your notecards)</summary>${ask}</details>
-  <small class="coach-fine">A rule-based coach built from your playbook, not a solver. Estimates assume a typical range for the action shown. Pool figures are live-game averages, and these opponents may play differently.${o.tournament?' It does not model prize-ladder (ICM) pressure.':''}</small>
+  <small class="coach-fine">A rule-based coach built from your playbook, not a solver. Estimates assume a typical range for the action shown. Pool figures are live-game averages, and these opponents may play differently.${o.tournament?(advice.icmPriced?' Tournament advice on this spot was priced with prize-ladder (ICM) pressure from the payout context supplied.':' It does not model prize-ladder (ICM) pressure.'):''}</small>
  </div></div>`;
 }

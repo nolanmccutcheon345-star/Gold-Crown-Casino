@@ -16,9 +16,11 @@ import {equityVsRange} from '../stats/drills';
 import {oddsHelp,boardCategory} from '../ui/odds-helper';
 import {ORDER,RANKS,handClass,percentile,inTop,describeTop,openWidth,BB_DEFEND,shoveWidth,valueThreeBet,bluffThreeBet,speculative} from './ranges';
 import {LESSONS,NOTECARDS,OVERLAYS,type Lesson,type Notecard} from './lessons';
+import {classifySpot,chartCoverage,poolFor,callEv,betEv,raiseEv,riskPremium,commitEquity,tournamentStage,depthRead,type Alternative,type PoolProfile,type StakeBand,type TournamentCoachContext} from './engine';
 
 export type CoachAction='fold'|'check'|'call'|'bet'|'raise'|'all-in';
-export type Basis='exact'|'estimate'|'pool'|'rule'|'measured';
+export type Basis='exact'|'estimate'|'pool'|'rule'|'measured'|'icm';
+export type {Alternative,StakeBand,TournamentCoachContext} from './engine';
 export interface CoachNumber {label:string;value:string;basis:Basis}
 export interface Why {ranges:string;objective:string;responses:string;alternatives:string;future:string}
 export interface Advice {
@@ -30,13 +32,30 @@ export interface Advice {
  job:string;why:Why;numbers:CoachNumber[];lesson:Lesson;card:Notecard;overlay:Notecard;
  /** The notecard for the situation (facing a bet, facing a raise, or free to bet), which does not give the play away. */
  ask:Notecard;
+ /** Phase 3 (Coach Engine Spec): the spot classification, in the spec's terms. */
+ spot?:string;
+ /** Phase 3: the close alternatives with their relative EV where the spec's math supports an estimate
+  * (null EV = a chart decision, where no honest EV estimate exists). Sorted best first. */
+ alternatives?:Alternative[];
+ /** Phase 3: set when no playbook chart covers this spot — the advice is then a principle-based read,
+  * and the panel says so instead of dressing it up as chart precision. */
+ gap?:string;
+ /** Phase 3: true when tournament advice was priced with the payout context (ICM), not chip EV alone. */
+ icmPriced?:boolean;
 }
 export interface PlayerRead {label:string;hands:number;aggressive:boolean;vpip:number;
  /** Times this player has faced a bet after the flop and folded or called, and the share of those that were folds. */
  faced?:number;foldToBet?:number|null}
 export interface CoachOptions {mode:'cash'|'tournament';money:(n:number)=>string;
  /** What Hero has seen a player do this session (public actions only), if anything. */
- styleOf?:(seat:number)=>PlayerRead|null}
+ styleOf?:(seat:number)=>PlayerRead|null;
+ /** Phase 3: the stake band, which selects the pool profile (playbook-sourced per-stake tendencies).
+  * Unset = the playbook's live mixed-stakes pool, the coach's original behaviour. */
+ stake?:StakeBand;
+ /** Phase 3: the tournament payout context (players left, places paid, prizes, stacks), when the app
+  * can supply it. Supplied, tournament advice prices prize equity (ICM); unsupplied, it falls back to
+  * the stage/stack-risk heuristics and labels them as rules of thumb. */
+ tournament?:TournamentCoachContext}
 
 /** Live-pool averages recorded in the user's playbook (a mixed-stakes live database). The bots here may differ. */
 export const POOL={flopFoldThird:.31,flopFold:.42,turnFold:.40,riverFold:.49,foldToThreeBet:.34,riverBluffShare:.32};
@@ -44,6 +63,8 @@ export const POOL={flopFoldThird:.31,flopFold:.42,turnFold:.40,riverFold:.49,fol
  * hands in all). They describe these opponents, not live players, and they are shown with the label "measured here". */
 export const MEASURED={riverCatcherWins:.11,flopBetFolds:.5,turnBetFolds:.47};
 const pct=(x:number)=>`${Math.round(100*x)}%`;
+/** An EV in chips, labelled in big blinds (Phase 3 alternatives). */
+const evLabel=(ev:number,bb:number)=>`${ev>=0?'+':'-'}${Math.abs(ev/Math.max(1,bb)).toFixed(1)} bb`;
 const value=(c:Card)=>RANKS.indexOf(c[0])+2;
 const clamp=(x:number,lo:number,hi:number)=>Math.min(hi,Math.max(lo,x));
 const cache=new Map<string,number>();
@@ -128,7 +149,9 @@ export function readHand(hole:readonly Card[],board:readonly Card[]):HandRead {
 }
 
 interface Ctx {view:HeroViewModel;o:CoachOptions;hero:HeroViewModel['seats'][number];hole:Card[];bb:number;call:number;pot:number;need:number;
- opps:HeroViewModel['seats'];pos:string;eff:number;facing:number;ip:boolean}
+ opps:HeroViewModel['seats'];pos:string;eff:number;facing:number;ip:boolean;
+ /** The pool profile for the stake band (Phase 3): the playbook's live set unless a stake band selects another. */
+ pool:PoolProfile}
 /** Clockwise seat order after the flop: first to act is left of the button, the button acts last. */
 function inPosition(view:HeroViewModel):boolean {
  const ids=view.seats.map(s=>s.id).sort((a,b)=>a-b),i=ids.indexOf(view.button),order=[...ids.slice(i+1),...ids.slice(0,i+1)];
@@ -152,11 +175,13 @@ export function advise(view:HeroViewModel,o:CoachOptions):Advice|null {
  const hole=hero.hole as Card[],bb=view.profile.bigBlind,call=view.legal.callAmount,pot=view.pot,opps=view.seats.filter(s=>s.id!==0&&!s.folded);
  if(!opps.length)return null;
  const heroStart=hero.stack+hero.totalCommitted,eff=Math.min(heroStart,Math.max(...opps.map(s=>s.stack+s.totalCommitted)));
- const c:Ctx={view,o,hero,hole,bb,call,pot,need:call>0?call/(pot+call):0,opps,pos:positionOf(view,0),eff,facing:Math.max(...view.seats.map(s=>s.streetCommitted)),ip:inPosition(view)};
+ const c:Ctx={view,o,hero,hole,bb,call,pot,need:call>0?call/(pot+call):0,opps,pos:positionOf(view,0),eff,facing:Math.max(...view.seats.map(s=>s.streetCommitted)),ip:inPosition(view),pool:poolFor(o.stake)};
  return view.street==='preflop'?preflop(c):postflop(c);
 }
 
-type Draft={action:CoachAction;to?:number|null;close?:boolean;job:string;why:Why;numbers?:CoachNumber[];lesson:string;card:string;sizeNote?:string};
+type Draft={action:CoachAction;to?:number|null;close?:boolean;job:string;why:Why;numbers?:CoachNumber[];lesson:string;card:string;sizeNote?:string;
+ /** Phase 3: EV-ranked alternatives computed by the branch that owns the equity estimate (engine spec). */
+ alt?:Alternative[];icmPriced?:boolean};
 function finish(c:Ctx,d:Draft):Advice {
  const l=c.view.legal,m=c.o.money;let action=d.action;const to=d.to??null;
  // Never recommend something the rules do not allow here.
@@ -166,8 +191,38 @@ function finish(c:Ctx,d:Draft):Advice {
  if(action==='call'&&c.call===0)action='check';
  if(action==='call'&&c.call>=c.hero.stack)d={...d,sizeNote:'all-in'};
  const headline=action==='fold'?'Fold':action==='check'?'Check':action==='call'?`Call ${m(c.call)}${d.sizeNote==='all-in'?' (all-in)':''}`:action==='all-in'?`All-in for ${m(to!)}`:`${action==='bet'?'Bet':'Raise to'} ${m(to!)}${d.sizeNote?` (${d.sizeNote})`:''}`;
- return {key:`${c.view.handId}:${c.view.revision}`,action,to:action==='bet'||action==='raise'||action==='all-in'?to:null,headline,close:!!d.close,job:d.job,why:d.why,numbers:d.numbers??[],lesson:LESSONS[d.lesson],card:NOTECARDS[d.card],overlay:OVERLAYS[c.view.street],
+ const out:Advice={key:`${c.view.handId}:${c.view.revision}`,action,to:action==='bet'||action==='raise'||action==='all-in'?to:null,headline,close:!!d.close,job:d.job,why:d.why,numbers:d.numbers??[],lesson:LESSONS[d.lesson],card:NOTECARDS[d.card],overlay:OVERLAYS[c.view.street],
   ask:NOTECARDS[c.call===0?'C02':c.view.street==='preflop'?(c.facing>(c.view.straddleSeat!==undefined?2:1)*c.bb?'C04':'C02'):c.hero.streetCommitted>0?'C09':'C04']};
+ /* Phase 3 (Coach Engine Spec): every advice carries its spot classification, its chart coverage, and the
+  * close alternatives — EV-ranked where the spec's math supports an estimate, named without one where the
+  * decision is a chart lookup (a chart gives ranges, not EVs, and inventing one would break the basis rules). */
+ const spot=classifySpot(c.view),coverage=chartCoverage(c.view);
+ out.spot=spot.label;if(coverage.gap)out.gap=coverage.gap;if(d.icmPriced)out.icmPriced=true;
+ let alt=d.alt;
+ if(!alt&&c.view.street==='preflop'){
+  const names:Alternative[]=[],src=coverage.chart?`chart decision (${coverage.chart})`:'chart decision';
+  const push=(a:string)=>names.push({action:a,ev:null,basis:'rule',note:`${src}: the playbook gives a range for this spot, not an EV estimate.`});
+  if(action!=='fold'&&!l.check)push('Fold');
+  if(c.call>0&&action!=='call')push('Call');
+  if(l.check&&action!=='check')push('Check');
+  if(l.canRaise&&action!=='bet'&&action!=='raise'&&action!=='all-in')push('Raise');
+  alt=names.slice(0,2);
+ }
+ if(!alt&&c.view.street!=='preflop'&&c.call===0){
+  const board=c.view.board,eqW=equityVsRange(c.hole,board,.45,c.view.handId+'alt',0,500),eqC=equityVsRange(c.hole,board,.35,c.view.handId+'altc',0,500);
+  const betAmt=Math.max(c.bb,Math.round(.5*c.pot)),base=c.view.street==='flop'?c.pool.flopFold:c.view.street==='turn'?c.pool.turnFold:c.pool.riverFold;
+  const foldShare=clamp(base*(0.7+0.6*(betAmt/Math.max(1,c.pot))),.05,.85);
+  const fmt=(ev:number)=>`${ev>=0?'+':''}${(ev/c.bb).toFixed(1)} bb`;
+  alt=[{action:'Check',ev:eqW*c.pot,evLabel:fmt(eqW*c.pot),basis:'estimate',note:'Showdown equity against a wide continuing range; future betting not priced.'},
+   {action:'Bet',ev:betEv(foldShare,eqC,c.pot,betAmt),evLabel:fmt(betEv(foldShare,eqC,c.pot,betAmt)),basis:'estimate',note:`Half-pot size; the ${c.pool.label} folds about ${pct(foldShare)} to it, and called hands play out at your equity against a calling range.`}];
+ }
+ if(alt&&alt.length){
+  const fam:Record<string,string>={fold:'Fold',check:'Check',call:'Call',bet:'Bet',raise:'Raise','all-in':'All-in'};
+  for(const a of alt)if(a.action===fam[action])a.recommended=true;
+  alt.sort((x,y)=>(y.ev??-Infinity)-(x.ev??-Infinity));
+  out.alternatives=alt;
+ }
+ return out;
 }
 const raiseDraft=(c:Ctx,want:number,note:string):{action:CoachAction;to:number|null;sizeNote:string}=>{const s=sized(c,want);return s?{action:s.allIn?'all-in':c.call===0&&c.view.street!=='preflop'?'bet':'raise',to:s.to,sizeNote:s.allIn?'':note}:{action:c.call>0?'call':'check',to:null,sizeNote:''};};
 
@@ -187,12 +242,23 @@ function preflop(c:Ctx):Advice {
  if(raises>=1&&allInFacing&&!(key==='AA'||key==='KK')){
   const shover=view.seats.find(s=>s.id===last),shoverBB=shover?(shover.stack+shover.totalCommitted)/bb:100;
   const share=raises>=3?.03:raises===2?.05:shoverBB<=20?clamp(shoveWidth(positionOf(view,last),shoverBB)*1.1,.05,.6):.06;
-  const eq=equityVsTop(hole,share,view.handId),ok=eq>=c.need+.01;
-  return finish(c,{action:ok?'call':'fold',close:Math.abs(eq-c.need)<.04,job,lesson:'all-in-math',card:ok?'C05':'C08',numbers:[priceNote(),{label:`Your chance against the top ${pct(share)} of hands`,value:`about ${pct(eq)}`,basis:'estimate'},stackNote],why:{
+  const eq=equityVsTop(hole,share,view.handId);
+  /* Phase 3 tournament layer: in a tournament this call is priced in prize equity, not chips. With the
+   * payout context, the bubble factor sets the required equity exactly (BF ÷ (BF + 1)); without it, the
+   * stage/stack-risk risk premium is added to the chip price. Cash is unchanged: chips are money. */
+  const prem=o.mode==='tournament'?riskPremium(o.tournament,c.hero.stack,call):null;
+  const required=prem?.bf&&call>=c.hero.stack?prem.bf.requiredAllIn:c.need+(prem?prem.points:0);
+  const ok=eq>=required+.01;
+  const premNumbers:CoachNumber[]=prem&&prem.points>0?[{label:'Tournament risk premium',value:prem.bf?`needs ${pct(required)} under ICM`:`+${Math.round(100*prem.points)} pts`,basis:prem.basis},...(prem.bf?[{label:'Bubble factor',value:prem.bf.bf.toFixed(2),basis:'icm' as Basis}]:[])]:[];
+  const callEvNow=callEv(eq,c.pot,call);
+  return finish(c,{action:ok?'call':'fold',close:Math.abs(eq-required)<.04,job,lesson:prem?.bf?'icm':'all-in-math',card:ok?'C05':'C08',icmPriced:!!prem?.bf,
+   alt:[{action:'Fold',ev:0,evLabel:'0.0 bb',basis:'exact',note:'Folding risks nothing more.'},
+    {action:'Call',ev:callEvNow,evLabel:evLabel(callEvNow,bb),basis:'estimate',note:`Chip EV against the top ${pct(share)} of hands.${prem?.bf?' The tournament price is set by the bubble factor, not by chip EV.':''}`}],
+   numbers:[priceNote(),{label:`Your chance against the top ${pct(share)} of hands`,value:`about ${pct(eq)}`,basis:'estimate'},stackNote,...premNumbers],why:{
    ranges:`${nameOf(c,last)} is putting in a stack-sized bet. A range that does this here is roughly the top ${pct(share)} of hands (${describeTop(share)}).`,
    objective:ok?'Realize your equity: with no betting left, a call wins whenever your hand holds up.':'Save the chips: your hand does not win often enough against that range to pay this price.',
    responses:'There is nothing left to respond to. Once the chips are in, the cards decide.',
-   alternatives:`Calling needs ${pct(c.need)} and your hand has about ${pct(eq)} against that range, so ${ok?'calling makes money and folding gives it up':'calling loses money on average and folding loses nothing more'}.${o.mode==='tournament'?' Near the money, survival is worth extra, so tighten close calls.':''}`,
+   alternatives:`Calling needs ${pct(c.need)} and your hand has about ${pct(eq)} against that range, so ${ok?'calling makes money and folding gives it up':'calling loses money on average and folding loses nothing more'}.${prem&&prem.points>0?` ${prem.note}`:o.mode==='tournament'?' Near the money, survival is worth extra, so tighten close calls.':''}`,
    future:'No plan needed: this decision ends the betting for you.'}});
  }
 
@@ -200,9 +266,13 @@ function preflop(c:Ctx):Advice {
  if(raises===0){
   const blind=pos==='BB'||pos==='SB',canCheck=view.legal.check;
   if(effBB<=12){
-   const width=shoveWidth(pos,effBB)*(limpers?0.8:1),go=inTop(key,width),s=sized(c,view.legal.maxRaiseTo??0);
-   return finish(c,{action:go&&s?'all-in':canCheck?'check':'fold',to:go&&s?(view.legal.maxRaiseTo??s.to):null,close:Math.abs(rankPct-width)<.02,job,lesson:'push-fold',card:go?'C06':canCheck?'C03':'C08',numbers:[stackNote,{label:`Shoving range from ${pos}`,value:`top ${pct(width)} (${describeTop(width)})`,basis:'rule'}],why:{
-    ranges:`With ${Math.round(effBB)} big blinds from ${pos}, a standard shoving range is about the top ${pct(width)} of hands. Yours is in the top ${Math.max(1,Math.round(100*rankPct))}%.`,
+   /* Phase 3: with the payout context, bubble and final-table shoving ranges tighten — busting costs prize
+    * equity, not just chips (§11). Without context the chart is unchanged and says it ignores ladder pressure. */
+   const stage=tournament?tournamentStage(o.tournament):'unknown',tighten=(stage==='bubble'||stage==='final-table')?.85:1;
+   const width=shoveWidth(pos,effBB)*(limpers?0.8:1)*tighten,go=inTop(key,width),s=sized(c,view.legal.maxRaiseTo??0);
+   const depth=tournament?depthRead(effBB):null;
+   return finish(c,{action:go&&s?'all-in':canCheck?'check':'fold',to:go&&s?(view.legal.maxRaiseTo??s.to):null,close:Math.abs(rankPct-width)<.02,job,lesson:'push-fold',card:go?'C06':canCheck?'C03':'C08',numbers:[stackNote,{label:`Shoving range from ${pos}`,value:`top ${pct(width)} (${describeTop(width)})`,basis:'rule'},...(depth?[{label:'Stack depth',value:`${Math.round(effBB)}bb — ${depth.band}`,basis:'rule' as Basis}]:[]),...(tighten<1?[{label:'Tournament stage',value:stage==='bubble'?'on the bubble':'final table',basis:'rule' as Basis}]:[])],why:{
+    ranges:`With ${Math.round(effBB)} big blinds from ${pos}, a standard shoving range is about the top ${pct(width)} of hands. Yours is in the top ${Math.max(1,Math.round(100*rankPct))}%.${tighten<1?' On the bubble the range tightens: survival is worth chips, so the weakest shoves come out (§11).':''}`,
     objective:go?'Fold equity plus your hand: you pick up the blinds when everyone folds, and you have real equity when called.':'Wait for a better spot: this hand does not win the blinds often enough, or do well enough when called, to risk the stack.',
     responses:go?'Most hands behind you fold. The hands that call are strong, which is why the range is limited to hands that still have a chance against them.':'A shove here gets called mostly by hands that dominate yours.',
     alternatives:'A small raise commits you anyway and gives opponents a cheap look, so with a stack this short the choice is shove or fold.',
@@ -246,10 +316,10 @@ function preflop(c:Ctx):Advice {
   const mult=c.ip?3:4,want=mult*c.facing+callers*c.facing*(tournament?1:1.5);
   if(value3||bluff3||effBB<=20&&inTop(key,.06)){
    const r=effBB<=20?raiseDraft(c,view.legal.maxRaiseTo??want,''):raiseDraft(c,want,`${mult}× the raise${callers?` plus ${tournament?'one raise':'one and a half raises'} for each caller`:''}`);
-   return finish(c,{...r,job,lesson:callers?'squeeze':value3?'three-bet-value':'three-bet-bluff',card:'C06',numbers:[{label:`${openerPos} opening range`,value:`about the top ${pct(openerW)}`,basis:'rule'},{label:'Pool folds to a re-raise',value:pct(POOL.foldToThreeBet),basis:'pool'},stackNote],why:{
+   return finish(c,{...r,job,lesson:callers?'squeeze':value3?'three-bet-value':'three-bet-bluff',card:'C06',numbers:[{label:`${openerPos} opening range`,value:`about the top ${pct(openerW)}`,basis:'rule'},{label:'Pool folds to a re-raise',value:pct(c.pool.foldToThreeBet),basis:'pool'},stackNote],why:{
     ranges:`${nameOf(c,opener)} raised from ${openerPos}, a range of about the top ${pct(openerW)} of hands (${describeTop(openerW)}).${readNote} ${value3?`${key} is ahead of most of it.`:`${key} is not strong enough to call, but it blocks aces and ace-king.`}`,
     objective:value3?'Value: get more money in while you are ahead, and thin the field.':'A bluff with back-up: win the pot now when they fold, and keep a hand that can make the nuts when they call.',
-    responses:value3?`Worse hands call (smaller pairs, weaker aces, suited broadways). Live pools fold to re-raises only about ${pct(POOL.foldToThreeBet)} of the time, so expect calls, which is what a value hand wants.`:`This only works against a player who opens wide and can fold. The pool folds about ${pct(POOL.foldToThreeBet)}, so use it sparingly and not against callers.`,
+    responses:value3?`Worse hands call (smaller pairs, weaker aces, suited broadways). Live pools fold to re-raises only about ${pct(c.pool.foldToThreeBet)} of the time, so expect calls, which is what a value hand wants.`:`This only works against a player who opens wide and can fold. The pool folds about ${pct(c.pool.foldToThreeBet)}, so use it sparingly and not against callers.`,
     alternatives:value3?'Just calling keeps the pot small with one of your best hands and lets the blinds in cheaply. Folding is out of the question.':'Calling plays a dominated hand out of position; folding is fine too. Re-raising is the only way this hand makes money here.',
     future:value3?`If you are raised again, continue with ${['AA','KK','AKs'].includes(key)?'this hand':'aces, kings and ace-king suited'} and fold the rest of your re-raising range at most tables. If called, bet most flops for value.`:'If you are raised again, fold. If called, bet small on high, dry flops and give up when the board helps the caller.'}});
   }
@@ -345,14 +415,34 @@ function postflop(c:Ctx):Advice {
   const bettor=lastRaiser(view,street),raise=hero.streetCommitted>0,frac=call/Math.max(1,pot-call),read=o.styleOf?.(bettor)??null;
   const a=assumed(street,raise,frac,multi,bettor===pfr&&street==='flop',read),eq=memo(`post|${hole.join('')}|${board.join('')}|${a.width.toFixed(3)}|${a.bluff.toFixed(2)}`,()=>equityVsRange(hole,board,a.width,view.handId+street,a.bluff,700));
   const allIn=call>=hero.stack||c.opps.every(s=>s.allIn),margin=street==='river'||allIn?0:(c.ip?.02:.04)+(hand.job==='air'?.08:0);
+  /* Phase 3 tournament layer: a tournament call must clear the chip price plus the risk premium — prize
+   * equity makes chips lost worth more than chips won (§11). Priced from the payout context when the app
+   * supplies it (bubble factor), else from stage/stack-risk heuristics, and always labelled. */
+  const prem=o.mode==='tournament'?riskPremium(o.tournament,hero.stack,call):null;
+  const marginAdj=margin+(prem?prem.points:0);
+  const premNumbers:CoachNumber[]=prem&&prem.points>0?[{label:'Tournament risk premium',value:prem.bf?`needs ${pct(prem.bf.requiredAllIn)} under ICM`:`+${Math.round(100*prem.points)} pts`,basis:prem.basis},...(prem.bf?[{label:'Bubble factor',value:prem.bf.bf.toFixed(2),basis:'icm' as Basis}]:[])]:[];
   const who=nameOf(c,bettor),sizeWords=`${pct(frac)} of the pot`,readWords=read&&read.hands>=8?` Your read on ${who} (${read.hands} hands): ${read.label}.`:'';
   const numbers:CoachNumber[]=[{label:'Price to call',value:`${m(call)} to win ${m(pot)}: you need ${pct(c.need)}`,basis:'exact'},{label:'Your chance against the assumed range',value:`about ${pct(eq)}`,basis:'estimate'},beatsNote,sprNote];
   const rangeLine=`${who} ${raise?'raised':'bet'} ${sizeWords} on ${boardWords}${multi?` with ${n} players in`:''}. ${raise?`A ${street} raise is a narrow, strong range at most tables: about the top ${pct(a.width)} of hands, with few bluffs.`:`A bet this size on this street is assumed to be about the top ${pct(a.width)} of possible hands, roughly ${pct(a.bluff)} of them bluffs or draws.`}${readWords}`;
   const mdf=1-frac/(1+frac);
+  /* Phase 3: the EV-ranked alternatives for a facing decision, from the same equity estimate the branch
+   * decides with (engine spec: fold = 0, call priced by pot odds, a raise priced by fold share against
+   * the pool profile and the equity that remains when the top of the betting range continues). */
+  const facingAlt=(raiseTo?:number|null):Alternative[]=>{
+   const list:Alternative[]=[{action:'Fold',ev:0,evLabel:'0.0 bb',basis:'exact',note:'Folding risks nothing more.'},
+    {action:'Call',ev:callEv(eq,pot,call),evLabel:evLabel(callEv(eq,pot,call),c.bb),basis:'estimate',note:`Priced at your ${pct(eq)} against the assumed betting range${prem&&prem.points>0?' — chip EV; the tournament risk premium is charged on top':''}.`}];
+   if(raiseTo!=null&&view.legal.canRaise){
+    const bettorSeat=view.seats.find(s=>s.id===bettor),added=raiseTo-hero.streetCommitted,callerAdds=Math.max(0,raiseTo-(bettorSeat?.streetCommitted??0));
+    const base=street==='flop'?c.pool.flopFold:street==='turn'?c.pool.turnFold:c.pool.riverFold,fR=clamp(base*.8,.05,.8);
+    const eqR=equityVsRange(hole,board,Math.max(.03,a.width*.6),view.handId+street+'r',a.bluff/2,500),ev=raiseEv(fR,eqR,pot,added,callerAdds);
+    list.push({action:'Raise',ev,evLabel:evLabel(ev,c.bb),basis:'estimate',note:`The ${c.pool.label} folds about ${pct(fR)} to a raise here; when called, you play out against the top of the betting range (about ${pct(eqR)}).`});
+   }
+   return list;
+  };
   // Monsters: raise for value while worse hands still call.
   if(hand.job==='the nuts'||value&&!hand.pair&&street!=='river'&&(tex.label!=='dry'||frac<=.5)){
    const r=raiseDraft(c,c.facing*(street==='flop'?(c.ip?3:3.5):2.7),`${street==='flop'?(c.ip?'3':'3.5'):'2.7'}× the bet`);
-   return finish(c,{...r,job:`${hand.job}: ${describe}`,lesson:tex.label==='dry'?'fast-play':'protection',card:raise?'C09':'C06',numbers,why:{
+   return finish(c,{...r,alt:facingAlt(r.to),icmPriced:!!prem?.bf,job:`${hand.job}: ${describe}`,lesson:tex.label==='dry'?'fast-play':'protection',card:raise?'C09':'C06',numbers:[...numbers,...premNumbers],why:{
     ranges:`${rangeLine} You have ${describe}, which beats ${pct(hand.beats)} of all possible hands here.`,
     objective:'Value: worse hands are putting money in, so make the pot bigger while they still want to continue.',
     responses:`Top pairs and overpairs call, and draws pay to chase. ${tex.label==='dry'?'On a board this dry they have fewer hands to call with, so keep the raise small.':'On a board this wet a later card can scare them or beat you, which is why the money should go in now.'}`,
@@ -365,14 +455,14 @@ function postflop(c:Ctx):Advice {
    const direct=p>=c.need,implied=!allIn&&!direct&&extra<=Math.min(stackBehind-call,.8*(pot+call));
    if(hand.drawOuts>=12&&street==='flop'&&hu&&!allIn&&view.legal.canRaise&&spr>=3){
     const r=raiseDraft(c,c.facing*(c.ip?3:3.5),`${c.ip?'3':'3.5'}× the bet`);
-    return finish(c,{...r,job:`${hand.job}: ${hand.drawOuts} outs`,lesson:'semi-bluff',card:'C06',numbers:[...numbers.slice(0,1),drawNote(),{label:'Chance to improve by the river',value:pct(hand.byRiver??p),basis:'exact'},sprNote],why:{
+    return finish(c,{...r,alt:facingAlt(r.to),icmPriced:!!prem?.bf,job:`${hand.job}: ${hand.drawOuts} outs`,lesson:'semi-bluff',card:'C06',numbers:[...numbers.slice(0,1),drawNote(),{label:'Chance to improve by the river',value:pct(hand.byRiver??p),basis:'exact'},sprNote,...premNumbers],why:{
      ranges:`${rangeLine} You have a draw with ${hand.drawOuts} outs.`,objective:'A semi-bluff: win the pot now when they fold, and still make the best hand often when they call.',
      responses:`One-pair hands often fold to a raise, and the hands that call are not far ahead of a draw this big.`,alternatives:'Calling is fine too, but it only wins when you hit. Raising adds a second way to win.',
      future:'If called, keep betting when you hit, and take a free card or bet again on the turn depending on how they respond. If they re-raise all-in, compare the price with your chance to improve by the river.'}});
    }
    // A weak draw does not realize its raw equity (it folds to the next bet too often), so only strong draws count it.
-   const byEquity=eq>=c.need+margin&&(allIn||hand.job==='strong draw'),callIt=direct||implied||byEquity;
-   return finish(c,{action:callIt?'call':'fold',close:Math.abs(p-c.need)<.03,job:`${hand.job}: ${hand.drawOuts} outs`,lesson:direct||!implied&&byEquity?'pot-odds':'implied-odds',card:callIt?'C05':'C08',numbers:[numbers[0],drawNote(),numbers[1],...(!direct&&!allIn?[{label:'Extra you must win later to break even',value:m(extra),basis:'exact' as Basis}]:[]),sprNote],why:{
+   const byEquity=eq>=c.need+marginAdj&&(allIn||hand.job==='strong draw'),callIt=direct||implied||byEquity;
+   return finish(c,{action:callIt?'call':'fold',alt:facingAlt(),icmPriced:!!prem?.bf,close:Math.abs(p-c.need)<.03,job:`${hand.job}: ${hand.drawOuts} outs`,lesson:direct||!implied&&byEquity?'pot-odds':'implied-odds',card:callIt?'C05':'C08',numbers:[numbers[0],drawNote(),numbers[1],...(!direct&&!allIn?[{label:'Extra you must win later to break even',value:m(extra),basis:'exact' as Basis}]:[]),sprNote,...premNumbers],why:{
     ranges:`${rangeLine} Your hand is a draw: ${hand.drawOuts} cards complete it.`,
     objective:callIt?(direct?'Realize your equity: the pot is paying enough for the draw by itself.':implied?'Implied odds: the price is a little short now, but you can win the difference when you hit.':'Realize your equity: counting every way your hand can win against the range that bets here, you are getting the right price.'):'Save the chips: the draw does not come in often enough for this price.',
     responses:callIt?'If you hit, a bet or raise usually gets paid by the hands that are betting now.':'Even when you hit, the stacks behind are too small, or the pot too large, to make up the difference.',
@@ -380,12 +470,13 @@ function postflop(c:Ctx):Advice {
     future:callIt?'If you hit, bet or raise for value. If you miss and face another big bet, check the price again: it usually gets worse on the turn.':'Nothing: fold.'}});
   }
   // Made hands and everything else: compare your chance against the range with the price.
-  const ok=eq>=c.need+margin,bigRiver=street==='river'&&frac>=.7;
-  return finish(c,{action:ok?'call':'fold',close:Math.abs(eq-c.need-margin)<.04,job:`${hand.job}: ${describe}`,lesson:ok?(hand.job==='thick value'?'raise-or-call':'pot-odds'):raise||bigRiver?'bluff-catch':hand.job==='air'?'give-up':'mdf',card:ok?(raise?'C09':'C04'):'C08',numbers:[...numbers,{label:'Theory defends this share of your range',value:pct(mdf),basis:'rule'},...(street==='river'?[{label:'Pool river bets that are bluffs',value:pct(POOL.riverBluffShare),basis:'pool' as Basis},{label:'In this app, a weak pair beats a river bet',value:`about ${pct(MEASURED.riverCatcherWins)} of the time`,basis:'measured' as Basis}]:[])],why:{
-   ranges:`${rangeLine} You have ${describe}.${street==='river'&&!raise?` The live-pool average for river bluffs is higher (${pct(POOL.riverBluffShare)}), but the players in this app have bluffed the river much less than that, and the estimate follows what they do.`:''}`,
+  const ok=eq>=c.need+marginAdj,bigRiver=street==='river'&&frac>=.7;
+  const raiseTo=view.legal.canRaise?(sized(c,c.facing*(street==='flop'?(c.ip?3:3.5):2.7))?.to??null):null;
+  return finish(c,{action:ok?'call':'fold',alt:facingAlt(raiseTo),icmPriced:!!prem?.bf,close:Math.abs(eq-c.need-marginAdj)<.04,job:`${hand.job}: ${describe}`,lesson:ok?(hand.job==='thick value'?'raise-or-call':'pot-odds'):raise||bigRiver?'bluff-catch':hand.job==='air'?'give-up':'mdf',card:ok?(raise?'C09':'C04'):'C08',numbers:[...numbers,{label:'Theory defends this share of your range',value:pct(mdf),basis:'rule'},...(spr<=4?[{label:'Commit equity at this SPR',value:pct(commitEquity(spr)),basis:'rule' as Basis}]:[]),...premNumbers,...(street==='river'?[{label:'Pool river bets that are bluffs',value:pct(c.pool.riverBluffShare),basis:'pool' as Basis},{label:'In this app, a weak pair beats a river bet',value:`about ${pct(MEASURED.riverCatcherWins)} of the time`,basis:'measured' as Basis}]:[])],why:{
+   ranges:`${rangeLine} You have ${describe}.${street==='river'&&!raise?` The live-pool average for river bluffs is higher (${pct(c.pool.riverBluffShare)}), but the players in this app have bluffed the river much less than that, and the estimate follows what they do.`:''}`,
    objective:ok?(value?'Keep worse hands and bluffs betting: calling wins more than folding and risks less than raising.':'Bluff-catch at the right price: you beat their bluffs and weaker value often enough.'):'Save the chips: your hand does not beat enough of the range that bets like this.',
    responses:ok?'Calling keeps every bluff and worse hand in their range. A raise would fold those out and get called only by better.':`${raise||bigRiver?'Big bets and raises on the later streets are rarely bluffs in most games. ':''}Hands that beat you make up most of this range.`,
-   alternatives:`You need ${pct(c.need)} and have about ${pct(eq)}${margin?` (and a little extra is needed because more betting can follow${c.ip?'':' while you are out of position'})`:''}. ${ok?'So calling is profitable; folding gives up that edge.':`So calling loses money. In theory you defend ${pct(mdf)} of your range against this size, but this is the bottom of yours, and against players who under-bluff you fold more than theory says.`}`,
+   alternatives:`You need ${pct(c.need)} and have about ${pct(eq)}${margin?` (and a little extra is needed because more betting can follow${c.ip?'':' while you are out of position'})`:''}. ${ok?'So calling is profitable; folding gives up that edge.':`So calling loses money. In theory you defend ${pct(mdf)} of your range against this size, but this is the bottom of yours, and against players who under-bluff you fold more than theory says.`}${prem&&prem.points>0?` ${prem.note}`:''}`,
    future:ok?(street==='river'?'None: the hand ends here.':`On the next street, continue against a reasonable bet on safe cards. Re-check the price if an obvious draw completes or the bet gets much bigger.`):'Nothing: fold and note the line they took with whatever they show down.'}});
  }
 
@@ -437,7 +528,7 @@ function postflop(c:Ctx):Advice {
    return betAdvice(f,'semi-bluff',{ranges:`${base} ${hand.drawOuts} cards complete your draw.`,objective:'A semi-bluff: two ways to win. They fold now, or you make your hand.',
     responses:`Hands with no pair fold, and many one-pair hands just call, which leaves you drawing at a bigger pot.`,
     alternatives:'Checking takes a free card but wins only when you hit, and a hit is harder to get paid on when you have shown no strength.',
-    future:`If you are raised, compare the price with your ${pct(hand.byRiver??hand.nextCard)} chance to improve. If called, bet again when you hit, and usually once more on cards that scare a one-pair hand.`},[drawNote(),...(hand.byRiver!==null?[{label:'Chance to improve by the river',value:pct(hand.byRiver),basis:'exact' as Basis}]:[]),{label:`A ${fracWords(f)} bet needs folds`,value:pct(f/(1+f)),basis:'exact'},{label:`Pool folds to a ${street} bet`,value:pct(street==='flop'?POOL.flopFold:POOL.turnFold),basis:'pool'}],`${hand.job}: ${hand.drawOuts} outs`);
+    future:`If you are raised, compare the price with your ${pct(hand.byRiver??hand.nextCard)} chance to improve. If called, bet again when you hit, and usually once more on cards that scare a one-pair hand.`},[drawNote(),...(hand.byRiver!==null?[{label:'Chance to improve by the river',value:pct(hand.byRiver),basis:'exact' as Basis}]:[]),{label:`A ${fracWords(f)} bet needs folds`,value:pct(f/(1+f)),basis:'exact'},{label:`Pool folds to a ${street} bet`,value:pct(street==='flop'?c.pool.flopFold:c.pool.turnFold),basis:'pool'}],`${hand.job}: ${hand.drawOuts} outs`);
   }
   return checkAdvice('check-raise',{ranges:`${base} ${hand.drawOuts} cards complete your draw.`,objective:'See the next card at the best price: out of position without the lead, a bet can be raised off your draw.',
    responses:'If they bet, check the price against your outs. A small bet you can call; a big draw can also check-raise as a semi-bluff.',
@@ -452,33 +543,33 @@ function postflop(c:Ctx):Advice {
   const f=tex.label==='dry'?.33:.5;
   return betAdvice(f,'range-advantage',{ranges:`${base} ${tex.high?`As the pre-flop raiser you hold more big pairs and big ${'JQKA'[tex.top-11]}s than the caller, who missed this board most of the time.`:'As the pre-flop raiser you can hold every big pair. The caller mostly holds two unpaired cards, and two unpaired cards miss a low flop like this about two times in three.'}`,
    objective:'A cheap bluff with the range advantage: make the hands that missed fold.',
-   responses:`${sizeName(f)} bet needs to work only ${needs(f)} of the time. ${f<=.34?`The live pool folds about ${pct(POOL.flopFoldThird)} to this size`:`The live pool folds to flop bets about ${pct(POOL.flopFold)} of the time`}, and you can still improve when called.${foldSeen}`,
+   responses:`${sizeName(f)} bet needs to work only ${needs(f)} of the time. ${f<=.34?`The live pool folds about ${pct(c.pool.flopFoldThird)} to this size`:`The live pool folds to flop bets about ${pct(c.pool.flopFold)} of the time`}, and you can still improve when called.${foldSeen}`,
    alternatives:`Checking gives up a pot your range is favoured to win. ${f<=.34?'A bigger bet risks more to fold out the same hands.':'On a board with draws a very small bet lets them all continue cheaply, so the size goes up to half the pot.'}`,
-   future:'If called, give up on most turns unless you pick up a draw or a card that favours your range. If raised, fold.'},[{label:`${sizeName(f)} bet needs folds`,value:needs(f),basis:'exact'},f<=.34?{label:'Pool folds to a third-pot flop bet',value:pct(POOL.flopFoldThird),basis:'pool'}:{label:'Pool folds to a flop bet',value:pct(POOL.flopFold),basis:'pool'},{label:'In this app, heads-up flop bets like this won the pot at once',value:`about ${pct(MEASURED.flopBetFolds)} of the time`,basis:'measured'}],`${hand.job}: no pair`,true);
+   future:'If called, give up on most turns unless you pick up a draw or a card that favours your range. If raised, fold.'},[{label:`${sizeName(f)} bet needs folds`,value:needs(f),basis:'exact'},f<=.34?{label:'Pool folds to a third-pot flop bet',value:pct(c.pool.flopFoldThird),basis:'pool'}:{label:'Pool folds to a flop bet',value:pct(c.pool.flopFold),basis:'pool'},{label:'In this app, heads-up flop bets like this won the pot at once',value:`about ${pct(MEASURED.flopBetFolds)} of the time`,basis:'measured'}],`${hand.job}: no pair`,true);
  }
  /* Patch 106: the flop stab. Heads-up in position, they check to you and you have nothing: a small bet wins the pot often enough. */
  if((hand.job==='air'||hand.job==='weak draw')&&street==='flop'&&hu&&!heroLead&&!station&&(c.ip||pfr<0)){
   return betAdvice(.5,'fold-equity',{ranges:`${base} ${c.ip?(villainLead?`${nameOf(c,lead)} raised before the flop and has now checked: a raiser who checks the flop has usually missed it.`:'They checked to you. Two unpaired cards miss the flop about two times in three, and a hand that hit usually bets.'):'Nobody raised before the flop, so nobody has shown a strong hand, and two unpaired cards miss the flop about two times in three.'}`,
    objective:c.ip?'A bluff at a range that has shown no interest in the pot.':'A bluff at a pot nobody has claimed: with one opponent, the first bet often takes it.',
-   responses:`A half-pot bet needs to work 33% of the time. The live pool folds to flop bets about ${pct(POOL.flopFold)} of the time${c.ip?', and a player who has checked folds more often than that':''}.${foldSeen}`,
+   responses:`A half-pot bet needs to work 33% of the time. The live pool folds to flop bets about ${pct(c.pool.flopFold)} of the time${c.ip?', and a player who has checked folds more often than that':''}.${foldSeen}`,
    alternatives:`${c.ip?'Checking back is safe but gives a free card to a hand that would have folded.':'Checking hands the lead to your opponent, who can then bet you off the pot.'} A bigger bet risks more to fold out the same hands.`,
-   future:`If called, give up unless the turn helps you${hand.drawOuts?` (you have ${hand.drawOuts} outs)`:''}. If raised, fold.`},[{label:'A half-pot bet needs folds',value:'33%',basis:'exact'},{label:'Pool folds to a flop bet',value:pct(POOL.flopFold),basis:'pool'},{label:'In this app, heads-up flop bets like this won the pot at once',value:`about ${pct(MEASURED.flopBetFolds)} of the time`,basis:'measured'},...(hand.drawOuts?[drawNote()]:[])],`${hand.job}: ${hand.drawOuts?`${hand.drawOuts} outs`:'no pair'}`,true);
+   future:`If called, give up unless the turn helps you${hand.drawOuts?` (you have ${hand.drawOuts} outs)`:''}. If raised, fold.`},[{label:'A half-pot bet needs folds',value:'33%',basis:'exact'},{label:'Pool folds to a flop bet',value:pct(c.pool.flopFold),basis:'pool'},{label:'In this app, heads-up flop bets like this won the pot at once',value:`about ${pct(MEASURED.flopBetFolds)} of the time`,basis:'measured'},...(hand.drawOuts?[drawNote()]:[])],`${hand.job}: ${hand.drawOuts?`${hand.drawOuts} outs`:'no pair'}`,true);
  }
  if(noShowdown&&street==='river'&&hu&&c.ip&&prevChecked&&!station&&hand.beats<.45){
   return betAdvice(.67,'river-bluff',{ranges:`${base} They checked the turn and have checked again: strong hands usually bet at least once.`,
    objective:'A bluff: your hand cannot win by checking, and their range is weak.',
-   responses:`A two-thirds bet needs to work 40% of the time. The live pool folds to river bets about ${pct(POOL.riverFold)} of the time, and more after showing this much weakness.${foldSeen}`,
+   responses:`A two-thirds bet needs to work 40% of the time. The live pool folds to river bets about ${pct(c.pool.riverFold)} of the time, and more after showing this much weakness.${foldSeen}`,
    alternatives:'Checking back loses the pot nearly every time with this hand. A tiny bet gets called by any pair.',
-   future:'If raised, fold. Win or lose, this is the only bet left.'},[{label:'A two-thirds bet needs folds',value:'40%',basis:'exact'},{label:'Pool folds to a river bet',value:pct(POOL.riverFold),basis:'pool'},beatsNote],`${hand.job}: no showdown value`,true);
+   future:'If raised, fold. Win or lose, this is the only bet left.'},[{label:'A two-thirds bet needs folds',value:'40%',basis:'exact'},{label:'Pool folds to a river bet',value:pct(c.pool.riverFold),basis:'pool'},beatsNote],`${hand.job}: no showdown value`,true);
  }
  /* The turn stab: heads-up in position after the flop was checked through and they check again. */
  if(noShowdown&&street==='turn'&&hu&&c.ip&&!station){
   const f=prevChecked?.5:.67;
   return betAdvice(f,'fold-equity',{ranges:`${base} ${prevChecked?'They checked the flop and have checked again, so their range is mostly hands that missed or weak pairs.':'They called the flop and have checked again. A flop call is often a weak pair or a draw, and most of those do not want to face a second bet.'}`,
    objective:prevChecked?'A bluff at a weak range: two checks rarely hide a strong hand.':'A second bet as a bluff: keep the pressure on the weak pairs and draws that called once.',
-   responses:`${prevChecked?'A half-pot bet needs to work 33% of the time':'A two-thirds bet needs to work 40% of the time'}. The live pool folds to turn bets about ${pct(POOL.turnFold)} of the time${prevChecked?', and more often after checking twice':''}.${foldSeen}`,
+   responses:`${prevChecked?'A half-pot bet needs to work 33% of the time':'A two-thirds bet needs to work 40% of the time'}. The live pool folds to turn bets about ${pct(c.pool.turnFold)} of the time${prevChecked?', and more often after checking twice':''}.${foldSeen}`,
    alternatives:'Checking again gives up a pot nobody seems to want. A bigger bet risks more to fold out the same hands.',
-   future:`If called, give up on the river unless you improve${hand.drawOuts?` (you have ${hand.drawOuts} outs)`:''}. If raised, fold.`},[{label:prevChecked?'A half-pot bet needs folds':'A two-thirds bet needs folds',value:prevChecked?'33%':'40%',basis:'exact'},{label:'Pool folds to a turn bet',value:pct(POOL.turnFold),basis:'pool'},{label:'In this app, heads-up turn bets like this won the pot at once',value:`about ${pct(MEASURED.turnBetFolds)} of the time`,basis:'measured'},...(hand.drawOuts?[drawNote()]:[])],`${hand.job}: ${hand.drawOuts?`${hand.drawOuts} outs`:'no pair'}`,true);
+   future:`If called, give up on the river unless you improve${hand.drawOuts?` (you have ${hand.drawOuts} outs)`:''}. If raised, fold.`},[{label:prevChecked?'A half-pot bet needs folds':'A two-thirds bet needs folds',value:prevChecked?'33%':'40%',basis:'exact'},{label:'Pool folds to a turn bet',value:pct(c.pool.turnFold),basis:'pool'},{label:'In this app, heads-up turn bets like this won the pot at once',value:`about ${pct(MEASURED.turnBetFolds)} of the time`,basis:'measured'},...(hand.drawOuts?[drawNote()]:[])],`${hand.job}: ${hand.drawOuts?`${hand.drawOuts} outs`:'no pair'}`,true);
  }
  const weak=hand.job==='showdown value';
  return checkAdvice(weak?'pot-control':multi?'multiway':villainLead?'initiative':'give-up',{ranges:base,
