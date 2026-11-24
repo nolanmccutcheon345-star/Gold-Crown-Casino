@@ -86,7 +86,7 @@ export const MACHINES:readonly Machine[]=[
   scatterPay:{sym:'pearl',pays:{5:1.5,7:4,9:12,12:45,15:180}},
   scatter:{sym:'shell',pays:{3:3,4:12,5:60},freeSpins:{3:8,4:12,5:18},freeMultiplier:2},
   bets:[20,40,100,200,500],
-  symbols:{trident:{label:'Trident (wild)',art:'trident',tone:'wild'},pearl:{label:'Pearl (pays anywhere)',art:'pearl',tone:'bonus'},shell:{label:'Shell (bonus)',art:'shell',tone:'bonus'},seahorse:{label:'Seahorse',art:'seahorse',tone:'high'},turtle:{label:'Sea turtle',art:'turtle',tone:'high'},anchor:{label:'Anchor',art:'anchor',tone:'high'},compass:{label:'Compass',art:'compass',tone:'high'},A:{label:'Ace',art:'A',tone:'low'},K:{label:'King',art:'K',tone:'low'},Q:{label:'Queen',art:'Q',tone:'low'},J:{label:'Jack',art:'J',tone:'low'}},
+  symbols:{trident:{label:'Trident (wild)',art:'trident',tone:'wild'},pearl:{label:'Pearl (pays anywhere)',art:'seaPearl',tone:'bonus'},shell:{label:'Shell (bonus)',art:'shell',tone:'bonus'},seahorse:{label:'Seahorse',art:'seahorse',tone:'high'},turtle:{label:'Sea turtle',art:'turtle',tone:'high'},anchor:{label:'Anchor',art:'anchor',tone:'high'},compass:{label:'Compass',art:'compass',tone:'high'},A:{label:'Ace',art:'A',tone:'low'},K:{label:'King',art:'K',tone:'low'},Q:{label:'Queen',art:'Q',tone:'low'},J:{label:'Jack',art:'J',tone:'low'}},
   theme:{top:'#0a4a6a',bottom:'#03182a',glow:'#4adfd0',marquee:'Pearls pay anywhere'}},
  {id:'crown-wheel',name:'Crown Wheel',tagline:'Twenty royal lines. A crown in the middle of the last reel spins the bonus wheel.',kind:'video',rtp:95.6,volatility:'medium',stats:{hitRate:38.7,featureEvery:22,swing:3,topSeen:159},rows:3,
   reels:[0,1,2,3,4].map(i=>strip({crown:i===4?2:0,scepter:i>0&&i<4?2:0,orb:4,seven:3,bell:4,star:5,A:6,K:7,Q:7,J:8},1001+i)),
