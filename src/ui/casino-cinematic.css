@@ -23,7 +23,7 @@
 .casino-home-hero{
  min-height:clamp(280px,29vw,425px);
  background-image:linear-gradient(105deg,#031213f8 0%,#041917ea 34%,#092620b5 60%,#10151124 100%),
- url('/casino-art/room-atmosphere.webp');
+ url('/casino-art/lobby-hero.webp');
  background-position:center,center 48%;background-size:cover;
  box-shadow:inset 0 0 0 1px #d2ac7f70,inset 0 0 65px #000b,0 15px 40px #000a;
  border:1px solid #ddb87585;
@@ -136,3 +136,11 @@
  background-position:center,center 38%;background-size:cover,cover;
  background-blend-mode:normal,soft-light;
 }
+
+/* Phase 6 Stage B: the primary home card (Quick game / Back to your table) is the
+ * gold primary action again — the emerald gradient it picked up left its dark title
+ * (set in casino-foundations.css) nearly invisible. */
+.home-card-main{background:linear-gradient(180deg,#fff0c6,#e6ba73 62%,#b47d37);border-color:#fff1bb;color:#251a0b}
+.home-card-main b{color:#30271c}
+.home-card-main>span:last-child{color:#4a3517}
+.home-card-main .casino-game-art{color:#584129}

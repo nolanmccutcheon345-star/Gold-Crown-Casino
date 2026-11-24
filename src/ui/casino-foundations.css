@@ -133,7 +133,7 @@
 /* Original atmospheric image is only room dressing behind real clickable widgets. */
 .casino-home-hero{background-image:
  linear-gradient(90deg,#061518f5 0%,#062021e4 40%,#06140d94 72%,#07120d8c 100%),
- url('/casino-art/room-atmosphere.webp');background-position:center,center;background-size:cover,cover}
+ url('/casino-art/lobby-hero.webp');background-position:center,center;background-size:cover,cover}
 .casino-home-art{opacity:.7}
 @media(max-width:760px){.casino-home-hero{background-position:center,64% 50%}}
-@media(max-width:440px){.casino-home-hero{background-image:linear-gradient(90deg,#061519ed,#081c1ace),url('/casino-art/room-atmosphere.webp')}}
+@media(max-width:440px){.casino-home-hero{background-image:linear-gradient(90deg,#061519ed,#081c1ace),url('/casino-art/lobby-hero.webp')}}

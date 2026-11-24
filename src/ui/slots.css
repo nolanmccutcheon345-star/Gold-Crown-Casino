@@ -338,3 +338,6 @@ button.slot-chest:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 
 }
 @media (prefers-reduced-motion:reduce){.slot-cabinet.free-spins .slot-marquee h3,.slot-cabinet.free-spins .slot-window-frame,.slot-fs-banner,.slot-cabinet.nice-win{animation:none!important}}
 .motion-off :is(.slot-cabinet.free-spins .slot-marquee h3,.slot-cabinet.free-spins .slot-window-frame,.slot-fs-banner,.slot-cabinet.nice-win){animation:none!important}
+/* Opening a machine scrolls the cabinet to the top of the viewport; leave room for
+ * the sticky app header so the marquee name is not hidden underneath it. */
+.slot-cabinet{scroll-margin-top:76px}
