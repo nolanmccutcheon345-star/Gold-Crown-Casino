@@ -21,15 +21,18 @@ export const DEFAULT_CUSTOM_TRAITS:Readonly<BotTraits>=Object.freeze({...PRESETS
 /** A stock archetype's trait values (copy). */
 export function presetTraits(archetype:Archetype):BotTraits {if(!Object.hasOwn(PRESETS,archetype))throw new Error('Unknown bot archetype.');return {...PRESETS[archetype].traits};}
 /** Population mixture priors per stake preset. Phase 5 calibration (BOT-004): these weights are the
- * ONLINE-flavoured base mixture, tuned so the simulated population's measured VPIP/PFR/3-bet/limp
- * distributions sit inside the published target bands in population-benchmarks.ts (see
- * POPULATION_BENCHMARKS.md and scripts/step5-population-report.ts for the executed evidence).
- * Live-casino flavour is derived from these by the documented multipliers in flavorWeights().
- * They remain designed priors fitted to published target bands, never measured human frequencies
- * and never a stake-to-skill inference for an individual player. */
+ * ONLINE-flavoured base mixture, tuned — as mixture weights only, the bot policy itself being
+ * pinned by the repository's captured-behaviour suites — so the simulated population's measured
+ * VPIP/PFR/3-bet/limp distributions approach the published target bands in
+ * population-benchmarks.ts as closely as the archetype set allows (see POPULATION_BENCHMARKS.md
+ * and scripts/step5-population-report.ts for the executed evidence, including the metrics the
+ * mixture cannot reach). Live-casino flavour is derived from these by the documented
+ * multipliers in flavorWeights(). They remain designed priors fitted to published target
+ * bands, never measured human frequencies and never a stake-to-skill inference for an
+ * individual player. */
 export const POPULATION_WEIGHTS:Readonly<Record<PopulationPreset,readonly number[]>>=Object.freeze({
- low:Object.freeze([.11,.07,.25,.16,.1,.05,.1,.16]),mid:Object.freeze([.11,.06,.27,.2,.06,.05,.08,.17]),
- high:Object.freeze([.08,.03,.27,.25,.02,.03,.05,.27]),neutral:Object.freeze(Array(8).fill(.125)),
+ low:Object.freeze([.05,.07,.12,.34,.05,.1,.07,.2]),mid:Object.freeze([.1,.07,.18,.28,.07,.08,.08,.14]),
+ high:Object.freeze([.06,.07,.17,.3,.03,.1,.1,.17]),neutral:Object.freeze(Array(8).fill(.125)),
 });
 export function seedStream(seed:number):()=>number {
  if(!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw new Error('Invalid personality seed: expected uint32.');

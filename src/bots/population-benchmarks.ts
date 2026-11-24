@@ -144,14 +144,14 @@ export const BENCHMARK_BANDS: Readonly<Record<PoolEnvironmentKey, Readonly<Recor
  * online pools the base POPULATION_WEIGHTS describe.
  */
 export const LIVE_FLAVOR_MULTIPLIERS: Readonly<Record<Archetype, number>> = Object.freeze({
-  nit: 1.05,
-  station: 2.2,
-  tag: 0.62,
+  nit: 0.9,
+  station: 9,
+  tag: 0.35,
   lag: 0.5,
-  'fit-or-fold': 1.35,
-  maniac: 1.1,
-  'passive-reg': 2.05,
-  'stronger-reg': 0.3,
+  'fit-or-fold': 1.2,
+  maniac: 1.8,
+  'passive-reg': 6,
+  'stronger-reg': 0.15,
 });
 
 /**

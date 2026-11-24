@@ -14,18 +14,31 @@ calibration (same seed base so movement is attributable):
 - **Before calibration** (benchmarks committed, population untuned):
   **20 of 45** environment-metric pairs inside their bands. Flop c-bet sat at
   10–20% in every pool (bands 40–68) and WTSD at 59–81% (bands 26–36).
-- **After calibration**: **35 of 45** pairs inside their bands. Flop c-bet
-  44–68%, WTSD 24–32% in four of five pools, VPIP/PFR/3-bet/limp inside or
-  within half a point of their bands in nearly every pool.
-- **Remaining residuals** (documented, with mechanisms, in the Phase 5
-  report): live WWSF ≈ 2 points low in both live pools; online-low PFR
-  17.5 vs band 19–23 (the low pool's passive third caps the pool raise
-  share); online-mid PFR 17.8 vs 18; online-high 3-bet 7.7 vs 8,
-  fold-to-3-bet 66.9 vs 64, flop c-bet a hair over 68, WTSD 23.7 vs 26;
-  live-low VPIP 29.5 vs 30; live-mid fold-to-c-bet 56.5 vs 54.
+- **Calibration surface.** The bot policy is pinned by the repository's
+  captured-behaviour suites (Version54/Version60 policy-compat, the preflop
+  coherence guard, persona-coherence and exposure pins). An in-place policy
+  calibration was built and measured at **35 of 45** in band — and reverted,
+  because it broke five of those pinned suites: current-policy behaviour may
+  only change as a NEW policy version with its own fixtures (frozen-version
+  discipline). The calibration that ships is therefore **mixture-only**:
+  `POPULATION_WEIGHTS` and `LIVE_FLAVOR_MULTIPLIERS`, plus the venue plumbing
+  that lets session lineups draw from the live flavour.
+- **After mixture calibration**: still **20 of 45** pairs in band, but the
+  in-band set moved to the preflop family the mixture actually controls:
+  VPIP in band in 4 of 5 pools (live-low 27.4 vs 30–42 remains out), limp in
+  4 of 5 (online-high 4.6 vs 0–4), 3-bet in 3 of 5, fold-to-3-bet in 3 of 5,
+  and online PFR misses narrowed to 16.4–16.9 against 17–23 floors.
+- **Remaining residuals are policy properties, not mixture misses** —
+  measured per archetype, every archetype's flop c-bet sits at or below
+  ~26% (bands 40–68) and every archetype's WTSD at or above ~50% (bands
+  26–36), so no mixture can reach the postflop bands; online PFR bands
+  (ratio ≈ 0.79 of VPIP) exceed what the archetype set's raise shares can
+  compose without breaking VPIP/3-bet/limp. Full residual table with
+  mechanisms: the Phase 5 report. Closing them requires a new policy
+  version (postflop aggression + showdown discipline) per roadmap Phase 5B.
 - A seeded lock-in test (`tests/bots/population-calibration.test.ts`)
-  asserts every non-residual metric stays in band and no residual degrades
-  past its recorded deviation.
+  asserts every non-residual metric stays in band and no documented
+  residual degrades past its recorded deviation.
 - BOT-004 is **MITIGATED** on this evidence, not FIXED: the bands are public
   targets, agreement is descriptive, and the residuals above remain open
   modelling questions.
@@ -60,14 +73,16 @@ mixture via `flavorWeights(preset, venue)`:
 - **Online**: `POPULATION_WEIGHTS[preset]` from `src/bots/profiles.ts`,
   unchanged.
 - **Live**: the same preset weights adjusted by documented multipliers
-  (`LIVE_FLAVOR_MULTIPLIERS`): mass shifts toward `station` (×2.2),
-  `passive-reg` (×2.05) and `fit-or-fold` (×1.35), away from `stronger-reg`
-  (×0.3), `lag` (×0.5) and `tag` (×0.62); `nit` ×1.05, `maniac` ×1.1; then
-  renormalised to sum 1. Rationale: live pools are publicly observed to hold
-  proportionally more loose-passive recreational players and fewer studied
-  regulars than online pools. This is a modelling assumption, not a
-  measurement. (Multipliers as tuned by the Phase 5 calibration loop —
-  see "Calibration status" below.)
+  (`LIVE_FLAVOR_MULTIPLIERS`): mass shifts strongly toward `station` (×9)
+  and `passive-reg` (×6), moderately toward `maniac` (×1.8) and
+  `fit-or-fold` (×1.2), away from `stronger-reg` (×0.15), `tag` (×0.35),
+  `lag` (×0.5) and `nit` (×0.9); then renormalised to sum 1. Rationale:
+  live pools are publicly observed to hold proportionally more loose-passive
+  recreational players and fewer studied regulars than online pools; the
+  strength of the shift is what the Phase 5 calibration loop required for
+  the live pools' VPIP/limp to approach their bands under the pinned bot
+  policy (even so, live-low VPIP lands at 27.4 against a 30–42 band — see
+  "Calibration status"). This is a modelling assumption, not a measurement.
 
 ## Target bands (percent)
 
@@ -176,11 +191,14 @@ report (`--out`) carrying rates, opportunity counts and verdicts.
 1. Run the reporter; treat every `OUT` as a modelling question, not a tuning
    order. Check per-archetype rates first — a pool-level miss usually traces
    to one archetype's policy or to the mixture weights.
-2. Any change made in response belongs to the bot policy or the documented
-   mixture assumptions, is reviewed on its own merits, and is re-measured
-   with a fresh reporter run at a new seed base. Bands are **not** edited to
-   make a run pass; a band changes only when the public-source picture
-   changes, and the change is recorded here.
+2. Any change made in response belongs to the documented mixture
+   assumptions — or to the bot policy **only as a new policy version with
+   its own fixtures** (current-policy behaviour is pinned by the
+   captured-behaviour suites; in-place policy retunes are not a calibration
+   surface). Changes are reviewed on their own merits and re-measured with
+   a fresh reporter run. Bands are **not** edited to make a run pass; a
+   band changes only when the public-source picture changes, and the change
+   is recorded here.
 3. Baseline and follow-up reports are compared by label and seed base so
    movement is attributable. Synthetic-vs-band agreement narrows BOT-004's
    "uncalibrated" gap descriptively; it never converts these targets into
