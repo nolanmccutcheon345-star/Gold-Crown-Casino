@@ -31,8 +31,8 @@ export function presetTraits(archetype:Archetype):BotTraits {if(!Object.hasOwn(P
  * bands, never measured human frequencies and never a stake-to-skill inference for an
  * individual player. */
 export const POPULATION_WEIGHTS:Readonly<Record<PopulationPreset,readonly number[]>>=Object.freeze({
- low:Object.freeze([.05,.07,.12,.34,.05,.1,.07,.2]),mid:Object.freeze([.1,.07,.18,.28,.07,.08,.08,.14]),
- high:Object.freeze([.06,.07,.17,.3,.03,.1,.1,.17]),neutral:Object.freeze(Array(8).fill(.125)),
+ low:Object.freeze([.05,.09,.11,.3,.04,.09,.13,.19]),mid:Object.freeze([.1,.07,.18,.28,.07,.08,.08,.14]),
+ high:Object.freeze([.05,.03,.18,.37,.03,.12,.04,.18]),neutral:Object.freeze(Array(8).fill(.125)),
 });
 export function seedStream(seed:number):()=>number {
  if(!Number.isInteger(seed)||seed<0||seed>0xffffffff)throw new Error('Invalid personality seed: expected uint32.');

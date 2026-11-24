@@ -25,9 +25,12 @@ calibration (same seed base so movement is attributable):
   that lets session lineups draw from the live flavour.
 - **After mixture calibration**: still **20 of 45** pairs in band, but the
   in-band set moved to the preflop family the mixture actually controls:
-  VPIP in band in 4 of 5 pools (live-low 27.4 vs 30–42 remains out), limp in
-  4 of 5 (online-high 4.6 vs 0–4), 3-bet in 3 of 5, fold-to-3-bet in 3 of 5,
-  and online PFR misses narrowed to 16.4–16.9 against 17–23 floors.
+  limp in band in all 5 pools, VPIP in 4 of 5 (live-low 28.1 vs 30–42
+  remains out), 3-bet in 3 of 5, fold-to-3-bet in 3 of 5, PFR in 2 of 5
+  (online-high 17.7 in band; online-low/mid narrowed to 17.1/16.4 against
+  19/18 floors). The mixture also respects the repository's designed-mix
+  pin (tests/bots4a: low-stakes pools draw station/passive-reg at more
+  than twice the high-stakes rate).
 - **Remaining residuals are policy properties, not mixture misses** —
   measured per archetype, every archetype's flop c-bet sits at or below
   ~26% (bands 40–68) and every archetype's WTSD at or above ~50% (bands
@@ -81,7 +84,7 @@ mixture via `flavorWeights(preset, venue)`:
   recreational players and fewer studied regulars than online pools; the
   strength of the shift is what the Phase 5 calibration loop required for
   the live pools' VPIP/limp to approach their bands under the pinned bot
-  policy (even so, live-low VPIP lands at 27.4 against a 30–42 band — see
+  policy (even so, live-low VPIP lands at 28.1 against a 30–42 band — see
   "Calibration status"). This is a modelling assumption, not a measurement.
 
 ## Target bands (percent)
