@@ -1,0 +1,202 @@
+/**
+ * Gold Crown Casino — app shell, navigation and shared primitives (Phase 1, 2026-11-23).
+ *
+ * Imported LAST in app.ts so the shell consolidates here on the token layer
+ * (tokens.css) instead of in the patch-layered casino-visual107/108/109 sheets.
+ * Scope discipline:
+ *   - This file owns chrome only: shell background, header, primary nav, subnav,
+ *     the phone bottom nav, buttons, panels, page heading, and shell-level
+ *     responsive rules at the token breakpoints. Game screens keep their sheets.
+ *   - Dark-treatment colors are scoped to :not(.theme-light); the light theme
+ *     (a user table-style option) keeps its own palette from polish.css.
+ *   - Structural rules (sizes, layout, breakpoints) apply to both themes.
+ */
+
+/* ---------- Shell ---------- */
+.app-shell:not(.theme-light) {
+  color: var(--gc-ivory);
+  background:
+    radial-gradient(ellipse 75% 24% at 50% -5%, #c9a22712, transparent 85%),
+    radial-gradient(ellipse 85% 70% at 50% 32%, #0b3d2e38, transparent 95%),
+    var(--gc-midnight);
+}
+.app-shell { font-family: var(--gc-font-body); }
+
+/* ---------- Header / top bar (desktop + tablet) ---------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--gc-z-header);
+  min-height: 64px;
+  padding: 10px 28px;
+  gap: 24px;
+}
+.app-shell:not(.theme-light) .app-header {
+  background: linear-gradient(180deg, #12181af8, #0a0e0df5);
+  border-bottom: 1px solid var(--gc-border-gold);
+  box-shadow: inset 0 1px 0 #f2c94c12, 0 4px 18px #000000b0;
+}
+.app-header .brand { min-width: 0; }
+.casino-wordmark-type > b {
+  font-family: var(--gc-font-display);
+  letter-spacing: .13em;
+}
+.casino-wordmark-type > small { letter-spacing: .3em; }
+.app-shell:not(.theme-light) .casino-wordmark-type > small { color: var(--gc-sage); }
+
+/* Primary nav: one row, scrolls horizontally instead of overflowing. */
+.app-header nav {
+  min-width: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.app-header nav::-webkit-scrollbar { display: none; }
+.nav-button {
+  min-height: 44px;
+  border-radius: var(--gc-radius-m);
+  font-size: var(--gc-fs-2);
+  font-weight: 600;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-button .nav-icon { width: 18px; height: 18px; flex: 0 0 auto; }
+.app-shell:not(.theme-light) .nav-button { color: var(--gc-sage); }
+.app-shell:not(.theme-light) .nav-button:hover { color: var(--gc-ivory); }
+.app-shell:not(.theme-light) .nav-button.selected {
+  color: var(--gc-gold-bright);
+  background: linear-gradient(180deg, #c9a22724, #c9a22710);
+  box-shadow: inset 0 0 0 1px var(--gc-border-gold);
+}
+.app-header :focus-visible,
+.subnav :focus-visible,
+.bottom-nav :focus-visible {
+  outline: 2px solid var(--gc-gold-bright);
+  outline-offset: 3px;
+}
+
+/* Subnav row (group pages): token surface, same scroll behaviour as the top nav. */
+.app-shell:not(.theme-light) .subnav {
+  background: #0a0e0de8;
+  border-bottom: 1px solid var(--gc-border-gold-soft);
+}
+.subnav-button { min-height: 40px; border-radius: var(--gc-radius-m); }
+.app-shell:not(.theme-light) .subnav-button:is(.selected, [aria-current="page"]) {
+  color: var(--gc-gold-bright);
+  background: linear-gradient(180deg, #c9a22726, #0b3d2e8c);
+}
+
+/* ---------- Shared primitives: buttons + panels ---------- */
+.button { border-radius: var(--gc-radius-m); letter-spacing: .02em; }
+.button.primary {
+  background: var(--gc-gold-gradient);
+  color: #171106;
+  border-color: var(--gc-gold-deep);
+  box-shadow: inset 0 1px 0 #ffffff70, var(--gc-shadow-lift);
+}
+.button.primary:hover:not(:disabled) { filter: brightness(1.07); }
+.app-shell:not(.theme-light) .button.secondary {
+  background: var(--gc-panel);
+  color: var(--gc-ivory);
+  border-color: var(--gc-border-gold-soft);
+}
+.app-shell:not(.theme-light) .button.secondary:hover:not(:disabled) {
+  background: var(--gc-panel-raised);
+  border-color: var(--gc-border-gold);
+}
+.panel { border-radius: var(--gc-radius-l); }
+.app-shell:not(.theme-light) .panel {
+  background: linear-gradient(165deg, #151c1f, var(--gc-panel));
+  border-color: var(--gc-border-gold-soft);
+  box-shadow: var(--gc-shadow-panel);
+}
+
+/* ---------- Page heading ---------- */
+.page-heading { flex-wrap: wrap; }
+.page-heading h1 { font-family: var(--gc-font-display); letter-spacing: .03em; }
+.app-shell:not(.theme-light) .eyebrow { color: var(--gc-gold); letter-spacing: .22em; }
+
+/* ---------- Bottom nav (phone portrait) ---------- */
+.bottom-nav { display: none; }
+@media (max-width: 767px) and (orientation: portrait) {
+  .app-header { min-height: 56px; padding: 8px 14px; gap: 12px; }
+  .app-header nav { display: none; } /* replaced by the bottom nav */
+  .header-status .outline-tag { display: none; }
+  .header-status { margin-left: auto; }
+  main { padding: 18px 14px 0; }
+  .app-shell { padding-bottom: calc(74px + env(safe-area-inset-bottom)); }
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--gc-z-bottom-nav);
+    justify-content: space-around;
+    align-items: stretch;
+    gap: 2px;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom));
+  }
+  .app-shell:not(.theme-light) .bottom-nav {
+    background: linear-gradient(180deg, #12181af5, #0a0e0dfe);
+    border-top: 1px solid var(--gc-border-gold);
+    box-shadow: 0 -6px 20px #000000a0;
+  }
+  .app-shell.theme-light .bottom-nav {
+    background: #f8f9f6f8;
+    border-top: 1px solid #00000014;
+    box-shadow: 0 -6px 20px #00000026;
+  }
+  .bottom-nav-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    flex: 1 1 0;
+    min-width: 52px;
+    min-height: 52px;
+    padding: 6px 4px;
+    border: 0;
+    border-radius: var(--gc-radius-m);
+    background: none;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    cursor: pointer;
+  }
+  .bottom-nav-button .nav-icon { width: 20px; height: 20px; }
+  .app-shell:not(.theme-light) .bottom-nav-button { color: var(--gc-sage); }
+  .app-shell:not(.theme-light) .bottom-nav-button.selected {
+    color: var(--gc-gold-bright);
+    background: linear-gradient(180deg, #c9a22726, #c9a2270d);
+  }
+  .app-shell.theme-light .bottom-nav-button { color: #3f4d4a; }
+  .app-shell.theme-light .bottom-nav-button.selected { color: #6b4e12; background: #e6ebe2; }
+}
+
+/* ---------- Phone landscape / short screens: slim top bar, nav scrolls ---------- */
+@media (max-height: 520px) and (orientation: landscape) {
+  .app-header { min-height: 48px; padding: 6px 14px; gap: 14px; }
+  .nav-button { min-height: 40px; padding: 8px 11px; }
+  .casino-crest { width: 30px; height: 30px; }
+}
+
+/* ---------- Phone (any orientation) + tablet: fluid shell spacing ---------- */
+@media (max-width: 1199px) {
+  main { padding-left: 24px; padding-right: 24px; }
+  .app-header { padding-left: 20px; padding-right: 20px; }
+}
+@media (max-width: 767px) {
+  main { padding-left: 14px; padding-right: 14px; }
+  .page-heading { gap: 12px; margin-bottom: 20px; }
+}
+
+/* ---------- Reduced motion: shell transitions calm down ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .nav-button, .subnav-button, .bottom-nav-button, .button {
+    transition-duration: .01ms !important;
+  }
+}
