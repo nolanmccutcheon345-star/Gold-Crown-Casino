@@ -332,3 +332,15 @@
   }
   .cz-game .cz-mode-banner::after,.panel.slots .slot-li::before {display:none}
 }
+
+/* Phase 7: per-game detailed stats pages. */
+.game-detail .detail-nav{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 6px}
+.game-detail .detail-chip{min-height:36px}
+.game-detail .detail-chip.selected{background:var(--gcc-gold,#C9A227);color:#141005;border-color:transparent;font-weight:700}
+.game-detail .detail-section{margin-top:26px}
+.game-detail .detail-section>h3{margin:0 0 10px;font-size:1.05rem}
+.game-detail .detail-facts{margin-top:14px}
+.game-detail .detail-facts small{display:block;color:var(--gcc-muted,#9db4a8);font-weight:400;margin-top:2px}
+.game-detail .detail-two-col{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 28px}
+.game-detail .detail-two-col h4{margin:0 0 6px}
+.game-card .detail-open{margin-top:12px}

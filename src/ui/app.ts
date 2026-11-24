@@ -13,7 +13,7 @@ import { readCareer, saveCareer, startCareer, careerStatus, newMilestones, chang
 import { tableChoices, seatPreview, moveSeat, straddleTable, type TableChoice } from './table-picker';
 import { findLeaks, leakTrends, type Leak } from '../stats/leaks';
 import { cashResult, tournamentResult, blackjackResult, omahaResult, slotsResult, casinoResult, type GameResult } from '../stats/by-game';
-import { careerStats, slotsMachines, CAREER_GAMES, type CareerSources, type CareerStats } from '../stats/career';
+import { careerStats, slotsMachines, CAREER_GAMES, type CareerGameId, type CareerSources, type CareerStats } from '../stats/career';
 import { readStatsBook, saveStatsBook, takeSnapshot, deleteSnapshot, resetCounters, clearBaseline, cursorsFromSources, periodStats, periodArchives, type StatsBook } from '../stats/snapshots';
 import { CASINO_GAMES } from '../casino/wallet';
 import { machineById } from '../slots/machines';
@@ -37,7 +37,9 @@ import {fastForwardTournament} from '../tournament/fast-forward';
 import type { Action, Card, GameState, HeroViewModel, RuleProfile } from '../contracts';
 import type { CashSettings, PublicHand, StoredHand } from '../session/types';
 import { SessionController, DEFAULT_SETTINGS } from '../session/controller';
-import { frozenPolicyVersions, projectLivePace, STAT_DEFINITIONS } from '../stats/cash';
+import { frozenPolicyVersions, projectLivePace, STAT_DEFINITIONS, deriveCashStats, type CashStats, type MetricKey, type RateStat, type ResultGroup as CashResultGroup } from '../stats/cash';
+import { cashPerformanceHands, stakesTierGroups, heroVsOpponents, biggestPots, headsUpHands, buyInTierGroups, biggestCashes, ploDrill, blackjackDrill, rouletteDrill, baccaratDrill, crapsDrill, racesDrill, slotsDrill } from '../stats/drilldown';
+import type { BlackjackRound } from '../blackjack/engine';
 import {AsyncCashStats} from './async-cash-stats';
 import {ALL_CASH_RESULTS_FILTER,cashResultsFilterMarkup,deriveFilteredCashStats,type CashResultsFilter,type FilteredCashResults} from './cash-results-filter';
 import { projectView, nextHandStraddleSeat } from '../core/engine';
@@ -129,7 +131,7 @@ import { cashMilestones, sessionResults, sessionStreaks, tournamentMilestones, t
 import { bankrollSeries, bindCharts, lineChartMarkup, resultSeries } from './charts';
 import { canVibrate, playCues, playSound, soundCues, soundState, unlockAudio, vibrateFor, setVolume, ploSoundState, ploSoundCues, bjSoundCues, ambience, type SoundKind, type SoundState, type PloSoundState, type BjSoundState } from './sounds';
 import { BlackjackLiveUI } from '../blackjack/live-ui';
-import { regularFor, isRegularName, REGULARS } from '../bots/regulars';
+import { regularFor, regularById, isRegularName, REGULARS } from '../bots/regulars';
 import { cashThinkPlan, pacedMs, READ_HOLD_MS, tournamentThinkPlan } from './think-time';
 import { cashBreak } from '../session/human-context';
 import { tournamentMoment, tournamentRecent } from '../tournament/runtime';
@@ -143,7 +145,7 @@ import type { BlackjackController } from '../blackjack/controller';
 import { oddsHelp, oddsHelperMarkup, ODDS_HELPER_KEY } from './odds-helper';
 
 /** Patch 78: where you are, above every page title. */
-const SECTION_LABELS: Record<string, string> = { home: 'WELCOME BACK', live: 'PLAY · HOLD’EM CASH', session: 'PLAY · HOLD’EM CASH', host: 'PLAY · TABLE SETUP', tournaments: 'PLAY · TOURNAMENTS', omaha: 'PLAY · POT-LIMIT OMAHA', 'heads-up': 'PLAY · HEADS-UP', career: 'PLAY · CAREER', blackjack: 'PLAY · BLACKJACK', slots: 'PLAY · SLOTS', roulette: 'PLAY · ROULETTE', craps: 'PLAY · CRAPS', baccarat: 'PLAY · BACCARAT', races: 'PLAY · HORSE RACING', study: 'HISTORY', results: 'STATS · CASH RESULTS', 'tournament-stats': 'STATS · TOURNAMENTS', opponents: 'STATS · OPPONENTS', coach: 'STATS · COACH', 'by-game': 'STATS · BY GAME', 'deep-stats': 'STATS · DEEP STATS', cashier: 'CASHIER' };
+const SECTION_LABELS: Record<string, string> = { home: 'WELCOME BACK', live: 'PLAY · HOLD’EM CASH', session: 'PLAY · HOLD’EM CASH', host: 'PLAY · TABLE SETUP', tournaments: 'PLAY · TOURNAMENTS', omaha: 'PLAY · POT-LIMIT OMAHA', 'heads-up': 'PLAY · HEADS-UP', career: 'PLAY · CAREER', blackjack: 'PLAY · BLACKJACK', slots: 'PLAY · SLOTS', roulette: 'PLAY · ROULETTE', craps: 'PLAY · CRAPS', baccarat: 'PLAY · BACCARAT', races: 'PLAY · HORSE RACING', study: 'HISTORY', results: 'STATS · CASH RESULTS', 'tournament-stats': 'STATS · TOURNAMENTS', opponents: 'STATS · OPPONENTS', coach: 'STATS · COACH', 'by-game': 'STATS · BY GAME', 'deep-stats': 'STATS · DEEP STATS', 'game-detail': 'STATS · GAME DETAIL', cashier: 'CASHIER' };
 /** Patch 81: small line icons for the main tabs (drawn here, no icon font). */
 const NAV_ICONS: Record<string, string> = {
   home: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/>',
@@ -154,7 +156,7 @@ const NAV_ICONS: Record<string, string> = {
 };
 const navIcon = (view: string) => NAV_ICONS[view] ? `<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${NAV_ICONS[view]}</svg>` : '';
 const sectionLabel = (view: string) => SECTION_LABELS[view] ?? 'THE PRACTICE ROOM';
-type View = 'home' | 'live' | 'host' | 'study' | 'cashier' | 'results' | 'session' | 'opponents' | 'coach' | 'by-game' | 'deep-stats' | 'career' | 'heads-up' | 'omaha' | 'tournaments' | 'tournament-stats' | 'blackjack' | 'slots' | 'roulette' | 'craps' | 'baccarat' | 'races';
+type View = 'home' | 'live' | 'host' | 'study' | 'cashier' | 'results' | 'session' | 'opponents' | 'coach' | 'by-game' | 'deep-stats' | 'game-detail' | 'career' | 'heads-up' | 'omaha' | 'tournaments' | 'tournament-stats' | 'blackjack' | 'slots' | 'roulette' | 'craps' | 'baccarat' | 'races';
 /** Top-level menu. Each entry opens one page; `pages` lists the other pages of that group for the row under the header. */
 const MENU: readonly { view: View; label: string; text: string; group: string; pages: readonly { view: View; label: string; text: string; short: string }[] }[] = [
   { view: 'home', label: 'Home', text: 'Home', group: 'Home', pages: [] },
@@ -163,7 +165,7 @@ const MENU: readonly { view: View; label: string; text: string; group: string; p
   { view: 'by-game', label: 'Stats and results', text: 'Stats', group: 'Stats', pages: [{ view: 'results', label: 'Results', text: 'Results', short: 'Results' }, { view: 'deep-stats', label: 'Deep stats', text: 'Deep stats', short: 'Deep' }, { view: 'tournament-stats', label: 'Tournament stats', text: 'Tournament stats', short: 'Tourneys' }, { view: 'opponents', label: 'Opponent study', text: 'Opponent study', short: 'Opponents' }, { view: 'coach', label: 'Leaks and drills', text: 'Leaks and drills', short: 'Coach' }, { view: 'by-game', label: 'Results by game', text: 'Results by game', short: 'By game' }] },
   { view: 'cashier', label: 'Cashier', text: 'Cashier', group: 'Cashier', pages: [] },
 ];
-const menuGroup = (view: View) => MENU.find(entry => entry.view === view || entry.pages.some(page => page.view === view)) ?? MENU[0];
+const menuGroup = (view: View) => view === 'game-detail' ? MENU.find(entry => entry.view === 'by-game')! : MENU.find(entry => entry.view === view || entry.pages.some(page => page.view === view)) ?? MENU[0];
 type Settings = CashSettings;
 type ReviewHand = Pick<StoredHand, 'number'|'net'|'view'|'frames'|'startedAt'|'endedAt'|'sessionId'|'provenance'> & {id:string; imported:boolean; policyVersions?:string[]; originLabel:string};
 const PRESETS = [[100, 200], [100, 300], [200, 500], [500, 1000], [1000, 2000], [2000, 4000], [5000, 10000]];
@@ -227,7 +229,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     if(tournamentStarted)return;
     tournamentStarted=true;
     tournament??=new TournamentController(tournamentDatabase);
-    tournament.subscribe(()=>{if(view==='tournaments'||view==='tournament-stats'||view==='coach'||view==='by-game'||view==='home')render();});
+    tournament.subscribe(()=>{if(view==='tournaments'||view==='tournament-stats'||view==='coach'||view==='by-game'||view==='game-detail'||view==='home')render();});
     void tournament.init().catch(cause=>{error=String(cause);render();});
   };
   /* The table-move notice stays until Hero dismisses it, for the hand that follows the move. */
@@ -1552,12 +1554,17 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
   }
   let statsFilter:StatsFilter={...DEFAULT_STATS_FILTER};
   let statsCache:{revision:number;filter:string;stats:TournamentStats}|null=null;
+  function currentTournamentStats():TournamentStats|null {
+    const c=tournament;
+    if(!c||!c.data)return null;
+    const key=JSON.stringify(statsFilter);
+    if(!statsCache||statsCache.revision!==c.data.revision||statsCache.filter!==key)statsCache={revision:c.data.revision,filter:key,stats:timed('tournament.stats',()=>tournamentStats(c.data!,statsFilter))};
+    return statsCache.stats;
+  }
   function tournamentStatsPage():string {
     const c=tournament;
     if(!c||!c.data)return `<section class="panel"><h2>Loading tournament records…</h2><p>${escape(c?.error||'Reading your saved tournaments.')}</p></section>`;
-    const key=JSON.stringify(statsFilter);
-    if(!statsCache||statsCache.revision!==c.data.revision||statsCache.filter!==key)statsCache={revision:c.data.revision,filter:key,stats:timed('tournament.stats',()=>tournamentStats(c.data!,statsFilter))};
-    return tournamentStatsMarkup(statsCache.stats);
+    return tournamentStatsMarkup(currentTournamentStats()!);
   }
   /** Patch 66: long-run results by game, with likely ranges. Blackjack history is read once per visit. */
   let blackjackRounds: { state: 'idle' | 'loading' | 'ready' | 'error'; rounds: { net: number; bet: number }[]; note: string } = { state: 'idle', rounds: [], note: '' };
@@ -1573,6 +1580,21 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     void c.roundResults().then(rounds => { blackjackRounds = { state: 'ready', rounds, note: '' }; if (view === 'by-game') render(); })
       .catch(error => { blackjackRounds = { state: 'error', rounds: [], note: String(error) }; if (view === 'by-game') render(); });
   }
+  /* Phase 7: the full blackjack round records, read once per visit, for the
+   * detailed stats page (doubles, splits, upcards, bet sizes). */
+  let blackjackRecords: { state: 'idle' | 'loading' | 'ready' | 'error'; rounds: BlackjackRound[]; note: string } = { state: 'idle', rounds: [], note: '' };
+  function loadBlackjackRecords(attempt = 0) {
+    const c = blackjackLive.controller;
+    if (c.status !== 'ready' || c.busy) {
+      if (attempt === 0) blackjackLive.init();
+      if (attempt < 40) { blackjackRecords.state = 'loading'; window.setTimeout(() => loadBlackjackRecords(attempt + 1), 250); }
+      else { blackjackRecords = { state: 'error', rounds: [], note: 'Blackjack history could not be opened. Visit the Blackjack tab, then come back.' }; if (view === 'game-detail') render(); }
+      return;
+    }
+    blackjackRecords.state = 'loading';
+    void c.roundRecords().then(rounds => { blackjackRecords = { state: 'ready', rounds, note: '' }; if (view === 'game-detail') render(); })
+      .catch(error => { blackjackRecords = { state: 'error', rounds: [], note: String(error) }; if (view === 'game-detail') render(); });
+  }
   function gameCard(r: GameResult, format: (n: number) => string): string {
     const signed = (x: number) => `${x >= 0 ? '+' : '−'}${Math.abs(Math.round(x * 10) / 10)}`;
     const verdictText = r.verdict === 'winning' ? 'Likely winning' : r.verdict === 'losing' ? 'Likely losing' : 'Too early to tell';
@@ -1580,7 +1602,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const range = r.rate ? `<p class="game-rate"><b>${signed(r.rate.mean)}</b> ${escape(r.rateLabel)}</p><p class="muted">Likely between ${signed(r.rate.low)} and ${signed(r.rate.high)} (95% range, ${n.toLocaleString()} ${r.unit}).</p>` : `<p class="muted">Play at least 2 ${r.unit} to see a rate.</p>`;
     const more = n < r.minimum ? `<p class="muted">A fair read needs at least ${r.minimum.toLocaleString()} ${r.unit}; you have ${n.toLocaleString()} and need ${(r.minimum-n).toLocaleString()} more.</p>` : r.verdict === 'too-early' && r.more ? `<p class="muted">If your average held, about ${r.more.toLocaleString()} more ${r.unit} would settle it.</p>` : '';
     const detail = r.detail ? `<p class="muted">${escape(r.detail)}</p>` : '';
-    return `<article class="game-card ${r.verdict}" data-testid="game-${r.game}"><div class="game-head"><h3>${escape(r.label)}</h3><span class="game-verdict">${verdictText}</span></div>${range}<p>Total: <b class="${r.net >= 0 ? 'pos' : 'neg'}">${r.net >= 0 ? '+' : '−'}${format(Math.abs(r.net))}</b></p>${detail}${more}</article>`;
+    return `<article class="game-card ${r.verdict}" data-testid="game-${r.game}"><div class="game-head"><h3>${escape(r.label)}</h3><span class="game-verdict">${verdictText}</span></div>${range}<p>Total: <b class="${r.net >= 0 ? 'pos' : 'neg'}">${r.net >= 0 ? '+' : '−'}${format(Math.abs(r.net))}</b></p>${detail}${more}<button type="button" class="button secondary detail-open" data-game-detail="${r.game}">Detailed stats →</button></article>`;
   }
   /* Phase 2: stats snapshots and the reset point, in their own saved record.
    * Career totals are always projected live from the games' own records; the
@@ -1642,8 +1664,207 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const overview = `<div class="hub-balances career-overview" data-testid="career-overview"><div><span class="eyebrow">CAREER NET · ALL GAMES</span><b>${signed(career.totalNet)}</b></div><div><span class="eyebrow">ROUNDS PLAYED</span><b>${career.totalSamples.toLocaleString()}</b></div><div><span class="eyebrow">GAMES PLAYED</span><b>${gamesPlayed} of ${CAREER_GAMES.length}</b></div><div><span class="eyebrow">BIGGEST WIN</span><b>${biggest ? `${money(biggest.biggest ?? 0)} · ${escape(biggest.label)}` : '—'}</b></div><div><span class="eyebrow">CAREER SINCE</span><b>${career.since ? escape(new Date(career.since).toLocaleDateString()) : 'On this device'}</b></div></div>`;
     const machines = slotsMachines(sources.slots);
     const slotsDetail = machines.length ? `<div class="slots-result" data-testid="slots-result"><h3>Slots by machine</h3><p>${career.games.slots.samples.toLocaleString()} spins · bet ${money(career.games.slots.wagered ?? 0)} · paid back ${money((career.games.slots.wagered ?? 0) + career.games.slots.net)} · <b class="${career.games.slots.net >= 0 ? 'positive' : 'negative'}">${signed(career.games.slots.net)}</b>${(career.games.slots.wagered ?? 0) > 0 ? ` (${(100 * ((career.games.slots.wagered ?? 0) + career.games.slots.net) / (career.games.slots.wagered ?? 1)).toFixed(1)}% back)` : ''}. Slots have no skill edge: over time every machine returns about its posted payback, 94–96%.</p><table class="stats-table"><thead><tr><th scope="col">Machine</th><th scope="col">Spins</th><th scope="col">Bet</th><th scope="col">Paid back</th><th scope="col">Net</th><th scope="col">Biggest spin</th><th scope="col">Features</th></tr></thead><tbody>${machines.map(m => `<tr><th scope="row">${escape(machineById(m.id)?.name ?? m.id)}</th><td>${m.spins.toLocaleString()}</td><td>${money(m.wagered)}</td><td>${money(m.won)}${m.payback !== null ? ` (${m.payback.toFixed(1)}%)` : ''}</td><td>${netCell(m.net)}</td><td>${money(m.biggest)}</td><td>${m.features.toLocaleString()}</td></tr>`).join('')}</tbody></table>${sources.slots.gamble ? `<p class="muted">Double-up gamble: ${sources.slots.gamble.rounds.toLocaleString()} rounds · wagered ${money(sources.slots.gamble.wagered)} · won ${money(sources.slots.gamble.won)}.</p>` : ''}</div>` : '';
-    return `<section class="panel by-game" data-testid="by-game"><span class="eyebrow">CAREER · ALL GAMES · VIRTUAL CHIPS</span><h2>Results by game</h2><p class="muted">Your whole career in every game, not just recent sessions. Each game's average result comes with a likely range; short-term swings are big, so the verdict waits until the whole range is above or below zero. Slots and casino rates rest on the recent rounds those games keep on this device; their totals are all-time.</p>${partial}${overview}<div class="game-grid">${gameCard(cash, money)}${tournament?.data ? gameCard(tour, money) : `<article class="game-card" data-testid="game-tournaments"><h3>Tournaments</h3><p class="muted">${escape(tournament?.error || 'Reading your tournament history…')}</p></article>`}${bjCard}${gameCard(omahaResult(sources.omahaHands, label => PLO_STAKES.find(x => x.label === label)?.bigBlind), money)}${gameCard(slotsResult(sources.slots), money)}${CASINO_GAMES.map(g => gameCard(casinoResult(g, sources.casino), money)).join('')}</div>${slotsDetail}${periodSection(career, sources)}${snapshotsSection(career)}<p class="muted">Cash rate is big blinds won per 100 hands. Tournament rate is profit as a share of your average buy-in, per event. Blackjack rate is your result per round as a share of your opening bet, so +0.5 means a 0.5% edge. Slots and casino rates are the result per spin or round as a share of the stake, over recent play. Simulator results do not predict real-money play.</p></section>`;
+    return `<section class="panel by-game" data-testid="by-game"><span class="eyebrow">CAREER · ALL GAMES · VIRTUAL CHIPS</span><h2>Results by game</h2><p class="muted">Your whole career in every game, not just recent sessions. Each game's average result comes with a likely range; short-term swings are big, so the verdict waits until the whole range is above or below zero. Slots and casino rates rest on the recent rounds those games keep on this device; their totals are all-time.</p>${partial}${overview}<div class="game-grid">${gameCard(cash, money)}${(()=>{const hu=headsUpHands(cashPerformanceHands(sources.cashHands));if(!hu.length)return '';const r=cashResult(hu);return `<article class="game-card" data-testid="game-heads-up"><div class="game-head"><h3>Heads-up</h3><span class="game-verdict">One on one</span></div><p class="game-rate"><b>${hu.length.toLocaleString()}</b> hands at two-seat tables</p><p>Total: <b class="${r.net>=0?'pos':'neg'}">${r.net>=0?'+':'−'}${money(Math.abs(r.net))}</b></p><button type="button" class="button secondary detail-open" data-game-detail="heads-up">Detailed stats →</button></article>`;})()}${tournament?.data ? gameCard(tour, money) : `<article class="game-card" data-testid="game-tournaments"><h3>Tournaments</h3><p class="muted">${escape(tournament?.error || 'Reading your tournament history…')}</p></article>`}${bjCard}${gameCard(omahaResult(sources.omahaHands, label => PLO_STAKES.find(x => x.label === label)?.bigBlind), money)}${gameCard(slotsResult(sources.slots), money)}${CASINO_GAMES.map(g => gameCard(casinoResult(g, sources.casino), money)).join('')}</div>${slotsDetail}${periodSection(career, sources)}${snapshotsSection(career)}<p class="muted">Cash rate is big blinds won per 100 hands. Tournament rate is profit as a share of your average buy-in, per event. Blackjack rate is your result per round as a share of your opening bet, so +0.5 means a 0.5% edge. Slots and casino rates are the result per spin or round as a share of the stake, over recent play. Simulator results do not predict real-money play.</p></section>`;
   }
+  /* Phase 7: per-game detailed stats. Every number below comes from the same
+   * stored records the career page totals — the drill-down modules in
+   * src/stats/drilldown.ts and the existing deep/cash engines. Metrics the
+   * records do not capture are flagged as gaps on the page, never faked. */
+  type DetailGame = CareerGameId | 'heads-up';
+  let detailGame: DetailGame = 'cash';
+  const DETAIL_GAMES: { id: DetailGame; label: string }[] = [
+    { id: 'cash', label: 'Cash games' }, { id: 'heads-up', label: 'Heads-up' }, { id: 'tournaments', label: 'Tournaments' }, { id: 'omaha', label: 'Omaha' },
+    { id: 'blackjack', label: 'Blackjack' }, { id: 'slots', label: 'Slots' }, { id: 'roulette', label: 'Roulette' }, { id: 'craps', label: 'Craps' }, { id: 'baccarat', label: 'Baccarat' }, { id: 'races', label: 'Horse racing' }];
+  const detailFact = (label: string, value: string, sub = '') => `<div><span class="eyebrow">${label}</span><b>${value}</b>${sub ? `<small>${sub}</small>` : ''}</div>`;
+  const detailSection = (title: string, body: string, note = '') => body ? `<div class="detail-section"><h3>${title}</h3>${body}${note ? `<p class="muted">${note}</p>` : ''}</div>` : '';
+  const bbCell = (x: number | null) => x === null ? '—' : `${x >= 0 ? '+' : ''}${x.toFixed(1)}`;
+  function detailShell(title: string, sub: string, body: string): string {
+    const nav = DETAIL_GAMES.map(g => `<button type="button" class="chip-button detail-chip${g.id === detailGame ? ' selected' : ''}" data-game-detail="${g.id}" aria-pressed="${g.id === detailGame}">${g.label}</button>`).join('');
+    return `<section class="panel game-detail" data-testid="game-detail"><button type="button" class="button secondary" data-view="by-game">← All games</button><span class="eyebrow">DETAILED STATS</span><h2>${escape(title)}</h2><p class="muted">${escape(sub)}</p><div class="detail-nav" role="group" aria-label="Choose a game">${nav}</div>${body}</section>`;
+  }
+  const METRIC_LABELS: Record<MetricKey, string> = { vpip: 'VPIP', pfr: 'PFR', threeBet: '3-bet', foldToThreeBet: 'Fold to 3-bet', raise: 'Raise vs a bet', checkRaise: 'Check-raise', foldToCbet: 'Fold to c-bet', wtsd: 'WTSD', wsd: 'W$SD', wwsf: 'WWSF' };
+  function metricTable(stats: CashStats): string {
+    const row = (key: MetricKey) => { const m: RateStat = stats.metrics[key]; const status = m.status === 'NO_OPPORTUNITIES' ? 'No chances yet' : m.status === 'INSUFFICIENT_SAMPLE' ? 'Small sample' : ''; return `<tr><th scope="row" title="${escape(STAT_DEFINITIONS[key])}">${METRIC_LABELS[key]}</th><td>${m.percent === null ? '—' : `${m.percent.toFixed(1)}%`}</td><td>${m.numerator}/${m.denominator}</td><td class="muted">${m.ci95 ? `${m.ci95[0].toFixed(0)}–${m.ci95[1].toFixed(0)}%` : ''}</td><td class="muted">${status}</td></tr>`; };
+    return `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Measure</th><th scope="col">Rate</th><th scope="col">Count</th><th scope="col">95% range</th><th scope="col"></th></tr></thead><tbody>${(Object.keys(METRIC_LABELS) as MetricKey[]).map(row).join('')}</tbody></table></div>`;
+  }
+  function groupTable(groups: readonly CashResultGroup[], firstCol: string): string {
+    if (!groups.length) return '';
+    return `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">${firstCol}</th><th scope="col">Hands</th><th scope="col">Result</th><th scope="col">bb/100</th><th scope="col">Rake</th></tr></thead><tbody>${groups.map(g => `<tr><th scope="row">${escape(g.label)}</th><td>${g.hands.toLocaleString()}</td><td>${netCell(g.profit)}</td><td>${bbCell(g.bb100)}</td><td>${money(g.rake)}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  const POSITION_ORDER = ['UTG', 'UTG+1', 'UTG+2', 'MP', 'LJ', 'HJ', 'CO', 'BTN', 'SB', 'BB'];
+  function vsTable(hands: readonly StoredHand[]): string {
+    const rows = heroVsOpponents(hands).filter(v => v.hands >= 3).slice(0, 12);
+    if (!rows.length) return '';
+    return `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Opponent</th><th scope="col">Hands together</th><th scope="col">Your result</th><th scope="col">Your bb/100</th><th scope="col">Their result</th><th scope="col">Showdowns (you won)</th></tr></thead><tbody>${rows.map(v => `<tr><th scope="row">${escape(v.name)}</th><td>${v.hands.toLocaleString()}</td><td>${netCell(v.heroNet)}</td><td>${bbCell(v.heroBb100)}</td><td>${netCell(v.oppNet)}</td><td>${v.showdowns} (${v.heroShowdownWins})</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  function biggestPotsMarkup(hands: readonly StoredHand[]): string {
+    const pots = biggestPots(hands, 5);
+    const item = (p: (typeof pots.won)[number]) => `<li>Hand ${p.number} · ${new Date(p.at).toLocaleDateString()} · pot ${money(p.pot)} · <b class="${p.net >= 0 ? 'pos' : 'neg'}">${signed(p.net)}</b> <button type="button" class="chip-button" data-recap-hand="${escape(p.id)}">Replay</button></li>`;
+    if (!pots.won.length && !pots.lost.length) return '';
+    return `<div class="detail-two-col">${pots.won.length ? `<div><h4>Biggest pots you won</h4><ol class="fact-list">${pots.won.map(item).join('')}</ol></div>` : ''}${pots.lost.length ? `<div><h4>Biggest pots you lost</h4><ol class="fact-list">${pots.lost.map(item).join('')}</ol></div>` : ''}</div>`;
+  }
+  function cashDetail(): string {
+    const data = controller.data!;
+    const hands = cashPerformanceHands(data.hands);
+    if (!hands.length) return detailShell('Cash games', 'No cash hands yet.', '<p>Play a cash session and your full breakdown lands here: VPIP, PFR and 3-bet, results by position and stakes tier, your record against each opponent, session history, biggest pots and your top leaks.</p>');
+    const stats = deriveCashStats(hands, data.sessions);
+    const { players, extras } = deepData();
+    const me = players.get('You');
+    const positions = [...stats.positions].sort((a, b) => { const ia = POSITION_ORDER.indexOf(a.label), ib = POSITION_ORDER.indexOf(b.label); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
+    const sessions = [...stats.sessions].sort((a, b) => b.startedAt.localeCompare(a.startedAt)).slice(0, 12);
+    const leaks = findLeaks(data.hands.slice(-500));
+    const facts = `<div class="hub-balances detail-facts">${detailFact('Hands', stats.hands.toLocaleString())}${detailFact('Result', signed(stats.profit), stats.bb100 === null ? '' : `${bbCell(stats.bb100)} bb/100`)}${detailFact('Per hour', stats.perHour === null ? '—' : money(Math.round(stats.perHour)) + '/hr', `${(stats.activeMs / 3600000).toFixed(1)} hours at the table`)}${detailFact('Sessions', `${stats.winningSessions} won · ${stats.losingSessions} lost · ${stats.evenSessions} even`)}${detailFact('Rake paid', money(stats.rake))}</div>`;
+    const sessionsTable = sessions.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Session</th><th scope="col">Hands</th><th scope="col">Result</th><th scope="col">bb/100</th><th scope="col">Per hour</th></tr></thead><tbody>${sessions.map(s => `<tr><th scope="row">${new Date(s.startedAt).toLocaleString()}${s.endedAt ? '' : ' · live'}</th><td>${s.hands.toLocaleString()}</td><td>${netCell(s.profit)}</td><td>${bbCell(s.bb100)}</td><td>${s.perHour === null ? '—' : money(Math.round(s.perHour)) + '/hr'}</td></tr>`).join('')}</tbody></table></div>` : '';
+    const tiers = stakesTierGroups(hands);
+    const tierTable = tiers.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Stakes tier</th><th scope="col">Hands</th><th scope="col">Result</th><th scope="col">bb/100</th></tr></thead><tbody>${tiers.map(t => `<tr><th scope="row">${escape(t.label)}</th><td>${t.hands.toLocaleString()}</td><td>${netCell(t.net)}</td><td>${bbCell(t.bb100)}</td></tr>`).join('')}</tbody></table></div>` : '';
+    const luck = extras ? detailSection('All-in luck', `<p class="muted">Across ${extras.allIn.spots} all-in spots your equity said ${signed(extras.allIn.expected)}; you actually won ${signed(extras.allIn.actual)} (${signed(extras.allIn.actual - extras.allIn.expected)} of luck).</p>`) : '';
+    const body = facts
+      + detailSection('Your rates', metricTable(stats), 'Opportunity-based rates with the statistician\u2019s definitions, the same engine behind the Results page. A rate with no chances shows as a dash, never as 0%.')
+      + (me ? detailSection('The rest of the deep sheet', `<div class="deep-grid">${playerRates(me)}</div>`, 'Aggression, showdown lines, biggest single-hand swings and shown hands, from the full action record.') : '')
+      + detailSection('By position', groupTable(positions, 'Position'))
+      + detailSection('By stakes', groupTable(stats.stakes, 'Stakes'))
+      + detailSection('By stakes tier', tierTable)
+      + detailSection('Sessions', sessionsTable)
+      + detailSection('You vs the field', vsTable(hands), 'Opponents you have shared at least three hands with, most hands first. Their result counts only the pots you played together.')
+      + detailSection('Biggest pots', biggestPotsMarkup(hands))
+      + luck
+      + (leaks.length ? detailSection('Top leaks', leakCards(leaks.slice(0, 3), 3) + '<p><button type="button" class="button secondary" data-view="coach">All leaks and drills →</button></p>') : '')
+      + `<p class="muted">${escape(stats.disclosure)} <button type="button" class="button secondary" data-view="results">Filtered results →</button> <button type="button" class="button secondary" data-view="deep-stats">The whole table\u2019s deep stats →</button></p>`;
+    return detailShell('Cash games', 'Your full professional breakdown: rates, positions, stakes, sessions, opponents, pots and leaks.', body);
+  }
+  function headsUpDetail(): string {
+    const data = controller.data!;
+    const hu = headsUpHands(cashPerformanceHands(data.hands));
+    const ladder = readLadder();
+    if (!hu.length && !ladder.matches.length) return detailShell('Heads-up', 'No heads-up play yet.', '<p>Beat the ladder or sit at a two-seat table and your one-on-one record lands here: match results by opponent, plus the full rate sheet on your heads-up hands.</p>');
+    const byOpp = new Map<string, { matches: number; wins: number; hands: number; net: number }>();
+    for (const m of ladder.matches) { const row = byOpp.get(m.opponent) ?? { matches: 0, wins: 0, hands: 0, net: 0 }; row.matches++; if (m.won) row.wins++; row.hands += m.hands; row.net += m.net; byOpp.set(m.opponent, row); }
+    const matchTable = byOpp.size ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Opponent</th><th scope="col">Matches</th><th scope="col">Won–lost</th><th scope="col">Hands</th><th scope="col">Net</th></tr></thead><tbody>${[...byOpp.entries()].map(([id, r]) => `<tr><th scope="row">${escape(regularById(id)?.name ?? id)}</th><td>${r.matches}</td><td>${r.wins}–${r.matches - r.wins}</td><td>${r.hands.toLocaleString()}</td><td>${netCell(r.net)}</td></tr>`).join('')}</tbody></table></div>` : '';
+    const facts = `<div class="hub-balances detail-facts">${detailFact('Ladder matches', ladder.matches.length.toLocaleString(), `${ladder.matches.filter(m => m.won).length} won`)}${detailFact('Rungs beaten', `${ladder.beaten.length} of ${LADDER_IDS.length}`)}${detailFact('Heads-up hands', hu.length.toLocaleString())}${detailFact('Heads-up result', signed(hu.reduce((s, h) => s + h.net, 0)))}</div>`;
+    let handBody = '';
+    if (hu.length) {
+      const stats = deriveCashStats(hu, []);
+      const me = deepStats(hu).get('You');
+      handBody = detailSection('Your heads-up rates', metricTable(stats))
+        + (me ? detailSection('Deep sheet, heads-up hands only', `<div class="deep-grid">${playerRates(me)}</div>`) : '')
+        + detailSection('By position', groupTable(stats.positions, 'Position'), 'Heads-up positions: you are the button and small blind, or the big blind.')
+        + detailSection('You vs each opponent', vsTable(hu));
+    }
+    return detailShell('Heads-up', 'Your one-on-one record: the ladder, and the full rate sheet on every two-seat hand.', facts + detailSection('Ladder matches by opponent', matchTable) + handBody);
+  }
+
+  function tournamentsDetail(): string {
+    const c = tournament;
+    if (!c || !c.data) return detailShell('Tournaments', 'Reading your tournament records…', `<p>${escape(c?.error || 'One moment.')}</p>`);
+    const stats = currentTournamentStats()!;
+    if (!stats.events.length) return detailShell('Tournaments', 'No finished tournaments yet.', '<p>Finish a tournament and your record lands here: results by format, tier, field size and buy-in, your record against the field, and your biggest cashes.</p>');
+    const tiers = buyInTierGroups(stats.events);
+    const tierTable = tiers.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Buy-in tier</th><th scope="col">Events</th><th scope="col">Cashed</th><th scope="col">Net</th><th scope="col">Return</th></tr></thead><tbody>${tiers.map(t => `<tr><th scope="row">${escape(t.label)}</th><td>${t.events}</td><td>${t.cashes} (${t.itm === null ? '—' : `${(t.itm * 100).toFixed(0)}%`})</td><td>${netCell(t.net)}</td><td>${t.roi === null ? '—' : `${(t.roi * 100).toFixed(1)}%`}</td></tr>`).join('')}</tbody></table></div>` : '';
+    const cashes = biggestCashes(stats.events);
+    const cashList = cashes.length ? `<ol class="fact-list">${cashes.map(e => `<li>${escape(e.name)} · ${ordinal(e.place)} of ${e.entrants} · <b class="pos">+${money(e.prize)}</b> · ${new Date(e.finishedAt).toLocaleDateString()}</li>`).join('')}</ol>` : '';
+    const extras = detailSection('By buy-in tier', tierTable, 'Buy-in bands on the events shown below (the tournament filters apply to both).')
+      + detailSection('Biggest cashes', cashList)
+      + '<p class="muted">Flagged gap: knockouts and bounties are not carried into the saved event records, so there is no KO table. Adding one would need a new field in the tournament record, which is a versioned change, not a display change.</p>';
+    return detailShell('Tournaments', 'Your tournament record in full: format, tier, field, buy-in and your biggest results.', extras) + tournamentStatsMarkup(stats);
+  }
+  function omahaDetail(): string {
+    const table = (plo ??= new PloTable());
+    const d = ploDrill(table.state.hands, table.state.sessions, label => PLO_STAKES.find(x => x.label === label)?.bigBlind);
+    if (!d.hands && !d.sessions.length) return detailShell('Omaha', 'No Omaha hands yet.', '<p>Play a pot-limit Omaha session and your results land here: volume and bb/100 by stakes, your shown-hands record and session history.</p>');
+    const facts = `<div class="hub-balances detail-facts">${detailFact('Hands', d.hands.toLocaleString())}${detailFact('Result', signed(d.net), d.bb100 === null ? '' : `${bbCell(d.bb100)} bb/100`)}${detailFact('Hands won', d.winRate === null ? '—' : `${(d.winRate * 100).toFixed(1)}%`)}${detailFact('Biggest win', d.biggestWin > 0 ? '+' + money(d.biggestWin) : '—')}${detailFact('Biggest loss', d.biggestLoss < 0 ? '−' + money(-d.biggestLoss) : '—')}${detailFact('Shown hands', `${d.shownWins} won of ${d.shownHands}`)}</div>`;
+    const stakesTable = d.byStakes.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Stakes</th><th scope="col">Hands</th><th scope="col">Result</th><th scope="col">bb/100</th></tr></thead><tbody>${d.byStakes.map(g => `<tr><th scope="row">${escape(g.stakes)}</th><td>${g.hands.toLocaleString()}</td><td>${netCell(g.net)}</td><td>${bbCell(g.bb100)}</td></tr>`).join('')}</tbody></table></div>` : '';
+    const sessionRows = d.sessions.map(s => `<tr><th scope="row">${new Date(s.startedAt).toLocaleString()}${s.endedAt ? '' : ' · live'}</th><td>${escape(PLO_STAKES.find(x => x.id === s.stakes)?.label ?? s.stakes)}</td><td>${s.hands}</td><td>${s.net === null ? '—' : netCell(s.net)}</td></tr>`).join('');
+    const sessionsTable = sessionRows ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Session</th><th scope="col">Stakes</th><th scope="col">Hands</th><th scope="col">Result</th></tr></thead><tbody>${sessionRows}</tbody></table></div>` : '';
+    const shownTable = d.shownBreakdown.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Hand you showed</th><th scope="col">Times</th><th scope="col">Won</th></tr></thead><tbody>${d.shownBreakdown.slice(0, 10).map(s => `<tr><th scope="row">${escape(s.label)}</th><td>${s.hands}</td><td>${s.wins}</td></tr>`).join('')}</tbody></table></div>` : '';
+    const body = facts + detailSection('By stakes', stakesTable) + detailSection('Sessions', sessionsTable) + detailSection('Hands you showed down', shownTable)
+      + '<p class="muted">Flagged gap: Omaha hand records keep the result, the board and the shown hands, but not the action stream, so VPIP, PFR and 3-bet cannot be computed for Omaha. Results only, honestly.</p>';
+    return detailShell('Omaha', 'Pot-limit Omaha, results depth: stakes, sessions and showdowns.', body);
+  }
+  function blackjackDetail(): string {
+    if (blackjackRecords.state === 'idle') loadBlackjackRecords();
+    if (blackjackRecords.state !== 'ready') return detailShell('Blackjack', 'Reading your blackjack history…', `<p>${blackjackRecords.state === 'error' ? escape(blackjackRecords.note) : 'One moment while the verified round records load.'}</p>`);
+    const d = blackjackDrill(blackjackRecords.rounds);
+    if (!d.rounds) return detailShell('Blackjack', 'No blackjack rounds yet.', '<p>Play a round and your record lands here: outcomes, doubles and splits, insurance, results by bet size and by the dealer\u2019s upcard.</p>');
+    const share = (n: number) => d.hands ? `${((n / d.hands) * 100).toFixed(1)}%` : '—';
+    const facts = `<div class="hub-balances detail-facts">${detailFact('Rounds', d.rounds.toLocaleString())}${detailFact('Hands', d.hands.toLocaleString())}${detailFact('Result', signed(d.net))}${detailFact('Biggest round won', d.biggestWin > 0 ? '+' + money(d.biggestWin) : '—')}${detailFact('Biggest round lost', d.biggestLoss < 0 ? '−' + money(-d.biggestLoss) : '—')}${detailFact('Blackjacks', `${d.outcomes.blackjack} (${share(d.outcomes.blackjack)} of hands)`)}</div>`;
+    const outcomeTable = `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Outcome</th><th scope="col">Hands</th><th scope="col">Share</th></tr></thead><tbody>${([['Won', d.outcomes.win], ['Lost', d.outcomes.loss], ['Pushed', d.outcomes.push], ['Blackjack', d.outcomes.blackjack], ['Surrendered', d.outcomes.surrender]] as [string, number][]).map(([label, n]) => `<tr><th scope="row">${label}</th><td>${n}</td><td>${share(n)}</td></tr>`).join('')}</tbody></table></div>`;
+    const playsTable = `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Play</th><th scope="col">Hands</th><th scope="col">Won</th><th scope="col">Lost</th><th scope="col">Pushed</th></tr></thead><tbody><tr><th scope="row">Double down</th><td>${d.doubles.hands}</td><td>${d.doubles.win}</td><td>${d.doubles.loss}</td><td>${d.doubles.push}</td></tr><tr><th scope="row">Split hands</th><td>${d.splits.hands}</td><td>${d.splits.win}</td><td>${d.splits.loss}</td><td>${d.splits.push}</td></tr></tbody></table></div>`;
+    const insurance = d.insurance.rounds ? `<p class="muted">Insurance taken in ${d.insurance.rounds} round${d.insurance.rounds === 1 ? '' : 's'}: wagered ${money(d.insurance.wagered)}, returned ${money(d.insurance.returned)}, net ${signed(d.insurance.net)}.</p>` : '<p class="muted">You have never taken insurance.</p>';
+    const betTable = d.byBetSize.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Opening bet</th><th scope="col">Rounds</th><th scope="col">Result</th><th scope="col">Rounds won</th></tr></thead><tbody>${d.byBetSize.map(g => `<tr><th scope="row">${escape(g.label)}</th><td>${g.rounds}</td><td>${netCell(g.net)}</td><td>${g.winRate === null ? '—' : `${(g.winRate * 100).toFixed(0)}%`}</td></tr>`).join('')}</tbody></table></div>` : '';
+    const upTable = d.byUpcard.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Dealer upcard</th><th scope="col">Rounds</th><th scope="col">Result</th><th scope="col">Rounds won</th></tr></thead><tbody>${d.byUpcard.map(g => `<tr><th scope="row">${escape(g.label)}</th><td>${g.rounds}</td><td>${netCell(g.net)}</td><td>${g.winRate === null ? '—' : `${(g.winRate * 100).toFixed(0)}%`}</td></tr>`).join('')}</tbody></table></div>` : '';
+    const body = facts + detailSection('Hand outcomes', outcomeTable) + detailSection('Doubles and splits', playsTable) + detailSection('Insurance', insurance) + detailSection('By bet size', betTable, 'Rounds grouped by the opening bet; the round result is the whole round, splits and doubles included.') + detailSection('By dealer upcard', upTable, 'Round results grouped by the card the dealer showed.');
+    return detailShell('Blackjack', 'Every round on record: outcomes, plays, bet sizes and upcards.', body);
+  }
+  function slotsDetail(): string {
+    const d = slotsDrill(slotsPlayer.state);
+    if (!d.machines.length) return detailShell('Slots', 'No spins yet.', '<p>Spin any machine and its record lands here: spins, payback, biggest win and how often its features land, plus your hit rate over the recent spins the game keeps.</p>');
+    const machineName = (id: string) => machineById(id)?.name ?? id;
+    const rows = d.machines.map(m => `<tr><th scope="row">${escape(machineName(m.id))}</th><td>${m.spins.toLocaleString()}</td><td>${m.avgBet === null ? '—' : money(Math.round(m.avgBet))}</td><td>${money(m.wagered)}</td><td>${money(m.won)}</td><td>${m.payback === null ? '—' : `${m.payback.toFixed(1)}%`}</td><td>${netCell(m.net)}</td><td>${money(m.biggest)}</td><td>${m.features}</td><td>${m.featurePct === null ? '—' : `${m.featurePct.toFixed(1)}%`}</td></tr>`).join('');
+    const table = `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Machine</th><th scope="col">Spins</th><th scope="col">Avg bet</th><th scope="col">Wagered</th><th scope="col">Paid back</th><th scope="col">Payback</th><th scope="col">Net</th><th scope="col">Biggest win</th><th scope="col">Features</th><th scope="col">Feature rate</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    const recentFacts = d.recentSpins ? `<div class="hub-balances detail-facts">${detailFact('Recent spins kept', d.recentSpins.toLocaleString())}${detailFact('Hit rate, recent', `${(d.recentHitPct ?? 0).toFixed(1)}%`, `${d.recentHits} spins paid something`)}${detailFact('Recent result', signed(d.recentNet))}</div>` : '';
+    const recentRows = d.recentByMachine.map(m => `<tr><th scope="row">${escape(machineName(m.id))}</th><td>${m.spins}</td><td>${m.hits}</td><td>${m.spins ? (100 * m.hits / m.spins).toFixed(1) : '0.0'}%</td><td>${netCell(m.net)}</td></tr>`).join('');
+    const recentTable = recentRows ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Machine</th><th scope="col">Spins</th><th scope="col">Hits</th><th scope="col">Hit rate</th><th scope="col">Net</th></tr></thead><tbody>${recentRows}</tbody></table></div>` : '';
+    const gamble = d.gamble && d.gamble.rounds ? `<p class="muted">Gamble feature: ${d.gamble.rounds} rounds, wagered ${money(d.gamble.wagered)}, won ${money(d.gamble.won)}, net ${signed(d.gamble.net)}.</p>` : '';
+    const body = detailSection('Every machine, all time', table, 'Features counts free spins, hold-and-win and wheel features together; the saved record does not split them, so there is no per-feature table.')
+      + detailSection('Hit frequency, recent window', recentFacts + recentTable, 'Slots keep only the last 30 spins on this device, so hit frequency is a recent-window figure, labelled as such. All-time hit rate is not recorded and is not guessed.')
+      + gamble;
+    return detailShell('Slots', 'Per-machine records: spins, payback, features, and your recent hit rate.', body);
+  }
+  function casinoDetail(game: 'roulette' | 'craps' | 'baccarat' | 'races'): string {
+    const state = casino.state;
+    const totals = state.games[game];
+    const recent = state.recent.filter(r => r.game === game);
+    const label = { roulette: 'Roulette', craps: 'Craps', baccarat: 'Baccarat', races: 'Horse racing' }[game];
+    if (!totals || totals.rounds === 0) return detailShell(label, `No ${label.toLowerCase()} rounds yet.`, '<p>Play a round and the detailed record lands here, computed from the rounds and outcome boards the game keeps on this device.</p>');
+    const facts = `<div class="hub-balances detail-facts">${detailFact('Rounds, all time', totals.rounds.toLocaleString())}${detailFact('Wagered', money(totals.wagered))}${detailFact('Returned', money(totals.returned))}${detailFact('Net', signed(totals.returned - totals.wagered))}${detailFact('Biggest round', '+' + money(totals.biggest))}</div>`;
+    let body = facts;
+    if (game === 'roulette') {
+      const d = rouletteDrill(state.boards?.roulette ?? [], state.recent);
+      const pctOf = (n: number) => d.spins ? `${((n / d.spins) * 100).toFixed(1)}%` : '—';
+      const distTable = `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Section</th><th scope="col">Landed</th><th scope="col">Share</th></tr></thead><tbody><tr><th scope="row">Red</th><td>${d.red}</td><td>${pctOf(d.red)}</td></tr><tr><th scope="row">Black</th><td>${d.black}</td><td>${pctOf(d.black)}</td></tr><tr><th scope="row">Green (0 and 00)</th><td>${d.green}</td><td>${pctOf(d.green)}</td></tr>${d.dozens.map((n, i) => `<tr><th scope="row">Dozen ${i + 1}</th><td>${n}</td><td>${pctOf(n)}</td></tr>`).join('')}${d.columns.map((n, i) => `<tr><th scope="row">Column ${i + 1}</th><td>${n}</td><td>${pctOf(n)}</td></tr>`).join('')}${d.evenMoney.map(e => `<tr><th scope="row">${escape(e.label)}</th><td>${e.count}</td><td>${pctOf(e.count)}</td></tr>`).join('')}</tbody></table></div>`;
+      const hotCold = `<div class="detail-two-col"><div><h4>Hot numbers</h4><ol class="fact-list">${d.hot.map(h => `<li>${escape(h.label)} · ${h.count} times</li>`).join('')}</ol></div><div><h4>Cold numbers</h4><ol class="fact-list">${d.cold.map(h => `<li>${escape(h.label)} · ${h.count} times</li>`).join('')}</ol></div></div>`;
+      const betTable = d.byBetType.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Bet</th><th scope="col">Rounds</th><th scope="col">Wagered</th><th scope="col">Returned</th><th scope="col">Net</th></tr></thead><tbody>${d.byBetType.map(g => `<tr><th scope="row">${escape(g.label)}</th><td>${g.rounds}</td><td>${money(g.wagered)}</td><td>${money(g.returned)}</td><td>${netCell(g.net)}</td></tr>`).join('')}</tbody></table></div>` : '';
+      body += detailSection(`Outcome distribution, last ${d.spins} spins`, distTable + hotCold, 'The wheel board keeps the last 300 spins on this device.')
+        + detailSection('Results by bet', betTable, d.multiBetRounds ? `${d.multiBetRounds} recent round(s) combined several bets; the saved record has no amount per bet, so those rounds are counted in your totals but not split across bet types.` : '');
+    } else if (game === 'baccarat') {
+      const d = baccaratDrill(state.boards?.baccarat ?? [], state.recent);
+      const pctOf = (n: number) => d.coups ? `${((n / d.coups) * 100).toFixed(1)}%` : '—';
+      const distTable = `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Winner</th><th scope="col">Coups</th><th scope="col">Share</th></tr></thead><tbody><tr><th scope="row">Player</th><td>${d.player}</td><td>${pctOf(d.player)}</td></tr><tr><th scope="row">Banker</th><td>${d.banker}</td><td>${pctOf(d.banker)}</td></tr><tr><th scope="row">Tie</th><td>${d.tie}</td><td>${pctOf(d.tie)}</td></tr></tbody></table></div>`;
+      const streakFacts = `<div class="hub-balances detail-facts">${detailFact('Longest player run', String(d.longestPlayer))}${detailFact('Longest banker run', String(d.longestBanker))}${detailFact('Current run', d.current ? `${d.current.side === 'P' ? 'Player' : 'Banker'} × ${d.current.length}` : '—')}</div>`;
+      const spotTable = d.bySpot.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Spot bet</th><th scope="col">Rounds</th><th scope="col">Wagered</th><th scope="col">Returned</th><th scope="col">Net</th></tr></thead><tbody>${d.bySpot.map(g => `<tr><th scope="row">${escape(g.label)}</th><td>${g.rounds}</td><td>${money(g.wagered)}</td><td>${money(g.returned)}</td><td>${netCell(g.net)}</td></tr>`).join('')}</tbody></table></div>` : '';
+      body += detailSection(`Shoe board, last ${d.coups} coups`, distTable + streakFacts, 'The board is the current shoe: it resets when the shoe is shuffled and keeps at most 150 coups.')
+        + detailSection('Results by spot', spotTable, d.multiSpotRounds ? `${d.multiSpotRounds} recent round(s) bet several spots at once; the saved record has no amount per spot, so those rounds stay in your totals only.` : '');
+    } else if (game === 'craps') {
+      const d = crapsDrill(state.boards?.craps ?? [], state.recent);
+      const sumTable = `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Total</th><th scope="col">Rolled</th><th scope="col">Actual</th><th scope="col">Expected</th></tr></thead><tbody>${d.sums.map(s => `<tr><th scope="row">${s.sum}</th><td>${s.count}</td><td>${(d.rolls ? (s.count / d.rolls) * 100 : 0).toFixed(1)}%</td><td>${(s.expected * 100).toFixed(1)}%</td></tr>`).join('')}</tbody></table></div>`;
+      const rollFacts = `<div class="hub-balances detail-facts">${detailFact('Rolls on the board', d.rolls.toLocaleString())}${detailFact('Sevens', `${d.sevens} (${d.rolls ? ((d.sevens / d.rolls) * 100).toFixed(1) : '0.0'}%)`, 'Expected 16.7%')}${detailFact('Doubles', String(d.doubles))}${detailFact('Hardways rolled', d.hard.map(h => `${h.sum}: ${h.count}`).join(' · '))}${detailFact('Best recorded roll', d.bestRoll ? signed(d.bestRoll.profit) : '—', d.bestRoll ? escape(d.bestRoll.result) : '')}</div>`;
+      body += detailSection('Dice distribution', sumTable + rollFacts, 'The dice board keeps the last 600 rolls on this device. Expected shares are the exact 36-way dice math.')
+        + `<p class="muted">Recent rounds on record: ${recent.length} (the game keeps the last 60), net ${signed(d.recentNet)}. Flagged gap: the saved round notes name the spots that settled but not the amount riding on each, so results by bet type cannot be split honestly.</p>`;
+    } else {
+      const d = racesDrill(state.recent, state.boards?.races ?? []);
+      const raceFacts = `<div class="hub-balances detail-facts">${detailFact('Rounds on record', d.rounds.toLocaleString(), 'The game keeps the last 60')}${detailFact('Wagered', money(d.wagered))}${detailFact('Returned', money(d.returned))}${detailFact('Return on stakes', d.wagered ? `${((d.returned / d.wagered) * 100).toFixed(1)}%` : '—')}${detailFact('Rounds that paid', `${d.cashed} of ${d.rounds}`)}</div>`;
+      const typeTable = d.byType.length ? `<div class="table-scroll"><table class="stats-table"><thead><tr><th scope="col">Bet</th><th scope="col">Rounds</th><th scope="col">Wagered</th><th scope="col">Returned</th><th scope="col">Net</th></tr></thead><tbody>${d.byType.map(g => `<tr><th scope="row">${escape(g.label)}</th><td>${g.rounds}</td><td>${money(g.wagered)}</td><td>${money(g.returned)}</td><td>${netCell(g.net)}</td></tr>`).join('')}</tbody></table></div>` : '';
+      const freq = d.betFrequency.length ? `<p class="muted">How often each bet type appears in complete bet listings: ${d.betFrequency.map(f => `${escape(f.kind)} × ${f.rounds}`).join(' · ')}.</p>` : '';
+      const best = d.bestWins.length ? `<ol class="fact-list">${d.bestWins.map(w => `<li>${escape(w.bet)} · ${escape(w.result)} · <b class="pos">+${money(w.profit)}</b></li>`).join('')}</ol>` : '';
+      const winners = d.winners.length ? `<p class="muted">Winners board (last ${state.boards?.races?.length ?? 0} races): ${d.winners.map(w => `${escape(w.name)} × ${w.wins}`).join(' · ')}.</p>` : '';
+      body += detailSection('Recent record', raceFacts)
+        + detailSection('Results by bet', typeTable, (d.multiBetRounds ? `${d.multiBetRounds} recent round(s) combined several bets; the saved record has no amount per bet, so those rounds stay in your totals only. ` : '') + 'Flagged gap: the odds of each bet are not saved, so results cannot be split by odds band.')
+        + freq + detailSection('Best wins on record', best) + winners;
+    }
+    return detailShell(label, 'The detailed record, from the rounds and boards this device keeps.', body);
+  }
+  function gameDetailView(): string {
+    switch (detailGame) {
+      case 'cash': return cashDetail();
+      case 'heads-up': return headsUpDetail();
+      case 'tournaments': return tournamentsDetail();
+      case 'omaha': return omahaDetail();
+      case 'blackjack': return blackjackDetail();
+      case 'slots': return slotsDetail();
+      default: return casinoDetail(detailGame);
+    }
+  }
+
   /** Patch 67: the home screen hub. */
   function homeView(): string {
     ensureTournament();
@@ -1910,13 +2131,13 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     // Edit the live tree in place instead of rebuilding it (see dom-morph.ts).
     morphInto(content, `<a class="skip-link" href="#main-content">Skip to table and controls</a><div class="app-shell view-${view}${game?' has-game':''}${motion?'':' motion-off'}${styleClasses(style)}${view==='tournaments'&&tournament?.data?.active?' tournament-active':''}${(view==='live'&&game)||(view==='tournaments'&&tournament?.data?.active)||(view==='omaha'&&plo?.state.active)?' at-table':''}"><header class="app-header"><a class="brand" href="#" aria-label="Gold Crown Casino home">${casinoWordmark()}</a><nav aria-label="Main navigation">${MENU.map(entry => { const current = menuGroup(view) === entry; return `<button data-view="${entry.view}" class="nav-button ${current ? 'selected' : ''}" aria-label="${entry.label}" ${view === entry.view ? 'aria-current="page"' : current ? 'aria-current="true"' : ''}>${navIcon(entry.view)}<span>${entry.text}</span></button>${entry.view === 'live' && view === 'live' && game ? `<button type="button" id="nav-games" class="nav-button nav-more" aria-label="Other games and setup" aria-expanded="${gamesMenuOpen}" aria-controls="subnav-Play"><span aria-hidden="true">${gamesMenuOpen ? '▴' : '▾'}</span></button>` : ''}`; }).join('')}</nav><div class="header-status"><span class="virtual-label"><span></span>Virtual chips only</span></div></header>${MENU.filter(entry => entry.pages.length).map(entry => { const current = menuGroup(view) === entry, overlay = view === 'live' && !!game; return `<nav class="subnav${overlay ? ' subnav-overlay' : ''}" id="subnav-${entry.group}" aria-label="${entry.group} pages" ${current && (!overlay || gamesMenuOpen) ? '' : 'hidden'}>${entry.pages.map(page => page.view === entry.view ? `<button type="button" data-view-home="${page.view}" class="subnav-button ${view === page.view ? 'selected' : ''}" ${view === page.view ? 'aria-current="true"' : ''}><span class="nav-full">${page.text}</span><span class="nav-short">${page.short}</span></button>` : `<button type="button" data-view="${page.view}" class="subnav-button ${view === page.view ? 'selected' : ''}" aria-label="${page.label}" ${view === page.view ? 'aria-current="page"' : ''}><span class="nav-full">${page.text}</span><span class="nav-short">${page.short}</span></button>`).join('')}</nav>`; }).join('')}
       <nav class="bottom-nav" aria-label="Primary">${MENU.map(entry => { const current = menuGroup(view) === entry; return `<button type="button" data-view="${entry.view}" class="bottom-nav-button ${current ? 'selected' : ''}" aria-label="${entry.label}" ${view === entry.view ? 'aria-current="page"' : current ? 'aria-current="true"' : ''}>${navIcon(entry.view)}<span>${entry.text}</span></button>`; }).join('')}</nav>
-      <main id="main-content" tabindex="-1" class="view-anim-${viewSwitches % 2}"><div class="page-heading"><div><span class="eyebrow">${sectionLabel(view)}</span><h1>${view === 'blackjack' ? 'Blackjack.' : view === 'tournaments' ? 'Pick your tournament.' : view === 'session' ? 'Your next table starts here.' : view === 'host' ? 'Make it your game.' : view === 'study' ? 'Every decision, remembered.' : view === 'opponents' ? 'Observe. Then reflect.' : view === 'home' ? 'Your casino.' : view === 'career' ? 'Climb the stakes.' : view === 'heads-up' ? 'One on one.' : view === 'omaha' ? 'Four cards. Pot limit.' : view === 'coach' ? 'Find the leaks. Drill the spots.' : view === 'by-game' ? 'Winning, or running hot?' : view === 'deep-stats' ? 'Every number, yours and theirs.' : view === 'slots' ? 'Spin the reels.' : view === 'roulette' ? 'Round and round she goes.' : view === 'craps' ? 'Shooter coming out.' : view === 'baccarat' ? 'Player or Banker?' : view === 'races' ? 'And they’re off.' : view === 'tournament-stats' ? 'Every event, counted.' : view === 'cashier' ? 'Keep your chips in order.' : view === 'results' ? 'Know your sample.' : 'Pull up a seat.'}</h1></div><div class="room-details">${controller.data ? `<span><small>BLINDS</small><b>${money(smallBlind)} <em>/</em> ${money(bigBlind)}</b></span><span><small>FORMAT</small><b>No-Limit Hold’em</b></span><button id="configure" class="button secondary" aria-label="Table settings">⚙ <span>Table settings</span></button>` : '<span>Restoring saved practice…</span>'}<button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="${style.theme === 'light'}" aria-label="Light theme">${style.theme === 'light' ? '☾' : '☀'}</button></div></div>
+      <main id="main-content" tabindex="-1" class="view-anim-${viewSwitches % 2}"><div class="page-heading"><div><span class="eyebrow">${sectionLabel(view)}</span><h1>${view === 'blackjack' ? 'Blackjack.' : view === 'tournaments' ? 'Pick your tournament.' : view === 'session' ? 'Your next table starts here.' : view === 'host' ? 'Make it your game.' : view === 'study' ? 'Every decision, remembered.' : view === 'opponents' ? 'Observe. Then reflect.' : view === 'home' ? 'Your casino.' : view === 'career' ? 'Climb the stakes.' : view === 'heads-up' ? 'One on one.' : view === 'omaha' ? 'Four cards. Pot limit.' : view === 'coach' ? 'Find the leaks. Drill the spots.' : view === 'by-game' ? 'Winning, or running hot?' : view === 'game-detail' ? 'Every number, in detail.' : view === 'deep-stats' ? 'Every number, yours and theirs.' : view === 'slots' ? 'Spin the reels.' : view === 'roulette' ? 'Round and round she goes.' : view === 'craps' ? 'Shooter coming out.' : view === 'baccarat' ? 'Player or Banker?' : view === 'races' ? 'And they’re off.' : view === 'tournament-stats' ? 'Every event, counted.' : view === 'cashier' ? 'Keep your chips in order.' : view === 'results' ? 'Know your sample.' : 'Pull up a seat.'}</h1></div><div class="room-details">${controller.data ? `<span><small>BLINDS</small><b>${money(smallBlind)} <em>/</em> ${money(bigBlind)}</b></span><span><small>FORMAT</small><b>No-Limit Hold’em</b></span><button id="configure" class="button secondary" aria-label="Table settings">⚙ <span>Table settings</span></button>` : '<span>Restoring saved practice…</span>'}<button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="${style.theme === 'light'}" aria-label="Light theme">${style.theme === 'light' ? '☾' : '☀'}</button></div></div>
       ${controller.status !== 'ready' ? `<div class="storage-banner ${controller.status}" role="status"><b>${controller.status === 'loading' ? 'Loading saved game…' : controller.status === 'readonly' ? 'Another tab owns this session' : controller.data ? 'Save paused — showing your last committed state' : 'Saved data is unavailable'}</b><p>${escape(controller.error || (controller.status === 'readonly' ? 'This tab cannot change saved chips. Close the other table tab and retry, or take over here; the other tab will become read-only.' : ''))}</p>${controller.status !== 'loading' ? '<button id="retry-save" class="button secondary">Retry saved session</button>' : ''}${controller.status === 'readonly' ? '<p>Taking over gives this tab control of the saved game. The other tab will become read-only; no chips are transferred.</p><button id="take-over" class="button primary">Take over this tab</button>' : ''}</div>` : `<div class="save-status" data-testid="save-status">${controller.busy || operation ? 'Saving…' : 'Saved on this device'}<span class="session-nav">${game ? '<button class="text-button" id="continue-session">Continue session</button>' : ''}<button class="button secondary" id="new-session">New session</button></span></div>`}
       ${sessionNotice?`<p class="session-notice" role="status">${escape(sessionNotice)}</p>`:''}
       ${controller.data?.active?.exitMode?`<div class="ending-notice" role="status">${controller.data.active.exitMode==='fold'?'Leaving after this hand: queued fold or all-in runout, then automatic cashout.':'Session ends after this hand. Finish your decisions; cashout is automatic.'}<button class="text-button" data-action="continue-session">Go to hand</button></div>`:''}
       ${cashOutSummaryMarkup()}${message ? `<div class="error-banner" role="alert"><b>Table notice</b><span>${escape(message)}</span><button id="dismiss-error" aria-label="Dismiss notice">×</button></div>` : ''}
       ${controller.recoveryDiagnostics.length?`<details class="storage-banner recovery-note" role="status"><summary><b>Saved-data recovery notice</b> <span class="muted">Your save was checked. Details</span></summary><ul>${controller.recoveryDiagnostics.map(message=>`<li>${escape(message)}</li>`).join('')}</ul></details>`:''}
-      ${!controller.data ? `<section class="panel restore-placeholder" aria-busy="${controller.status === 'loading'}"><h2>${controller.status === 'loading' ? 'Restoring your bankroll and table…' : 'Your saved session has not loaded'}</h2><p>Balances, hands and table controls appear after the saved state is verified.${controller.status !== 'loading' ? ' Retry the saved session above. No new session has been created.' : ''}</p></section>` : view === 'blackjack' ? blackjackSection() : view === 'tournaments' ? tournamentSection() : view === 'session' ? sessionManager() : view === 'host' ? `<div class="host-layout">${setup()}<aside class="host-guide"><span class="large-suit">♠</span><h2>A little pressure.<br>A lot of possibility.</h2><p>Build a lineup, find your rhythm, and play complete hands at stakes that suit your practice.</p><div><b>01</b><span>Set your stakes and table size.</span></div><div><b>02</b><span>Choose your opponents’ styles.</span></div><div><b>03</b><span>Take your seat. Play the hand.</span></div><small>Live Table keeps opponent profiles hidden. Queue table changes safely for the next hand. Your saved history stays intact.</small></aside></div>` : view === 'study' ? study() : view === 'tournament-stats' ? tournamentStatsPage() : view === 'home' ? homeView() : view === 'career' ? careerView() : view === 'heads-up' ? headsUpView() : view === 'omaha' ? omahaView() : view === 'coach' ? coachView() : view === 'by-game' ? byGameView() : view === 'deep-stats' ? deepStatsView() : view === 'slots' ? slotsView() : view === 'roulette' || view === 'craps' || view === 'baccarat' || view === 'races' ? casinoMarkup(casino, view) : view === 'opponents' ? opponentStudy() : view === 'cashier' ? cashier() : view === 'results' ? results() : `<div class="game-layout"><div class="main-table-column">${shown ? table(shown) + actions(shown) : actions(shown) + table(shown)}${playerNotes()}</div>${session(shown)}</div>`}
+      ${!controller.data ? `<section class="panel restore-placeholder" aria-busy="${controller.status === 'loading'}"><h2>${controller.status === 'loading' ? 'Restoring your bankroll and table…' : 'Your saved session has not loaded'}</h2><p>Balances, hands and table controls appear after the saved state is verified.${controller.status !== 'loading' ? ' Retry the saved session above. No new session has been created.' : ''}</p></section>` : view === 'blackjack' ? blackjackSection() : view === 'tournaments' ? tournamentSection() : view === 'session' ? sessionManager() : view === 'host' ? `<div class="host-layout">${setup()}<aside class="host-guide"><span class="large-suit">♠</span><h2>A little pressure.<br>A lot of possibility.</h2><p>Build a lineup, find your rhythm, and play complete hands at stakes that suit your practice.</p><div><b>01</b><span>Set your stakes and table size.</span></div><div><b>02</b><span>Choose your opponents’ styles.</span></div><div><b>03</b><span>Take your seat. Play the hand.</span></div><small>Live Table keeps opponent profiles hidden. Queue table changes safely for the next hand. Your saved history stays intact.</small></aside></div>` : view === 'study' ? study() : view === 'tournament-stats' ? tournamentStatsPage() : view === 'home' ? homeView() : view === 'career' ? careerView() : view === 'heads-up' ? headsUpView() : view === 'omaha' ? omahaView() : view === 'coach' ? coachView() : view === 'by-game' ? byGameView() : view === 'game-detail' ? gameDetailView() : view === 'deep-stats' ? deepStatsView() : view === 'slots' ? slotsView() : view === 'roulette' || view === 'craps' || view === 'baccarat' || view === 'races' ? casinoMarkup(casino, view) : view === 'opponents' ? opponentStudy() : view === 'cashier' ? cashier() : view === 'results' ? results() : `<div class="game-layout"><div class="main-table-column">${shown ? table(shown) + actions(shown) : actions(shown) + table(shown)}${playerNotes()}</div>${session(shown)}</div>`}
       <p class="practice-disclosure" data-testid="practice-disclosure">${PRACTICE_DISCLOSURE}</p><footer><div><span class="footer-mark">♛</span><span>GOLD CROWN CASINO <small>Cash-game candidate · Synthetic cash practice</small></span></div><p>SYNTHETIC / NOT HUMAN-VALIDATED<br><small>Local engine isolation. Hidden cards are inspectable through developer tools.</small></p></footer></main></div>`);
     /* Patch 85: sitting down starts at the top of the page, so in landscape the felt is in view. */
     { const seated = !!content.querySelector('.app-shell.at-table, .bj-grid'); if (seated && !wasSeated) { try { if (matchMedia('(orientation: landscape) and (max-height: 540px), (orientation: landscape) and (min-width: 900px) and (max-width: 1180px)').matches) window.scrollTo(0, 0); } catch { /* no matchMedia */ } } wasSeated = seated; }
@@ -1992,6 +2213,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const on = (selector: string, fn: (event: Event) => void) => root.querySelectorAll(selector).forEach(element => element.addEventListener('click', fn, live));
     const saveSetupDraft = ():boolean => { try { if(!root.querySelector<HTMLFieldSetElement>('#setup-form fieldset')?.disabled)readSettings(); return true; } catch(cause) { error=(cause as Error).message; render(); return false; } };
     root.querySelectorAll<HTMLButtonElement>('[data-view]').forEach(el => el.addEventListener('click', () => { if (!saveSetupDraft()) return; view = el.dataset.view as View; if(view==='tournaments'||view==='tournament-stats'||view==='coach'||view==='by-game')ensureTournament();if(view==='blackjack')blackjackLive.init(); gamesMenuOpen = false; if(view==='host')refreshHostSettings(); error = ''; render(); }, live));
+    root.querySelectorAll<HTMLButtonElement>('[data-game-detail]').forEach(el => el.addEventListener('click', () => { if (!saveSetupDraft()) return; detailGame = el.dataset.gameDetail as DetailGame; if (detailGame === 'tournaments') ensureTournament(); if (detailGame === 'blackjack') blackjackLive.init(); view = 'game-detail'; gamesMenuOpen = false; error = ''; render(); }, live));
     root.querySelectorAll<HTMLButtonElement>('[data-view-home]').forEach(el => el.addEventListener('click', () => root.querySelector<HTMLButtonElement>(`.app-header [data-view="${el.dataset.viewHome}"]`)?.click(), live));
     on('#nav-games', () => { gamesMenuOpen = !gamesMenuOpen; render(); });
     on('#tournament-register',()=>{if(!tournament||controller.data?.active){error='Finish and cash out the cash session before registering.';render();return;}void tournament.startEvent(lobby.presetId,lobby.entrants,lobby.pace).then(()=>{tournamentDraft='';tournamentWatch=false;render();if(tournament?.data?.active){root.querySelector<HTMLElement>('.level-strip')?.scrollIntoView({block:'start'});root.querySelector<HTMLElement>('#t-actions')?.focus({preventScroll:true});}}).catch(cause=>{error=String(cause);render();});});

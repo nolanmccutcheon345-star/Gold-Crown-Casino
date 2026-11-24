@@ -2,7 +2,7 @@ import { seatRevealLayouts } from './reveal-seats';
 /** B2 live controller. One authoritative engine; persistence succeeds before new cards or money are shown. */
 import type {Card} from '../contracts';
 import {canonical} from '../storage/integrity';
-import {applyBlackjack,blackjackView,createBlackjackState,secureBlackjackShoe,type BlackjackPlay,type BlackjackState,type ShoeCard,type TableSeating} from './engine';
+import {applyBlackjack,blackjackView,createBlackjackState,secureBlackjackShoe,type BlackjackPlay,type BlackjackRound,type BlackjackState,type ShoeCard,type TableSeating} from './engine';
 import {SEAT_RULES_VERSION,seatLineup} from './table-players';
 import type {DealEntry} from './deal-pace';
 import {secureIndex} from '../core/deck';
@@ -42,6 +42,9 @@ export class BlackjackController {
  async auditHistory():Promise<number>{demand(this.status==='ready'&&!this.busy,'Verify blackjack storage before auditing');try{const snapshot=await this.verifiedSnapshot();return snapshot.records.reduce((n,r)=>n+(r.body.kind==='segment'?r.body.engine.completed.length:0),0)+(snapshot.checkpoint.payload.active?.engine.completed.length??0);}catch(e){this.status='error';this.error=String(e);this.emit();throw e;}}
  /** Patch 66: every completed round's result and opening bet, from verified history plus the open table. Read only. */
  async roundResults():Promise<{net:number;bet:number}[]>{demand(this.status==='ready'&&!this.busy,'Verify blackjack storage before reading results');const snapshot=await this.verifiedSnapshot();const engines=snapshot.records.flatMap(r=>r.body.kind==='segment'?[r.body.engine]:[]);const a=snapshot.checkpoint.payload.active;if(a)engines.push(a.engine);return engines.flatMap(e=>e.completed.map(r=>({net:r.net??0,bet:r.baseBet})));}
+ /** Phase 7: the full verified round records behind roundResults, for the
+  * detailed blackjack statistics page. Same read path, read only. */
+ async roundRecords():Promise<BlackjackRound[]>{demand(this.status==='ready'&&!this.busy,'Verify blackjack storage before reading records');const snapshot=await this.verifiedSnapshot();const engines=snapshot.records.flatMap(r=>r.body.kind==='segment'?[r.body.engine]:[]);const a=snapshot.checkpoint.payload.active;if(a)engines.push(a.engine);return engines.flatMap(e=>e.completed);}
  /** Patch 69: the verified blackjack snapshot (checkpoint, anchor and every financial record), with no table open. */
  async backupSnapshot():Promise<BlackjackSnapshot>{demand(this.status==='ready'&&!this.busy,'Verify blackjack storage before backing up');demand(!this.data?.active,'Leave the blackjack table before backing up');return structuredClone(await this.verifiedSnapshot());}
  /** Patch 69: why a backup cannot be restored here, or '' when it can. Read only; the backup itself is audited separately. */
