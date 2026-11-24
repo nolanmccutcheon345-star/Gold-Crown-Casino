@@ -96,7 +96,7 @@ export class SlotsPlayer {
   if(r.cascade&&r.cascade.frames.length>1)stages.push(()=>{this.ui.phase='cascade';this.ui.step=0;const step=()=>{if(this.ui.step<r.cascade!.frames.length-1){this.ui.step++;this.deps.sound('chip');this.wait(this.ui.auto?520:760,step);}else this.wait(500,next);};this.wait(this.ui.auto?600:900,step);});
   if(r.free)stages.push(()=>this.intro('FREE SPINS',`${r.free!.spins.length} free spins${m.scatter!.freeMultiplier>1?` · every win ×${m.scatter!.freeMultiplier}`:m.ways?.freeWild?' · wilds ×2 or ×3':''}`,()=>{this.ui.phase='free';this.ui.step=0;const step=()=>{if(this.ui.step<r.free!.spins.length-1){this.ui.step++;this.deps.sound(r.free!.spins[this.ui.step].total>0?'chip':'flip');this.wait(this.ui.auto?420:780,step);}else this.wait(700,next);};this.wait(900,step);}));
   if(r.hold)stages.push(()=>this.intro('HOLD & SPIN',`${r.hold!.frames[0].grid.flat().filter(x=>x!==null).length} coins locked · 3 respins`,()=>{this.ui.phase='hold';this.ui.step=0;const step=()=>{if(this.ui.step<r.hold!.frames.length-1){this.ui.step++;this.deps.sound('chip');this.wait(560,step);}else this.wait(800,next);};this.wait(700,step);}));
-  if(r.wheel)stages.push(()=>this.intro('BONUS WHEEL','Spin for up to 250× your bet',()=>{this.ui.phase='wheel';this.wait(2900,next);}));
+  if(r.wheel)stages.push(()=>this.intro('BONUS WHEEL',`Spin for up to ${Math.max(...m.wheel!.segments.map(s=>s.x))}× your bet`,()=>{this.ui.phase='wheel';this.wait(2900,next);}));
   if(r.pick)stages.push(()=>this.intro('TREASURE CHESTS',`Pick ${r.pick!.prizes.length} chests`,()=>{this.ui.phase='pick';this.ui.picked=[];this.pickDone=next;if(this.ui.auto)this.wait(900,()=>this.autoPick());}));
   next();
  }

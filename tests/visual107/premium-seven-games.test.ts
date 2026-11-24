@@ -32,7 +32,7 @@ describe('Patch 107 — visual-only premium Card Room', () => {
   expect((casinoFeaturedMachines().match(/data-view="slots"/g)??[]).length).toBe(3);
  });
  it('uses eight distinct original machine images without replacing reels',()=>{
-  expect(MACHINES).toHaveLength(8);
+  expect(MACHINES).toHaveLength(13);
   for(const m of MACHINES){
    for(const suffix of ['.svg','-marquee.webp','-cinematic.webp'])
     expect(existsSync(new URL(`public/casino-art/${m.id}${suffix}`,root))).toBe(true);

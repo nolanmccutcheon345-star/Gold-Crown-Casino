@@ -10,7 +10,7 @@ import {freshSlots} from '../../src/slots/state';
 const rng=(seed:number)=>{let s=seed>>>0;return (n:number)=>{s=(Math.imul(s^(s>>>15),0x2c1b3c6d)+0x6d2b79f5)>>>0;return Math.floor(s/4294967296*n);};};
 describe('art',()=>{
   it('every symbol on every machine has vector art, using the shared gradients',()=>{
-    expect(MACHINES.length).toBe(8);
+    expect(MACHINES.length).toBe(13);
     for(const m of MACHINES)for(const [k,d] of Object.entries(m.symbols)){if(d.tone==='blank')continue;expect(ART[d.art],`${m.id} ${k}`).toMatch(/^<svg class="slot-art"/);}
     const used=new Set(Object.values(ART).join('').match(/url\(#(s[gf]-[a-z]+)\)/g)!.map(x=>x.slice(5,-1)));for(const id of used)expect(SLOT_DEFS,id).toContain(`id="${id}"`);
     expect(Object.values(ART).join('')).not.toMatch(/[\u{1F300}-\u{1FAFF}]/u);

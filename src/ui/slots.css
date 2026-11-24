@@ -94,6 +94,14 @@
 /* Celebrations. */
 .slot-cabinet.big-win{animation:slot-glow 1.1s ease-in-out 4}
 @keyframes slot-glow{50%{box-shadow:inset 0 0 0 3px #fff3a0,inset 0 0 0 7px #00000060,inset 0 0 0 9px #ffe14a,0 18px 40px #000a,0 0 80px #ffcf4acc}}
+/* Phase 4: the two higher win tiers get their own cabinet light show — ice for MEGA, magenta for EPIC —
+   and the marquee lights race faster the bigger the win. */
+.slot-cabinet.mega-win{animation:slot-glow-mega 1.1s ease-in-out 5}
+@keyframes slot-glow-mega{50%{box-shadow:inset 0 0 0 3px #eaffff,inset 0 0 0 7px #00000060,inset 0 0 0 9px #7ef0ff,0 18px 40px #000a,0 0 100px #4adfffdd}}
+.slot-cabinet.epic-win{animation:slot-glow-epic 1s ease-in-out 6}
+@keyframes slot-glow-epic{50%{box-shadow:inset 0 0 0 3px #fff0ff,inset 0 0 0 7px #00000060,inset 0 0 0 9px #ff9af0,0 18px 40px #000a,0 0 120px #ff6af0ee}}
+.slot-cabinet.mega-win .slot-lights{animation-duration:.18s}
+.slot-cabinet.epic-win .slot-lights{animation-duration:.12s}
 .slot-cabinet.in-feature .slot-window-frame{animation:slot-frame 1.4s ease-in-out infinite}
 @keyframes slot-frame{50%{box-shadow:0 0 0 2px #00000080,0 6px 14px #0009,0 0 26px var(--glow)}}
 .slot-burst{position:absolute;inset:0;pointer-events:none;z-index:5;overflow:visible}
@@ -134,8 +142,8 @@ button.slot-chest:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 
 .pay-name{font-size:12px;color:#c8d6cf}
 .slot-record{font-size:12px}
 @media (max-width:380px){.slot-spin-button{width:72px;height:72px;font-size:16px}.slot-deck{gap:6px}.slot-bet-step>span{min-width:48px;font-size:13px}}
-@media (prefers-reduced-motion:reduce){.slot-cell.shatter,.slot-cell.shatter::after,.slot-chest.won,.kind-cascade .slot-reel .slot-sym,.slot-lights,.slot-strip,.slot-cell.hit,.slot-cell.hit::after,.slot-status,.slot-cabinet,.slot-window-frame,.slot-burst i,.slot-reel .slot-sym,.slot-coin,.slot-spin-button,.slot-paylines polyline{animation:none!important}.slot-paylines polyline{stroke-dashoffset:0}.slot-bonus-wheel.shown .slot-wheel-disc{transition:none}.slot-burst{display:none}}
-.motion-off :is(.slot-cell.shatter,.slot-cell.shatter::after,.slot-chest.won,.slot-lights,.slot-strip,.slot-cell.hit,.slot-cell.hit::after,.slot-status,.slot-cabinet,.slot-window-frame,.slot-burst i,.slot-reel .slot-sym,.slot-coin,.slot-spin-button,.slot-paylines polyline){animation:none!important}
+@media (prefers-reduced-motion:reduce){.slot-cell.shatter,.slot-cell.shatter::after,.slot-chest.won,.kind-cascade .slot-reel .slot-sym,.slot-lights,.slot-strip,.slot-cell.hit,.slot-cell.hit::after,.slot-status,.slot-cabinet,.slot-cabinet.mega-win,.slot-cabinet.epic-win,.slot-window-frame,.slot-burst i,.slot-reel .slot-sym,.slot-coin,.slot-spin-button,.slot-paylines polyline{animation:none!important}.slot-paylines polyline{stroke-dashoffset:0}.slot-bonus-wheel.shown .slot-wheel-disc{transition:none}.slot-burst{display:none}}
+.motion-off :is(.slot-cell.shatter,.slot-cell.shatter::after,.slot-chest.won,.slot-lights,.slot-strip,.slot-cell.hit,.slot-cell.hit::after,.slot-status,.slot-cabinet,.slot-cabinet.mega-win,.slot-cabinet.epic-win,.slot-window-frame,.slot-burst i,.slot-reel .slot-sym,.slot-coin,.slot-spin-button,.slot-paylines polyline){animation:none!important}
 .motion-off .slot-paylines polyline{stroke-dashoffset:0}
 .motion-off .slot-burst{display:none}
 /* ---------- Patch 92: themes, anticipation, celebrations and play controls ---------- */

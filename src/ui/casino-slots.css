@@ -56,6 +56,7 @@
 .slot-auto-panel,.slot-session{border:1px solid #d4b27b68;background:linear-gradient(160deg,#263337,#0a1820)}
 .slot-cabinet.winning{box-shadow:inset 0 0 0 2px #fce5ab,inset 0 0 0 5px #0c1118,inset 0 0 0 9px #d5b07b,0 15px 33px #000c,0 0 29px color-mix(in srgb,var(--glow) 60%,transparent)}
 /* Machine-specific trim retains each game theme with consistent underlying structure. */
+.slot-cabinet.kind-video,.slot-card.kind-video{--casino-ornament:#8fd0ff}
 .slot-cabinet.kind-ways,.slot-card.kind-ways{--casino-ornament:#ffb86c}
 .slot-cabinet.kind-cascade,.slot-card.kind-cascade{--casino-ornament:#e0acff}
 .slot-cabinet.kind-hold,.slot-card.kind-hold{--casino-ornament:#9ee6ff}
