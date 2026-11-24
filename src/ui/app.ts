@@ -116,7 +116,7 @@ import './casino-visual107.css';
 import './casino-visual108.css';
 import './casino-visual109.css';
 import './shell.css';
-import { casinoWordmark, casinoHomeHero, casinoGameArt } from './casino-components';
+import { casinoWordmark, casinoHomeHero, casinoGameArt, casinoFeaturedMachines } from './casino-components';
 import { dealClass, readMotion, saveMotion, turnTitle } from './motion';
 import { FACE_PARTS, avatarSvg, faceFor, liveMood, sessionMoodFace, type FacePart, type Mood } from './avatars';
 import { setTableFaces } from './face-hook';
@@ -1880,16 +1880,16 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
      * public/casino-art (tile-*.webp) layered over a production fallback, so a
      * tile whose art has not landed yet still shows a rich casino image.
      * All seven generated tiles have landed and are wired in as WebP. */
-    const tile = (o: { view?: View; id?: string; name: string; sub: string; art: string; pos?: string; wide?: boolean }) => `<button type="button" class="home-tile${o.wide ? ' wide' : ''}"${o.id ? ` id="${o.id}"` : ''}${o.view ? ` data-view="${o.view}"` : ''}><span class="home-tile-art" style="background-image:${o.art}${o.pos ? `;background-position:${o.pos}` : ''}" aria-hidden="true"></span><span class="home-tile-band"><b>${o.name}</b><small>${o.sub}</small></span></button>`;
+    const tile = (o: { view?: View; attr?: string; id?: string; name: string; sub: string; art: string; pos?: string; wide?: boolean }) => `<button type="button" class="home-tile${o.wide ? ' wide' : ''}"${o.id ? ` id="${o.id}"` : ''}${o.attr ?? (o.view ? ` data-view="${o.view}"` : '')}><span class="home-tile-art" style="background-image:${o.art}${o.pos ? `;background-position:${o.pos}` : ''}" aria-hidden="true"></span><span class="home-tile-band"><b>${o.name}</b><small>${o.sub}</small></span></button>`;
     const tiles = [
       active ? tile({ view: 'live', name: 'Poker', sub: 'Texas Hold\u2019em · back to your table', art: `url('/casino-art/tile-poker.webp'),url('/casino-art/lobby-hero.webp')`, wide: true })
         : tile({ id: 'home-pick', name: 'Poker', sub: 'Texas Hold\u2019em · pick a table, choose your seat', art: `url('/casino-art/tile-poker.webp'),url('/casino-art/lobby-hero.webp')`, wide: true }),
-      tile({ view: 'slots', name: 'Slots', sub: 'Thirteen unique virtual-chip machines', art: `url('/casino-art/tile-slots.webp')`, wide: true }),
+      tile({ attr: ' data-view="slots"', name: 'Slots', sub: 'Thirteen unique virtual-chip machines', art: `url('/casino-art/tile-slots.webp')`, wide: true }),
       tile({ view: 'blackjack', name: 'Blackjack', sub: 'Count, bet, beat the shoe', art: `url('/casino-art/tile-blackjack.webp'),url('/casino-art/lobby-hero.webp')`, pos: 'right center', wide: true }),
-      tile({ view: 'baccarat', name: 'Baccarat', sub: 'Player, Banker or Tie', art: `url('/casino-art/tile-baccarat.webp'),url('/casino-art/room-atmosphere.webp')` }),
-      tile({ view: 'roulette', name: 'Roulette', sub: 'Single or double zero', art: `url('/casino-art/tile-roulette.webp'),url('/casino-art/room-atmosphere.webp')` }),
-      tile({ view: 'races', name: 'Horse racing', sub: 'Win, place, show, exacta', art: `url('/casino-art/tile-horse-racing.webp'),url('/casino-art/horse-racing.webp')` }),
-      tile({ view: 'craps', name: 'Craps', sub: 'You\u2019re the shooter', art: `url('/casino-art/tile-craps.webp'),url('/casino-art/room-atmosphere.webp')` }),
+      tile({ attr: ' data-view="baccarat"', name: 'Baccarat', sub: 'Player, Banker or Tie', art: `url('/casino-art/tile-baccarat.webp'),url('/casino-art/room-atmosphere.webp')` }),
+      tile({ attr: ' data-view="roulette"', name: 'Roulette', sub: 'Single or double zero', art: `url('/casino-art/tile-roulette.webp'),url('/casino-art/room-atmosphere.webp')` }),
+      tile({ attr: ' data-view="races"', name: 'Horse racing', sub: 'Win, place, show, exacta', art: `url('/casino-art/tile-horse-racing.webp'),url('/casino-art/horse-racing.webp')` }),
+      tile({ attr: ' data-view="craps"', name: 'Craps', sub: 'You\u2019re the shooter', art: `url('/casino-art/tile-craps.webp'),url('/casino-art/room-atmosphere.webp')` }),
       tile({ view: 'tournaments', name: 'Tournaments', sub: 'Sit & gos to big fields', art: `url('/casino-art/lobby-hero.webp')`, pos: '18% center' }),
       tile({ view: 'omaha', name: 'Omaha', sub: 'Four cards, pot limit', art: `url('/casino-art/lobby-hero.webp')`, pos: '50% center' }),
       tile({ view: 'heads-up', name: 'Heads-up', sub: 'Beat the regulars one on one', art: `url('/casino-art/lobby-hero.webp')`, pos: '82% center' }),
@@ -1911,7 +1911,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     return `<section class="panel home-hub" data-testid="home-hub">
       ${casinoHomeHero()}
       <div class="hub-balances">${[['CASH BANKROLL', 'cash', data ? data.wallet + heroStack : null], ['TOURNAMENTS', 'tournament', t ? t.balance : null], ['BLACKJACK', 'blackjack', bj ? bj.balance + (bj.active?.engine.balance ?? 0) : null], ['OMAHA', 'omaha', (() => { const o = (plo ??= new PloTable()).state; return o.balance + (o.active?.stacks[0] ?? 0); })()], ['SLOTS', 'slots', slotsPlayer.state.balance], ['CASINO', 'casino', casino.state.balance]].map(([label, key, cents]) => `<div><span class="eyebrow">${label}</span><b ${cents === null ? '' : `data-count-key="home-${key}" data-count="${cents}"`}>${cents === null ? '—' : money(cents as number)}</b></div>`).join('')}</div>
-      <div class="home-cards">${games.join('')}${start}</div><div class="home-tiles" id="home-game-collection">${tiles}</div>${featureStrip}
+      <div class="home-cards">${games.join('')}${start}</div><div class="home-tiles" id="home-game-collection">${tiles}</div>${featureStrip}${casinoFeaturedMachines()}
       <div class="hub-block">${career && data ? (() => { const st = careerStatus(data, career); return `<h3>Career · ${st.stake}</h3><p>${money(st.bankroll)} · ${Math.floor(st.buyIns)} buy-ins${st.nextStake ? ` · ${st.canMoveUp ? `<b>ready to move up to ${st.nextStake}</b>` : `next ${st.nextStake}: ${Math.min(100, Math.round(100 * st.bankroll / st.needBankroll!))}% of the bankroll, ${st.handsHere.toLocaleString()}/${MOVE_UP_HANDS} hands`}` : ''}${st.mustMoveDown ? ' · <b>time to move down</b>' : ''}</p><button type="button" class="button secondary" data-view="career">Open career</button>`; })() : `<h3>Career mode</h3><p class="muted">Start at $1/$2 and climb the stakes with bankroll rules.</p><button type="button" class="button secondary" data-view="career">Start a career</button>`}</div>
       ${drill ? `<div class="hub-block"><h3>Drill of the day</h3><p>${escape(drill.prompt)}</p><button type="button" class="button secondary" id="home-drill" data-drill-id="${escape(drill.id)}">Try it</button></div>` : ''}
       <div class="hub-block"><h3>Latest leaks</h3>${leaks.length ? `<ul class="hub-list">${leaks.map(l => `<li><b>${escape(l.title)}</b> <span class="muted">${escape(l.finding)}</span></li>`).join('')}</ul>` : `<p class="muted">${lastHands.length ? 'No clear leaks in your last session.' : 'Play a session to see your leaks here.'}</p>`}<button type="button" class="button secondary" data-view="coach">Leaks and drills</button></div>
