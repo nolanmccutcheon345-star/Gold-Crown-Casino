@@ -506,15 +506,32 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     if (ploUi.fast) wait = Math.min(1200, Math.round(wait * 0.4));
     ploTimer = window.setTimeout(() => { ploTimer = 0; ploUi.thinking = false; try { plo!.botStep(); } catch (cause) { ploUi.error = (cause as Error).message; } render(); }, wait);
   }
-  function ploDo(work: () => void) { if (!plo) return; ploUi.error = ''; try { work(); } catch (cause) { ploUi.error = (cause as Error).message; } render(); }
+  function ploDo(work: () => void) { if (!plo) return; ploUi.error = ''; ploUi.blockedByTable = false; try { work(); } catch (cause) { ploUi.error = (cause as Error).message; } render(); }
   /* Patch 73: heads-up challenge. */
-  let huLast: MatchRecord | null = null, huEnding = false, huFinish = false;
+  let huLast: MatchRecord | null = null, huEnding = false, huFinish = false, huNotice = '';
   function headsUpView(): string {
     const d = controller.data; if (!d) return '';
-    return ladderMarkup(readLadder(), { busy: operation || controller.busy, tableOpen: !!d.active, bankroll: d.wallet, buyIn: 100 * stakeSettings(0).bigBlind, last: huLast });
+    return ladderMarkup(readLadder(), { busy: operation || controller.busy, tableOpen: !!d.active, bankroll: d.wallet, buyIn: 100 * stakeSettings(0).bigBlind, last: huLast, notice: huNotice });
   }
   function startChallenge(rung: number) {
-    if (game || unavailable() || controller.data?.active || !LADDER_IDS[rung]) return;
+    if (!LADDER_IDS[rung]) return;
+    /* Phase 9 (F-02): a challenge click must never die silently. An open table gets an
+       explanation; a transient save in flight gets a short wait and a retry, not a dead click. */
+    if (controller.data?.active) { huNotice = 'You have a Hold’em table open. Finish or cash out first — your match will be here.'; render(); return; }
+    if (game || unavailable()) {
+      huNotice = 'One moment — finishing a save, then your match starts.';
+      render();
+      let tries = 0;
+      const retry = () => {
+        if (view !== 'heads-up') return;
+        if (!game && !unavailable() && !controller.data?.active) { huNotice = ''; startChallenge(rung); return; }
+        if (++tries < 20) window.setTimeout(retry, 150);
+        else { huNotice = 'The match could not be started just now. Try again.'; render(); }
+      };
+      window.setTimeout(retry, 150);
+      return;
+    }
+    huNotice = '';
     const chosen = matchSettings(stakeSettings(0), rung);
     settings = chosen; discardSetupDraft = true;
     void run(async () => { await controller.startSession(chosen); if (controller.data?.active) { view = 'live'; sessionNotice = 'Heads-up match. First to bust the other, or the chip leader after 150 hands.'; } });
@@ -2446,7 +2463,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     if (view === 'omaha' && plo) {
       root.querySelectorAll<HTMLButtonElement>('[data-plo-stakes]').forEach(el => el.addEventListener('click', () => { ploUi.stakes = el.dataset.ploStakes!; render(); }, live));
       root.querySelectorAll<HTMLButtonElement>('[data-plo-buyin]').forEach(el => el.addEventListener('click', () => { ploUi.buyInBB = Number(el.dataset.ploBuyin); render(); }, live));
-      on('#plo-sit', () => ploDo(() => { if (controller.data?.active) throw new Error('Finish your Hold’em table first.'); plo!.sit(ploUi.stakes, ploUi.buyInBB); }));
+      on('#plo-sit', () => { if (controller.data?.active) { ploUi.error = 'Finish your Hold’em table first.'; ploUi.blockedByTable = true; render(); return; } ploDo(() => plo!.sit(ploUi.stakes, ploUi.buyInBB)); });
       on('#plo-reset', () => ploDo(() => plo!.resetBalance()));
       on('#plo-fold', () => ploDo(() => plo!.act({ type: 'fold' })));
       on('#plo-check', () => ploDo(() => plo!.act({ type: 'check' })));

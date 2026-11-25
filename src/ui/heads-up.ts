@@ -50,18 +50,18 @@ export function recordMatch(state:LadderState,m:MatchState,at=new Date().toISOSt
 const esc=(v:string)=>v.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]!);
 const dollars=(cents:number)=>`${cents<0?'−':''}$${Math.abs(Math.round(cents/100)).toLocaleString('en-US')}`;
 
-export function ladderMarkup(state:LadderState,opts:{busy:boolean;tableOpen:boolean;bankroll:number;buyIn:number;last:MatchRecord|null}):string {
+export function ladderMarkup(state:LadderState,opts:{busy:boolean;tableOpen:boolean;bankroll:number;buyIn:number;last:MatchRecord|null;notice?:string}):string {
  const next=nextRung(state);
  /* Each opponent's own table face: the ladder lists them one at a time, so no table sharing applies. */
  const one=(name:string)=>facesFor([name]);
  const rows=LADDER_IDS.map((id,i)=>{const r=regularById(id)!,faces=one(r.name);const beaten=state.beaten.includes(id),current=i===next,locked=i>next;
   const record=state.matches.filter(m=>m.opponent===id),wins=record.filter(m=>m.won).length;
-  return `<li class="hu-rung${beaten?' beaten':''}${current?' current':''}${locked?' locked':''}"><div class="hu-rung-head"><span class="hu-step">${i+1}</span>${faces?`<span class="hu-face" aria-hidden="true">${faces(r.name)}</span>`:''}<b>${esc(r.name)}</b><span class="hu-style">${esc(r.style)}</span><span class="hu-mark">${beaten?'Beaten':current?'Next':'Locked'}</span></div>${locked?'':`<p>${esc(r.read)}</p>`}${record.length?`<small>${wins}–${record.length-wins} in matches</small>`:''}${current||beaten?`<button type="button" class="button ${current?'primary':'secondary'}" data-hu-rung="${i}" ${opts.busy||opts.tableOpen||opts.bankroll<opts.buyIn?'disabled':''}>${beaten?'Rematch':'Challenge'} ${esc(r.name)}</button>`:''}</li>`;}).join('');
+  return `<li class="hu-rung${beaten?' beaten':''}${current?' current':''}${locked?' locked':''}"><div class="hu-rung-head"><span class="hu-step">${i+1}</span>${faces?`<span class="hu-face" aria-hidden="true">${faces(r.name)}</span>`:''}<b>${esc(r.name)}</b><span class="hu-style">${esc(r.style)}</span><span class="hu-mark">${beaten?'Beaten':current?'Next':'Locked'}</span></div>${locked?'':`<p>${esc(r.read)}</p>`}${record.length?`<small>${wins}–${record.length-wins} in matches</small>`:''}${current||beaten?`<button type="button" class="button ${current?'primary':'secondary'}" data-hu-rung="${i}" ${opts.tableOpen||opts.bankroll<opts.buyIn?'disabled':''}>${beaten?'Rematch':'Challenge'} ${esc(r.name)}</button>`:''}</li>`;}).join('');
  const last=opts.last?`<p class="hu-last ${opts.last.won?'won':'lost'}" role="status" data-testid="hu-last">${opts.last.won?`You beat ${esc(regularById(opts.last.opponent)?.name??'')}`:`${esc(regularById(opts.last.opponent)?.name??'')} won`} ${opts.last.how==='bust'?'by busting the other player':opts.last.how==='hands'?`on chips after ${opts.last.hands} hands`:'(you left the match)'} · ${dollars(opts.last.net)}.</p>`:'';
  const done=next>=LADDER_IDS.length?'<p class="hu-done">You have beaten the whole ladder. Rematch anyone.</p>':'';
  return `<section class="panel heads-up" data-testid="heads-up"><span class="eyebrow">HEADS-UP CHALLENGE</span><h2>Beat the regulars one on one</h2>
  <p class="muted">$1/$2, 100 big blinds each, no top-ups. The match ends when someone is out of chips, or after ${MATCH_HANDS} hands with the chip leader winning. Your result counts in your cash results.</p>
- ${opts.tableOpen?'<p class="privacy-blocked">You have a table open. Finish it first.</p>':opts.bankroll<opts.buyIn?`<p class="privacy-blocked">You need ${dollars(opts.buyIn)} in your bankroll.</p>`:''}${last}${done}<ol class="hu-ladder">${rows}</ol></section>`;
+ ${opts.tableOpen?'<p class="privacy-blocked">You have a table open. Finish it first.</p>':opts.bankroll<opts.buyIn?`<p class="privacy-blocked">You need ${dollars(opts.buyIn)} in your bankroll.</p>`:''}${opts.notice?`<p class="hu-notice" role="status" data-testid="hu-notice">${esc(opts.notice)}</p>`:''}${last}${done}<ol class="hu-ladder">${rows}</ol></section>`;
 }
 /** The banner over the table during a match. */
 export function matchBanner(m:MatchState):string {

@@ -12,6 +12,8 @@ const money=(cents:number)=>`$${(cents/100).toLocaleString('en-US',cents%100?{mi
 const signed=(cents:number)=>`${cents>0?'+':cents<0?'−':''}${money(Math.abs(cents))}`;
 
 export interface PloUiState {stakes:string;buyInBB:number;raiseTo:number|null;error:string;notice:string;thinking:boolean;
+ /** Phase 9 (F-01): sitting is blocked by an open Hold'em table — offer the way there. */
+ blockedByTable?:boolean;
  /** Patch 75: shorter thinking pauses. Timing tells still show. */
  fast?:boolean;
  /** Patch 82: chips on their way to the pot or to a winner, as felt percentages. Display only. */
@@ -20,7 +22,7 @@ export interface PloUiState {stakes:string;buyInBB:number;raiseTo:number|null;er
  heroSaid?:{phrase:string;replies:{seatId:number;text:string}[]}|null;quickChat?:string}
 
 export function ploMarkup(t:PloTable,ui:PloUiState,d:PloDraw):string {
- const banner=`${t.notice?`<p class="error-banner" role="alert">${d.esc(t.notice)}</p>`:''}${ui.error?`<p class="error-banner" role="alert">${d.esc(ui.error)}</p>`:''}`;
+ const banner=`${t.notice?`<p class="error-banner" role="alert">${d.esc(t.notice)}</p>`:''}${ui.error?`<p class="error-banner" role="alert">${d.esc(ui.error)}</p>`:''}${ui.blockedByTable?`<p class="plo-blocked"><button type="button" class="button secondary" data-view="live">Go to your Hold’em table</button></p>`:''}`;
  return `<section class="panel plo" data-testid="plo">${banner}${t.state.active?tableMarkup(t,ui,d):lobbyMarkup(t,ui,d)}</section>`;
 }
 
