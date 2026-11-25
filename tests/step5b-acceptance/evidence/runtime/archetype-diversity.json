@@ -1,9 +1,9 @@
 {
-  "sourceCommit": "e2861e51807161dcf39d3f03bbd3c9f52804d846",
+  "sourceCommit": "d663cd478dbe70519923d0bd1d6c5334febf7eb9",
   "runtimeBase": "e08e8b0",
   "policyVersion": "synthetic-cash-1.6.0",
   "node": "v24.22.1",
-  "at": "2026-11-25T06:01:17.680Z",
+  "at": "2026-11-25T18:31:10.177Z",
   "protocolCommit": "48212a1",
   "protocolSha256": "1f96c8e3f7a1d34ff3cb75b19c25775e9c48ac07a123a01c189b74eee3d90ca1",
   "population": "All8 current archetypes,4 fixed personality seeds,37 actual legal contexts,128 paired action draws each",

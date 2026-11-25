@@ -98,20 +98,74 @@ export function snapshotScroll(root: ParentNode): ScrollSnapshot {
   return { byNode, byId };
 }
 
+/* Some renders are transiently short: the session tick first renders a busy state
+ * whose panel is a fraction of its full height, then renders the real panel ~200ms
+ * later. In the short render the saved position cannot fit (max scroll is 0), the
+ * browser clamps to the top, and the next snapshot reads the clamped 0 — the position
+ * is lost even though each render individually "restored" it. Positions that could
+ * not be applied for lack of room are therefore remembered here and retried on the
+ * next restore, until the content can hold them again. A remembered position is
+ * dropped when it applies, or when the element's decision context (its
+ * data-decision-token / data-testid) changes — a new decision starts at the top,
+ * as it should. */
+interface PendingSpot { spot: ScrollSpot; token: string; selector: string }
+const pendingScroll = new Map<string, PendingSpot>();
+const MAX_PENDING = 50;
+
+function scrollSelector(root: ParentNode, el: Element): string | null {
+  if (el.id) return `#${el.id}`;
+  const cls = typeof el.className === 'string' ? el.className.trim() : '';
+  if (!cls) return null;
+  const host = el.closest('[id]');
+  return `${host ? `#${host.id} ` : ''}.${cls.split(/\s+/).join('.')}`;
+}
+const scrollToken = (el: Element): string => {
+  const d = (el as HTMLElement).dataset;
+  return d?.decisionToken ?? d?.testid ?? '';
+};
+
+function applySpot(root: ParentNode, el: Element, spot: ScrollSpot): void {
+  const selector = scrollSelector(root, el);
+  const maxTop = el.scrollHeight - el.clientHeight, maxLeft = el.scrollWidth - el.clientWidth;
+  if (el.scrollTop !== spot.top) el.scrollTop = spot.top;
+  if (el.scrollLeft !== spot.left) el.scrollLeft = spot.left;
+  if (!selector) return;
+  if (spot.top > maxTop + 1 || spot.left > maxLeft + 1) {
+    if (pendingScroll.size >= MAX_PENDING) { const oldest = pendingScroll.keys().next().value; if (oldest) pendingScroll.delete(oldest); }
+    pendingScroll.set(selector, { spot, token: scrollToken(el), selector });
+  } else {
+    /* Applied in full. Clear a remembered spot only when it is this same position:
+     * a snapshot that merely read back the browser's clamp (0) must not erase a
+     * position that is still waiting for content tall enough to hold it. */
+    const pending = pendingScroll.get(selector);
+    if (pending && pending.spot.top === spot.top && pending.spot.left === spot.left) pendingScroll.delete(selector);
+  }
+}
+
+function retryPending(root: ParentNode): void {
+  for (const [key, pending] of [...pendingScroll]) {
+    let el: Element | null = null;
+    try { el = root.querySelector(pending.selector); } catch { el = null; }
+    if (!el) continue; // Not on this screen; it may come back with the next render.
+    if (scrollToken(el) !== pending.token) { pendingScroll.delete(key); continue; }
+    const maxTop = el.scrollHeight - el.clientHeight, maxLeft = el.scrollWidth - el.clientWidth;
+    if (pending.spot.top <= maxTop + 1 && pending.spot.left <= maxLeft + 1) {
+      if (el.scrollTop !== pending.spot.top) el.scrollTop = pending.spot.top;
+      if (el.scrollLeft !== pending.spot.left) el.scrollLeft = pending.spot.left;
+      pendingScroll.delete(key);
+    }
+  }
+}
+
 export function restoreScroll(root: ParentNode, snap: ScrollSnapshot): void {
   for (const [el, spot] of snap.byNode) {
-    if ((el as Element).isConnected) {
-      if (el.scrollTop !== spot.top) el.scrollTop = spot.top;
-      if (el.scrollLeft !== spot.left) el.scrollLeft = spot.left;
-    }
+    if ((el as Element).isConnected) applySpot(root, el, spot);
   }
   if (snap.byId.size) {
     root.querySelectorAll('[id]').forEach(el => {
       const spot = snap.byId.get(el.id);
-      if (spot && !snap.byNode.has(el)) {
-        if (el.scrollTop !== spot.top) el.scrollTop = spot.top;
-        if (el.scrollLeft !== spot.left) el.scrollLeft = spot.left;
-      }
+      if (spot && !snap.byNode.has(el)) applySpot(root, el, spot);
     });
   }
+  retryPending(root);
 }

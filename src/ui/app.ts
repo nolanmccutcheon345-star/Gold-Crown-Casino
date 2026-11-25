@@ -2244,6 +2244,10 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const sameBettingDecision=view==='live'&&shown?.street!=='complete'&&!!shown&&root.querySelector<HTMLElement>('#table-actions')?.dataset.decisionToken===`${shown.handId}:${shown.revision}`;
     const bettingDrafts=sameBettingDecision?Array.from(root.querySelectorAll<HTMLInputElement>('#custom-pot-percent, #shortcut-bb, #increment-bb')).map(input=>({id:input.id,value:input.value})):[];
     const expandedBettingDetails=sameBettingDecision?Array.from(root.querySelectorAll<HTMLDetailsElement>('#table-actions details[id][open]')).map(details=>details.id):[];
+    /* Phase 10 (F05 follow-on): EVERY id'd details the user has open survives a render,
+     * not just the setup/betting scopes — tapping a paytable bet-size chip re-renders,
+     * and the paytable must not slam shut under the reader's finger. */
+    const expandedDetails=Array.from(root.querySelectorAll<HTMLDetailsElement>('details[id][open]')).map(details=>details.id);
     // A bot commit may arrive while Cashier is open. Preserve the user's active
     // input and caret across a display refresh; saved state remains authoritative.
     const focused = (document.activeElement instanceof HTMLInputElement || document.activeElement instanceof HTMLSelectElement || document.activeElement instanceof HTMLTextAreaElement) && root.contains(document.activeElement) ? document.activeElement : null;
@@ -2313,6 +2317,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     for(const draft of setupDrafts){const input=root.querySelector<HTMLInputElement|HTMLSelectElement>(`#${draft.id}`);if(input){input.value=draft.value;if(input instanceof HTMLInputElement&&draft.checked!==undefined)input.checked=draft.checked;}}
     for(const id of expandedSetupDetails){const details=root.querySelector<HTMLDetailsElement>(`#${id}`);if(details)details.open=true;}
     for(const id of expandedBettingDetails){const details=root.querySelector<HTMLDetailsElement>(`#${id}`);if(details)details.open=true;}
+    for(const id of expandedDetails){const details=root.querySelector<HTMLDetailsElement>(`#${id}`);if(details)details.open=true;}
     for(const draft of bettingDrafts){const input=root.querySelector<HTMLInputElement>(`#${draft.id}`);if(input)input.value=draft.value;}
     for (const draft of drafts) { const input = root.querySelector<HTMLInputElement|HTMLTextAreaElement>(`#${draft.id}`); if (input) input.value = draft.value; }
     for (const draft of cashierDrafts) {
