@@ -836,10 +836,6 @@ main.view-anim-1>:not(.game-layout){animation:pna-view-b .24s ease-out backwards
 .plo-potential b{color:#e8c58b}
 .plo-fullpot{margin:6px 0 0;font-weight:800;color:#e8c58b}
 
-/* Phase 10 (fun #30): unlockable cosmetics — Midnight gold felt, Crown royal backs. */
-.felt-midnight .table-panel .felt,.felt-midnight .tournament-play .felt{background:radial-gradient(ellipse at 50% 38%,#1b2340,#0a0e1f 72%)}
-.felt-midnight .table-rail{background:linear-gradient(180deg,#23232b,#101014 60%,#070708);box-shadow:0 22px 40px #000b,inset 0 2px 0 #c9a22788,inset 0 -2px 0 #c9a22744,0 0 0 3px #c9a227}
-.felt-midnight .felt-line{border-color:#c9a22766}
-.felt-midnight .table-watermark{color:#e8c58b30}
+/* Phase 10 (fun #30): the unlockable Crown royal card backs. */
 .back-crown .playing-card.card-back{background:repeating-linear-gradient(45deg,#8a6d1f,#8a6d1f 3px,#6e5616 3px,#6e5616 5px);border-color:#e8c58b88}
 .back-crown .playing-card.card-back>span{color:#ffe9a88c}

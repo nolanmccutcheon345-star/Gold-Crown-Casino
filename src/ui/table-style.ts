@@ -5,7 +5,7 @@ import {normalizeFace,type Face} from './avatars';
 import {validPortrait} from './portraits';
 
 export const TABLE_STYLE_KEY='poker-night-ai:table-style';
-export const FELTS=[['green','Classic green'],['blue','Casino blue'],['burgundy','Burgundy'],['charcoal','Charcoal'],['casino','Casino night'],['kitchen','Kitchen table'],['midnight','Midnight gold']] as const;
+export const FELTS=[['green','Classic green'],['blue','Casino blue'],['burgundy','Burgundy'],['charcoal','Charcoal'],['casino','Casino night'],['kitchen','Kitchen table']] as const;
 export const THEMES=[['dark','Dark'],['light','Light']] as const;
 export type Theme=typeof THEMES[number][0];
 export const TEXT_SIZES=[['normal','Standard'],['large','Large'],['larger','Larger']] as const;

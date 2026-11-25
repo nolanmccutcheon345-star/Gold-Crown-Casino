@@ -1,12 +1,12 @@
 {
-  "sourceCommit": "e2861e51807161dcf39d3f03bbd3c9f52804d846",
-  "at": "2026-11-25T06:21:52.526Z",
+  "sourceCommit": "24f645e112da010f644a04ed494bb2404a6b7301",
+  "at": "2026-11-25T21:05:43.856Z",
   "node": "v24.22.1",
   "full": false,
   "paired": false,
   "totalHands": 42,
   "totalActions": 430,
-  "elapsedMs": 3519,
+  "elapsedMs": 2768,
   "referenceHashes": {
     "tests/step5b-acceptance/reference-agents.ts": "46b28d9915f50447907fc0a0176616b2328bd01dc863cc55c1fb70c99bee58fb",
     "tests/step5b-acceptance/CURRENT_BENCHMARK_PROTOCOL.md": "a3d2bd7465a360cc5aa85df6298683c1e4efd166d42b4aa7f8a6cd62f30e8243",

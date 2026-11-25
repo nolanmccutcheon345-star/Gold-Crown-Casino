@@ -1,6 +1,6 @@
 {
-  "sourceCommit": "e2861e51807161dcf39d3f03bbd3c9f52804d846",
-  "at": "2026-11-25T06:23:34.069Z",
+  "sourceCommit": "24f645e112da010f644a04ed494bb2404a6b7301",
+  "at": "2026-11-25T21:06:03.144Z",
   "runtime": {
     "node": "v24.22.1",
     "platform": "linux",
@@ -35,7 +35,7 @@
   "handsPerBlock": 2,
   "totalHands": 4,
   "actions": 55,
-  "elapsedMs": 1510,
+  "elapsedMs": 1193,
   "expected": "Every hand completes with legal actions; stable profiles, dealer movement, carry-forward stacks, separate top-up wallet debit and exact table+wallet+rake conservation.",
   "observed": "All executable assertions passed",
   "definitions": {

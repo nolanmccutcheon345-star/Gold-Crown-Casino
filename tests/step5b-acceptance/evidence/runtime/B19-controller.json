@@ -1,6 +1,6 @@
 {
   "source": "recorded by invoking run manifest",
-  "handId": "hand-18e9f51d9a457b8f9ebf044e259ea0fa",
+  "handId": "hand-7ce005447cbca35b292ebd7600f52488",
   "previousProfile": {
     "id": "pokerstars-com-usd-regular-nlhe",
     "version": "2026-11-01+cfg.5db183286d4bbca6e8f2e862bb576b7fff5ae54004889ccdcb1f13f82a914a32",
@@ -29,8 +29,8 @@
     "shortRaiseReopens": "cumulative",
     "oddChipOrder": "clockwise-from-button"
   },
-  "queuedConfigurationId": "configuration:hand-6dd55050fac5d67b7e38ccc864750a50",
-  "nextHandId": "hand-20b11cda1d7930ec8f187364ab7aa64c",
+  "queuedConfigurationId": "configuration:hand-63f6ae3ea42c2cd619b82e90dbd67ae0",
+  "nextHandId": "hand-0809e42d3255a00c5bfca4ebd9d820ee",
   "nextProfile": {
     "id": "pokerstars-com-usd-regular-nlhe",
     "version": "2026-11-01+cfg.5db183286d4bbca6e8f2e862bb576b7fff5ae54004889ccdcb1f13f82a914a32",

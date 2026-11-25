@@ -7,19 +7,19 @@
       "before": {
         "logicalSnapshotBytes": 4159845,
         "encodeDecodeAndEqualityMs": {
-          "p50": 675.1315730000006,
-          "max": 839.7396510000001
+          "p50": 499.29524200000014,
+          "max": 643.6223
         }
       },
       "after": {
         "logicalSnapshotBytes": 348443,
         "encodeDecodeAndEqualityMs": {
-          "p50": 64.68087399999968,
-          "max": 72.04394599999978
+          "p50": 48.86247899999944,
+          "max": 61.22435200000018
         }
       },
       "auditedHands": 49,
-      "auditMs": 217.02174100000047,
+      "auditMs": 176.1300600000004,
       "method": "Identical immutable complete legal check/call events, five encode/decode/equality samples in Node. Logical payload, not browser origin usage. Full canonical states retained; old expanded frames supported."
     },
     {
@@ -29,19 +29,19 @@
       "before": {
         "logicalSnapshotBytes": 8431902,
         "encodeDecodeAndEqualityMs": {
-          "p50": 1374.7123189999984,
-          "max": 1447.1406109999998
+          "p50": 1011.6547820000005,
+          "max": 1084.869318000001
         }
       },
       "after": {
         "logicalSnapshotBytes": 521572,
         "encodeDecodeAndEqualityMs": {
-          "p50": 86.35607999999957,
-          "max": 89.06530899999962
+          "p50": 73.56730600000083,
+          "max": 81.67384800000036
         }
       },
       "auditedHands": 59,
-      "auditMs": 403.4680499999995,
+      "auditMs": 381.0978130000003,
       "method": "Identical immutable complete legal check/call events, five encode/decode/equality samples in Node. Logical payload, not browser origin usage. Full canonical states retained; old expanded frames supported."
     }
   ]

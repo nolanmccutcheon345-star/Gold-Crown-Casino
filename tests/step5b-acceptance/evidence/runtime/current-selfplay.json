@@ -1,7 +1,7 @@
 {
-  "sourceCommit": "e2861e51807161dcf39d3f03bbd3c9f52804d846",
+  "sourceCommit": "24f645e112da010f644a04ed494bb2404a6b7301",
   "node": "v24.22.1",
-  "at": "2026-11-25T06:22:51.665Z",
+  "at": "2026-11-25T21:05:55.798Z",
   "policy": "synthetic-cash-1.6.0",
   "completedHands": 96,
   "actions": 236,

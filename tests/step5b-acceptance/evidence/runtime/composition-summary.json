@@ -1,12 +1,12 @@
 {
-  "sourceCommit": "e2861e51807161dcf39d3f03bbd3c9f52804d846",
+  "sourceCommit": "24f645e112da010f644a04ed494bb2404a6b7301",
   "runtime": "synthetic-cash-1.6.0",
   "node": "v24.22.1",
-  "at": "2026-11-25T06:22:08.303Z",
+  "at": "2026-11-25T21:05:49.853Z",
   "full": false,
   "completedHands": 24,
   "decisions": 266,
-  "elapsedMs": 3165,
+  "elapsedMs": 2415,
   "focusProfile": {
     "archetype": "stronger-reg",
     "policyVersion": "synthetic-cash-1.6.0",

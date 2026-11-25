@@ -1,7 +1,7 @@
 {
   "format": "step5c-F10-independent-river-v1",
-  "sourceCommit": "e2861e51807161dcf39d3f03bbd3c9f52804d846",
-  "at": "2026-11-25T06:20:44.264Z",
+  "sourceCommit": "24f645e112da010f644a04ed494bb2404a6b7301",
+  "at": "2026-11-25T21:05:20.733Z",
   "runtime": {
     "node": "v24.22.1",
     "platform": "linux",
@@ -20,7 +20,7 @@
   },
   "expected": "All8192 sampled decisions legal; positive average strong-minus-weak utility is a separate measured hypothesis, not forced by a test output target.",
   "legalDecisions": 8192,
-  "elapsedMs": 6114,
+  "elapsedMs": 4876,
   "averageDifferenceCents": 192.06947090835214,
   "averageDifferenceByRange": {
     "valueHeavy": 179.20766379137498,
