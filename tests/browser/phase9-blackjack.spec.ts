@@ -6,6 +6,7 @@ import { expect, test } from '@playwright/test';
 
 test('Blackjack: first chip sets the bet; settlement text names only real components', async ({ page }) => {
   await page.goto('/');
+  await page.locator('.app-header [data-view="live"]').click();
   await page.locator('.subnav:not([hidden]) [data-view="blackjack"]').first().click();
   await page.locator('#blackjack-sit').click();
   await expect(page.locator('#bj-deal')).toBeVisible();

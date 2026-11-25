@@ -265,3 +265,15 @@
      (blackjack's Clear / Rebet / Deal) hid behind the bottom nav, untappable. */
   .app-shell .t-action-panel{bottom:calc(64px + env(safe-area-inset-bottom))}
 }
+
+/* ---- Phase 9 (F-04): one phone nav, and a subnav that shows it scrolls ----
+   Phone portrait gets ONE main navigation: the bottom bar. The Phase 6 header
+   tab row duplicated it button-for-button, so it is hidden in portrait; it
+   remains the nav in landscape, where no bottom bar exists. The subnav strip
+   fades at its right edge on phones so it reads as scrollable. */
+@media (max-width:767px) and (orientation:portrait){
+  .app-shell .app-header nav{display:none}
+}
+@media (max-width:767px){
+  .subnav:not(.subnav-overlay){-webkit-mask-image:linear-gradient(90deg,#000 93%,transparent);mask-image:linear-gradient(90deg,#000 93%,transparent)}
+}

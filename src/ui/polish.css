@@ -803,3 +803,8 @@ main.view-anim-1>:not(.game-layout){animation:pna-view-b .24s ease-out backwards
 .quick-answers{margin-bottom:0}
 .quick-answers-label{flex-basis:100%;text-align:center;font-size:12px;opacity:.8}
 .answer-btn{border-color:#e8c58b88;background:#e8c58b1f}
+
+/* Phase 9 (F-06): when it is not the hero's turn, the betting cluster steps back so
+   the table reads as waiting; the pre-action tools (Check/Fold, Skip) are not in
+   these containers and stay fully lit — they are the live controls then. */
+.action-panel.waiting .action-buttons,.action-panel.waiting .raise-controls{opacity:.45}

@@ -8,6 +8,7 @@ import { expect, test } from '@playwright/test';
 test('Omaha: Sit down seats you at a four-card table', async ({ page }) => {
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
+  await page.locator('.app-header [data-view="live"]').click();
   await page.locator('.subnav:not([hidden]) [data-view="omaha"]').first().click();
   await expect(page.getByTestId('plo')).toBeVisible();
   await page.locator('[data-plo-stakes="1-2"]').click();
@@ -20,6 +21,7 @@ test('Omaha: Sit down seats you at a four-card table', async ({ page }) => {
 test('Heads-up: Challenge starts a match against the first rung', async ({ page }) => {
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
+  await page.locator('.app-header [data-view="live"]').click();
   await page.locator('.subnav:not([hidden]) [data-view="heads-up"]').first().click();
   await expect(page.getByTestId('heads-up')).toBeVisible();
   await page.locator('[data-hu-rung="0"]').click();
