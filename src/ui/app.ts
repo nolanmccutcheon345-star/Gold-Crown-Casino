@@ -2399,6 +2399,8 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     root.querySelectorAll<HTMLButtonElement>('[data-slot-machine]').forEach(b => b.addEventListener('click', () => { slotsPlayer.open(b.dataset.slotMachine!); render(); const scroller = document.scrollingElement; if (scroller) scroller.scrollTop = 0; }, live));
     on('#slots-back', slotDo(() => slotsPlayer.back()));
     root.querySelectorAll<HTMLButtonElement>('[data-slot-bet]').forEach(b => b.addEventListener('click', slotDo(() => slotsPlayer.setBet(Number(b.dataset.slotBet))), live));
+    /* Phase 10 (P10-F05): the paytable's own bet-size switcher — view-only. */
+    root.querySelectorAll<HTMLButtonElement>('[data-slot-paybet]').forEach(b => b.addEventListener('click', () => { if (slotsUi.machine) { slotsUi.payBet[slotsUi.machine] = Number(b.dataset.slotPaybet); render(); } }, live));
     on('#slots-spin', () => { if (slotsUi.phase === 'idle' || slotsUi.phase === 'done') slotsUi.auto = 0; slotsPlayer.press(); });
     on('#slots-slam', () => slotsPlayer.slam());
     on('#slots-skip', () => slotsPlayer.skip());

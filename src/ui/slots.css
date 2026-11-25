@@ -150,6 +150,14 @@ button.slot-chest:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 
 .slot-wheel-disc span{position:absolute;left:50%;top:50%;transform-origin:0 0;rotate:calc((var(--i) + .5) * 360deg / var(--n) - 90deg);translate:0 -50%;padding-left:46%;font:900 15px/1 Impact,'Arial Black',sans-serif;color:#fff;text-shadow:0 1px 2px #000,0 0 4px #000}
 .slot-wheel-pointer{position:absolute;left:50%;top:-10px;translate:-50% 0;width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:24px solid #ffe14a;filter:drop-shadow(0 2px 2px #000);z-index:2}
 /* Paytable. */
+/* Phase 10 (P10-F05/F06): the paytable's bet-size switcher and dollar awards table. */
+.slot-paybets{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0}
+.slot-paybets>span{font-size:13px;color:#c9d6cf}
+.slot-paybets small{flex:1 1 100%;color:#c9b88f;font-size:12px}
+.slot-paybet{min-height:36px;padding:4px 12px;border:1px solid #425048;border-radius:18px;background:#1a2a27;color:#dbe6dc;font:inherit;font-size:13px;cursor:pointer}
+.slot-paybet.selected{border-color:#e8c58b;background:#2c2413;color:#ffe9b0;font-weight:700}
+.slot-awards-head{margin:14px 0 6px;font-size:15px;color:#ecdbb7}
+.slot-awards td:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .slot-pays td:first-child{display:flex;align-items:center;gap:8px}
 .slot-pays .slot-sym{width:34px;height:34px;flex:0 0 auto}
 .pay-name{font-size:12px;color:#c8d6cf}

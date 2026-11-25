@@ -8,6 +8,9 @@ import type {AutoPlan} from './play';
 import {AUTO_COUNTS,LOSS_LIMITS,winTier} from './play';
 
 export interface SlotsUi {machine:string|null;bet:Record<string,number>;
+ /** Phase 10 (P10-F05): the bet size the paytable is VIEWING, per machine. View-only:
+  * it never changes the bet a spin is placed at. */
+ payBet:Record<string,number>;
  /** Patch 98: what the player at the next machine just said. */
  neighbour?:{name:string;text:string;spin:number}|null;
  phase:'idle'|'spinning'|'cascade'|'free'|'hold'|'wheel'|'pick'|'done';
@@ -35,7 +38,7 @@ export interface SlotsUi {machine:string|null;bet:Record<string,number>;
  /** Patch 103: starred machines (kept on this device) and how the floor is sorted. */
  favs:string[];sort:SlotSort;}
 export type SlotSort='floor'|'played'|'payback'|'calm';
-export const freshSlotsUi=():SlotsUi=>({machine:null,bet:{},phase:'idle',stopped:0,step:0,result:null,pending:0,auto:0,error:'',notice:'',picked:[],turbo:false,overlay:null,lineIndex:-1,anticipate:[],autoOpen:false,autoPlan:{count:25,stopFeature:true,stopBig:true,lossLimit:0},autoStart:0,session:{spins:0,wagered:0,won:0,best:0,features:0,recent:[]},gamble:null,gambleTaken:false,floor:'all',favs:[],sort:'floor'});
+export const freshSlotsUi=():SlotsUi=>({machine:null,bet:{},payBet:{},phase:'idle',stopped:0,step:0,result:null,pending:0,auto:0,error:'',notice:'',picked:[],turbo:false,overlay:null,lineIndex:-1,anticipate:[],autoOpen:false,autoPlan:{count:25,stopFeature:true,stopBig:true,lossLimit:0},autoStart:0,session:{spins:0,wagered:0,won:0,best:0,features:0,recent:[]},gamble:null,gambleTaken:false,floor:'all',favs:[],sort:'floor'});
 /** Decorative machine-specific commissioned artwork. Reels and payouts remain live DOM. */
 export function slotCabinetArt(machineId:string,large=false):string {
  if(!MACHINES.some(m=>m.id===machineId))return '';
@@ -47,6 +50,22 @@ export const smallestBet=()=>Math.min(...MACHINES.flatMap(m=>m.bets));
 export function betFor(m:Machine,ui:SlotsUi,balance:number):number {
  const chosen=ui.bet[m.id];if(chosen!==undefined&&m.bets.includes(chosen))return chosen;
  return [...m.bets].reverse().find(b=>b<=Math.max(m.bets[0],balance/40))??m.bets[0];
+}
+/** Phase 10 (P10-F09): the largest single award a machine can pay, in cents, at its max
+ * bet — computed only from the machine's own published data (line pays at the max-bet
+ * unit, the Hold & Spin Grand, the top wheel segment, the top chest prize, scatter and
+ * scatter-pay tops). Display only; the engine is untouched. */
+export function topAward(m:Machine):number {
+ const bet=m.bets.at(-1)!;
+ const unit=m.cascade?bet:m.ways?bet/m.ways.betUnit:bet/m.lines.length;
+ let top=0;
+ for(const p of Object.values(m.pays))top=Math.max(top,Math.max(...p)*unit);
+ if(m.coin)top=Math.max(top,m.coin.grand*bet);
+ if(m.wheel)top=Math.max(top,Math.max(...m.wheel.segments.map(s=>s.x))*bet);
+ if(m.pick)top=Math.max(top,Math.max(...m.pick.prizes.map(p=>p.x))*bet);
+ if(m.scatter)top=Math.max(top,Math.max(...Object.values(m.scatter.pays))*bet);
+ if(m.scatterPay)top=Math.max(top,Math.max(...Object.values(m.scatterPay.pays))*bet);
+ return Math.round(top);
 }
 
 export function slotsMarkup(state:SlotsState,ui:SlotsUi):string {
@@ -76,20 +95,20 @@ function lobbyMarkup(state:SlotsState,ui:SlotsUi):string {
  ${ui.floor==='fav'&&!ui.favs.length?'<p class="muted">No favourites yet. Tap the ☆ on a machine to keep it here.</p>':''}
  <ul class="slot-machines">${sortMachines(MACHINES.filter(m=>ui.floor==='fav'?ui.favs.includes(m.id):ui.floor==='all'||(ui.floor==='classic'?m.kind==='classic'||m.kind==='wheel':ui.floor==='video'?m.kind!=='classic'&&m.kind!=='wheel':m.stats.featureEvery!==null)),ui.sort,state).map(m=>{const r=state.machines[m.id];const preview=previewSymbols(m).map(s=>symbolMarkup(m,s)).join('');
   const fav=ui.favs.includes(m.id);
-  return `<li class="slot-li"><button type="button" class="slot-star${fav?' on':''}" data-slot-fav="${m.id}" aria-pressed="${fav}" aria-label="${fav?'Remove':'Add'} ${esc(m.name)} ${fav?'from':'to'} favourites">${fav?'★':'☆'}</button><button type="button" class="slot-card kind-${m.kind}" data-slot-machine="${m.id}" style="--top:${m.theme.top};--bottom:${m.theme.bottom};--glow:${m.theme.glow}"><span class="slot-card-marquee"><i class="slot-lights" aria-hidden="true"></i>${slotCabinetArt(m.id)}<b>${esc(m.name)}</b><small>${esc(m.theme.marquee)}</small></span><span class="slot-card-reels" aria-hidden="true">${preview}</span><span class="slot-card-text"><span>${esc(m.tagline)}</span><small><b>${m.rtp.toFixed(1)}%</b> payback · ${swingMeter(m)} · pays on ${Math.round(m.stats.hitRate)}% of spins${m.stats.featureEvery?` · feature ~1 in ${m.stats.featureEvery}`:''} · ${money(m.bets[0])}–${money(m.bets.at(-1)!)}${r?` · you: ${r.spins} spins, ${r.wagered?(100*r.won/r.wagered).toFixed(0):'0'}% back${r.spins>=300?' · ★ FLOOR LEGEND':r.spins>=100?' · ★ SHARP':r.spins>=25?' · ★ REGULAR':''}`:''}</small></span></button></li>`;}).join('')}</ul>
+  return `<li class="slot-li"><button type="button" class="slot-star${fav?' on':''}" data-slot-fav="${m.id}" aria-pressed="${fav}" aria-label="${fav?'Remove':'Add'} ${esc(m.name)} ${fav?'from':'to'} favourites">${fav?'★':'☆'}</button><button type="button" class="slot-card kind-${m.kind}" data-slot-machine="${m.id}" style="--top:${m.theme.top};--bottom:${m.theme.bottom};--glow:${m.theme.glow}"><span class="slot-card-marquee"><i class="slot-lights" aria-hidden="true"></i>${slotCabinetArt(m.id)}<b>${esc(m.name)}</b><small>${esc(m.theme.marquee)}</small></span><span class="slot-card-reels" aria-hidden="true">${preview}</span><span class="slot-card-text"><span>${esc(m.tagline)}</span><small><b>${m.rtp.toFixed(1)}%</b> payback · ${swingMeter(m)} · pays on ${Math.round(m.stats.hitRate)}% of spins${m.stats.featureEvery?` · feature ~1 in ${m.stats.featureEvery}`:''} · ${money(m.bets[0])}–${money(m.bets.at(-1)!)} · top award <b>${money(topAward(m))}</b>${r?` · you: ${r.spins} spins, ${r.wagered?(100*r.won/r.wagered).toFixed(0):'0'}% back${r.spins>=300?' · ★ FLOOR LEGEND':r.spins>=100?' · ★ SHARP':r.spins>=25?' · ★ REGULAR':''}`:''}</small></span></button></li>`;}).join('')}</ul>
  <details class="slots-how"><summary>How slots work</summary><p>Every spin is drawn at random and has nothing to do with the spins before it. No machine is "due", and no bet size or timing changes the odds.</p><p><b>Payback</b> is the share of all money bet that a machine returns over millions of spins. At 95%, the house keeps about 5 cents of every dollar you bet, however you play. Short sessions swing a long way either side of it, more so on machines with big swings.</p><p>This is practice with virtual chips. Your slots balance is separate from your poker and blackjack balances.</p></details>`;
 }
 /** Phase 8: a symbol's rendered art — the photographic sheet asset when this machine has one,
  * the code-drawn drawing otherwise. The blank symbol has no asset and stays blank. */
-export function symbolArt(m:Machine,artKey:string):string {
+export function symbolArt(m:Machine,artKey:string,eager=false):string {
  const img=symbolImage(m.id,artKey);
- return img?`<img class="slot-art-img" src="${img}" alt="" loading="lazy" decoding="async">`:artFor(artKey);
+ return img?`<img class="slot-art-img" src="${img}" alt="" loading="${eager?'eager':'lazy'}" decoding="async">`:artFor(artKey);
 }
-export function symbolMarkup(m:Machine,s:Sym,extra=''):string {
- if(s.startsWith('bomb:'))return `<span class="slot-sym tone-bonus slot-bomb${extra}" title="Multiplier bomb ×${s.slice(5)}">${symbolArt(m,'bomb')}<b>×${s.slice(5)}</b></span>`;
+export function symbolMarkup(m:Machine,s:Sym,extra='',eager=false):string {
+ if(s.startsWith('bomb:'))return `<span class="slot-sym tone-bonus slot-bomb${extra}" title="Multiplier bomb ×${s.slice(5)}">${symbolArt(m,'bomb',eager)}<b>×${s.slice(5)}</b></span>`;
  const d=m.symbols[s]??{label:s,art:s,tone:'low'};
  const img=symbolImage(m.id,d.art);
- return `<span class="slot-sym tone-${d.tone}${extra}" title="${esc(d.label)}"${img?` role="img" aria-label="${esc(d.label)}"`:''}>${symbolArt(m,d.art)}</span>`;
+ return `<span class="slot-sym tone-${d.tone}${extra}" title="${esc(d.label)}"${img?` role="img" aria-label="${esc(d.label)}"`:''}>${symbolArt(m,d.art,eager)}</span>`;
 }
 /** The grid to draw now: the base spin, a free spin, or a Hold & Spin frame. */
 type Shown={grid:Sym[][];wins:SpinResult['wins'];coins?:(number|null)[][];hits?:[number,number][];mults?:number[][]};
@@ -168,7 +187,7 @@ function machineMarkup(state:SlotsState,ui:SlotsUi,m:Machine):string {
  const big=!!tier;
  const i=m.bets.indexOf(bet),lower=m.bets[i-1],higher=m.bets[i+1];
  const shown=state.balance-ui.pending;
- return `<div class="slot-head"><button type="button" class="button secondary" id="slots-back" ${busy?'disabled':''}>← Machines</button><span class="slot-name"><small>${m.rtp.toFixed(1)}% payback · ${swingMeter(m)}</small><small>Pays on ${m.stats.hitRate.toFixed(0)}% of spins${m.stats.featureEvery?` · feature about 1 in ${m.stats.featureEvery}`:''} · biggest seen ${m.stats.topSeen.toLocaleString()}× bet</small></span></div>
+ return `<div class="slot-head"><button type="button" class="button secondary" id="slots-back" ${busy?'disabled':''}>← Machines</button><span class="slot-name"><small>${m.rtp.toFixed(1)}% payback · ${swingMeter(m)}</small><small>Pays on ${m.stats.hitRate.toFixed(0)}% of spins${m.stats.featureEvery?` · feature about 1 in ${m.stats.featureEvery}`:''} · biggest seen ${m.stats.topSeen.toLocaleString()}× bet</small><small>Top award <b>${money(topAward(m))}</b> at the ${money(m.bets.at(-1)!)} max bet</small></span></div>
  <div class="slot-cabinet kind-${m.kind}${big?' big-win':''}${tier==='MEGA WIN'?' mega-win':''}${tier==='EPIC WIN'?' epic-win':''}${!tier&&r&&ui.phase==='done'&&r.total>=5*r.bet?' nice-win':''}${r&&settled&&meaningfulWin?' winning':''}${ui.phase==='free'?' free-spins':''}${ui.phase!=='idle'&&ui.phase!=='done'&&ui.phase!=='spinning'?' in-feature':''}" data-testid="slot-machine" style="--top:${m.theme.top};--bottom:${m.theme.bottom};--glow:${m.theme.glow};--reels:${m.reels.length};--rows:${m.rows};--cabinet-scene:url('/casino-art/${m.id}-cinematic.webp')">
   <div class="slot-marquee"><i class="slot-lights" aria-hidden="true"></i>${slotCabinetArt(m.id,true)}<h3 style="--len:${m.name.length}">${esc(m.name)}</h3><small>${esc(m.theme.marquee)}</small></div>${ui.neighbour&&ui.machine===m.id?`<div class="slot-neighbour" data-testid="slot-neighbour" aria-live="polite"><span class="slot-nb-face" aria-hidden="true">${esc(ui.neighbour.name[0])}</span><span><b>${esc(ui.neighbour.name)}</b> <small>at the next machine</small><br>“${esc(ui.neighbour.text)}”</span></div>`:''}
   <div class="slot-window-frame"><div class="slot-window${ui.phase==='idle'||(ui.phase==='done'&&!wins.length)?' idle':''}" style="--reels:${m.reels.length};--rows:${m.rows}">${reels}${settled&&!ui.gamble?floats(m,wins,grid.length,grid[0]?.length??m.rows):''}${settled?paylines(m,wins):''}<i class="slot-glass" aria-hidden="true"></i>${ui.phase==='spinning'?'<button type="button" class="slot-slam" id="slots-slam" aria-label="Stop the reels now"></button>':''}</div>${ui.phase==='free'&&r?.free?`<div class="slot-fs-banner" data-testid="slot-fs-banner"><span>FREE SPINS</span><b>${r.free.spins.length-Math.min(ui.step,r.free.spins.length-1)} LEFT</b><span class="slot-fs-won">WON ${money(shownWin)}</span></div>`:''}${tier==='EPIC WIN'?`<span class="slot-crown-moment" aria-hidden="true">${artFor('crown')}</span><img class="slot-jackpot-burst" src="/casino-art/jackpot-celebration.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">`:''}${winBurst(tier,r,ui)}</div>
@@ -183,7 +202,7 @@ function machineMarkup(state:SlotsState,ui:SlotsUi,m:Machine):string {
  </div>
  ${ui.autoOpen&&!busy?autoMarkup(ui,state.balance):''}${sessionMarkup(ui)}
  ${state.balance<bet&&!busy?`<p class="muted">Not enough for this bet.${state.balance<smallestBet()?' <button type="button" class="button secondary" id="slots-reload">Reload $1,000 of practice chips</button>':' Pick a smaller bet.'}</p>`:''}
- ${paytableMarkup(m,bet)}
+ ${paytableMarkup(m,bet,ui)}
  <p class="muted slot-record">${rec?`You on this machine: ${rec.spins} spin${rec.spins===1?'':'s'} · bet ${money(rec.wagered)} · won ${money(rec.won)} · ${(100*rec.won/Math.max(1,rec.wagered)).toFixed(0)}% back · biggest ${money(rec.biggest)}`:'No spins here yet.'} Each spin is independent; long-run payback about ${m.rtp.toFixed(1)}%.</p>`;
 }
 const WHEEL_COLOURS=['#c0392b','#f39c12','#27ae60','#2980b9','#8e44ad','#16a085','#d35400','#2c3e50','#b03a6f'];
@@ -200,8 +219,35 @@ function pickMarkup(m:Machine,ui:SlotsUi,r:SpinResult):string {
   return `<button type="button" class="slot-chest" data-slot-pick="${i}" aria-label="Open chest ${i+1}">${symbolArt(m,'chest')}</button>`;}).join('');
  return `<div class="slot-pick" data-testid="slot-pick"><p>${done?`Your treasure: <b>${money(p.amount)}</b>. The others held what you see.`:`Pick ${p.prizes.length-ui.picked.length} more chest${p.prizes.length-ui.picked.length===1?'':'s'}.`}</p><div class="slot-chests">${cells}</div></div>`;
 }
-function paytableMarkup(m:Machine,bet:number):string {
- const row=(s:string,cells:string)=>`<tr><td>${symbolMarkup(m,s)}<span class="pay-name">${esc(m.symbols[s]?.label??s)}</span></td>${cells}</tr>`;
+/** Phase 10 (P10-F06): every jackpot and feature award as money at the displayed bet
+ * size — coin values (Mini/Minor/Major named), the Grand, each wheel segment, each
+ * chest prize, scatter pays and scatter-pay rows. All values are the multipliers
+ * already published in machines.ts times the displayed bet; display only.
+ * Multiplier bombs multiply a cascade WIN, not the bet, so they are listed as the
+ * multipliers they are rather than dressed up as dollar amounts. */
+export function featureAwardsMarkup(m:Machine,bet:number):string {
+ const rows:string[]=[];
+ if(m.coin){
+  for(const v of [...m.coin.values].sort((a,b)=>b.x-a.x))rows.push(`<tr><td>${v.name?`${v.name} coin`:'Coin'} (${v.x}× bet)</td><td>${money(Math.round(v.x*bet))}</td></tr>`);
+  rows.push(`<tr><td><b>Grand — fill all ${m.reels.length*m.rows} spaces (${m.coin.grand}× bet)</b></td><td><b>${money(m.coin.grand*bet)}</b></td></tr>`);
+ }
+ if(m.wheel)for(const s of [...m.wheel.segments].sort((a,b)=>b.x-a.x))rows.push(`<tr><td>Wheel segment (${s.x}× bet)</td><td>${money(s.x*bet)}</td></tr>`);
+ if(m.pick)for(const p of [...m.pick.prizes].sort((a,b)=>b.x-a.x))rows.push(`<tr><td>Chest prize (${p.x}× bet)</td><td>${money(Math.round(p.x*bet))}</td></tr>`);
+ if(m.scatter)for(const n of Object.keys(m.scatter.pays).map(Number).sort((a,b)=>a-b))rows.push(`<tr><td>${n} ${esc(m.symbols[m.scatter.sym]?.label.replace(/ \(.*\)/,'')??'scatter')}s anywhere (${m.scatter.pays[n]}× bet + ${m.scatter.freeSpins[n]} free spins)</td><td>${money(Math.round(m.scatter.pays[n]*bet))}</td></tr>`);
+ if(m.scatterPay)for(const n of Object.keys(m.scatterPay.pays).map(Number).sort((a,b)=>a-b))rows.push(`<tr><td>${n} ${esc(m.symbols[m.scatterPay.sym]?.label.replace(/ \(.*\)/,'')??'scatter')}s anywhere (${m.scatterPay.pays[n]}× bet)</td><td>${money(Math.round(m.scatterPay.pays[n]*bet))}</td></tr>`);
+ const bombs=m.cascade?`<p class="muted">Multiplier bombs are worth ${[...m.cascade.bomb.values].sort((a,b)=>a.x-b.x).map(v=>`×${v.x}`).join(', ')}: the bombs left on the screen add together and multiply the whole cascade win (they are multipliers of the win, not of your bet).</p>`:'';
+ const wildMult=m.wildMultiplier?`<p class="muted">A wild in a winning line multiplies that win ×${m.wildMultiplier}; two wilds in one line multiply it ×${m.wildMultiplier**2}.</p>`:'';
+ if(!rows.length&&!bombs&&!wildMult)return '';
+ return `<h4 class="slot-awards-head">Feature &amp; jackpot awards at ${money(bet)} a spin</h4>${rows.length?`<table class="deep-table slot-pays slot-awards"><tbody>${rows.join('')}</tbody></table>`:''}${bombs}${wildMult}`;
+}
+function paytableMarkup(m:Machine,bet:number,ui:SlotsUi):string {
+ /* Phase 10 (P10-F05): the paytable can be VIEWED at any of the machine's bet sizes
+  * via its own switcher, without changing the bet a spin is placed at. Payouts are
+  * pure multipliers, so this is a re-render of the same data at another size. */
+ const viewBet=ui.payBet[m.id]!==undefined&&m.bets.includes(ui.payBet[m.id])?ui.payBet[m.id]:bet;
+ const switcher=`<div class="slot-paybets" role="group" aria-label="Paytable bet size"><span>See payouts at</span>${m.bets.map(b=>`<button type="button" class="slot-paybet${b===viewBet?' selected':''}" data-slot-paybet="${b}" aria-pressed="${b===viewBet}">${money(b)}</button>`).join('')}${viewBet!==bet?`<small>Viewing only — your spin bet stays ${money(bet)}</small>`:''}</div>`;
+ bet=viewBet;
+ const row=(s:string,cells:string)=>`<tr><td>${symbolMarkup(m,s,'',true)}<span class="pay-name">${esc(m.symbols[s]?.label??s)}</span></td>${cells}</tr>`;
  let intro='',head='',body='';
  if(m.cascade){const t=m.cascade.tiers;
   intro=`Eight or more of the same gem anywhere on the screen pay, as shown. Winning gems shatter, the rest fall, and new gems drop in; this repeats while there are wins. Multiplier bombs (×2 to ×100) left on the screen at the end add together and multiply the whole cascade. ${m.scatter?`Four or more diamonds pay ${m.scatter.pays[4]}× to ${m.scatter.pays[6]}× your bet and start ${m.scatter.freeSpins[4]} free spins.`:''}`;
@@ -213,7 +259,7 @@ function paytableMarkup(m:Machine,bet:number):string {
    :`${m.lines.length} line${m.lines.length===1?'':'s'}, ${money(unit)} each. ${m.wild?`${esc(m.symbols[m.wild].label)} stands in for every symbol except bonus symbols${m.wildMultiplier?` and multiplies the win ×${m.wildMultiplier} (two of them ×${m.wildMultiplier**2})`:''}. `:''}${m.cherry?`Cherries pay anywhere on a line: one ${money(m.cherry.pays[1]*unit)}, two ${money(m.cherry.pays[2]*unit)}, three ${money(m.cherry.pays[3]*unit)}. `:''}${m.anyBar?`Any three bars ${money(m.anyBar.pay*unit)}. `:''}${m.scatter?`Three, four or five ${esc(m.symbols[m.scatter.sym].label.toLowerCase())}s anywhere pay ${m.scatter.pays[3]}×, ${m.scatter.pays[4]}× or ${m.scatter.pays[5]}× your bet and start ${m.scatter.freeSpins[3]}, ${m.scatter.freeSpins[4]} or ${m.scatter.freeSpins[5]} free spins at ${m.scatter.freeMultiplier}× pay. `:''}${m.coin?`${m.coin.trigger} or more coins start Hold &amp; Spin: coins stay, you get 3 respins and each new coin resets them to 3. Coins are worth 1× to 10× your bet, or a Mini (20×), Minor (50×) or Major (150×) jackpot; fill all 15 spaces for the Grand (${m.coin.grand}×). `:''}${m.wheel?`The wheel in the middle of the last reel spins the bonus wheel for ${Math.min(...m.wheel.segments.map(s=>s.x))}× to ${Math.max(...m.wheel.segments.map(s=>s.x))}× your bet. `:''}${m.pick?`Three treasure maps open the chest bonus: pick ${m.pick.picks} of ${m.pick.board} chests, each worth ${Math.min(...m.pick.prizes.map(x=>x.x))}× to ${Math.max(...m.pick.prizes.map(x=>x.x))}× your bet. What is in each chest is decided when the maps land; your taps only open them. `:''}${m.scatterPay?`${esc(m.symbols[m.scatterPay.sym].label.replace(/ \(.*\)/,''))}s pay anywhere on the window, as multiples of your whole bet: ${Object.entries(m.scatterPay.pays).sort((a,b)=>Number(a[0])-Number(b[0])).map(([n,x])=>`${n} pay ${x}×`).join(', ')}. They never pay on a line. `:''}${m.expandWild?`${esc(m.symbols[m.expandWild].label.replace(/ \(.*\)/,''))} expands to fill its whole reel whenever it lands, so every line through that reel can use it. `:''}`;
   head=`<th>Symbol</th>${m.reels.length===3?'<th>Three</th>':'<th>Three</th><th>Four</th><th>Five</th>'}`;
   body=Object.entries(m.pays).map(([s,p])=>row(s,p.slice(3).map(x=>`<td>${x?money(Math.round(x*unit)):'—'}</td>`).join(''))).join('');}
- return `<details class="slot-paytable" id="slot-paytable"><summary>Paytable at ${money(bet)} a spin</summary><p class="muted">${intro}</p><table class="deep-table slot-pays"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></details>`;
+ return `<details class="slot-paytable" id="slot-paytable"><summary>Paytable at ${money(bet)} a spin</summary>${switcher}<p class="muted">${intro}</p><table class="deep-table slot-pays"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>${featureAwardsMarkup(m,bet)}</details>`;
 }
 
 function overlayMarkup(ui:SlotsUi):string {
