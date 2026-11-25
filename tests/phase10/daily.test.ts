@@ -69,3 +69,18 @@ describe('hand streaks (#4)', () => {
     expect(handStreak([])).toBeNull();
   });
 });
+
+describe('heads-up pots exact net (fun #1 exact variant)', () => {
+  it('counts only pots where hero and the named opponent were the sole contributors', async () => {
+    const { headsUpPotsNet } = await import('../../src/ui/recap');
+    const mk = (net: number, seats: { id: number; name: string; totalCommitted: number }[]) => ({ net, view: { seats } } as never);
+    const hands = [
+      mk(500, [{ id: 0, name: 'You', totalCommitted: 500 }, { id: 1, name: 'Marco', totalCommitted: 500 }]),
+      mk(-300, [{ id: 0, name: 'You', totalCommitted: 300 }, { id: 1, name: 'Marco', totalCommitted: 300 }, { id: 2, name: 'Sal', totalCommitted: 100 }]),
+      mk(200, [{ id: 0, name: 'You', totalCommitted: 200 }, { id: 2, name: 'Sal', totalCommitted: 200 }]),
+      mk(-100, [{ id: 0, name: 'You', totalCommitted: 100 }, { id: 1, name: 'Marco', totalCommitted: 0 }]),
+    ];
+    expect(headsUpPotsNet(hands, 'Marco')).toEqual({ pots: 1, net: 500 });
+    expect(headsUpPotsNet(hands, 'Sal')).toEqual({ pots: 1, net: 200 });
+  });
+});

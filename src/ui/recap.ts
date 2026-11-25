@@ -41,6 +41,24 @@ export function rivalsOf(hands:readonly StoredHand[]):Rival[] {
  return [...totals].map(([name,net])=>({name,net:Math.round(net/100)*100})).filter(rival=>rival.net!==0).sort((a,b)=>Math.abs(b.net)-Math.abs(a.net));
 }
 
+/**
+ * Phase 10 (fun #1, exact variant): pots where Hero and one named opponent were the
+ * ONLY two players who put money in. In those pots Hero's hand net is exactly the
+ * amount won from or lost to that opponent — no split, no estimate. Identified from
+ * the final view's per-seat commitments (stored in every saved hand).
+ */
+export function headsUpPotsNet(hands:readonly StoredHand[],name:string):{pots:number;net:number} {
+ let pots=0,net=0;
+ for(const hand of hands){
+  const committed=hand.view.seats.filter(seat=>seat.totalCommitted>0);
+  if(committed.length!==2)continue;
+  const hero=committed.find(seat=>seat.id===0),other=committed.find(seat=>seat.id!==0);
+  if(!hero||!other||other.name!==name)continue;
+  pots++;net+=hand.net;
+ }
+ return {pots,net};
+}
+
 export function sessionRecap(data:AppData,sessionId:string):SessionRecap|null {
  const hands=data.hands.filter(hand=>hand.sessionId===sessionId).sort((a,b)=>a.number-b.number);
  if(!hands.length)return null;

@@ -819,3 +819,9 @@ main.view-anim-1>:not(.game-layout){animation:pna-view-b .24s ease-out backwards
 .session-goal .goal-set{display:inline-flex;gap:6px;align-items:center}
 .session-goal .goal-set input{width:90px;min-height:36px;padding:4px 8px;border:1px solid #425048;border-radius:6px;background:#0b171c;color:#eee}
 .trophy-room .hub-list{margin:6px 0}
+
+/* Phase 10 (fun #1): rivalry plate on the seat label — the disclosed estimate.
+   Phones keep their tuned seat geometry; the plate (and the exact heads-up-pots
+   figure) live on the player card there instead. */
+.rivalry-plate{display:block;font-size:10px;line-height:1.2;color:#e8c58b;white-space:nowrap}
+@media(max-width:700px){.rivalry-plate{display:none}}
