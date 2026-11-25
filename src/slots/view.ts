@@ -3,6 +3,7 @@ import type {Machine,SpinResult,Sym} from './engine';
 import type {SlotsState} from './state';
 import {MACHINES} from './machines';
 import {SLOT_DEFS,artFor} from './art';
+import {symbolImage} from './symbol-images';
 import type {AutoPlan} from './play';
 import {AUTO_COUNTS,LOSS_LIMITS,winTier} from './play';
 
@@ -78,10 +79,17 @@ function lobbyMarkup(state:SlotsState,ui:SlotsUi):string {
   return `<li class="slot-li"><button type="button" class="slot-star${fav?' on':''}" data-slot-fav="${m.id}" aria-pressed="${fav}" aria-label="${fav?'Remove':'Add'} ${esc(m.name)} ${fav?'from':'to'} favourites">${fav?'★':'☆'}</button><button type="button" class="slot-card kind-${m.kind}" data-slot-machine="${m.id}" style="--top:${m.theme.top};--bottom:${m.theme.bottom};--glow:${m.theme.glow}"><span class="slot-card-marquee"><i class="slot-lights" aria-hidden="true"></i>${slotCabinetArt(m.id)}<b>${esc(m.name)}</b><small>${esc(m.theme.marquee)}</small></span><span class="slot-card-reels" aria-hidden="true">${preview}</span><span class="slot-card-text"><span>${esc(m.tagline)}</span><small><b>${m.rtp.toFixed(1)}%</b> payback · ${swingMeter(m)} · pays on ${Math.round(m.stats.hitRate)}% of spins${m.stats.featureEvery?` · feature ~1 in ${m.stats.featureEvery}`:''} · ${money(m.bets[0])}–${money(m.bets.at(-1)!)}${r?` · you: ${r.spins} spins, ${r.wagered?(100*r.won/r.wagered).toFixed(0):'0'}% back`:''}</small></span></button></li>`;}).join('')}</ul>
  <details class="slots-how"><summary>How slots work</summary><p>Every spin is drawn at random and has nothing to do with the spins before it. No machine is "due", and no bet size or timing changes the odds.</p><p><b>Payback</b> is the share of all money bet that a machine returns over millions of spins. At 95%, the house keeps about 5 cents of every dollar you bet, however you play. Short sessions swing a long way either side of it, more so on machines with big swings.</p><p>This is practice with virtual chips. Your slots balance is separate from your poker and blackjack balances.</p></details>`;
 }
+/** Phase 8: a symbol's rendered art — the photographic sheet asset when this machine has one,
+ * the code-drawn drawing otherwise. The blank symbol has no asset and stays blank. */
+export function symbolArt(m:Machine,artKey:string):string {
+ const img=symbolImage(m.id,artKey);
+ return img?`<img class="slot-art-img" src="${img}" alt="" loading="lazy" decoding="async">`:artFor(artKey);
+}
 export function symbolMarkup(m:Machine,s:Sym,extra=''):string {
- if(s.startsWith('bomb:'))return `<span class="slot-sym tone-bonus slot-bomb${extra}" title="Multiplier bomb ×${s.slice(5)}">${artFor('bomb')}<b>×${s.slice(5)}</b></span>`;
+ if(s.startsWith('bomb:'))return `<span class="slot-sym tone-bonus slot-bomb${extra}" title="Multiplier bomb ×${s.slice(5)}">${symbolArt(m,'bomb')}<b>×${s.slice(5)}</b></span>`;
  const d=m.symbols[s]??{label:s,art:s,tone:'low'};
- return `<span class="slot-sym tone-${d.tone}${extra}" title="${esc(d.label)}">${artFor(d.art)}</span>`;
+ const img=symbolImage(m.id,d.art);
+ return `<span class="slot-sym tone-${d.tone}${extra}" title="${esc(d.label)}"${img?` role="img" aria-label="${esc(d.label)}"`:''}>${symbolArt(m,d.art)}</span>`;
 }
 /** The grid to draw now: the base spin, a free spin, or a Hold & Spin frame. */
 type Shown={grid:Sym[][];wins:SpinResult['wins'];coins?:(number|null)[][];hits?:[number,number][];mults?:number[][]};
@@ -168,9 +176,9 @@ function wheelMarkup(m:Machine,ui:SlotsUi):string {
 function pickMarkup(m:Machine,ui:SlotsUi,r:SpinResult):string {
  const p=r.pick!,done=ui.picked.length>=p.prizes.length,bet=r.bet;let other=0;
  const cells=Array.from({length:m.pick!.board},(_,i)=>{const k=ui.picked.indexOf(i);
-  if(k>=0)return `<span class="slot-chest open won" style="--k:${k}">${artFor('coin')}<b>${money(p.prizes[k]*bet)}</b></span>`;
-  if(done){const v=p.others[other++];return `<span class="slot-chest open missed">${artFor('chest')}<b>${money(v*bet)}</b></span>`;}
-  return `<button type="button" class="slot-chest" data-slot-pick="${i}" aria-label="Open chest ${i+1}">${artFor('chest')}</button>`;}).join('');
+  if(k>=0)return `<span class="slot-chest open won" style="--k:${k}">${symbolArt(m,'coin')}<b>${money(p.prizes[k]*bet)}</b></span>`;
+  if(done){const v=p.others[other++];return `<span class="slot-chest open missed">${symbolArt(m,'chest')}<b>${money(v*bet)}</b></span>`;}
+  return `<button type="button" class="slot-chest" data-slot-pick="${i}" aria-label="Open chest ${i+1}">${symbolArt(m,'chest')}</button>`;}).join('');
  return `<div class="slot-pick" data-testid="slot-pick"><p>${done?`Your treasure: <b>${money(p.amount)}</b>. The others held what you see.`:`Pick ${p.prizes.length-ui.picked.length} more chest${p.prizes.length-ui.picked.length===1?'':'s'}.`}</p><div class="slot-chests">${cells}</div></div>`;
 }
 function paytableMarkup(m:Machine,bet:number):string {

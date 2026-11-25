@@ -4,6 +4,8 @@
 .panel.slots>h2{font-size:21px;margin:0}
 .slots-balance{margin:0;font-size:14px;color:#c8d6cf}.slots-balance b{font-size:18px;color:#f3e3bd;margin-left:4px}
 .slot-art{display:block;width:100%;height:100%;overflow:visible}
+/* Phase 8: photographic symbol art (sliced sheets) fills the cell like the drawings did. */
+.slot-art-img{display:block;width:100%;height:100%;object-fit:cover;border-radius:8%}
 .slot-fallback{font-weight:900}
 
 /* ---------- The floor ---------- */
@@ -44,7 +46,7 @@
 @keyframes slot-ring{50%{opacity:.4}}
 .slot-sym{display:block;width:100%;height:100%;line-height:0}
 .slot-sym.tone-blank{visibility:hidden}
-.tone-wild .slot-art,.tone-bonus .slot-art{filter:drop-shadow(0 0 5px color-mix(in srgb,var(--glow,#ffcf4a) 80%,transparent))}
+.tone-wild .slot-art,.tone-bonus .slot-art,.tone-wild .slot-art-img,.tone-bonus .slot-art-img{filter:drop-shadow(0 0 5px color-mix(in srgb,var(--glow,#ffcf4a) 80%,transparent))}
 /* Spinning: a strip of symbols rolls past, blurred. */
 .slot-reel.spinning{display:block}
 .slot-strip{display:grid;gap:3px;animation:slot-roll .16s linear infinite;filter:blur(2.6px) saturate(.8)}
@@ -123,7 +125,7 @@
 .slot-chests{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .slot-chest{position:relative;aspect-ratio:1/1;display:grid;place-items:center;padding:8%;border:0;border-radius:12px;background:radial-gradient(circle at 50% 40%,#1f5a6a,#08242e);box-shadow:inset 0 0 0 2px #e8c58b55,0 4px 8px #0008;cursor:pointer;transition:transform .15s}
 button.slot-chest:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 0 0 0 2px #ffe9a8,0 0 16px #4adfd0}
-.slot-chest .slot-art{width:100%;height:100%}
+.slot-chest .slot-art,.slot-chest .slot-art-img{width:100%;height:100%}
 .slot-chest b{position:absolute;inset:auto 0 6% 0;text-align:center;font:900 clamp(11px,3.4vw,16px)/1 Impact,'Arial Black',sans-serif;color:#fff;text-shadow:0 0 4px #000,0 2px 0 #000}
 .slot-chest.won{animation:slot-open .5s cubic-bezier(.3,1.6,.5,1);box-shadow:inset 0 0 0 3px #ffe14a,0 0 18px #ffe14a}
 .slot-chest.missed{opacity:.45;cursor:default}
@@ -219,13 +221,13 @@ button.slot-chest:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 
 .slot-float{position:absolute;z-index:5;translate:-50% -50%;pointer-events:none;padding:2px 8px;border-radius:10px;background:#000000b0;color:#7dff6a;font:900 clamp(12px,3.6vw,17px)/1.2 Impact,'Arial Black',sans-serif;letter-spacing:.5px;text-shadow:0 0 8px #3aff2a;box-shadow:0 0 0 1px #7dff6a66;animation:slot-float 1.6s ease-out calc(var(--i) * .18s) both}
 @keyframes slot-float{0%{opacity:0;translate:-50% 0;scale:.6}20%{opacity:1;scale:1.1}80%{opacity:1}100%{opacity:0;translate:-50% -160%}}
 /* Each kind of symbol wins in its own way. */
-.slot-cell.hit .tone-wild .slot-art{animation:slot-wild 1s ease-in-out infinite}
+.slot-cell.hit .tone-wild .slot-art,.slot-cell.hit .tone-wild .slot-art-img{animation:slot-wild 1s ease-in-out infinite}
 @keyframes slot-wild{50%{filter:drop-shadow(0 0 10px #fff3a0) brightness(1.3);scale:1.08}}
-.slot-cell.hit .tone-bonus .slot-art{animation:slot-bonus 1.4s ease-in-out infinite}
+.slot-cell.hit .tone-bonus .slot-art,.slot-cell.hit .tone-bonus .slot-art-img{animation:slot-bonus 1.4s ease-in-out infinite}
 @keyframes slot-bonus{0%{rotate:0deg}25%{rotate:-8deg}75%{rotate:8deg}100%{rotate:0deg}}
-.slot-cell.hit .tone-high .slot-art{animation:slot-flare 1s ease-in-out infinite}
+.slot-cell.hit .tone-high .slot-art,.slot-cell.hit .tone-high .slot-art-img{animation:slot-flare 1s ease-in-out infinite}
 @keyframes slot-flare{50%{filter:brightness(1.35) drop-shadow(0 0 8px #ffb347)}}
-.slot-cell.hit .tone-mid .slot-art,.slot-cell.hit .tone-low .slot-art{animation:slot-bob 1s ease-in-out infinite}
+.slot-cell.hit .tone-mid .slot-art,.slot-cell.hit .tone-low .slot-art,.slot-cell.hit .tone-mid .slot-art-img,.slot-cell.hit .tone-low .slot-art-img{animation:slot-bob 1s ease-in-out infinite}
 @keyframes slot-bob{50%{translate:0 -6%}}
 .kind-cascade .slot-cell.hit::before,.kind-pick .slot-cell.hit::before{content:'✦';position:absolute;right:8%;top:4%;z-index:2;color:#fff;font-size:clamp(10px,3vw,16px);text-shadow:0 0 6px #fff;animation:slot-twinkle .8s ease-in-out infinite}
 @keyframes slot-twinkle{50%{opacity:.2;scale:.6}}
@@ -255,8 +257,8 @@ button.slot-chest:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 
 .gamble-collect{width:min(100%,320px)}
 .gamble-history{display:flex;gap:4px;min-height:22px}.gamble-history span{font-size:12px;font-weight:700;padding:2px 6px;border-radius:6px;background:#ffffff14}.gamble-history .won{color:#8ff0b8}.gamble-history .lost{color:#ff8a8a}
 .slot-gamble>small{font-size:11px;text-align:center}
-@media (prefers-reduced-motion:reduce){.slot-reel:not(.spinning),.slot-window.idle::after,.slot-float,.slot-cell.hit .slot-art,.slot-cell.hit::before,.slot-cabinet.winning .slot-marquee h3,.slot-key.gamble,.gamble-card{animation:none!important}}
-.motion-off :is(.slot-reel,.slot-window.idle::after,.slot-float,.slot-cell.hit .slot-art,.slot-cell.hit::before,.slot-marquee h3,.slot-key.gamble,.gamble-card){animation:none!important}
+@media (prefers-reduced-motion:reduce){.slot-reel:not(.spinning),.slot-window.idle::after,.slot-float,.slot-cell.hit .slot-art,.slot-cell.hit .slot-art-img,.slot-cell.hit::before,.slot-cabinet.winning .slot-marquee h3,.slot-key.gamble,.gamble-card{animation:none!important}}
+.motion-off :is(.slot-reel,.slot-window.idle::after,.slot-float,.slot-cell.hit .slot-art,.slot-cell.hit .slot-art-img,.slot-cell.hit::before,.slot-marquee h3,.slot-key.gamble,.gamble-card){animation:none!important}
 .slot-keys{flex-wrap:wrap;justify-content:center}
 .slot-cabinet,.slot-deck{min-width:0}
 @media (max-width:440px){.slot-deck{grid-template-columns:1fr auto!important;grid-template-areas:'bet spin' 'keys keys'!important}.slot-bet-step{grid-area:bet}.slot-deck .slot-keys{grid-area:keys;justify-self:stretch;justify-content:space-between}.slot-deck .slot-spin-button{grid-area:spin}.slot-keys .slot-key.small{flex:1 1 0;min-width:0}}
