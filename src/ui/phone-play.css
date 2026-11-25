@@ -260,4 +260,8 @@
      on phone portrait — Deal / Spin / Start sat under the nav at rest. Raise it the
      same way as the poker action panel. */
   .cz-game .cz-actions{bottom:calc(72px + env(safe-area-inset-bottom))}
+  /* Phase 9 (F-15): the shared table action panel (.t-action-panel — blackjack and
+     tournaments) was missed by the Phase 6 raise: pinned at bottom:0, its last row
+     (blackjack's Clear / Rebet / Deal) hid behind the bottom nav, untappable. */
+  .app-shell .t-action-panel{bottom:calc(64px + env(safe-area-inset-bottom))}
 }

@@ -19,6 +19,11 @@ export class BlackjackLiveUI {
  readonly controller: BlackjackController;
  private started = false;
  private draft = 0;
+ /* Phase 9 (F-07): the draft starts as an untouched pre-fill (the table minimum).
+    The first chip the player taps SETS the bet to that chip; later taps add. Only a
+    programmatic pre-fill (sit, Change bet) leaves this false — typing, clearing,
+    rebetting and any chip tap all count as the player building the bet. */
+ private draftSet = false;
  private changingBet = false;
  private coach = false;
  private showHint = false;
@@ -80,7 +85,11 @@ export class BlackjackLiveUI {
   if(!state) return `Blackjack balance ${dollars(c.data?.balance??0)}. Choose a table.`;
   const round=state.round;
   if(!round||this.changingBet) return `${c.table?.name}. Place your bet. Balance ${dollars(state.balance)}.`;
-  if(round.phase==='settled') return `Round complete. Net ${dollars(round.net??0)}, including ante and insurance. Balance ${dollars(state.balance)}.`;
+  if(round.phase==='settled'){ /* Phase 9 (F-07): name only the components that actually applied. */
+   const parts:string[]=[];
+   if(state.ante)parts.push(`after the ${dollars(state.ante)} ante`);
+   if(round.insuranceBet)parts.push(`insurance: ${dollars(round.insuranceBet)} bet, ${dollars(round.insuranceReturn)} returned`);
+   return `Round complete. Net ${dollars(round.net??0)}${parts.length?` — ${parts.join('; ')}`:''}. Balance ${dollars(state.balance)}.`;}
   return round.phase==='insurance'?'Dealer shows an ace. Choose insurance or decline.':`Your turn, hand ${round.actor+1} of ${round.hands.length}. Total ${round.hands[round.actor].total}. Dealer shows ${round.dealer[0]}.`;
  }
  /** Patch 80: what the sounds react to: cards shown so far, the shoe, and your result once the round is shown settled. */
@@ -176,20 +185,20 @@ export class BlackjackLiveUI {
    let target=top.getBoundingClientRect().top+scrollY-6;const panel=root.querySelector<HTMLElement>('.t-action-panel'),hand=root.querySelector<HTMLElement>('.bj-hand.acting')??root.querySelector<HTMLElement>('.bj-hand');
    if(panel&&hand&&getComputedStyle(panel).position==='fixed'){const over=hand.getBoundingClientRect().bottom+scrollY-target-(panel.getBoundingClientRect().top-12);if(over>0)target+=over;}
    scrollTo({top:Math.max(0,target),behavior});};
-  on('#blackjack-sit',()=>{this.pace=lobby.pace;this.draft=BLACKJACK_TABLES.find(t=>t.id===lobby.tableId)!.minBet;this.changingBet=false;this.review='';void run(()=>c.sit(lobby.tableId,lobby.ante,{others:lobby.others,heroSeat:lobby.heroSeat})).then(showFelt);});
+  on('#blackjack-sit',()=>{this.pace=lobby.pace;this.draft=BLACKJACK_TABLES.find(t=>t.id===lobby.tableId)!.minBet;this.draftSet=false;this.changingBet=false;this.review='';void run(()=>c.sit(lobby.tableId,lobby.ante,{others:lobby.others,heroSeat:lobby.heroSeat})).then(showFelt);});
   on('#bj-leave',()=>{void run(()=>c.leave());});
   on('#bj-skip',()=>this.finishReveal());
   root.querySelector<HTMLSelectElement>('#bj-pace')?.addEventListener('change',event=>{this.pace=(event.currentTarget as HTMLSelectElement).value as TablePace;this.render();root.querySelector<HTMLElement>('#bj-pace')?.focus({preventScroll:true});},{signal});
   /* After a reveal, nudge the page only if your hand ended up under the pinned controls. */
   this.onRevealEnd=()=>{const panel=root.querySelector<HTMLElement>('.t-action-panel'),hand=root.querySelector<HTMLElement>('.bj-hand.acting')??root.querySelector<HTMLElement>('.bj-hand');if(panel&&hand&&getComputedStyle(panel).position==='fixed'&&hand.getBoundingClientRect().bottom>panel.getBoundingClientRect().top-12)showFelt();focus();};
   on('#bj-retry',()=>{void run(()=>c.retry());});
-  on('#bj-clear',()=>{this.draft=0;this.render();});
-  on('#bj-rebet',()=>{const state=c.publicState;if(state&&c.table){this.draft=liveBlackjackView(state,c.table,c.session,c.seen,0,false).lastBet;this.render();}});
+  on('#bj-clear',()=>{this.draft=0;this.draftSet=true;this.render();});
+  on('#bj-rebet',()=>{const state=c.publicState;if(state&&c.table){this.draft=liveBlackjackView(state,c.table,c.session,c.seen,0,false).lastBet;this.draftSet=true;this.render();}});
   const deal=(rebet:boolean)=>{if(this.reveal||this.closed)return;const state=c.publicState;if(!state||!c.table)return;this.mistake=null;const amount=rebet?liveBlackjackView(state,c.table,c.session,c.seen,0,false).lastBet:this.draft;this.changingBet=false;this.showHint=false;this.pending=pacedFrom();void run(()=>c.deal(amount,revision)).then(showFelt);};
   on('#bj-deal',()=>deal(false));on('#bj-rebet-deal',()=>deal(true));
-  on('#bj-new-bet',()=>{this.changingBet=true;this.draft=c.table?.minBet??0;this.render();focus();});
-  root.querySelectorAll<HTMLButtonElement>('[data-blackjack-chip]').forEach(el=>el.addEventListener('click',()=>{this.draft+=Number(el.dataset.blackjackChip);this.render();},{signal}));
-  root.querySelector<HTMLInputElement>('#bj-bet-amount')?.addEventListener('input',event=>{const value=(event.currentTarget as HTMLInputElement).value;this.draft=value===''?0:Number(value)*100;this.render();},{signal});
+  on('#bj-new-bet',()=>{this.changingBet=true;this.draft=c.table?.minBet??0;this.draftSet=false;this.render();focus();});
+  root.querySelectorAll<HTMLButtonElement>('[data-blackjack-chip]').forEach(el=>el.addEventListener('click',()=>{const chip=Number(el.dataset.blackjackChip);if(this.draftSet)this.draft+=chip;else{this.draft=chip;this.draftSet=true;}this.render();},{signal}));
+  root.querySelector<HTMLInputElement>('#bj-bet-amount')?.addEventListener('input',event=>{const value=(event.currentTarget as HTMLInputElement).value;this.draft=value===''?0:Number(value)*100;this.draftSet=true;this.render();},{signal});
   root.querySelectorAll<HTMLButtonElement>('[data-blackjack-action]').forEach(el=>el.addEventListener('click',()=>act(el.dataset.blackjackAction as BlackjackPlay),{signal}));
   on('#bj-insurance-no',()=>act('decline-insurance'));on('#bj-insurance-yes',()=>act(c.publicState?.legalActions.includes('even-money')?'even-money':'insurance'));
   const refocus=(selector:string)=>root.querySelector<HTMLElement>(selector)?.focus({preventScroll:true});
