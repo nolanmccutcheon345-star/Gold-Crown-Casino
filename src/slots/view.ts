@@ -203,7 +203,17 @@ function machineMarkup(state:SlotsState,ui:SlotsUi,m:Machine):string {
  ${ui.autoOpen&&!busy?autoMarkup(ui,state.balance):''}${sessionMarkup(ui)}
  ${state.balance<bet&&!busy?`<p class="muted">Not enough for this bet.${state.balance<smallestBet()?' <button type="button" class="button secondary" id="slots-reload">Reload $1,000 of practice chips</button>':' Pick a smaller bet.'}</p>`:''}
  ${paytableMarkup(m,bet,ui)}
- <p class="muted slot-record">${rec?`You on this machine: ${rec.spins} spin${rec.spins===1?'':'s'} · bet ${money(rec.wagered)} · won ${money(rec.won)} · ${(100*rec.won/Math.max(1,rec.wagered)).toFixed(0)}% back · biggest ${money(rec.biggest)}`:'No spins here yet.'} Each spin is independent; long-run payback about ${m.rtp.toFixed(1)}%.</p>`;
+ <p class="muted slot-record">${rec?`You on this machine: ${rec.spins} spin${rec.spins===1?'':'s'} · bet ${money(rec.wagered)} · won ${money(rec.won)} · ${(100*rec.won/Math.max(1,rec.wagered)).toFixed(0)}% back · biggest ${money(rec.biggest)}`:'No spins here yet.'} Each spin is independent; long-run payback about ${m.rtp.toFixed(1)}%.</p>${bonusWatchMarkup(state,m)}`;
+}
+/** Phase 10 (fun #15, BONUS WATCH — the honest replacement for a feature-tease meter):
+ * spins since your last feature on this machine, and features hit vs the count expected
+ * at the machine's published rate, over the spins this counter has seen. History only:
+ * triggers are independent random events, so nothing here fills up or comes due. */
+export function bonusWatchMarkup(state:SlotsState,m:Machine):string {
+ const w=state.watch?.[m.id],every=m.stats.featureEvery;
+ if(!w||!every||!w.spins)return '';
+ const expected=w.spins/every;
+ return `<p class="muted slot-watch" data-testid="slot-bonus-watch">Bonus watch (counting since this counter began): <b>${w.since} spin${w.since===1?'':'s'}</b> since your last feature here · <b>${w.hits} feature${w.hits===1?'':'s'}</b> in ${w.spins} counted spins, against about ${expected<10?expected.toFixed(1):Math.round(expected)} expected at this machine's published rate of 1 in ${every}. History only — every spin is independent and no feature is ever due.</p>`;
 }
 const WHEEL_COLOURS=['#c0392b','#f39c12','#27ae60','#2980b9','#8e44ad','#16a085','#d35400','#2c3e50','#b03a6f'];
 function wheelMarkup(m:Machine,ui:SlotsUi):string {

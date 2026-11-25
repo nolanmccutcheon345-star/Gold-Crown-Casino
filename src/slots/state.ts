@@ -6,9 +6,16 @@ import {spin,secureRandom} from './engine';
 export const SLOTS_KEY='poker-night-ai:slots';
 export const SLOTS_START=100000;
 export interface MachineRecord {spins:number;wagered:number;won:number;biggest:number;features:number}
+/** Phase 10 (fun #15, BONUS WATCH): per-machine feature history — spins since the last
+ * bonus feature, features hit, and spins counted. A history counter only: it starts
+ * when this field first appears in a save and is labelled as such wherever shown.
+ * It never implies a feature is due; every spin is independent. */
+export interface MachineWatch {since:number;hits:number;spins:number}
 export interface SlotsState {balance:number;reloads:number;machines:Record<string,MachineRecord>;recent:{machine:string;bet:number;total:number;at:string}[];
  /** Patch 93: double-up gambles, kept apart from the machines' own records. */
- gamble?:{rounds:number;wagered:number;won:number}}
+ gamble?:{rounds:number;wagered:number;won:number};
+ /** Phase 10: bonus-watch counters per machine (absent until the first spin after the update). */
+ watch?:Record<string,MachineWatch>}
 export const freshSlots=():SlotsState=>({balance:SLOTS_START,reloads:0,machines:{},recent:[]});
 const cents=(n:unknown)=>Number.isSafeInteger(n)&&(n as number)>=0;
 export function checkSlots(value:unknown):SlotsState {
@@ -16,7 +23,8 @@ export function checkSlots(value:unknown):SlotsState {
  if(!v||typeof v!=='object'||!cents(v.balance)||!cents(v.reloads)||!v.machines||typeof v.machines!=='object'||!Array.isArray(v.recent))throw new Error('Slots save is damaged.');
  for(const r of Object.values(v.machines))if(!r||![r.spins,r.wagered,r.won,r.biggest,r.features].every(cents))throw new Error('Slots record is damaged.');
  if(v.gamble!==undefined&&(!v.gamble||![v.gamble.rounds,v.gamble.wagered,v.gamble.won].every(cents)))throw new Error('Slots gamble record is damaged.');
- return {balance:v.balance,reloads:v.reloads,machines:{...v.machines},recent:v.recent.slice(-30),...(v.gamble?{gamble:{...v.gamble}}:{})};
+ if(v.watch!==undefined){if(!v.watch||typeof v.watch!=='object')throw new Error('Slots bonus-watch record is damaged.');for(const w of Object.values(v.watch))if(!w||![w.since,w.hits,w.spins].every(cents))throw new Error('Slots bonus-watch record is damaged.');}
+ return {balance:v.balance,reloads:v.reloads,machines:{...v.machines},recent:v.recent.slice(-30),...(v.gamble?{gamble:{...v.gamble}}:{}),...(v.watch?{watch:Object.fromEntries(Object.entries(v.watch).map(([k,w])=>[k,{...w}]))}:{})};
 }
 export function readSlots(store:Pick<Storage,'getItem'>|null=globalThis.localStorage??null):{state:SlotsState;notice:string} {
  try{const raw=store?.getItem(SLOTS_KEY);return {state:raw?checkSlots(JSON.parse(raw)):freshSlots(),notice:''};}
@@ -30,7 +38,12 @@ export function playSpin(state:SlotsState,machine:Machine,bet:number,random:Rand
  const result=spin(machine,bet,random);
  const prev=state.machines[machine.id]??{spins:0,wagered:0,won:0,biggest:0,features:0};
  const record={spins:prev.spins+1,wagered:prev.wagered+bet,won:prev.won+result.total,biggest:Math.max(prev.biggest,result.total),features:prev.features+(result.free||result.hold||result.wheel?1:0)};
- return {result,state:{...state,balance:state.balance-bet+result.total,machines:{...state.machines,[machine.id]:record},recent:[...state.recent,{machine:machine.id,bet,total:result.total,at:new Date().toISOString()}].slice(-30)}};
+ /* Phase 10 (fun #15): the bonus watch counts every bonus feature the machine offers
+  * (free spins, Hold & Spin, the wheel, the chest pick) — history only, never a meter. */
+ const featureHit=!!(result.free||result.hold||result.wheel||result.pick);
+ const pw=state.watch?.[machine.id]??{since:0,hits:0,spins:0};
+ const watch={...(state.watch??{}),[machine.id]:{since:featureHit?0:pw.since+1,hits:pw.hits+(featureHit?1:0),spins:pw.spins+1}};
+ return {result,state:{...state,balance:state.balance-bet+result.total,machines:{...state.machines,[machine.id]:record},watch,recent:[...state.recent,{machine:machine.id,bet,total:result.total,at:new Date().toISOString()}].slice(-30)}};
 }
 /** Practice money: when the balance cannot cover the smallest bet anywhere, it can be topped back up to $1,000. */
 export function reloadSlots(state:SlotsState,smallest:number):SlotsState {
