@@ -144,3 +144,13 @@
 .home-card-main b{color:#30271c}
 .home-card-main>span:last-child{color:#4a3517}
 .home-card-main .casino-game-art{color:#584129}
+
+/* Phase 8: a slow light sheen drifts through the hero's gold headline — light moving
+ * across the lobby, nothing more. Only when the player has not asked for stillness:
+ * the no-preference gate, the global reduced-motion rule, and the app's own
+ * motion-off setting all keep it still. */
+@media (prefers-reduced-motion:no-preference){
+ .casino-home-copy h2 em{background-size:100% 230%;animation:hero-sheen 7s ease-in-out infinite}
+ @keyframes hero-sheen{0%,100%{background-position:50% 0}50%{background-position:50% 100%}}
+}
+.motion-off .casino-home-copy h2 em{animation:none!important}
