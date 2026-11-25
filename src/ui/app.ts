@@ -1689,7 +1689,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
    * the player's own session goal. Issued lazily at the first render that needs it. */
   const dailyRead = readDailyBook();
   let dailyBook: DailyBook = dailyRead.book;
-  let dailyNotice = dailyRead.notice;
+  const dailyNotice = dailyRead.notice;
   function dailyCounters(): DailyBaselines & { handsToday: number; showdownFreePotsToday: number } {
     const data = controller.data;
     const slots = slotsPlayer.state;
