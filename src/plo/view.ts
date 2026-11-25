@@ -2,6 +2,7 @@ import {idleActivity} from '../bots/table-life';
 /** Patch 74: the Omaha screen: a lobby, then the table with four cards each and pot-limit betting buttons. */
 import type {Card} from '../contracts';
 import {legalPlo,potSizes} from './engine';
+import {omahaPotential} from './potential';
 import {PLO_PLAYERS} from './bots';
 import {PLO_STAKES,type PloTable} from './table';
 import {seatSpots,actorLine} from '../ui/replayer';
@@ -65,13 +66,17 @@ function tableMarkup(t:PloTable,ui:PloUiState,d:PloDraw):string {
    <div class="plo-buttons">${sizes?`<button type="button" class="button secondary" data-plo-size="${sizes.half}">½ pot</button><button type="button" class="button secondary" data-plo-size="${sizes.pot}">Pot ${money(sizes.pot)}</button>`:''}<button type="button" class="button primary" id="plo-raise">${h.currentBet?'Raise to':'Bet'} ${money(to)}</button></div>`:''}</div>`;
  }else if(complete){
   const net=hero?hero.stack-hero.startingStack:0,broke=(a.stacks[0]??0)<=0;
-  panel=`<div class="plo-actions" data-testid="plo-result"><p class="plo-outcome"><b>${hero&&(h.payouts[0]??0)>0?`You win ${money(h.payouts[0])}`:'Hand over'}</b> · ${signed(net)}${h.labels[0]?` · ${d.esc(h.labels[0])}`:''}</p>
+  /* Phase 10 (fun #9, reduced form): the whole pot, no split — celebrated by size.
+   * This Omaha is high only; there is no low half, so it is never called a scoop. */
+  const won=h.payouts[0]??0,wholePot=won>0&&h.pots.length>0&&h.pots.every(p=>p.winners.length===1&&p.winners[0]===0)&&h.seats.some(s=>s.id!==0&&s.total>0);
+  const fullPot=wholePot&&won>=100*h.bigBlind?`<p class="plo-fullpot" data-testid="plo-full-pot">Every chip in the pot came to you: a monster ${money(won)} pot, no split.</p>`:wholePot&&won>=40*h.bigBlind?`<p class="plo-fullpot" data-testid="plo-full-pot">You took the whole pot: ${money(won)}, no split.</p>`:'';
+  panel=`<div class="plo-actions" data-testid="plo-result"><p class="plo-outcome"><b>${hero&&won>0?`You win ${money(won)}`:'Hand over'}</b> · ${signed(net)}${h.labels[0]?` · ${d.esc(h.labels[0])}`:''}</p>${fullPot}
    <div class="plo-buttons">${broke?`<button type="button" class="button primary" id="plo-rebuy">Rebuy ${money(100*a.stakes.bigBlind)}</button>`:'<button type="button" class="button primary" id="plo-next">Deal next hand</button>'}<button type="button" class="button secondary" id="plo-leave">Leave table</button></div></div>`;
  }else panel=`<div class="plo-actions"><p class="muted" role="status">${ui.thinking?`${d.esc(h.seats.find(s=>s.id===h.actor)?.name??'')} is thinking…`:'…'}</p></div>`;
  const log=h.events.filter(e=>e.kind!=='refund').slice(-8).map(e=>{const who=e.seatId===undefined?'':h.seats.find(s=>s.id===e.seatId)?.name??'';return `<li>${e.kind==='street'?`<b>${d.esc(e.text[0].toUpperCase()+e.text.slice(1))}${e.cards?.length?`: ${d.esc(e.cards.map(c=>(c[0]==='T'?'10':c[0])+({c:'♣',d:'♦',h:'♥',s:'♠'} as Record<string,string>)[c[1]]).join(' '))}`:''}</b>`:d.esc(actorLine(who,e.text.replace(/\d+/g,m=>money(Number(m))))+(e.tempo==='snap'?' (snap)':e.tempo==='tank'?' (after a long think)':''))}</li>`;}).join('');
  return `<div class="plo-head"><span class="eyebrow">${d.esc(a.stakes.label)} · HAND ${a.number}</span><span class="plo-head-tools"><label class="plo-fast" for="plo-fast"><input type="checkbox" id="plo-fast" ${ui.fast?'checked':''}> Faster</label>${complete?'':'<button type="button" class="button secondary" id="plo-leave">Leave</button>'}</span></div>
  <div class="rp-felt plo-felt plo-hand-${a.number%2?'a':'b'}" data-testid="plo-table"><span class="plo-print" aria-hidden="true">POT-LIMIT OMAHA</span><div class="rp-center"><div class="rp-board">${h.board.map(c=>d.card(c,'small-card')).join('')}</div><span class="rp-pot">${complete?'Hand complete':`Pot ${money(pot)}`}</span></div>${seats}${bets}${(ui.fly??[]).map(f=>`<span class="plo-fly ${f.kind}" id="plo-fly-${d.esc(f.id)}" aria-hidden="true" style="--fx:${f.from[0].toFixed(1)}%;--fy:${f.from[1].toFixed(1)}%;--tx:${f.to[0].toFixed(1)}%;--ty:${f.to[1].toFixed(1)}%"><i class="plo-chip"></i><i class="plo-chip"></i><i class="plo-chip"></i></span>`).join('')}</div>${ui.quickChat??''}
- ${panel}<ol class="plo-log">${log}</ol><p class="muted plo-foot">Omaha balance ${money(t.state.balance)} · at the table ${money(a.stacks[0]??0)}</p>`;
+ ${(()=>{const pot8=!complete&&hero&&!hero.folded?omahaPotential(hero.hole,h.board):null;return pot8?`<p class="plo-potential" data-testid="plo-potential">You hold <b>${d.esc(pot8.made)}</b>${pot8.draws.length?` · drawing to: <b>${d.esc(pot8.draws.join(' + '))}</b>`:''}</p>`:'';})()}${panel}<ol class="plo-log">${log}</ol><p class="muted plo-foot">Omaha balance ${money(t.state.balance)} · at the table ${money(a.stacks[0]??0)}</p>`;
 }
 
 /** Patch 82: where chips fly when bets are gathered into the pot, and when the pot goes to its winners. */

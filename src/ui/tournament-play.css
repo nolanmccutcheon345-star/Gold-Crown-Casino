@@ -45,3 +45,7 @@
  .t-action-title>span:not(.t-hero-cards){font-size:13px}
 }
 .t-pot-list:empty{display:none}.tournament-table .pot-display span{font-size:12px}
+
+/* Phase 10 (fun #5): final-table theatre — the rail and felt take the gold light. */
+.tournament-table .table-scene.final-table .table-rail{box-shadow:0 0 0 2px #c9a227,0 0 34px #c9a22766,0 18px 40px #000a}
+.tournament-table .table-scene.final-table .table-watermark{color:#c9a227;opacity:.5}

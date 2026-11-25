@@ -49,7 +49,7 @@ export function durationText(ms:number):string {
 }
 
 /** Tournament milestones Hero can reach during an event. */
-export interface TournamentFlags {itm:boolean;finalTable:boolean;won:boolean}
+export interface TournamentFlags {itm:boolean;finalTable:boolean;won:boolean;bubble:boolean;bubbleBust:boolean}
 export function tournamentFlags(view:TournamentView):TournamentFlags {
  const alive=view.status==='running'&&!!view.hero;
  return {
@@ -57,6 +57,10 @@ export function tournamentFlags(view:TournamentView):TournamentFlags {
   itm:alive&&!view.registration?.open&&view.placesPaid>0&&view.playersLeft<=view.placesPaid,
   finalTable:alive&&view.entrants>9&&view.finalTable,
   won:view.result?.place===1,
+  // Phase 10 (fun #6): the bubble itself — one player between the field and the money,
+  // and Hero finishing in exactly that spot.
+  bubble:alive&&!view.registration?.open&&view.placesPaid>0&&view.playersLeft===view.placesPaid+1,
+  bubbleBust:view.placesPaid>0&&view.result?.place===view.placesPaid+1,
  };
 }
 /** A moment only when a flag turns on during the same event, so reopening the page does not replay it. */
@@ -65,6 +69,8 @@ export function tournamentMoment(prev:TournamentFlags|null,next:TournamentFlags,
  if(next.won&&!prev.won)return {kind:'win',title:'Champion',detail:`You won ${view.eventName}${view.result&&view.result.prize>0?` · ${format(view.result.prize)}`:''}.`};
  if(next.finalTable&&!prev.finalTable)return {kind:'win',title:'Final table',detail:`${view.playersLeft} players left.`};
  if(next.itm&&!prev.itm){const min=view.ladder[view.playersLeft-1];return {kind:'win',title:'In the money',detail:min?`Every player left is paid at least ${format(min)}.`:'Every player left is paid.'};}
+ if(next.bubbleBust&&!prev.bubbleBust)return {kind:'bust',title:'Out on the bubble',detail:`You finished ${view.result?.place}th — one spot from the money.`};
+ if(next.bubble&&!prev.bubble)return {kind:'win',title:'On the bubble',detail:`${view.playersLeft} players left and ${view.placesPaid} get paid. The next player out gets nothing.`};
  return null;
 }
 

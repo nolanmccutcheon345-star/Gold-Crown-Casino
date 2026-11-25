@@ -830,3 +830,8 @@ main.view-anim-1>:not(.game-layout){animation:pna-view-b .24s ease-out backwards
 .bj-quests{list-style:none;margin:6px 0;padding:0;display:grid;gap:3px;font-size:13px}
 .bj-quests li.done{color:#8fd18a}
 .bj-quests small{color:var(--muted,#b8ab8d)}
+
+/* Phase 10 (fun #8/#9): Omaha potential and whole-pot lines. */
+.plo-potential{margin:8px 0 0;font-size:14px}
+.plo-potential b{color:#e8c58b}
+.plo-fullpot{margin:6px 0 0;font-weight:800;color:#e8c58b}
