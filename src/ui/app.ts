@@ -15,8 +15,9 @@ import { findLeaks, leakTrends, type Leak } from '../stats/leaks';
 import { cashResult, tournamentResult, blackjackResult, omahaResult, slotsResult, casinoResult, type GameResult } from '../stats/by-game';
 import { careerStats, slotsMachines, CAREER_GAMES, type CareerGameId, type CareerSources, type CareerStats } from '../stats/career';
 import { readStatsBook, saveStatsBook, takeSnapshot, deleteSnapshot, resetCounters, clearBaseline, cursorsFromSources, periodStats, periodArchives, type StatsBook } from '../stats/snapshots';
+import { readDailyBook, saveDailyBook, ensureDay, fixBjBaseline, setSessionGoal, localDayKey, dailyObjectives, cashToday, handStreak, type DailyBaselines, type DailyBook } from '../stats/daily';
 import { CASINO_GAMES } from '../casino/wallet';
-import { machineById } from '../slots/machines';
+import { machineById, MACHINES } from '../slots/machines';
 import { newHandId } from '../identity';
 import { readSlots, saveSlots, type GambleChoice } from '../slots/state';
 import { SlotsPlayer } from '../slots/play';
@@ -1491,7 +1492,17 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const stats = cashStats(), current = stats?.activeSession;
     const profit = current?.profit ?? 0;
     const count = current?.hands ?? 0;
-    return `<aside class="session-rail"><section class="panel session-card"><div class="small-heading"><h3>Your session</h3><span class="outline-tag">VIRTUAL</span></div><div class="wallet-summary"><span>Available bankroll</span><strong data-testid="wallet-balance">${money(controller.data?.wallet ?? 0)}</strong><button class="button secondary" id="open-cashier">Cashier / bankroll</button></div><div class="main-stat"><span>Settled session result</span><strong class="${stats?(profit > 0 ? 'positive' : profit < 0 ? 'negative' : ''):''}" data-testid="session-profit">${stats?signed(profit):'—'}</strong><small>Completed hands only · transfers excluded</small></div><div class="stat-grid"><div><span>Hands played</span><b data-testid="hand-count">${stats?count:'…'}</b></div><div><span>bb / 100</span><b>${!stats?'…':current?.bb100 == null ? '—' : current.bb100.toFixed(1)}</b></div></div><div class="stack-line"><span>Seated chip stack</span><b data-testid="table-stack">${money(shown?.seats.find(s => s.id === 0)?.stack ?? 0)}</b></div><div class="stack-line"><span>Cumulative poker result</span><b data-testid="total-profit">${stats?signed(stats.profit):'—'}</b></div>${stats?`<p class="stat-disclaimer">${stats.hands} saved hands. Observed simulator results do not predict live poker winnings.</p>`:statisticsPending()}${shown?`<details class="provenance-details"><summary>Session versions</summary><p class="muted" data-testid="session-provenance" style="overflow-wrap:anywhere">Frozen session versions: ${provenance(shown.profile,frozenPolicyVersions(controller.data?.active?.profiles ?? {}),controller.data?.active?.humanLayer)}</p></details>`:''}<button class="button secondary rail-results" id="open-results">Player statistics →</button></section>
+    /* Phase 10 (fun #2 + #4): the player's own session goal, and the session's
+     * current hand streak — both read straight from the settled record. */
+    const activeId = controller.data?.active?.sessionId ?? '';
+    const goal = dailyBook.sessionGoal?.sessionId === activeId && activeId ? dailyBook.sessionGoal : null;
+    const sessionHands = activeId ? (controller.data?.hands ?? []).filter(h => h.sessionId === activeId) : [];
+    const streak = handStreak(sessionHands);
+    const goalMarkup = activeId ? (goal
+      ? `<div class="stack-line session-goal" data-testid="session-goal"><span>Your session goal</span><b class="${profit >= goal.targetCents ? 'positive' : ''}">${signed(goal.targetCents)} target · ${profit >= goal.targetCents ? 'reached' : `${signed(profit)} so far`}</b><button type="button" class="text-button" id="session-goal-clear">Clear</button></div>`
+      : `<div class="stack-line session-goal"><span>Session goal</span><span class="goal-set"><input id="session-goal-amount" type="number" inputmode="decimal" min="0" step="1" placeholder="$ target" aria-label="Session goal in dollars"><button type="button" class="text-button" id="session-goal-set">Set</button></span></div>`) : '';
+    const streakMarkup = streak && streak.count >= 2 ? `<div class="stack-line session-streak" data-testid="session-streak"><span>Hand streak</span><b class="${streak.kind === 'won' ? 'positive' : 'negative'}">${streak.kind === 'won' ? 'Won' : 'Lost'} the last ${streak.count} hands</b></div>` : '';
+    return `<aside class="session-rail"><section class="panel session-card"><div class="small-heading"><h3>Your session</h3><span class="outline-tag">VIRTUAL</span></div><div class="wallet-summary"><span>Available bankroll</span><strong data-testid="wallet-balance">${money(controller.data?.wallet ?? 0)}</strong><button class="button secondary" id="open-cashier">Cashier / bankroll</button></div><div class="main-stat"><span>Settled session result</span><strong class="${stats?(profit > 0 ? 'positive' : profit < 0 ? 'negative' : ''):''}" data-testid="session-profit">${stats?signed(profit):'—'}</strong><small>Completed hands only · transfers excluded</small></div>${goalMarkup}${streakMarkup}<div class="stat-grid"><div><span>Hands played</span><b data-testid="hand-count">${stats?count:'…'}</b></div><div><span>bb / 100</span><b>${!stats?'…':current?.bb100 == null ? '—' : current.bb100.toFixed(1)}</b></div></div><div class="stack-line"><span>Seated chip stack</span><b data-testid="table-stack">${money(shown?.seats.find(s => s.id === 0)?.stack ?? 0)}</b></div><div class="stack-line"><span>Cumulative poker result</span><b data-testid="total-profit">${stats?signed(stats.profit):'—'}</b></div>${stats?`<p class="stat-disclaimer">${stats.hands} saved hands. Observed simulator results do not predict live poker winnings.</p>`:statisticsPending()}${shown?`<details class="provenance-details"><summary>Session versions</summary><p class="muted" data-testid="session-provenance" style="overflow-wrap:anywhere">Frozen session versions: ${provenance(shown.profile,frozenPolicyVersions(controller.data?.active?.profiles ?? {}),controller.data?.active?.humanLayer)}</p></details>`:''}<button class="button secondary rail-results" id="open-results">Player statistics →</button></section>
       <section class="panel activity-card"><div class="small-heading"><h3>At the table</h3><span class="activity-icon shape-icon shape-arrow" aria-hidden="true"></span></div>${shown ? `<div class="activity-list">${shown.events.filter(e => ['action', 'street', 'award', 'refund', 'rake'].includes(e.type)).slice(-6).reverse().map(e => `<div class="activity-item"><span class="activity-marker ${e.type === 'award' ? 'gold-marker' : ''}"></span><div><b>${e.seatId !== undefined ? escape(seatName(e.seatId,shown)) : e.type === 'street' ? title(e.street ?? '') : 'Table'}</b><span>${escape(eventDescription(e))}</span></div></div>`).join('') || '<p class="muted">Blinds posted. The first decision is underway.</p>'}</div>` : '<div class="empty-activity"><span aria-hidden="true">♠</span><p>Every hand has a story.<br>Your table activity will appear here.</p></div>'}</section>
       <section class="build-note"><h3>Saved on this device.</h3><p>Bankroll, hands and committed game progress are stored in this browser. Guest data does not synchronize across devices.</p><p class="memory-notice">Keep an exported history for your records. Clearing browser site data removes the local save.</p></section></aside>`;
   }
@@ -1642,6 +1653,47 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
   const statsBookRead = readStatsBook();
   let statsBook: StatsBook = statsBookRead.book;
   let statsNotice = statsBookRead.notice;
+  /* Phase 10 (fun #28/#2/#4): the daily card record — baselines per local day plus
+   * the player's own session goal. Issued lazily at the first render that needs it. */
+  const dailyRead = readDailyBook();
+  let dailyBook: DailyBook = dailyRead.book;
+  let dailyNotice = dailyRead.notice;
+  function dailyCounters(): DailyBaselines & { handsToday: number; showdownFreePotsToday: number } {
+    const data = controller.data;
+    const slots = slotsPlayer.state;
+    const today = cashToday(data?.hands ?? [], localDayKey());
+    return {
+      cashHands: data ? data.sessions.reduce((sum, s) => sum + s.handIds.length, 0) : 0,
+      slotsSpins: Object.values(slots.machines).reduce((sum, r) => sum + r.spins, 0),
+      slotsFeatures: Object.entries(slots.machines).reduce((sum, [id, r]) => sum + (slots.watch?.[id]?.hits ?? r.features), 0),
+      ladderBeaten: readLadder().beaten.length,
+      bjRounds: blackjackRounds.state === 'ready' ? blackjackRounds.rounds.length : 0,
+      ...today,
+    };
+  }
+  function dailyCardMarkup(): string {
+    const date = localDayKey();
+    if (blackjackRounds.state === 'idle') loadBlackjackRounds();
+    if (blackjackRounds.state === 'ready') { const fixed = fixBjBaseline(dailyBook, date, blackjackRounds.rounds.length); if (fixed !== dailyBook) { dailyBook = fixed; saveDailyBook(dailyBook); } }
+    const counters = dailyCounters();
+    const before = dailyBook;
+    dailyBook = ensureDay(dailyBook, date, counters, blackjackRounds.state !== 'ready');
+    if (dailyBook !== before) saveDailyBook(dailyBook);
+    const day = dailyBook.days[date];
+    const objectives = dailyObjectives(date, counters, day.baselines);
+    const done = objectives.filter(o => o.done).length;
+    return `<div class="hub-block daily-card" data-testid="daily-card"><h3>Today's card · ${done} of ${objectives.length} done</h3>${dailyNotice ? `<p class="muted">${escape(dailyNotice)}</p>` : ''}<ul class="daily-objectives">${objectives.map(o => `<li class="${o.done ? 'done' : ''}"><span aria-hidden="true">${o.done ? '✓' : '○'}</span> ${escape(o.label)} <small>${o.have} / ${o.need}</small></li>`).join('')}</ul><p class="muted">Objectives count only events your saved records on this device show. A fresh day starts a fresh card.</p></div>`;
+  }
+  function trophyRoomMarkup(): string {
+    const data = controller.data;
+    if (!data) return '';
+    const items = [...cashMilestones(data), ...tournamentMilestones(tournament?.records ?? [])];
+    const earned = items.filter(m => m.earned), locked = items.filter(m => !m.earned);
+    const ladder = readLadder();
+    const slotTitles = Object.entries(slotsPlayer.state.machines).filter(([, r]) => r.spins >= 25).sort((a, b) => b[1].spins - a[1].spins).slice(0, 3)
+      .map(([id, r]) => { const m = MACHINES.find(x => x.id === id); return m ? `${escape(m.name)} — ★ ${r.spins >= 300 ? 'FLOOR LEGEND' : r.spins >= 100 ? 'SHARP' : 'REGULAR'}` : ''; }).filter(Boolean);
+    return `<div class="hub-block trophy-room" data-testid="trophy-room"><h3>Trophy room</h3><p>${earned.length} of ${items.length} milestones earned · heads-up ladder ${ladder.beaten.length} of ${LADDER_IDS.length} beaten${slotTitles.length ? ` · ${slotTitles.join(' · ')}` : ''}</p>${earned.length ? `<ul class="hub-list">${earned.slice(0, 6).map(m => `<li>★ <b>${escape(m.title)}</b></li>`).join('')}</ul>` : '<p class="muted">Nothing on the shelf yet. Your first milestone is one hand away.</p>'}${locked.length ? `<p class="muted">Still on the shelf to win: ${locked.slice(0, 4).map(m => `☆ ${escape(m.title)}`).join(' · ')}</p>` : ''}<button type="button" class="button secondary" data-view="results">All milestones</button></div>`;
+  }
   let compareSnapshotId: string | null = null;
   let statsResetConfirm = false;
   function careerSources(): CareerSources {
@@ -1952,6 +2004,8 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
       <div class="hub-block"><h3>Latest leaks</h3>${leaks.length ? `<ul class="hub-list">${leaks.map(l => `<li><b>${escape(l.title)}</b> <span class="muted">${escape(l.finding)}</span></li>`).join('')}</ul>` : `<p class="muted">${lastHands.length ? 'No clear leaks in your last session.' : 'Play a session to see your leaks here.'}</p>`}<button type="button" class="button secondary" data-view="coach">Leaks and drills</button></div>
       ${highlights ? `<div class="hub-block"><h3>Recent highlights</h3><ul class="hub-list">${highlights}</ul></div>` : ''}
       ${huStrip}
+      ${dailyCardMarkup()}
+      ${trophyRoomMarkup()}
       ${stylePanel()}
     </section>`;
   }
@@ -2625,6 +2679,9 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     }
     on('#open-cashier, [data-action="open-cashier"]', () => { view = 'cashier'; error = ''; render(); });
     on('#open-results', () => { view = 'results'; render(); });
+    /* Phase 10 (fun #2): the player's own session goal, stored in the daily record. */
+    on('#session-goal-set', () => { const input = root.querySelector<HTMLInputElement>('#session-goal-amount'); const sessionId = controller.data?.active?.sessionId; if (!input || !sessionId) return; try { const target = cents(input.value); if (target <= 0) throw new Error('Enter a goal above zero.'); dailyBook = setSessionGoal(dailyBook, { sessionId, targetCents: target }); saveDailyBook(dailyBook); render(); } catch (cause) { error = (cause as Error).message; render(); } });
+    on('#session-goal-clear', () => { dailyBook = setSessionGoal(dailyBook, null); saveDailyBook(dailyBook); render(); });
     const livePaceInput=root.querySelector<HTMLInputElement>('#assumed-live-pace');
     const updateLivePace=()=>{
       if(!livePaceInput)return;

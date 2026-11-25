@@ -809,3 +809,13 @@ main.view-anim-1>:not(.game-layout){animation:pna-view-b .24s ease-out backwards
    these containers and stay fully lit — they are the live controls then. */
 .action-panel.waiting .action-buttons,.action-panel.waiting .raise-controls{opacity:.45}
 .hub-balances-note{margin-top:8px;font-size:12px}
+
+/* Phase 10 (fun #28/#2/#4/#29): daily card, trophy room, session goal + streak. */
+.daily-objectives{list-style:none;margin:8px 0;padding:0;display:grid;gap:6px}
+.daily-objectives li{font-size:14px;color:#dbe6dc}
+.daily-objectives li small{color:#9fb3a8;margin-left:6px}
+.daily-objectives li.done{color:#8fe0bd}
+.daily-objectives li.done small{color:#8fe0bd}
+.session-goal .goal-set{display:inline-flex;gap:6px;align-items:center}
+.session-goal .goal-set input{width:90px;min-height:36px;padding:4px 8px;border:1px solid #425048;border-radius:6px;background:#0b171c;color:#eee}
+.trophy-room .hub-list{margin:6px 0}
