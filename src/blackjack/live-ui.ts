@@ -8,6 +8,7 @@ import { BJ_PHRASES, answerBlackjack, chimeIn, questionOf, reactTo, type BjPhras
 import { HERO_SAY_MS, answerRow, quickChatRow } from '../ui/table-talk';
 import { maskTable, revealDelay, revealFrom, revealLabel, type DealOrder } from './deal-pace';
 import { countState, countSystem, type CountSystemId } from './counting';
+import { loadCountQuestBook, saveCountQuestBook, shoeStoryMarkup, updateCountQuests, type CountQuestBook } from './count-quests';
 import { hintAsPlay, liveAdvice, playWords } from './live-coach';
 import type { BlackjackPlay } from './engine';
 import type { BlackjackView } from './view-model';
@@ -42,6 +43,18 @@ export class BlackjackLiveUI {
  private beforeReveal: Pick<BlackjackView, 'balance' | 'session'> | undefined;
  private displayedSeen: readonly import('../contracts').Card[] = [];
  private closed = false;
+ /* Phase 10 (fun #12/#13): the count-quest book, loaded lazily on first use. */
+ private questBook: CountQuestBook | null = null;
+ private questNotice = '';
+ private questsHtml(seen: readonly import('../contracts').Card[], decks: number): string {
+  if (!this.questBook) { const loaded = loadCountQuestBook(); this.questBook = loaded.book; this.questNotice = loaded.notice; }
+  const state = countState(countSystem(this.count?.system ?? 'hi-lo'), seen, decks);
+  const { book, quests, changed } = updateCountQuests(this.questBook, state, decks);
+  this.questBook = book;
+  if (changed) saveCountQuestBook(book);
+  const list = quests.map(q => `<li class="${q.done ? 'done' : ''}">${q.done ? '✓' : '○'} ${escape(q.label)} <small>${escape(q.progress)}</small></li>`).join('');
+  return `${this.questNotice ? `<p class="lobby-note">${escape(this.questNotice)}</p>` : ''}<h3>Count quests · this shoe</h3><ul class="bj-quests" data-testid="bj-count-quests">${list}</ul><p class="lobby-note">${book.lifetime} quest${book.lifetime === 1 ? '' : 's'} completed across all shoes. Quests read only the cards you have seen — the same cards the count itself uses.</p>${shoeStoryMarkup(book)}`;
+ }
  private pending: { roundId: string; length: number } | null | undefined = undefined;
  private reveal: { order: DealOrder; start: number; shown: number; timer: number } | null = null;
  private onRevealEnd: (() => void) | null = null;
@@ -154,7 +167,7 @@ export class BlackjackLiveUI {
    if(full)full=this.withHeroSaid(full);
    this.displayedSeen=vm.seen;
    const paceControl=full?`<label class="t-watch-result bj-pace-pick">Dealer pace <select id="bj-pace">${(Object.keys(PACE_LABELS) as TablePace[]).map(p=>`<option value="${p}" ${p===this.pace?'selected':''}>${PACE_LABELS[p].label}</option>`).join('')}</select></label>`:'';
-   body=blackjackTableMarkup(vm,{coach:this.coach,hintOnce:this.showHint&&!this.reveal,testMe:this.testMe,count:this.count,liveClassic:true,...(full?{feltExtra:otherSeatsMarkup(full),toolbarExtra:paceControl}:{}),...(waiting?{waitingFor:waiting,skipReveal:true}:{})})+(full?((p)=>p?answerRow(p.q.answers.map(a=>a.label),'blackjack',p.asker.name.split(' ')[0]).replace(/data-answer=/g,'data-bj-answer='):'')(this.pendingQuestion())+quickChatRow(BJ_PHRASES,'data-bj-say',this.heroSaid&&Date.now()-this.heroSaid.at<HERO_SAY_MS?{...this.heroSaid,replies:[]}:null):'')+'<p class="lobby-note">Coach hints and count plays come from an approximate model; close plays and resplits are not independently verified. Test me keeps the coach quiet and tells you after each decision.</p><p class="lobby-note">Classic main game only. Side bets and Free Bet are not enabled. Ante is once per round, including every split hand. Saves stay in this browser; export records before clearing site data.</p>';
+   body=blackjackTableMarkup(vm,{coach:this.coach,hintOnce:this.showHint&&!this.reveal,testMe:this.testMe,count:this.count ? { ...this.count, questsHtml: this.questsHtml(vm.seen, c.table.decks) } : null,liveClassic:true,...(full?{feltExtra:otherSeatsMarkup(full),toolbarExtra:paceControl}:{}),...(waiting?{waitingFor:waiting,skipReveal:true}:{})})+(full?((p)=>p?answerRow(p.q.answers.map(a=>a.label),'blackjack',p.asker.name.split(' ')[0]).replace(/data-answer=/g,'data-bj-answer='):'')(this.pendingQuestion())+quickChatRow(BJ_PHRASES,'data-bj-say',this.heroSaid&&Date.now()-this.heroSaid.at<HERO_SAY_MS?{...this.heroSaid,replies:[]}:null):'')+'<p class="lobby-note">Coach hints and count plays come from an approximate model; close plays and resplits are not independently verified. Test me keeps the coach quiet and tells you after each decision.</p><p class="lobby-note">Classic main game only. Side bets and Free Bet are not enabled. Ante is once per round, including every split hand. Saves stay in this browser; export records before clearing site data.</p>';
   }else{
    body=blackjackLobbyMarkup(lobby,{available:c.status==='ready'&&!c.busy&&selected.variant==='classic',balance:c.data.balance,reason:selected.variant==='classic'?'Classic main game is playable. Side-bet paytables are previews only. Your blackjack balance is separate from cash poker and tournaments.':'Free Bet settlement is not implemented. Choose a classic table to play.',...(selected.variant==='classic'?{company:fullTableSetupMarkup(lobby)}:{})});
    body+=`<details class="panel bj-account"><summary>Blackjack balance and records</summary><p>Separate virtual balance: <b>${dollars(c.data.balance)}</b>. Adjustments never transfer cash-poker or tournament funds.</p><form id="bj-adjust-form"><label>New virtual blackjack balance ($)<input id="bj-adjust-target" type="number" min="0" step="0.01" inputmode="decimal" value="${c.data.balance/100}"></label><label>Reason<input id="bj-adjust-note" maxlength="300" required placeholder="Practice bankroll adjustment"></label><button class="button secondary" type="submit">Adjust blackjack balance</button></form></details>`;

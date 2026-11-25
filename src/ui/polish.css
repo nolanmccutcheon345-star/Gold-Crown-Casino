@@ -825,3 +825,8 @@ main.view-anim-1>:not(.game-layout){animation:pna-view-b .24s ease-out backwards
    figure) live on the player card there instead. */
 .rivalry-plate{display:block;font-size:10px;line-height:1.2;color:#e8c58b;white-space:nowrap}
 @media(max-width:700px){.rivalry-plate{display:none}}
+
+/* Phase 10 (fun #12): count quests inside the count panel. */
+.bj-quests{list-style:none;margin:6px 0;padding:0;display:grid;gap:3px;font-size:13px}
+.bj-quests li.done{color:#8fd18a}
+.bj-quests small{color:var(--muted,#b8ab8d)}
