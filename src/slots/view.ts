@@ -203,12 +203,25 @@ function machineMarkup(state:SlotsState,ui:SlotsUi,m:Machine):string {
  ${ui.autoOpen&&!busy?autoMarkup(ui,state.balance):''}${sessionMarkup(ui)}
  ${state.balance<bet&&!busy?`<p class="muted">Not enough for this bet.${state.balance<smallestBet()?' <button type="button" class="button secondary" id="slots-reload">Reload $1,000 of practice chips</button>':' Pick a smaller bet.'}</p>`:''}
  ${paytableMarkup(m,bet,ui)}
- <p class="muted slot-record">${rec?`You on this machine: ${rec.spins} spin${rec.spins===1?'':'s'} · bet ${money(rec.wagered)} · won ${money(rec.won)} · ${(100*rec.won/Math.max(1,rec.wagered)).toFixed(0)}% back · biggest ${money(rec.biggest)}`:'No spins here yet.'} Each spin is independent; long-run payback about ${m.rtp.toFixed(1)}%.</p>${bonusWatchMarkup(state,m)}`;
+ <p class="muted slot-record">${rec?`You on this machine: ${rec.spins} spin${rec.spins===1?'':'s'} · bet ${money(rec.wagered)} · won ${money(rec.won)} · ${(100*rec.won/Math.max(1,rec.wagered)).toFixed(0)}% back · biggest ${money(rec.biggest)}`:'No spins here yet.'} Each spin is independent; long-run payback about ${m.rtp.toFixed(1)}%.</p>${floorStreakMarkup(state,m)}${bonusWatchMarkup(state,m)}`;
 }
 /** Phase 10 (fun #15, BONUS WATCH — the honest replacement for a feature-tease meter):
  * spins since your last feature on this machine, and features hit vs the count expected
  * at the machine's published rate, over the spins this counter has seen. History only:
  * triggers are independent random events, so nothing here fills up or comes due. */
+/**
+ * Phase 10 (fun #18): the floor streak on this machine — the run of winning or losing
+ * spins at the tail of the player's own stored recent results. Pure history, stated
+ * as history: a run says nothing about the next spin.
+ */
+export function floorStreakMarkup(state:SlotsState,m:Machine):string {
+ const mine=state.recent.filter(r=>r.machine===m.id);if(mine.length<3)return '';
+ const nets=mine.map(r=>r.total-r.bet);
+ let run=0;const win=nets[nets.length-1]>0;
+ for(let i=nets.length-1;i>=0;i--){if(nets[i]!==0&&(nets[i]>0)===win)run++;else break;}
+ if(run<3)return '';
+ return `<p class="muted slot-streak" data-testid="slot-streak">Your run here: <b>${run} ${win?'winning':'losing'} spins in a row</b> on this machine. History only — every spin is independent and the run changes nothing about the next one.</p>`;
+}
 export function bonusWatchMarkup(state:SlotsState,m:Machine):string {
  const w=state.watch?.[m.id],every=m.stats.featureEvery;
  if(!w||!every||!w.spins)return '';

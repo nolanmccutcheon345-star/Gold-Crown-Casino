@@ -36,7 +36,7 @@ export interface CasinoUi {
   /** Patch 102: a 7-second race instead of 14. */
   quick:boolean;
   /** Patch 103: box Exacta, Trifecta and Superfecta picks (every order). */
-  box:boolean;picking:number[];photo:boolean;
+  box:boolean;picking:number[];photo:boolean;marginText:string;
   /** Patch 101: Daily Doubles waiting to go in with this race, the next race's card, and the replay. */
   dd:DailyDouble[];next:RaceCard;replay:boolean;lines:{at:number;text:string}[];phase:'betting'|'running'|'done';order:number[]|null;returned:number;wagered:number;call:string;paths:Record<number,number[]>|null;results:number[];frame:number};
   /** Patch 102: your net result at each table since this visit began. */
@@ -56,7 +56,7 @@ export class CasinoPlayer {
    roulette:{wheel:'european',bets:[],last:[],phase:'betting',result:null,angle:0,spins:0,partage:false,auto:null,width:2},
    baccarat:{bets:{},last:{},phase:'betting',coup:null,shown:0,returned:0,bySpot:{},wagered:0,ez:false,squeeze:false,waiting:false,squeezeSide:null,faceDown:-1,auto:0,shuffled:false},
    craps:{phase:'idle',last:null,rolls:0,takeDown:false,lastReturned:0,shooter:{rolls:0,points:0,best:0},lastLayout:null,shooterSeat:0},
-   races:{card:this.day.card,next:this.day.next,quick:false,box:false,dd:[],replay:false,lines:[],bets:[],kind:'win',picking:[],photo:false,phase:'betting',order:null,returned:0,wagered:0,call:'',paths:null,results:[],frame:0},
+   races:{card:this.day.card,next:this.day.next,quick:false,box:false,dd:[],replay:false,lines:[],bets:[],kind:'win',picking:[],photo:false,marginText:'',phase:'betting',order:null,returned:0,wagered:0,call:'',paths:null,results:[],frame:0},
    session:{roulette:0,craps:0,baccarat:0,races:0}};
  }
  /* ---------- Patch 104: table life ---------- */
@@ -435,7 +435,7 @@ export class CasinoPlayer {
  nextRace(){
   const h=this.ui.races;if(h.phase==='running')return;
   this.day={...this.day,number:this.day.number+1,card:this.day.next,next:newRace(this.day.number+2,this.random)};this.saveDay();
-  h.card=this.day.card;h.next=this.day.next;h.bets=[];h.dd=[];h.order=null;h.phase='betting';h.call='';h.paths=null;h.picking=[];h.returned=0;h.wagered=0;h.photo=false;h.replay=false;this.ui.talk.races=[];this.deps.render();
+  h.card=this.day.card;h.next=this.day.next;h.bets=[];h.dd=[];h.order=null;h.phase='betting';h.call='';h.paths=null;h.picking=[];h.returned=0;h.wagered=0;h.photo=false;h.marginText='';h.replay=false;this.ui.talk.races=[];this.deps.render();
  }
  startRace(){
   const h=this.ui.races;if(h.phase!=='betting')return;
@@ -454,7 +454,7 @@ export class CasinoPlayer {
    this.state=pushBoard({...this.state,raceDay:this.day},'races',winner.name,12);this.save();
    h.order=order;h.returned=returned;h.wagered=wagered;h.phase='running';h.replay=false;h.paths=paths(order,RACE_FRAMES,this.random);h.results=[];h.frame=0;this.ui.error='';
    const leaderAt=(f:number)=>{const k=Math.round(f*RACE_FRAMES);let best=order[0],x=-1;for(const no of order){const v=h.paths![no][Math.min(RACE_FRAMES,k)];if(v>x){x=v;best=no;}}return best;};
-   const won=margin(h.paths,order);h.photo=won.photo;
+   const won=margin(h.paths,order);h.photo=won.photo;h.marginText=won.text;
    h.lines=calls(h.card,order,leaderAt,won);
    const seed=`rc:${h.card.id}`,ps=this.ui.patrons.races,live=h.card.runners.filter(r=>!r.scratched),picks=ps.map(p=>live[pickFor(p,seed,live.length)].no);
    this.ui.talk.races=ps.flatMap((p,i)=>speaks(p,`${seed}:start`,.5)?[{name:p.name,text:patronLine('races',p,'start',String(picks[i]),seed),mood:'talk' as const}]:[]).slice(0,2);
@@ -493,6 +493,11 @@ export class CasinoPlayer {
   // The running order board.
   const board=document.querySelector<HTMLElement>('[data-race-order]');
   if(board){const k=Math.min(frame,RACE_FRAMES),ord=[...runners].sort((a,b)=>h.paths![b.no][k]-h.paths![a.no][k]).slice(0,4);board.textContent=ord.map((r,i)=>`${i+1}. #${r.no}`).join('  ');}
+  /* Phase 10 (fun #27): your backed horses' live positions, updated with the frame. */
+  const mine=document.querySelector<HTMLElement>('[data-race-mine]');
+  if(mine){const k=Math.min(frame,RACE_FRAMES),ranked=[...runners].sort((a,b)=>h.paths![b.no][k]-h.paths![a.no][k]);
+   const backed=[...new Set(h.bets.map(b=>b.picks[0]))].filter(no=>h.paths![no]);
+   mine.textContent=backed.map(no=>{const r=h.card.runners[no-1];return `#${no} ${r.name}: ${ranked.findIndex(x=>x.no===no)+1} of ${ranked.length}`;}).join(' · ');}
  }
 }
 

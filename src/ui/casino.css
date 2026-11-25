@@ -451,3 +451,11 @@
 .coach-teaser{margin:0;font-size:13px;line-height:1.5;opacity:.85}
 .coach-teaser-on{border:1px solid var(--gold2);background:transparent;color:var(--gold);border-radius:999px;padding:3px 12px;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}
 .coach-teaser-on:hover{background:#e8c58b22}
+
+/* Phase 10 (fun #20/#25/#27): the ball settles into the lit winning pocket; race
+   margin and your-ticket lines. */
+.rl-wheel .pk.won{filter:brightness(1.55) saturate(1.2)}
+.rl-ball-orbit.settled .rl-ball{stroke:#c9a227;stroke-width:1}
+.rc-margin{margin:2px 0 0;font-weight:700;color:#e8c58b}
+.rc-mine{margin:4px 0 0;font-size:13px;color:var(--muted,#b8ab8d)}
+.rc-mine b{color:#e8c58b}
