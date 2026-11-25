@@ -1890,10 +1890,10 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
       tile({ attr: ' data-view="roulette"', name: 'Roulette', sub: 'Single or double zero', art: `url('/casino-art/tile-roulette.webp'),url('/casino-art/room-atmosphere.webp')` }),
       tile({ attr: ' data-view="races"', name: 'Horse racing', sub: 'Win, place, show, exacta', art: `url('/casino-art/tile-horse-racing.webp'),url('/casino-art/horse-racing.webp')` }),
       tile({ attr: ' data-view="craps"', name: 'Craps', sub: 'You\u2019re the shooter', art: `url('/casino-art/tile-craps.webp'),url('/casino-art/room-atmosphere.webp')` }),
-      tile({ view: 'tournaments', name: 'Tournaments', sub: 'Sit & gos to big fields', art: `url('/casino-art/lobby-hero.webp')`, pos: '18% center' }),
-      tile({ view: 'omaha', name: 'Omaha', sub: 'Four cards, pot limit', art: `url('/casino-art/lobby-hero.webp')`, pos: '50% center' }),
-      tile({ view: 'heads-up', name: 'Heads-up', sub: 'Beat the regulars one on one', art: `url('/casino-art/lobby-hero.webp')`, pos: '82% center' }),
-      tile({ view: 'career', name: 'Career', sub: 'Climb the stakes, bankroll rules', art: `url('/casino-art/room-atmosphere.webp')`, pos: 'center 72%' }),
+      tile({ view: 'tournaments', name: 'Tournaments', sub: 'Sit & gos to big fields', art: `url('/casino-art/tile-tournaments.webp'),url('/casino-art/lobby-hero.webp')` }),
+      tile({ view: 'omaha', name: 'Omaha', sub: 'Four cards, pot limit', art: `url('/casino-art/tile-omaha.webp'),url('/casino-art/lobby-hero.webp')` }),
+      tile({ view: 'heads-up', name: 'Heads-up', sub: 'Beat the regulars one on one', art: `url('/casino-art/tile-heads-up.webp'),url('/casino-art/lobby-hero.webp')` }),
+      tile({ view: 'career', name: 'Career', sub: 'Climb the stakes, bankroll rules', art: `url('/casino-art/tile-career.webp'),url('/casino-art/room-atmosphere.webp')` }),
     ].join('');
     const featureStrip = `<div class="home-features"><div><b>Premium experience</b><small>Luxurious, immersive, unified</small></div><div><b>Real casino games</b><small>Seven game families, one floor</small></div><div><b>Tournaments &amp; career</b><small>Compete and climb the ranks</small></div><div><b>Practice, protected</b><small>Virtual chips only · no real money</small></div></div>`;
     const sessions = data?.sessions.filter(x => data.hands.some(h => h.sessionId === x.id)) ?? [];
