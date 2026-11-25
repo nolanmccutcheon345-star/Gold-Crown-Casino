@@ -289,6 +289,15 @@ export function racesMarkup(p:CasinoPlayer):string {
  // (presentation-only settlement), so while it is still running the board must not list it.
  const shownResults=running?p.day.results.filter(r=>r.number!==c.number):p.day.results;
  const board=shownResults.length?`<details class="rc-board"><summary>Today’s results (${shownResults.length})</summary><table class="rc-table"><tr><th>Race</th><th>Track</th><th>Winner</th><th>Odds</th></tr>${[...shownResults].reverse().map(r=>`<tr><td>${r.number}</td><td>${esc(r.track)}</td><td>#${r.no} ${esc(r.name)}</td><td>${r.odds?oddsLabel(r.odds):'—'}</td></tr>`).join('')}</table></details>`:'';
+ /* Phase 10 (fun #26, reduced form): the story of the day, from stored results only —
+  * repeat winners and the shape of the winners' odds. Cards are drawn fresh each
+  * race (a repeated name is a new horse with new form), so no continuing-character
+  * storyline is claimed; this reports what today's results actually show. */
+ const dayStory=(()=>{if(shownResults.length<3)return '';const wins=new Map<string,number[]>();for(const r of shownResults)wins.set(r.name,[...(wins.get(r.name)??[]),r.number]);
+  const repeat=[...wins.entries()].filter(([,races])=>races.length>=2);
+  const priced=shownResults.filter(r=>r.odds>0),avg=priced.length?priced.reduce((a,r)=>a+r.odds,0)/priced.length:0;
+  const shape=avg&&avg<=2?'the favourites are holding':avg>=5?'the longshots are landing':'a mixed day at the windows';
+  return `<p class="rc-story" data-testid="race-day-story">Story of the day: ${repeat.length?`${repeat.map(([n,races])=>`${esc(n)} has won ${races.length} today (races ${races.join(' and ')})`).join(' · ')}. `:''}${avg?`Winners have averaged ${avg.toFixed(1)} to 1 — ${shape}.`:'Mostly a day for the short prices.'}</p>`;})();
  return `<section class="panel cz-game races" data-testid="races">${roomMarquee('races')}${wallet(p,'races')}
  <div class="rc-card-head"><b>Race ${c.number} · ${esc(c.track)}</b><span>${esc(c.distance)} · ${esc(c.going)} · purse ${esc(c.purse.replace(/\B(?=(\d{3})+(?!\d))/g,','))}</span><label class="auto-deal-toggle"><input type="checkbox" id="race-quick" ${h.quick?'checked':''} ${running?'disabled':''}>Quick race (7 seconds)</label></div>
  <div class="cz-seg rc-kinds" role="group" aria-label="Bet type">${kinds.map(([k,l])=>`<button type="button" data-race-kind="${k}" class="${h.kind===k?'on':''}" ${h.phase!=='betting'?'disabled':''}>${l}</button>`).join('')}</div>
@@ -305,6 +314,7 @@ export function racesMarkup(p:CasinoPlayer):string {
  ${running&&h.bets.length?`<p class="rc-mine">Your ticket: <b data-race-mine>${[...new Set(h.bets.map(b=>b.picks[0]))].map(no=>`#${no} ${esc(c.runners[no-1].name)}`).join(' · ')}</b></p>`:''}
  ${done&&h.order?`<div class="rc-result">${h.returned>h.wagered?`<img class="rc-winners-circle" src="/casino-art/winners-circle.webp" alt="Winner's circle" loading="lazy" decoding="async">`:''}<span>1st <b>${esc(c.runners[h.order[0]-1].name)}</b></span><span>2nd <b>${esc(c.runners[h.order[1]-1].name)}</b></span><span>3rd <b>${esc(c.runners[h.order[2]-1].name)}</b></span>${h.marginText?`<p class="rc-margin" data-testid="race-margin">${esc(c.runners[h.order[0]-1].name)} won ${esc(h.marginText)}${h.photo?' — too close to call without the photo.':'.'}</p>`:''}<p class="cz-result ${h.returned>h.wagered?'up':h.returned?'even':'down'}">${h.returned?`You get back ${money(h.returned)} on ${money(h.wagered)}`:`No winners · ${money(h.wagered)} lost`}</p></div>`:''}
  ${patronsMarkup(p,'races')}
+ ${dayStory}
  ${board}
  <p class="cz-fine">Fixed odds from each horse’s true chance with a ${Math.round(TAKE*100)}% take, like a track’s pools: every bet returns about ${100-Math.round(TAKE*100)}% over time. Prices under 1/10 are not offered. Paddock notes are what a railbird would see: a hint, not a promise.</p>
  ${roundsPanel(p,'races')}

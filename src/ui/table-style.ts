@@ -5,13 +5,13 @@ import {normalizeFace,type Face} from './avatars';
 import {validPortrait} from './portraits';
 
 export const TABLE_STYLE_KEY='poker-night-ai:table-style';
-export const FELTS=[['green','Classic green'],['blue','Casino blue'],['burgundy','Burgundy'],['charcoal','Charcoal'],['casino','Casino night'],['kitchen','Kitchen table']] as const;
+export const FELTS=[['green','Classic green'],['blue','Casino blue'],['burgundy','Burgundy'],['charcoal','Charcoal'],['casino','Casino night'],['kitchen','Kitchen table'],['midnight','Midnight gold']] as const;
 export const THEMES=[['dark','Dark'],['light','Light']] as const;
 export type Theme=typeof THEMES[number][0];
 export const TEXT_SIZES=[['normal','Standard'],['large','Large'],['larger','Larger']] as const;
 export type TextSize=typeof TEXT_SIZES[number][0];
 export const BREAK_CHOICES=[0,30,60,90,120] as const;
-export const BACKS=[['blue','Blue'],['red','Red'],['black','Black']] as const;
+export const BACKS=[['blue','Blue'],['red','Red'],['black','Black'],['crown','Crown royal']] as const;
 export type Felt=typeof FELTS[number][0];
 export type Back=typeof BACKS[number][0];
 export interface TableStyle {felt:Felt;back:Back;fourColor:boolean;sound:boolean;handLabel:boolean;chips:boolean;keys:boolean;theme:Theme;vibrate:boolean;avatars:boolean;breakEvery:number;textSize:TextSize;trends:boolean;heroFace:Partial<Face>|null;
