@@ -264,6 +264,13 @@
      tournaments) was missed by the Phase 6 raise: pinned at bottom:0, its last row
      (blackjack's Clear / Rebet / Deal) hid behind the bottom nav, untappable. */
   .app-shell .t-action-panel{bottom:calc(64px + env(safe-area-inset-bottom))}
+  /* Phase 9 (F-16) containment: seat talk/quips on edge seats are centred on
+     the seat and could run past the felt edge on a narrow phone. Cap and wrap
+     them so the words stay on the table. Seat geometry itself measures
+     in-viewport and symmetric; per-seat status flipping is a bigger change. */
+  .table-scene .seat-quip{max-width:96px;white-space:normal;overflow-wrap:anywhere}
+  .table-scene .seat-status{max-width:112px;overflow-wrap:anywhere}
+  .table-scene .seat-talk{overflow-wrap:anywhere}
 }
 
 /* ---- Phase 9 (F-04): one phone nav, and a subnav that shows it scrolls ----
@@ -273,6 +280,9 @@
    fades at its right edge on phones so it reads as scrollable. */
 @media (max-width:767px) and (orientation:portrait){
   .app-shell .app-header nav{display:none}
+  /* …except at a table: the Games toggle that opens the game-switcher overlay
+     lives in that row, and a seated player must keep it. */
+  .app-shell.at-table .app-header nav{display:flex}
 }
 @media (max-width:767px){
   .subnav:not(.subnav-overlay){-webkit-mask-image:linear-gradient(90deg,#000 93%,transparent);mask-image:linear-gradient(90deg,#000 93%,transparent)}
