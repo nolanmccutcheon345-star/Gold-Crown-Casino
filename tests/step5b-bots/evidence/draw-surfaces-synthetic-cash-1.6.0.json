@@ -1,0 +1,4795 @@
+{
+  "policy": "synthetic-cash-1.6.0",
+  "decisions": 100800,
+  "method": "Matched seeded actual chooseDecision draws; denominator is decisions facing the stated priced bet with the stated private draw. Wilson95% conditional sampling intervals, not human calibration. Distinct action proposals also passed authoritative engine.",
+  "rows": [
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 359,
+        "check": 0,
+        "call": 40,
+        "raise": 1
+      },
+      "continuation": 0.1025,
+      "continuation95CI": [
+        0.07645843910823481,
+        0.13610411016851132
+      ],
+      "policyProbability": 0.10370884286609194
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 109,
+        "check": 0,
+        "call": 280,
+        "raise": 11
+      },
+      "continuation": 0.7275,
+      "continuation95CI": [
+        0.6818559365326374,
+        0.768815811994508
+      ],
+      "policyProbability": 0.6991644212889807
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 378,
+        "raise": 18
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9790269742858774
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 391,
+        "check": 0,
+        "call": 9,
+        "raise": 0
+      },
+      "continuation": 0.0225,
+      "continuation95CI": [
+        0.011881448169963291,
+        0.04220312360273175
+      ],
+      "policyProbability": 0.023423740450629782
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 252,
+        "check": 0,
+        "call": 144,
+        "raise": 4
+      },
+      "continuation": 0.37,
+      "continuation95CI": [
+        0.32413116790213314,
+        0.4183421186537838
+      ],
+      "policyProbability": 0.32512828689120365
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 30,
+        "check": 0,
+        "call": 353,
+        "raise": 17
+      },
+      "continuation": 0.925,
+      "continuation95CI": [
+        0.8949516618259873,
+        0.9469625936642844
+      ],
+      "policyProbability": 0.9063360872234711
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.010492579051658013
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 331,
+        "check": 0,
+        "call": 67,
+        "raise": 2
+      },
+      "continuation": 0.1725,
+      "continuation95CI": [
+        0.13863464284363428,
+        0.21259613674915653
+      ],
+      "policyProbability": 0.17558670425815892
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 60,
+        "check": 0,
+        "call": 326,
+        "raise": 14
+      },
+      "continuation": 0.85,
+      "continuation95CI": [
+        0.8116856255682138,
+        0.8816555260120097
+      ],
+      "policyProbability": 0.8105305116313615
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.004701446527674347
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 367,
+        "check": 0,
+        "call": 32,
+        "raise": 1
+      },
+      "continuation": 0.0825,
+      "continuation95CI": [
+        0.059345516507342,
+        0.11359753839339136
+      ],
+      "policyProbability": 0.08665551079093037
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 121,
+        "check": 0,
+        "call": 268,
+        "raise": 11
+      },
+      "continuation": 0.6975,
+      "continuation95CI": [
+        0.6507811218915531,
+        0.7404613850715731
+      ],
+      "policyProbability": 0.6558439039551559
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0013104578663490907
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 391,
+        "check": 0,
+        "call": 9,
+        "raise": 0
+      },
+      "continuation": 0.0225,
+      "continuation95CI": [
+        0.011881448169963291,
+        0.04220312360273175
+      ],
+      "policyProbability": 0.025678997788519897
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 247,
+        "check": 0,
+        "call": 148,
+        "raise": 5
+      },
+      "continuation": 0.3825,
+      "continuation95CI": [
+        0.3362038597931757,
+        0.4310316107477493
+      ],
+      "policyProbability": 0.34613605614651966
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.00043477132533509266
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.008660749954532587
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 340,
+        "check": 0,
+        "call": 58,
+        "raise": 2
+      },
+      "continuation": 0.15,
+      "continuation95CI": [
+        0.11834447398799032,
+        0.18831437443178617
+      ],
+      "policyProbability": 0.14928048569989494
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.000258749977512851
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.005171592924508084
+    },
+    {
+      "kind": "gutshot",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 37,
+        "raise": 1
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09454261600627889
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 378,
+        "check": 0,
+        "call": 22,
+        "raise": 0
+      },
+      "continuation": 0.055,
+      "continuation95CI": [
+        0.036598221864059276,
+        0.08186802826965653
+      ],
+      "policyProbability": 0.053220806113402075
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 168,
+        "check": 0,
+        "call": 224,
+        "raise": 8
+      },
+      "continuation": 0.58,
+      "continuation95CI": [
+        0.5310948469671546,
+        0.6273831305368964
+      ],
+      "policyProbability": 0.5303086727572597
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 14,
+        "check": 0,
+        "call": 368,
+        "raise": 18
+      },
+      "continuation": 0.965,
+      "continuation95CI": [
+        0.942114344143788,
+        0.9790389000985089
+      ],
+      "policyProbability": 0.9577662267085386
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 391,
+        "check": 0,
+        "call": 9,
+        "raise": 0
+      },
+      "continuation": 0.0225,
+      "continuation95CI": [
+        0.011881448169963291,
+        0.04220312360273175
+      ],
+      "policyProbability": 0.024857068917946368
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 249,
+        "check": 0,
+        "call": 147,
+        "raise": 4
+      },
+      "continuation": 0.3775,
+      "continuation95CI": [
+        0.33137080611490544,
+        0.4259597908320163
+      ],
+      "policyProbability": 0.33862182432005516
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 29,
+        "check": 0,
+        "call": 354,
+        "raise": 17
+      },
+      "continuation": 0.9275,
+      "continuation95CI": [
+        0.8978168807373348,
+        0.9490498115499382
+      ],
+      "policyProbability": 0.9113764260819678
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0036518910456383447
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 376,
+        "check": 0,
+        "call": 24,
+        "raise": 0
+      },
+      "continuation": 0.06,
+      "continuation95CI": [
+        0.0406476805246611,
+        0.0877234432030579
+      ],
+      "policyProbability": 0.06857091606226373
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 138,
+        "check": 0,
+        "call": 253,
+        "raise": 9
+      },
+      "continuation": 0.655,
+      "continuation95CI": [
+        0.607138117953469,
+        0.69991296346063
+      ],
+      "policyProbability": 0.5965591285484816
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0012358889016492736
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 391,
+        "check": 0,
+        "call": 9,
+        "raise": 0
+      },
+      "continuation": 0.0225,
+      "continuation95CI": [
+        0.011881448169963291,
+        0.04220312360273175
+      ],
+      "policyProbability": 0.02425145838797138
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 251,
+        "check": 0,
+        "call": 145,
+        "raise": 4
+      },
+      "continuation": 0.3725,
+      "continuation95CI": [
+        0.32654304802813294,
+        0.4208826753247856
+      ],
+      "policyProbability": 0.33298209804855716
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0005838603840400136
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.011597910434805958
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 322,
+        "check": 0,
+        "call": 76,
+        "raise": 2
+      },
+      "continuation": 0.195,
+      "continuation95CI": [
+        0.15915003771249597,
+        0.23665267305330928
+      ],
+      "policyProbability": 0.1907314123422229
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.00040398171820243967
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.008052106302823048
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 343,
+        "check": 0,
+        "call": 55,
+        "raise": 2
+      },
+      "continuation": 0.1425,
+      "continuation95CI": [
+        0.11163780858819913,
+        0.18016372944057255
+      ],
+      "policyProbability": 0.14018709744750524
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.00025880221176299845
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.005172631790456017
+    },
+    {
+      "kind": "gutshot",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 37,
+        "raise": 1
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09455990122157276
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0032523102303997353
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 377,
+        "check": 0,
+        "call": 23,
+        "raise": 0
+      },
+      "continuation": 0.0575,
+      "continuation95CI": [
+        0.038617261729224514,
+        0.08480142520149289
+      ],
+      "policyProbability": 0.06150655686999096
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 154,
+        "check": 0,
+        "call": 244,
+        "raise": 2
+      },
+      "continuation": 0.615,
+      "continuation95CI": [
+        0.5664344525867856,
+        0.6613776400752879
+      ],
+      "policyProbability": 0.5682875785668705
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0007004879789496155
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 396,
+        "check": 0,
+        "call": 4,
+        "raise": 0
+      },
+      "continuation": 0.01,
+      "continuation95CI": [
+        0.0038954207932788126,
+        0.02542696699440824
+      ],
+      "policyProbability": 0.01388405855987862
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 311,
+        "check": 0,
+        "call": 89,
+        "raise": 0
+      },
+      "continuation": 0.2225,
+      "continuation95CI": [
+        0.18448762755400633,
+        0.2657918879788165
+      ],
+      "policyProbability": 0.2204522854222397
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "gutshot",
+      "street": "river",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 207,
+        "check": 0,
+        "call": 182,
+        "raise": 11
+      },
+      "continuation": 0.4825,
+      "continuation95CI": [
+        0.4339296820630707,
+        0.5314032603579181
+      ],
+      "policyProbability": 0.44278703863252744
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 20,
+        "check": 0,
+        "call": 357,
+        "raise": 23
+      },
+      "continuation": 0.95,
+      "continuation95CI": [
+        0.9240357990869275,
+        0.9674028243733599
+      ],
+      "policyProbability": 0.9410408337489677
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 1,
+        "check": 0,
+        "call": 376,
+        "raise": 23
+      },
+      "continuation": 0.9975,
+      "continuation95CI": [
+        0.9859763590327523,
+        0.9995585635705656
+      ],
+      "policyProbability": 0.9968903835461742
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 335,
+        "check": 0,
+        "call": 63,
+        "raise": 2
+      },
+      "continuation": 0.1625,
+      "continuation95CI": [
+        0.1295868626510332,
+        0.2018341697537513
+      ],
+      "policyProbability": 0.15827405279242512
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 74,
+        "check": 0,
+        "call": 305,
+        "raise": 21
+      },
+      "continuation": 0.815,
+      "continuation95CI": [
+        0.7740134235872639,
+        0.8499936128349371
+      ],
+      "policyProbability": 0.790654247187072
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 373,
+        "raise": 23
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9869891260792196
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 377,
+        "check": 0,
+        "call": 22,
+        "raise": 1
+      },
+      "continuation": 0.0575,
+      "continuation95CI": [
+        0.038617261729224514,
+        0.08480142520149289
+      ],
+      "policyProbability": 0.05685584270935862
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 157,
+        "check": 0,
+        "call": 228,
+        "raise": 15
+      },
+      "continuation": 0.6075,
+      "continuation95CI": [
+        0.5588404787053632,
+        0.6541143035657054
+      ],
+      "policyProbability": 0.5476796448408865
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 14,
+        "check": 0,
+        "call": 363,
+        "raise": 23
+      },
+      "continuation": 0.965,
+      "continuation95CI": [
+        0.942114344143788,
+        0.9790389000985089
+      ],
+      "policyProbability": 0.9605055591967473
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 397,
+        "check": 0,
+        "call": 3,
+        "raise": 0
+      },
+      "continuation": 0.0075,
+      "continuation95CI": [
+        0.0025538429629852373,
+        0.02181610802770022
+      ],
+      "policyProbability": 0.01294468067743304
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 314,
+        "check": 0,
+        "call": 82,
+        "raise": 4
+      },
+      "continuation": 0.215,
+      "continuation95CI": [
+        0.17755084865785345,
+        0.25787135648396453
+      ],
+      "policyProbability": 0.20849169881915075
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 47,
+        "check": 0,
+        "call": 331,
+        "raise": 22
+      },
+      "continuation": 0.8825,
+      "continuation95CI": [
+        0.847244320271723,
+        0.9104785096695212
+      ],
+      "policyProbability": 0.8410362882053463
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.006927709406951421
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 348,
+        "check": 0,
+        "call": 50,
+        "raise": 2
+      },
+      "continuation": 0.13,
+      "continuation95CI": [
+        0.10053077315766948,
+        0.16650858088609424
+      ],
+      "policyProbability": 0.12289738689190699
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 95,
+        "check": 0,
+        "call": 284,
+        "raise": 21
+      },
+      "continuation": 0.7625,
+      "continuation95CI": [
+        0.7184227068794935,
+        0.8015831568056742
+      ],
+      "policyProbability": 0.7378310574431184
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.004428935560787939
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 368,
+        "check": 0,
+        "call": 31,
+        "raise": 1
+      },
+      "continuation": 0.08,
+      "continuation95CI": [
+        0.057235397942962354,
+        0.11075522016076943
+      ],
+      "policyProbability": 0.08202416022582337
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 127,
+        "check": 0,
+        "call": 252,
+        "raise": 21
+      },
+      "continuation": 0.6825,
+      "continuation95CI": [
+        0.6353288943116709,
+        0.7261989918694457
+      ],
+      "policyProbability": 0.642180964466076
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0016083341017338881
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 386,
+        "check": 0,
+        "call": 14,
+        "raise": 0
+      },
+      "continuation": 0.035,
+      "continuation95CI": [
+        0.0209610999014911,
+        0.05788565585621193
+      ],
+      "policyProbability": 0.031342177030107665
+    },
+    {
+      "kind": "oesd",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 220,
+        "check": 0,
+        "call": 171,
+        "raise": 9
+      },
+      "continuation": 0.45,
+      "continuation95CI": [
+        0.40195136207927884,
+        0.4989999019806892
+      ],
+      "policyProbability": 0.39390028475869143
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 321,
+        "check": 0,
+        "call": 76,
+        "raise": 3
+      },
+      "continuation": 0.1975,
+      "continuation95CI": [
+        0.16144205642368673,
+        0.2393130911391201
+      ],
+      "policyProbability": 0.19184959198186924
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 54,
+        "check": 0,
+        "call": 323,
+        "raise": 23
+      },
+      "continuation": 0.865,
+      "continuation95CI": [
+        0.8280182729276188,
+        0.8950374994346143
+      ],
+      "policyProbability": 0.8266349219569007
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 2,
+        "check": 0,
+        "call": 375,
+        "raise": 23
+      },
+      "continuation": 0.995,
+      "continuation95CI": [
+        0.9819547100278873,
+        0.9986277757784289
+      ],
+      "policyProbability": 0.9896663622168643
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 383,
+        "check": 0,
+        "call": 17,
+        "raise": 0
+      },
+      "continuation": 0.0425,
+      "continuation95CI": [
+        0.02670146955162519,
+        0.06700259659708263
+      ],
+      "policyProbability": 0.038704766224501364
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 203,
+        "check": 0,
+        "call": 184,
+        "raise": 13
+      },
+      "continuation": 0.4925,
+      "continuation95CI": [
+        0.4438103957369542,
+        0.5413322938720411
+      ],
+      "policyProbability": 0.44711879823767275
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 19,
+        "check": 0,
+        "call": 358,
+        "raise": 23
+      },
+      "continuation": 0.9525,
+      "continuation95CI": [
+        0.9270078923649577,
+        0.9693831678923314
+      ],
+      "policyProbability": 0.942006496410119
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 393,
+        "check": 0,
+        "call": 7,
+        "raise": 0
+      },
+      "continuation": 0.0175,
+      "continuation95CI": [
+        0.008502182660789141,
+        0.03567751551790271
+      ],
+      "policyProbability": 0.02113180042773033
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 268,
+        "check": 0,
+        "call": 125,
+        "raise": 7
+      },
+      "continuation": 0.33,
+      "continuation95CI": [
+        0.285727498574661,
+        0.3775067992292304
+      ],
+      "policyProbability": 0.3024584918722144
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 33,
+        "check": 0,
+        "call": 344,
+        "raise": 23
+      },
+      "continuation": 0.9175,
+      "continuation95CI": [
+        0.8864024616066086,
+        0.940654483492658
+      ],
+      "policyProbability": 0.8970050957592735
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.007283267159295059
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 347,
+        "check": 0,
+        "call": 51,
+        "raise": 2
+      },
+      "continuation": 0.1325,
+      "continuation95CI": [
+        0.10274473201637832,
+        0.16924705882438698
+      ],
+      "policyProbability": 0.12843518965442835
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 92,
+        "check": 0,
+        "call": 286,
+        "raise": 22
+      },
+      "continuation": 0.77,
+      "continuation95CI": [
+        0.7263063466698358,
+        0.8085568274063366
+      ],
+      "policyProbability": 0.7474643505394585
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0021435545178958293
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 381,
+        "check": 0,
+        "call": 19,
+        "raise": 0
+      },
+      "continuation": 0.0475,
+      "continuation95CI": [
+        0.030616832107668652,
+        0.07299210763504237
+      ],
+      "policyProbability": 0.04136227594048625
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 190,
+        "check": 0,
+        "call": 196,
+        "raise": 14
+      },
+      "continuation": 0.525,
+      "continuation95CI": [
+        0.4760562161165593,
+        0.5734681518534566
+      ],
+      "policyProbability": 0.46427498449309934
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0010494314037062802
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 393,
+        "check": 0,
+        "call": 7,
+        "raise": 0
+      },
+      "continuation": 0.0175,
+      "continuation95CI": [
+        0.008502182660789141,
+        0.03567751551790271
+      ],
+      "policyProbability": 0.02066450463349656
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 270,
+        "check": 0,
+        "call": 122,
+        "raise": 8
+      },
+      "continuation": 0.325,
+      "continuation95CI": [
+        0.28095249494205327,
+        0.372376929267835
+      ],
+      "policyProbability": 0.29766186530586336
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0003766759963231836
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.007511737274941477
+    },
+    {
+      "kind": "oesd",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 343,
+        "check": 0,
+        "call": 55,
+        "raise": 2
+      },
+      "continuation": 0.1425,
+      "continuation95CI": [
+        0.11163780858819913,
+        0.18016372944057255
+      ],
+      "policyProbability": 0.13195891535220305
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.002632615119319004
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 378,
+        "check": 0,
+        "call": 22,
+        "raise": 0
+      },
+      "continuation": 0.055,
+      "continuation95CI": [
+        0.036598221864059276,
+        0.08186802826965653
+      ],
+      "policyProbability": 0.05034777082923825
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 172,
+        "check": 0,
+        "call": 226,
+        "raise": 2
+      },
+      "continuation": 0.57,
+      "continuation95CI": [
+        0.521043416119755,
+        0.6176248141962897
+      ],
+      "policyProbability": 0.5157094531697713
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0005178895627222513
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.010300279903740384
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 331,
+        "check": 0,
+        "call": 69,
+        "raise": 0
+      },
+      "continuation": 0.1725,
+      "continuation95CI": [
+        0.13863464284363428,
+        0.21259613674915653
+      ],
+      "policyProbability": 0.17289738300043211
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "oesd",
+      "street": "river",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 22,
+        "check": 0,
+        "call": 355,
+        "raise": 23
+      },
+      "continuation": 0.945,
+      "continuation95CI": [
+        0.9181319717303434,
+        0.9634017781359406
+      ],
+      "policyProbability": 0.9280695743644666
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 2,
+        "check": 0,
+        "call": 374,
+        "raise": 24
+      },
+      "continuation": 0.995,
+      "continuation95CI": [
+        0.9819547100278873,
+        0.9986277757784289
+      ],
+      "policyProbability": 0.9961560650212558
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 0,
+        "check": 0,
+        "call": 376,
+        "raise": 24
+      },
+      "continuation": 1,
+      "continuation95CI": [
+        0.9904873594003194,
+        1
+      ],
+      "policyProbability": 0.9998079201639146
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 90,
+        "check": 0,
+        "call": 288,
+        "raise": 22
+      },
+      "continuation": 0.775,
+      "continuation95CI": [
+        0.7315721378719925,
+        0.8131959097981832
+      ],
+      "policyProbability": 0.7521518316660522
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 373,
+        "raise": 23
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9838590301387389
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 0,
+        "check": 0,
+        "call": 376,
+        "raise": 24
+      },
+      "continuation": 1,
+      "continuation95CI": [
+        0.9904873594003194,
+        1
+      ],
+      "policyProbability": 0.9991838711697117
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 181,
+        "check": 0,
+        "call": 204,
+        "raise": 15
+      },
+      "continuation": 0.5475,
+      "continuation95CI": [
+        0.4985002204356925,
+        0.5955960787073378
+      ],
+      "policyProbability": 0.4888734186518586
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 18,
+        "check": 0,
+        "call": 359,
+        "raise": 23
+      },
+      "continuation": 0.955,
+      "continuation95CI": [
+        0.929994720438381,
+        0.9713487766159096
+      ],
+      "policyProbability": 0.950522147900773
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 0,
+        "check": 0,
+        "call": 376,
+        "raise": 24
+      },
+      "continuation": 1,
+      "continuation95CI": [
+        0.9904873594003194,
+        1
+      ],
+      "policyProbability": 0.9974151157683292
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 279,
+        "check": 0,
+        "call": 114,
+        "raise": 7
+      },
+      "continuation": 0.3025,
+      "continuation95CI": [
+        0.25953861492842695,
+        0.34921887810844693
+      ],
+      "policyProbability": 0.2823131453507006
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 36,
+        "check": 0,
+        "call": 341,
+        "raise": 23
+      },
+      "continuation": 0.91,
+      "continuation95CI": [
+        0.877916547675384,
+        0.9342830870328781
+      ],
+      "policyProbability": 0.8876524970029784
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 2,
+        "check": 0,
+        "call": 373,
+        "raise": 25
+      },
+      "continuation": 0.995,
+      "continuation95CI": [
+        0.9819547100278873,
+        0.9986277757784289
+      ],
+      "policyProbability": 0.9937380596980866
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 323,
+        "check": 0,
+        "call": 73,
+        "raise": 4
+      },
+      "continuation": 0.1925,
+      "continuation95CI": [
+        0.15686042573701753,
+        0.2339898482317861
+      ],
+      "policyProbability": 0.18906112905473393
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 55,
+        "check": 0,
+        "call": 322,
+        "raise": 23
+      },
+      "continuation": 0.8625,
+      "continuation95CI": [
+        0.825287326885749,
+        0.8928160086794825
+      ],
+      "policyProbability": 0.8240277247953921
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 2,
+        "check": 0,
+        "call": 373,
+        "raise": 25
+      },
+      "continuation": 0.995,
+      "continuation95CI": [
+        0.9819547100278873,
+        0.9986277757784289
+      ],
+      "policyProbability": 0.9894797540794145
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 342,
+        "check": 0,
+        "call": 56,
+        "raise": 2
+      },
+      "continuation": 0.145,
+      "continuation95CI": [
+        0.1138699785258184,
+        0.18288399629995486
+      ],
+      "policyProbability": 0.14287462108308258
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 82,
+        "check": 0,
+        "call": 295,
+        "raise": 23
+      },
+      "continuation": 0.795,
+      "continuation95CI": [
+        0.7527197602970003,
+        0.8316677817491883
+      ],
+      "policyProbability": 0.7700127609431134
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 370,
+        "raise": 26
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9853474979913516
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 378,
+        "check": 0,
+        "call": 21,
+        "raise": 1
+      },
+      "continuation": 0.055,
+      "continuation95CI": [
+        0.036598221864059276,
+        0.08186802826965653
+      ],
+      "policyProbability": 0.05369443760921333
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 165,
+        "check": 0,
+        "call": 218,
+        "raise": 17
+      },
+      "continuation": 0.5875,
+      "continuation95CI": [
+        0.5386465880248711,
+        0.634688699870185
+      ],
+      "policyProbability": 0.5326394913587389
+    },
+    {
+      "kind": "flush",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 14,
+        "check": 0,
+        "call": 362,
+        "raise": 24
+      },
+      "continuation": 0.965,
+      "continuation95CI": [
+        0.942114344143788,
+        0.9790389000985089
+      ],
+      "policyProbability": 0.9581432367294712
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 176,
+        "check": 0,
+        "call": 205,
+        "raise": 19
+      },
+      "continuation": 0.56,
+      "continuation95CI": [
+        0.511011885079453,
+        0.6078465980485853
+      ],
+      "policyProbability": 0.5115093008755124
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 16,
+        "check": 0,
+        "call": 356,
+        "raise": 28
+      },
+      "continuation": 0.96,
+      "continuation95CI": [
+        0.9360172183709143,
+        0.9752311522773793
+      ],
+      "policyProbability": 0.9546114850380001
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 0,
+        "check": 0,
+        "call": 369,
+        "raise": 31
+      },
+      "continuation": 1,
+      "continuation95CI": [
+        0.9904873594003194,
+        1
+      ],
+      "policyProbability": 0.9976383854080105
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 335,
+        "check": 0,
+        "call": 62,
+        "raise": 3
+      },
+      "continuation": 0.1625,
+      "continuation95CI": [
+        0.1295868626510332,
+        0.2018341697537513
+      ],
+      "policyProbability": 0.15857035893710658
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 73,
+        "check": 0,
+        "call": 304,
+        "raise": 23
+      },
+      "continuation": 0.8175,
+      "continuation95CI": [
+        0.7766862383008183,
+        0.8522732349183845
+      ],
+      "policyProbability": 0.7910218684121509
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 365,
+        "raise": 31
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9870176349039627
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 377,
+        "check": 0,
+        "call": 22,
+        "raise": 1
+      },
+      "continuation": 0.0575,
+      "continuation95CI": [
+        0.038617261729224514,
+        0.08480142520149289
+      ],
+      "policyProbability": 0.06320967695259261
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 151,
+        "check": 0,
+        "call": 228,
+        "raise": 21
+      },
+      "continuation": 0.6225,
+      "continuation95CI": [
+        0.5740402091679837,
+        0.6686291938850946
+      ],
+      "policyProbability": 0.5754195503189271
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 10,
+        "check": 0,
+        "call": 359,
+        "raise": 31
+      },
+      "continuation": 0.975,
+      "continuation95CI": [
+        0.9545979351700657,
+        0.9863650562602375
+      ],
+      "policyProbability": 0.9645657086369926
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 382,
+        "check": 0,
+        "call": 18,
+        "raise": 0
+      },
+      "continuation": 0.045,
+      "continuation95CI": [
+        0.028651223384090457,
+        0.07000527956161895
+      ],
+      "policyProbability": 0.03938274365552885
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 201,
+        "check": 0,
+        "call": 183,
+        "raise": 16
+      },
+      "continuation": 0.4975,
+      "continuation95CI": [
+        0.44875800198627125,
+        0.5462895612167272
+      ],
+      "policyProbability": 0.4515900452525705
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 19,
+        "check": 0,
+        "call": 353,
+        "raise": 28
+      },
+      "continuation": 0.9525,
+      "continuation95CI": [
+        0.9270078923649577,
+        0.9693831678923314
+      ],
+      "policyProbability": 0.942985844317129
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 383,
+        "check": 0,
+        "call": 17,
+        "raise": 0
+      },
+      "continuation": 0.0425,
+      "continuation95CI": [
+        0.02670146955162519,
+        0.06700259659708263
+      ],
+      "policyProbability": 0.03905006384388954
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 201,
+        "check": 0,
+        "call": 183,
+        "raise": 16
+      },
+      "continuation": 0.4975,
+      "continuation95CI": [
+        0.44875800198627125,
+        0.5462895612167272
+      ],
+      "policyProbability": 0.4494043134028559
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 19,
+        "check": 0,
+        "call": 354,
+        "raise": 27
+      },
+      "continuation": 0.9525,
+      "continuation95CI": [
+        0.9270078923649577,
+        0.9693831678923314
+      ],
+      "policyProbability": 0.9425092787654064
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 389,
+        "check": 0,
+        "call": 11,
+        "raise": 0
+      },
+      "continuation": 0.0275,
+      "continuation95CI": [
+        0.015423476078524151,
+        0.04856596928817408
+      ],
+      "policyProbability": 0.02782193071705996
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 232,
+        "check": 0,
+        "call": 156,
+        "raise": 12
+      },
+      "continuation": 0.42,
+      "continuation95CI": [
+        0.3726168694631035,
+        0.46890515303284536
+      ],
+      "policyProbability": 0.36500306944601846
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 24,
+        "check": 0,
+        "call": 350,
+        "raise": 26
+      },
+      "continuation": 0.94,
+      "continuation95CI": [
+        0.9122765567969421,
+        0.9593523194753389
+      ],
+      "policyProbability": 0.9202893991038167
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.009629166320420324
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 334,
+        "check": 0,
+        "call": 63,
+        "raise": 3
+      },
+      "continuation": 0.165,
+      "continuation95CI": [
+        0.13184448183586026,
+        0.2045289873659258
+      ],
+      "policyProbability": 0.16338114647955637
+    },
+    {
+      "kind": "flush",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 67,
+        "check": 0,
+        "call": 310,
+        "raise": 23
+      },
+      "continuation": 0.8325,
+      "continuation95CI": [
+        0.7927791128508475,
+        0.8658949811503649
+      ],
+      "policyProbability": 0.796849249787897
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.005442783148503327
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 359,
+        "check": 0,
+        "call": 41,
+        "raise": 0
+      },
+      "continuation": 0.1025,
+      "continuation95CI": [
+        0.07645843910823481,
+        0.13610411016851132
+      ],
+      "policyProbability": 0.09903375050824392
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 114,
+        "check": 0,
+        "call": 281,
+        "raise": 5
+      },
+      "continuation": 0.715,
+      "continuation95CI": [
+        0.6688796049741064,
+        0.757029959568031
+      ],
+      "policyProbability": 0.688259086375775
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0009279990393679105
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 394,
+        "check": 0,
+        "call": 6,
+        "raise": 0
+      },
+      "continuation": 0.015,
+      "continuation95CI": [
+        0.006892197870136998,
+        0.03233506351155325
+      ],
+      "policyProbability": 0.01831497584067332
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 283,
+        "check": 0,
+        "call": 115,
+        "raise": 2
+      },
+      "continuation": 0.2925,
+      "continuation95CI": [
+        0.25006128808159916,
+        0.3388864577672683
+      ],
+      "policyProbability": 0.27258405443505507
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0003851279605652236
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.007679057925047861
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 343,
+        "check": 0,
+        "call": 57,
+        "raise": 0
+      },
+      "continuation": 0.1425,
+      "continuation95CI": [
+        0.11163780858819913,
+        0.18016372944057255
+      ],
+      "policyProbability": 0.13452252267941345
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "flush",
+      "street": "river",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 33,
+        "check": 0,
+        "call": 329,
+        "raise": 38
+      },
+      "continuation": 0.9175,
+      "continuation95CI": [
+        0.8864024616066086,
+        0.940654483492658
+      ],
+      "policyProbability": 0.8957248759383233
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 2,
+        "check": 0,
+        "call": 356,
+        "raise": 42
+      },
+      "continuation": 0.995,
+      "continuation95CI": [
+        0.9819547100278873,
+        0.9986277757784289
+      ],
+      "policyProbability": 0.9942374757907392
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 0,
+        "check": 0,
+        "call": 358,
+        "raise": 42
+      },
+      "continuation": 1,
+      "continuation95CI": [
+        0.9904873594003194,
+        1
+      ],
+      "policyProbability": 0.9997115212115496
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 99,
+        "check": 0,
+        "call": 271,
+        "raise": 30
+      },
+      "continuation": 0.7525,
+      "continuation95CI": [
+        0.7079383715578094,
+        0.7922577449393517
+      ],
+      "policyProbability": 0.7249340051977946
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 354,
+        "raise": 42
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9814592516567867
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 0,
+        "check": 0,
+        "call": 358,
+        "raise": 42
+      },
+      "continuation": 1,
+      "continuation95CI": [
+        0.9904873594003194,
+        1
+      ],
+      "policyProbability": 0.9990603561702229
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 146,
+        "check": 0,
+        "call": 231,
+        "raise": 23
+      },
+      "continuation": 0.635,
+      "continuation95CI": [
+        0.5867430199020135,
+        0.6806885671360728
+      ],
+      "policyProbability": 0.5857952376918525
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 9,
+        "check": 0,
+        "call": 350,
+        "raise": 41
+      },
+      "continuation": 0.9775,
+      "continuation95CI": [
+        0.9577968763972683,
+        0.9881185518300367
+      ],
+      "policyProbability": 0.965993645712141
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 0,
+        "check": 0,
+        "call": 358,
+        "raise": 42
+      },
+      "continuation": 1,
+      "continuation95CI": [
+        0.9904873594003194,
+        1
+      ],
+      "policyProbability": 0.9982503876030501
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 212,
+        "check": 0,
+        "call": 167,
+        "raise": 21
+      },
+      "continuation": 0.47,
+      "continuation95CI": [
+        0.42160601793747937,
+        0.5189647404985014
+      ],
+      "policyProbability": 0.41687899007299867
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 20,
+        "check": 0,
+        "call": 339,
+        "raise": 41
+      },
+      "continuation": 0.95,
+      "continuation95CI": [
+        0.9240357990869275,
+        0.9674028243733599
+      ],
+      "policyProbability": 0.9348930757857394
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 2,
+        "check": 0,
+        "call": 356,
+        "raise": 42
+      },
+      "continuation": 0.995,
+      "continuation95CI": [
+        0.9819547100278873,
+        0.9986277757784289
+      ],
+      "policyProbability": 0.9965447569785058
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 305,
+        "check": 0,
+        "call": 86,
+        "raise": 9
+      },
+      "continuation": 0.2375,
+      "continuation95CI": [
+        0.19841684319432581,
+        0.2815772931205065
+      ],
+      "policyProbability": 0.23571043416256943
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 41,
+        "check": 0,
+        "call": 321,
+        "raise": 38
+      },
+      "continuation": 0.8975,
+      "continuation95CI": [
+        0.8638958898314886,
+        0.9235415608917652
+      ],
+      "policyProbability": 0.8610044012872168
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 2,
+        "check": 0,
+        "call": 355,
+        "raise": 43
+      },
+      "continuation": 0.995,
+      "continuation95CI": [
+        0.9819547100278873,
+        0.9986277757784289
+      ],
+      "policyProbability": 0.9920267457585255
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 334,
+        "check": 0,
+        "call": 60,
+        "raise": 6
+      },
+      "continuation": 0.165,
+      "continuation95CI": [
+        0.13184448183586026,
+        0.2045289873659258
+      ],
+      "policyProbability": 0.16298486520195676
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 67,
+        "check": 0,
+        "call": 296,
+        "raise": 37
+      },
+      "continuation": 0.8325,
+      "continuation95CI": [
+        0.7927791128508475,
+        0.8658949811503649
+      ],
+      "policyProbability": 0.796379066816929
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 3,
+        "check": 0,
+        "call": 353,
+        "raise": 44
+      },
+      "continuation": 0.9925,
+      "continuation95CI": [
+        0.9781838919722998,
+        0.9974461570370148
+      ],
+      "policyProbability": 0.987430280593236
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 377,
+        "check": 0,
+        "call": 21,
+        "raise": 2
+      },
+      "continuation": 0.0575,
+      "continuation95CI": [
+        0.038617261729224514,
+        0.08480142520149289
+      ],
+      "policyProbability": 0.06389183895193584
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 148,
+        "check": 0,
+        "call": 229,
+        "raise": 23
+      },
+      "continuation": 0.63,
+      "continuation95CI": [
+        0.5816578813462162,
+        0.6758688320978669
+      ],
+      "policyProbability": 0.5782175716225165
+    },
+    {
+      "kind": "combo",
+      "street": "flop",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 10,
+        "check": 0,
+        "call": 347,
+        "raise": 43
+      },
+      "continuation": 0.975,
+      "continuation95CI": [
+        0.9545979351700657,
+        0.9863650562602375
+      ],
+      "policyProbability": 0.964955408932778
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 101,
+        "check": 0,
+        "call": 267,
+        "raise": 32
+      },
+      "continuation": 0.7475,
+      "continuation95CI": [
+        0.7027074952260347,
+        0.7875837476771236
+      ],
+      "policyProbability": 0.7183205963312909
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 352,
+        "raise": 44
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9808505559310113
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 0,
+        "check": 0,
+        "call": 354,
+        "raise": 46
+      },
+      "continuation": 1,
+      "continuation95CI": [
+        0.9904873594003194,
+        1
+      ],
+      "policyProbability": 0.9990289357865438
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 228,
+        "check": 0,
+        "call": 151,
+        "raise": 21
+      },
+      "continuation": 0.43,
+      "continuation95CI": [
+        0.3823751858037104,
+        0.4789565838802449
+      ],
+      "policyProbability": 0.3752133918740206
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 24,
+        "check": 0,
+        "call": 334,
+        "raise": 42
+      },
+      "continuation": 0.94,
+      "continuation95CI": [
+        0.9122765567969421,
+        0.9593523194753389
+      ],
+      "policyProbability": 0.9234437939186038
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 2,
+        "check": 0,
+        "call": 352,
+        "raise": 46
+      },
+      "continuation": 0.995,
+      "continuation95CI": [
+        0.9819547100278873,
+        0.9986277757784289
+      ],
+      "policyProbability": 0.9958894718057801
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 358,
+        "check": 0,
+        "call": 40,
+        "raise": 2
+      },
+      "continuation": 0.105,
+      "continuation95CI": [
+        0.07862330722943671,
+        0.138891678844311
+      ],
+      "policyProbability": 0.10807693807046836
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 105,
+        "check": 0,
+        "call": 263,
+        "raise": 32
+      },
+      "continuation": 0.7375,
+      "continuation95CI": [
+        0.69226759360591,
+        0.7782139021092418
+      ],
+      "policyProbability": 0.7087794428374263
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 350,
+        "raise": 46
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9799537542193482
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 359,
+        "check": 0,
+        "call": 39,
+        "raise": 2
+      },
+      "continuation": 0.1025,
+      "continuation95CI": [
+        0.07645843910823481,
+        0.13610411016851132
+      ],
+      "policyProbability": 0.10447906077110436
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 109,
+        "check": 0,
+        "call": 259,
+        "raise": 32
+      },
+      "continuation": 0.7275,
+      "continuation95CI": [
+        0.6818559365326374,
+        0.768815811994508
+      ],
+      "policyProbability": 0.7008987031933418
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 4,
+        "check": 0,
+        "call": 350,
+        "raise": 46
+      },
+      "continuation": 0.99,
+      "continuation95CI": [
+        0.9745730330055918,
+        0.9961045792067212
+      ],
+      "policyProbability": 0.9791958883881462
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 390,
+        "check": 0,
+        "call": 10,
+        "raise": 0
+      },
+      "continuation": 0.025,
+      "continuation95CI": [
+        0.013634943739762435,
+        0.045402064829934204
+      ],
+      "policyProbability": 0.027159740759769124
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 239,
+        "check": 0,
+        "call": 140,
+        "raise": 21
+      },
+      "continuation": 0.4025,
+      "continuation95CI": [
+        0.3555882638828042,
+        0.4512667010341336
+      ],
+      "policyProbability": 0.3592814681315937
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 26,
+        "check": 0,
+        "call": 331,
+        "raise": 43
+      },
+      "continuation": 0.935,
+      "continuation95CI": [
+        0.9064641783755448,
+        0.9552598243027332
+      ],
+      "policyProbability": 0.9184533498163411
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 393,
+        "check": 0,
+        "call": 7,
+        "raise": 0
+      },
+      "continuation": 0.0175,
+      "continuation95CI": [
+        0.008502182660789141,
+        0.03567751551790271
+      ],
+      "policyProbability": 0.020817565610607325
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 270,
+        "check": 0,
+        "call": 114,
+        "raise": 16
+      },
+      "continuation": 0.325,
+      "continuation95CI": [
+        0.28095249494205327,
+        0.372376929267835
+      ],
+      "policyProbability": 0.29923972557794154
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 33,
+        "check": 0,
+        "call": 324,
+        "raise": 43
+      },
+      "continuation": 0.9175,
+      "continuation95CI": [
+        0.8864024616066086,
+        0.940654483492658
+      ],
+      "policyProbability": 0.8955826963174319
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 398,
+        "check": 0,
+        "call": 2,
+        "raise": 0
+      },
+      "continuation": 0.005,
+      "continuation95CI": [
+        0.0013722242215711469,
+        0.018045289972112716
+      ],
+      "policyProbability": 0.007368432025429916
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 346,
+        "check": 0,
+        "call": 49,
+        "raise": 5
+      },
+      "continuation": 0.135,
+      "continuation95CI": [
+        0.10496250056538574,
+        0.17198172707238119
+      ],
+      "policyProbability": 0.12975184857394462
+    },
+    {
+      "kind": "combo",
+      "street": "turn",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 91,
+        "check": 0,
+        "call": 271,
+        "raise": 38
+      },
+      "continuation": 0.7725,
+      "continuation95CI": [
+        0.7289382239883379,
+        0.8108773868848361
+      ],
+      "policyProbability": 0.749668555797036
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.003334732848818578
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 377,
+        "check": 0,
+        "call": 23,
+        "raise": 0
+      },
+      "continuation": 0.0575,
+      "continuation95CI": [
+        0.038617261729224514,
+        0.08480142520149289
+      ],
+      "policyProbability": 0.06297203414008323
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.25,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 152,
+        "check": 0,
+        "call": 246,
+        "raise": 2
+      },
+      "continuation": 0.62,
+      "continuation95CI": [
+        0.5715036398060113,
+        0.6662133264500655
+      ],
+      "policyProbability": 0.5744370402855236
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0007184408118519059
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 396,
+        "check": 0,
+        "call": 4,
+        "raise": 0
+      },
+      "continuation": 0.01,
+      "continuation95CI": [
+        0.0038954207932788126,
+        0.02542696699440824
+      ],
+      "policyProbability": 0.014235080469476968
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 309,
+        "check": 0,
+        "call": 91,
+        "raise": 0
+      },
+      "continuation": 0.2275,
+      "continuation95CI": [
+        0.1891226131151639,
+        0.2710617760116621
+      ],
+      "policyProbability": 0.2248351003637985
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.00027367264892430576
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.005468300127324577
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 0.75,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 359,
+        "check": 0,
+        "call": 41,
+        "raise": 0
+      },
+      "continuation": 0.1025,
+      "continuation95CI": [
+        0.07645843910823481,
+        0.13610411016851132
+      ],
+      "policyProbability": 0.0994541659307201
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 1,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 1,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 1,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 1.5,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 2,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 2,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 2,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 3,
+      "offset": -0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 400,
+        "check": 0,
+        "call": 0,
+        "raise": 0
+      },
+      "continuation": 0,
+      "continuation95CI": [
+        0,
+        0.009512640599680667
+      ],
+      "policyProbability": 0.0002501236956901076
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 3,
+      "offset": 0,
+      "opportunities": 400,
+      "actions": {
+        "fold": 399,
+        "check": 0,
+        "call": 1,
+        "raise": 0
+      },
+      "continuation": 0.0025,
+      "continuation95CI": [
+        0.00044143642943440895,
+        0.014023640967247855
+      ],
+      "policyProbability": 0.0050000000000000044
+    },
+    {
+      "kind": "combo",
+      "street": "river",
+      "potFraction": 3,
+      "offset": 0.75,
+      "opportunities": 400,
+      "actions": {
+        "fold": 362,
+        "check": 0,
+        "call": 38,
+        "raise": 0
+      },
+      "continuation": 0.095,
+      "continuation95CI": [
+        0.0699962171700798,
+        0.12770902171566156
+      ],
+      "policyProbability": 0.09167897253861057
+    }
+  ]
+}

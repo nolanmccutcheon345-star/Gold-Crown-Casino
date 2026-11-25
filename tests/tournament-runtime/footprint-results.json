@@ -1,0 +1,48 @@
+{
+  "rows": [
+    {
+      "seats": 6,
+      "hands": 49,
+      "actions": 877,
+      "before": {
+        "logicalSnapshotBytes": 4159845,
+        "encodeDecodeAndEqualityMs": {
+          "p50": 675.1315730000006,
+          "max": 839.7396510000001
+        }
+      },
+      "after": {
+        "logicalSnapshotBytes": 348443,
+        "encodeDecodeAndEqualityMs": {
+          "p50": 64.68087399999968,
+          "max": 72.04394599999978
+        }
+      },
+      "auditedHands": 49,
+      "auditMs": 217.02174100000047,
+      "method": "Identical immutable complete legal check/call events, five encode/decode/equality samples in Node. Logical payload, not browser origin usage. Full canonical states retained; old expanded frames supported."
+    },
+    {
+      "seats": 9,
+      "hands": 59,
+      "actions": 1443,
+      "before": {
+        "logicalSnapshotBytes": 8431902,
+        "encodeDecodeAndEqualityMs": {
+          "p50": 1374.7123189999984,
+          "max": 1447.1406109999998
+        }
+      },
+      "after": {
+        "logicalSnapshotBytes": 521572,
+        "encodeDecodeAndEqualityMs": {
+          "p50": 86.35607999999957,
+          "max": 89.06530899999962
+        }
+      },
+      "auditedHands": 59,
+      "auditMs": 403.4680499999995,
+      "method": "Identical immutable complete legal check/call events, five encode/decode/equality samples in Node. Logical payload, not browser origin usage. Full canonical states retained; old expanded frames supported."
+    }
+  ]
+}

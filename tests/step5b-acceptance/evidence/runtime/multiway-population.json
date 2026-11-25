@@ -1,0 +1,57 @@
+{
+  "criterion": "Typical weak-bluff/weak-overcall rates reduce in multiway environment, ceteris paribus",
+  "protocol": "Matched pot, stacks, price, own cards, board and OOP. All8 existing archetypes,4 fixed personality blocks each,256 action draws per decision. This is a synthetic controlled development evaluation, not human calibration or an unseen holdout.",
+  "repairedHarness": "Initial strict decline for each persona failed on station0.005 floor. Raw failures preserved; production untouched. Original criterion typical is now assessed at explicitly equal-weight population level while every individual exception is retained.",
+  "aggregateBluff": [
+    0.05059382059862922,
+    0.02014666225782492,
+    0.00768489267753167
+  ],
+  "aggregateContinue": [
+    0.4575235527149979,
+    0.2528011726378846,
+    0.10148126080180685
+  ],
+  "exceptions": [
+    {
+      "archetype": "nit",
+      "kind": "weak-bluff",
+      "means": [
+        0.006042565115546206,
+        0.005,
+        0.005
+      ],
+      "explanation": "Existing bounded stochastic action floor0.005; no claim of strict decline in every individual node"
+    },
+    {
+      "archetype": "station",
+      "kind": "weak-bluff",
+      "means": [
+        0.005,
+        0.005,
+        0.005
+      ],
+      "explanation": "Existing bounded stochastic action floor0.005; no claim of strict decline in every individual node"
+    },
+    {
+      "archetype": "fit-or-fold",
+      "kind": "weak-bluff",
+      "means": [
+        0.007945415379746513,
+        0.005,
+        0.005
+      ],
+      "explanation": "Existing bounded stochastic action floor0.005; no claim of strict decline in every individual node"
+    },
+    {
+      "archetype": "passive-reg",
+      "kind": "weak-bluff",
+      "means": [
+        0.006441167057786192,
+        0.005,
+        0.005
+      ],
+      "explanation": "Existing bounded stochastic action floor0.005; no claim of strict decline in every individual node"
+    }
+  ]
+}

@@ -1,0 +1,658 @@
+{
+  "sourceCommit": "e2861e51807161dcf39d3f03bbd3c9f52804d846",
+  "at": "2026-11-25T06:23:34.069Z",
+  "runtime": {
+    "node": "v24.22.1",
+    "platform": "linux",
+    "arch": "x64"
+  },
+  "versions": {
+    "engine": "0.4.0",
+    "policy": "synthetic-cash-1.6.0",
+    "rule": {
+      "id": "practice-cash",
+      "version": "0.1.0",
+      "mode": "cash",
+      "smallBlind": 100,
+      "bigBlind": 200,
+      "chipUnit": 1,
+      "rake": {
+        "basisPoints": 0,
+        "cap": 0,
+        "noFlopNoDrop": true
+      },
+      "shortRaiseReopens": "cumulative",
+      "oddChipOrder": "clockwise-from-button"
+    }
+  },
+  "sourceHashes": {
+    "tests/step5c-gates/PROTOCOL.md": "f5e2ccd0763003a347b71ab5ff00f374f14e3c8a717fba83abbc8b68cde38ac0",
+    "tests/step5c-gates/ecology.test.ts": "92dcccc20ce02b3efca81072d80c46cd1a3b00791031afff37f142475fb86ce2"
+  },
+  "full": false,
+  "seedBase": 1552941056,
+  "blocks": 1,
+  "handsPerBlock": 2,
+  "totalHands": 4,
+  "actions": 55,
+  "elapsedMs": 1510,
+  "expected": "Every hand completes with legal actions; stable profiles, dealer movement, carry-forward stacks, separate top-up wallet debit and exact table+wallet+rake conservation.",
+  "observed": "All executable assertions passed",
+  "definitions": {
+    "vpip": "Hand/player with voluntary preflop call/raise / hand/player with at least one voluntary decision",
+    "pfr": "Hand/player raising preflop / hand/player with a legal preflop raise opportunity",
+    "rfi": "Raise before any voluntary action / priced unopened decision with legal raising; excludes BB free option",
+    "limp": "Call before any voluntary action / priced unopened decision",
+    "overlimp": "Call behind limper / priced unraised decision after voluntary call",
+    "isolation": "Raise over limper(s) / unraised decision after voluntary call with legal raising",
+    "coldCall": "Call with no prior voluntary contribution, nonblind seat / priced first response to one open",
+    "threeBet": "Raise after one raise / first legal re-raise opportunity facing exactly one raise",
+    "fourBet": "Raise after two raises / first legal re-raise opportunity facing exactly two raises",
+    "squeeze": "Raise after open and cold call / legal re-raise opportunity after open and cold call",
+    "foldToThreeBet": "Fold / opener first priced response after second preflop raise",
+    "blindDefense": "Call or raise / SB or BB first priced response to open",
+    "flopCbet": "Bet / last preflop raiser first legal unopened-flop opportunity",
+    "turnBarrel": "Bet turn / previous flop aggressor first legal unopened-turn opportunity",
+    "riverBarrel": "Bet river / previous turn aggressor first legal unopened-river opportunity",
+    "checkRaise": "Raise after checking / first later legal raise opportunity facing price on same street",
+    "foldToCbet": "Fold / first response to a true flop cbet",
+    "drawCall": "Call / visible private-contribution draw facing price before river",
+    "drawRaise": "Raise / private-contribution draw with legal raising before river",
+    "valueBet": "Bet/raise / legal raising opportunity with operational private two-pair+ or top-pair value proxy",
+    "airBet": "Bet/raise / legal raising opportunity with unpaired no-live-draw proxy (not true bluff intention)",
+    "riverBluffCatch": "Call / river priced decision with one private pair proxy",
+    "foldSmall": "Fold / facing last postflop bet or raise increment ≤25% of pot after the raiser called, frozen at that raise event",
+    "continueOverbet": "Call/raise / facing last postflop bet or raise increment ≥150% of pot after the raiser called, frozen at that raise event",
+    "WTSD": "Reached showdown / saw flop while eligible (includes all-in runouts)",
+    "WSD": "Positive pot award / showdown participant; ties count as awards",
+    "WWSF": "Positive pot award / saw flop while eligible"
+  },
+  "rows": [
+    {
+      "cell": "loose-six",
+      "block": 0,
+      "seed": 1552941056,
+      "hands": 2,
+      "metrics": {
+        "limp": {
+          "count": 2,
+          "opportunities": 9
+        },
+        "rfi": {
+          "count": 0,
+          "opportunities": 9
+        },
+        "drawRaise": {
+          "count": 0,
+          "opportunities": 2
+        },
+        "valueBet": {
+          "count": 1,
+          "opportunities": 6
+        },
+        "vpip": {
+          "count": 2,
+          "opportunities": 12
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 12
+        },
+        "WTSD": {
+          "count": 2,
+          "opportunities": 4
+        },
+        "WWSF": {
+          "count": 2,
+          "opportunities": 4
+        },
+        "WSD": {
+          "count": 1,
+          "opportunities": 2
+        },
+        "overlimp": {
+          "count": 0,
+          "opportunities": 1
+        },
+        "isolation": {
+          "count": 0,
+          "opportunities": 1
+        },
+        "checkRaise": {
+          "count": 0,
+          "opportunities": 1
+        }
+      },
+      "flopHands": 2,
+      "multiwayFlopHands": 0,
+      "sidePotHands": 0,
+      "topups": 0,
+      "initialTable": 116000,
+      "initialWallet": 12000000,
+      "endingTable": 115955,
+      "endingWallet": 12000000,
+      "rake": 45,
+      "stackStates": 2,
+      "raiseCount": 1,
+      "sizingBuckets": {
+        "le25": 0,
+        "25to75": 1,
+        "75to150": 0,
+        "over150": 0
+      },
+      "artifact": "Y10-loose-six-0.json.gz"
+    },
+    {
+      "cell": "mixed-nine",
+      "block": 0,
+      "seed": 1553041056,
+      "hands": 2,
+      "metrics": {
+        "limp": {
+          "count": 1,
+          "opportunities": 9
+        },
+        "rfi": {
+          "count": 1,
+          "opportunities": 9
+        },
+        "airBet": {
+          "count": 0,
+          "opportunities": 3
+        },
+        "vpip": {
+          "count": 4,
+          "opportunities": 18
+        },
+        "pfr": {
+          "count": 2,
+          "opportunities": 18
+        },
+        "WTSD": {
+          "count": 5,
+          "opportunities": 5
+        },
+        "WWSF": {
+          "count": 2,
+          "opportunities": 5
+        },
+        "WSD": {
+          "count": 2,
+          "opportunities": 5
+        },
+        "overlimp": {
+          "count": 0,
+          "opportunities": 1
+        },
+        "isolation": {
+          "count": 0,
+          "opportunities": 1
+        },
+        "drawRaise": {
+          "count": 0,
+          "opportunities": 3
+        },
+        "threeBet": {
+          "count": 1,
+          "opportunities": 4
+        },
+        "coldCall": {
+          "count": 1,
+          "opportunities": 4
+        },
+        "squeeze": {
+          "count": 1,
+          "opportunities": 1
+        },
+        "fourBet": {
+          "count": 0,
+          "opportunities": 5
+        },
+        "foldToThreeBet": {
+          "count": 0,
+          "opportunities": 1
+        },
+        "valueBet": {
+          "count": 0,
+          "opportunities": 2
+        }
+      },
+      "flopHands": 2,
+      "multiwayFlopHands": 1,
+      "sidePotHands": 0,
+      "topups": 0,
+      "initialTable": 142000,
+      "initialWallet": 18000000,
+      "endingTable": 141575,
+      "endingWallet": 18000000,
+      "rake": 425,
+      "stackStates": 2,
+      "raiseCount": 2,
+      "sizingBuckets": {
+        "le25": 0,
+        "25to75": 1,
+        "75to150": 0,
+        "over150": 1
+      },
+      "artifact": "Y10-mixed-nine-0.json.gz"
+    }
+  ],
+  "summary": [
+    {
+      "configuration": "loose-six",
+      "hands": 2,
+      "blocks": 1,
+      "topups": 0,
+      "flopHands": 2,
+      "multiwayFlopHands": 0,
+      "sidePotHands": 0,
+      "rates": {
+        "limp": {
+          "count": 2,
+          "opportunities": 9,
+          "percent": 22.22222222222222,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            6.322376231222723,
+            54.74166563271946
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "rfi": {
+          "count": 0,
+          "opportunities": 9,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            29.91527535509594
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "drawRaise": {
+          "count": 0,
+          "opportunities": 2,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            65.76280471103807
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "valueBet": {
+          "count": 1,
+          "opportunities": 6,
+          "percent": 16.666666666666668,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            3.005258587173032,
+            56.350943656364606
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 2,
+          "opportunities": 12,
+          "percent": 16.666666666666668,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            4.696414761482223,
+            44.80363573846727
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 12,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            24.25007574992425
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WTSD": {
+          "count": 2,
+          "opportunities": 4,
+          "percent": 50,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            15.003570882017147,
+            84.99642911798286
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WWSF": {
+          "count": 2,
+          "opportunities": 4,
+          "percent": 50,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            15.003570882017147,
+            84.99642911798286
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WSD": {
+          "count": 1,
+          "opportunities": 2,
+          "percent": 50,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            9.452865480086615,
+            90.54713451991339
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "overlimp": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "isolation": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "checkRaise": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "sizingBuckets": [
+        {
+          "le25": 0,
+          "25to75": 1,
+          "75to150": 0,
+          "over150": 0
+        }
+      ]
+    },
+    {
+      "configuration": "mixed-nine",
+      "hands": 2,
+      "blocks": 1,
+      "topups": 0,
+      "flopHands": 2,
+      "multiwayFlopHands": 1,
+      "sidePotHands": 0,
+      "rates": {
+        "limp": {
+          "count": 1,
+          "opportunities": 9,
+          "percent": 11.11111111111111,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            1.9890371327130536,
+            43.50062147680601
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "rfi": {
+          "count": 1,
+          "opportunities": 9,
+          "percent": 11.11111111111111,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            1.9890371327130536,
+            43.50062147680601
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "airBet": {
+          "count": 0,
+          "opportunities": 3,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            56.15060804490177
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 4,
+          "opportunities": 18,
+          "percent": 22.22222222222222,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            9.000781913382,
+            45.21502645230549
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 2,
+          "opportunities": 18,
+          "percent": 11.11111111111111,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            3.101886845358279,
+            32.80024486660421
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WTSD": {
+          "count": 5,
+          "opportunities": 5,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            56.550850524791905,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WWSF": {
+          "count": 2,
+          "opportunities": 5,
+          "percent": 40,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            11.76182311592533,
+            76.9280067791163
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WSD": {
+          "count": 2,
+          "opportunities": 5,
+          "percent": 40,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            11.76182311592533,
+            76.9280067791163
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "overlimp": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "isolation": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "drawRaise": {
+          "count": 0,
+          "opportunities": 3,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            56.15060804490177
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "threeBet": {
+          "count": 1,
+          "opportunities": 4,
+          "percent": 25,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            4.558606264463622,
+            69.93639475573634
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "coldCall": {
+          "count": 1,
+          "opportunities": 4,
+          "percent": 25,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            4.558606264463622,
+            69.93639475573634
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "fourBet": {
+          "count": 0,
+          "opportunities": 5,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            43.4491494752081
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "foldToThreeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "valueBet": {
+          "count": 0,
+          "opportunities": 2,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            65.76280471103807
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "sizingBuckets": [
+        {
+          "le25": 0,
+          "25to75": 1,
+          "75to150": 0,
+          "over150": 1
+        }
+      ]
+    }
+  ],
+  "limitations": "Synthetic population only; no independent expert/human calibration. Automatic player churn deferred FUT032 is not implemented or validated. Whole Y10 criterion not claimed PASS from this cash-component evidence."
+}

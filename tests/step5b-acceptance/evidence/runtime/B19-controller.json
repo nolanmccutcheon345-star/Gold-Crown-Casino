@@ -1,0 +1,69 @@
+{
+  "source": "recorded by invoking run manifest",
+  "handId": "hand-18e9f51d9a457b8f9ebf044e259ea0fa",
+  "previousProfile": {
+    "id": "pokerstars-com-usd-regular-nlhe",
+    "version": "2026-11-01+cfg.5db183286d4bbca6e8f2e862bb576b7fff5ae54004889ccdcb1f13f82a914a32",
+    "mode": "cash",
+    "smallBlind": 100,
+    "bigBlind": 200,
+    "chipUnit": 1,
+    "rake": {
+      "basisPoints": 500,
+      "cap": 275,
+      "noFlopNoDrop": true,
+      "rounding": "half-even",
+      "capByDealtIn": {
+        "two": 125,
+        "threeFour": 125,
+        "fivePlus": 275
+      },
+      "source": {
+        "url": "https://www.pokerstars.com/poker/room/rake/?no_redirect=1",
+        "retrievedAt": "2026-11-01",
+        "currency": "USD",
+        "format": "regular-nlhe"
+      },
+      "dealtIn": 9
+    },
+    "shortRaiseReopens": "cumulative",
+    "oddChipOrder": "clockwise-from-button"
+  },
+  "queuedConfigurationId": "configuration:hand-6dd55050fac5d67b7e38ccc864750a50",
+  "nextHandId": "hand-20b11cda1d7930ec8f187364ab7aa64c",
+  "nextProfile": {
+    "id": "pokerstars-com-usd-regular-nlhe",
+    "version": "2026-11-01+cfg.5db183286d4bbca6e8f2e862bb576b7fff5ae54004889ccdcb1f13f82a914a32",
+    "mode": "cash",
+    "smallBlind": 100,
+    "bigBlind": 200,
+    "chipUnit": 1,
+    "rake": {
+      "basisPoints": 500,
+      "cap": 125,
+      "noFlopNoDrop": true,
+      "rounding": "half-even",
+      "capByDealtIn": {
+        "two": 125,
+        "threeFour": 125,
+        "fivePlus": 275
+      },
+      "source": {
+        "url": "https://www.pokerstars.com/poker/room/rake/?no_redirect=1",
+        "retrievedAt": "2026-11-01",
+        "currency": "USD",
+        "format": "regular-nlhe"
+      },
+      "dealtIn": 2
+    },
+    "shortRaiseReopens": "cumulative",
+    "oddChipOrder": "clockwise-from-button"
+  },
+  "button": 0,
+  "smallBlindSeat": 0,
+  "bigBlindSeat": 8,
+  "historyCount": 1,
+  "settlementCount": 1,
+  "walletBefore": 970000,
+  "walletAfter": 970000
+}

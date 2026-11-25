@@ -1,0 +1,1401 @@
+{
+  "claim": "Paired synthetic known/Unknown identity equivalence, not measured human resemblance",
+  "profile": {
+    "archetype": "station",
+    "policyVersion": "synthetic-cash-1.6.0",
+    "aggression": 0.14934442014433444,
+    "looseness": 0.9160789934638888,
+    "skill": 0.22422786721959712,
+    "environment": "neutral",
+    "unknown": true,
+    "traits": {
+      "positionAwareness": 0.1312292342400178,
+      "bluffFrequency": 0.10898651969619094,
+      "valueThreshold": 0.6560193061642349,
+      "drawCalling": 0.9377688329759986,
+      "sizeSensitivity": 0.25281765314284715,
+      "riskTolerance": 0.7775390445906669,
+      "riverCuriosity": 0.8923367385100573,
+      "slowPlay": 0.16645064581185579,
+      "multiwayCaution": 0.12028043031226843,
+      "adaptation": 0.14501579716801644,
+      "memoryRetention": 0.4264921161253005,
+      "mistakeRate": 0.45150215636473146,
+      "sizingAggression": 0.26144419820513576
+    },
+    "personalityId": "cash-v1.2:00513a19:station"
+  },
+  "completedHandsPerIdentity": 100,
+  "decisions": 488,
+  "focusDecisions": 185,
+  "opportunityDefinitions": "Independent HandAudit public-action definitions; no type label used to classify behavior",
+  "totals": {
+    "threeBet": {
+      "count": 4,
+      "opportunities": 44
+    },
+    "blindDefense": {
+      "count": 16,
+      "opportunities": 40
+    },
+    "vpip": {
+      "count": 42,
+      "opportunities": 90
+    },
+    "pfr": {
+      "count": 13,
+      "opportunities": 90
+    },
+    "limp": {
+      "count": 21,
+      "opportunities": 55
+    },
+    "rfi": {
+      "count": 8,
+      "opportunities": 55
+    },
+    "squeeze": {
+      "count": 1,
+      "opportunities": 6
+    },
+    "valueBet": {
+      "count": 1,
+      "opportunities": 24
+    },
+    "WTSD": {
+      "count": 17,
+      "opportunities": 27
+    },
+    "WWSF": {
+      "count": 10,
+      "opportunities": 27
+    },
+    "WSD": {
+      "count": 9,
+      "opportunities": 17
+    },
+    "drawRaise": {
+      "count": 0,
+      "opportunities": 14
+    },
+    "checkRaise": {
+      "count": 0,
+      "opportunities": 14
+    },
+    "airBet": {
+      "count": 0,
+      "opportunities": 20
+    },
+    "foldToCbet": {
+      "count": 4,
+      "opportunities": 4
+    },
+    "drawCall": {
+      "count": 0,
+      "opportunities": 1
+    },
+    "continueOverbet": {
+      "count": 0,
+      "opportunities": 1
+    },
+    "fourBet": {
+      "count": 0,
+      "opportunities": 1
+    },
+    "flopCbet": {
+      "count": 0,
+      "opportunities": 3
+    },
+    "foldSmall": {
+      "count": 0,
+      "opportunities": 1
+    },
+    "riverBluffCatch": {
+      "count": 1,
+      "opportunities": 1
+    }
+  },
+  "hands": [
+    {
+      "seed": 5320704,
+      "button": 0,
+      "actions": 8,
+      "focusNet": -100,
+      "payouts": {
+        "0": 1089
+      },
+      "completePublicEvents": [
+        {
+          "id": "identity-0:0",
+          "handId": "identity-0",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.3.0"
+        },
+        {
+          "id": "identity-0:1",
+          "handId": "identity-0",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "identity-0:2",
+          "handId": "identity-0",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "identity-0:3",
+          "handId": "identity-0",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 523,
+          "action": {
+            "type": "raise",
+            "to": 523
+          },
+          "decisionId": "identity-0:0",
+          "street": "preflop"
+        },
+        {
+          "id": "identity-0:4",
+          "handId": "identity-0",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "fold"
+          },
+          "decisionId": "identity-0:1",
+          "street": "preflop"
+        },
+        {
+          "id": "identity-0:5",
+          "handId": "identity-0",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 323,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "identity-0:2",
+          "street": "preflop"
+        },
+        {
+          "id": "identity-0:6",
+          "handId": "identity-0",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "8d",
+            "As",
+            "3s"
+          ]
+        },
+        {
+          "id": "identity-0:7",
+          "handId": "identity-0",
+          "revision": 4,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "identity-0:3",
+          "street": "flop"
+        },
+        {
+          "id": "identity-0:8",
+          "handId": "identity-0",
+          "revision": 5,
+          "type": "action",
+          "seatId": 0,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "identity-0:4",
+          "street": "flop"
+        },
+        {
+          "id": "identity-0:9",
+          "handId": "identity-0",
+          "revision": 5,
+          "type": "street",
+          "street": "turn",
+          "cards": [
+            "Qh"
+          ]
+        },
+        {
+          "id": "identity-0:10",
+          "handId": "identity-0",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "identity-0:5",
+          "street": "turn"
+        },
+        {
+          "id": "identity-0:11",
+          "handId": "identity-0",
+          "revision": 7,
+          "type": "action",
+          "seatId": 0,
+          "amount": 573,
+          "action": {
+            "type": "raise",
+            "to": 573
+          },
+          "decisionId": "identity-0:6",
+          "street": "turn"
+        },
+        {
+          "id": "identity-0:12",
+          "handId": "identity-0",
+          "revision": 8,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "fold"
+          },
+          "decisionId": "identity-0:7",
+          "street": "turn"
+        },
+        {
+          "id": "identity-0:13",
+          "handId": "identity-0",
+          "revision": 8,
+          "type": "refund",
+          "seatId": 0,
+          "amount": 573
+        },
+        {
+          "id": "identity-0:14",
+          "handId": "identity-0",
+          "revision": 8,
+          "type": "rake",
+          "amount": 57
+        },
+        {
+          "id": "identity-0:15",
+          "handId": "identity-0",
+          "revision": 8,
+          "type": "award",
+          "seatId": 0,
+          "amount": 1089,
+          "detail": "Uncontested"
+        }
+      ],
+      "board": [
+        "8d",
+        "As",
+        "3s",
+        "Qh"
+      ],
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320705,
+      "button": 1,
+      "actions": 4,
+      "focusNet": -200,
+      "payouts": {
+        "2": 600
+      },
+      "completePublicEvents": [
+        {
+          "id": "identity-1:0",
+          "handId": "identity-1",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.3.0"
+        },
+        {
+          "id": "identity-1:1",
+          "handId": "identity-1",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 100
+        },
+        {
+          "id": "identity-1:2",
+          "handId": "identity-1",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 200
+        },
+        {
+          "id": "identity-1:3",
+          "handId": "identity-1",
+          "revision": 1,
+          "type": "action",
+          "seatId": 1,
+          "amount": 200,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "identity-1:0",
+          "street": "preflop"
+        },
+        {
+          "id": "identity-1:4",
+          "handId": "identity-1",
+          "revision": 2,
+          "type": "action",
+          "seatId": 2,
+          "amount": 741,
+          "action": {
+            "type": "raise",
+            "to": 841
+          },
+          "decisionId": "identity-1:1",
+          "street": "preflop"
+        },
+        {
+          "id": "identity-1:5",
+          "handId": "identity-1",
+          "revision": 3,
+          "type": "action",
+          "seatId": 0,
+          "amount": 0,
+          "action": {
+            "type": "fold"
+          },
+          "decisionId": "identity-1:2",
+          "street": "preflop"
+        },
+        {
+          "id": "identity-1:6",
+          "handId": "identity-1",
+          "revision": 4,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "fold"
+          },
+          "decisionId": "identity-1:3",
+          "street": "preflop"
+        },
+        {
+          "id": "identity-1:7",
+          "handId": "identity-1",
+          "revision": 4,
+          "type": "refund",
+          "seatId": 2,
+          "amount": 641
+        },
+        {
+          "id": "identity-1:8",
+          "handId": "identity-1",
+          "revision": 4,
+          "type": "award",
+          "seatId": 2,
+          "amount": 600,
+          "detail": "Uncontested"
+        }
+      ],
+      "board": [],
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320706,
+      "button": 2,
+      "actions": 12,
+      "focusNet": -551,
+      "payouts": {
+        "2": 1571
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320707,
+      "button": 0,
+      "actions": 3,
+      "focusNet": -100,
+      "payouts": {
+        "0": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320708,
+      "button": 1,
+      "actions": 4,
+      "focusNet": -200,
+      "payouts": {
+        "2": 600
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320709,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320710,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320711,
+      "button": 1,
+      "actions": 5,
+      "focusNet": 991,
+      "payouts": {
+        "1": 1782
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320712,
+      "button": 2,
+      "actions": 10,
+      "focusNet": -501,
+      "payouts": {
+        "2": 1047
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320713,
+      "button": 0,
+      "actions": 12,
+      "focusNet": -473,
+      "payouts": {
+        "0": 1419
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320714,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 300,
+      "payouts": {
+        "1": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320715,
+      "button": 2,
+      "actions": 6,
+      "focusNet": -551,
+      "payouts": {
+        "2": 1202
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320716,
+      "button": 0,
+      "actions": 3,
+      "focusNet": 200,
+      "payouts": {
+        "1": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320717,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 300,
+      "payouts": {
+        "1": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320718,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "0": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320719,
+      "button": 0,
+      "actions": 3,
+      "focusNet": -100,
+      "payouts": {
+        "0": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320720,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320721,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320722,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320723,
+      "button": 1,
+      "actions": 9,
+      "focusNet": 300,
+      "payouts": {
+        "1": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320724,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320725,
+      "button": 0,
+      "actions": 6,
+      "focusNet": -523,
+      "payouts": {
+        "0": 1246
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320726,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320727,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "0": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320728,
+      "button": 0,
+      "actions": 3,
+      "focusNet": -100,
+      "payouts": {
+        "0": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320729,
+      "button": 1,
+      "actions": 5,
+      "focusNet": -200,
+      "payouts": {
+        "0": 1882
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320730,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320731,
+      "button": 0,
+      "actions": 10,
+      "focusNet": 891,
+      "payouts": {
+        "1": 1782
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320732,
+      "button": 1,
+      "actions": 9,
+      "focusNet": 275,
+      "payouts": {
+        "1": 475
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320733,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320734,
+      "button": 0,
+      "actions": 7,
+      "focusNet": -891,
+      "payouts": {
+        "2": 1693
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320735,
+      "button": 1,
+      "actions": 9,
+      "focusNet": 776,
+      "payouts": {
+        "1": 1452
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320736,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320737,
+      "button": 0,
+      "actions": 10,
+      "focusNet": 0,
+      "payouts": {
+        "1": 500,
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320738,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320739,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320740,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320741,
+      "button": 1,
+      "actions": 9,
+      "focusNet": -200,
+      "payouts": {
+        "0": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320742,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "0": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320743,
+      "button": 0,
+      "actions": 13,
+      "focusNet": -1700,
+      "payouts": {
+        "0": 5100
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320744,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 0,
+      "payouts": {
+        "2": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320745,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320746,
+      "button": 0,
+      "actions": 3,
+      "focusNet": -100,
+      "payouts": {
+        "0": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320747,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 300,
+      "payouts": {
+        "1": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320748,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320749,
+      "button": 0,
+      "actions": 3,
+      "focusNet": -100,
+      "payouts": {
+        "0": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320750,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320751,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320752,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320753,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320754,
+      "button": 2,
+      "actions": 10,
+      "focusNet": -200,
+      "payouts": {
+        "0": 2062
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320755,
+      "button": 0,
+      "actions": 9,
+      "focusNet": 200,
+      "payouts": {
+        "1": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320756,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320757,
+      "button": 2,
+      "actions": 4,
+      "focusNet": 651,
+      "payouts": {
+        "1": 1202
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320758,
+      "button": 0,
+      "actions": 8,
+      "focusNet": -100,
+      "payouts": {
+        "0": 994
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320759,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320760,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320761,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320762,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 0,
+      "payouts": {
+        "2": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320763,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320764,
+      "button": 0,
+      "actions": 7,
+      "focusNet": 6458,
+      "payouts": {
+        "1": 10929
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320765,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320766,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320767,
+      "button": 0,
+      "actions": 8,
+      "focusNet": -100,
+      "payouts": {
+        "0": 1146
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320768,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 0,
+      "payouts": {
+        "2": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320769,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320770,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320771,
+      "button": 1,
+      "actions": 5,
+      "focusNet": 0,
+      "payouts": {
+        "2": 1122
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320772,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320773,
+      "button": 0,
+      "actions": 8,
+      "focusNet": -200,
+      "payouts": {
+        "2": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320774,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 0,
+      "payouts": {
+        "2": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320775,
+      "button": 2,
+      "actions": 14,
+      "focusNet": -661,
+      "payouts": {
+        "2": 1983
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320776,
+      "button": 0,
+      "actions": 8,
+      "focusNet": -200,
+      "payouts": {
+        "2": 380
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320777,
+      "button": 1,
+      "actions": 8,
+      "focusNet": 800,
+      "payouts": {
+        "1": 1500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320778,
+      "button": 2,
+      "actions": 9,
+      "focusNet": -551,
+      "payouts": {
+        "2": 1142
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320779,
+      "button": 0,
+      "actions": 11,
+      "focusNet": -3705,
+      "payouts": {
+        "2": 7410
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320780,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 0,
+      "payouts": {
+        "2": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320781,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320782,
+      "button": 0,
+      "actions": 10,
+      "focusNet": -200,
+      "payouts": {
+        "2": 380
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320783,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 300,
+      "payouts": {
+        "1": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320784,
+      "button": 2,
+      "actions": 12,
+      "focusNet": 1020,
+      "payouts": {
+        "1": 1571
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320785,
+      "button": 0,
+      "actions": 4,
+      "focusNet": -200,
+      "payouts": {
+        "2": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320786,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320787,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320788,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320789,
+      "button": 1,
+      "actions": 9,
+      "focusNet": 300,
+      "payouts": {
+        "1": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320790,
+      "button": 2,
+      "actions": 2,
+      "focusNet": 100,
+      "payouts": {
+        "1": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320791,
+      "button": 0,
+      "actions": 4,
+      "focusNet": -200,
+      "payouts": {
+        "2": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320792,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320793,
+      "button": 2,
+      "actions": 5,
+      "focusNet": 1002,
+      "payouts": {
+        "1": 1503
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320794,
+      "button": 0,
+      "actions": 7,
+      "focusNet": -781,
+      "payouts": {
+        "2": 1484
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320795,
+      "button": 1,
+      "actions": 13,
+      "focusNet": -841,
+      "payouts": {
+        "2": 2523
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320796,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "2": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320797,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320798,
+      "button": 1,
+      "actions": 3,
+      "focusNet": 300,
+      "payouts": {
+        "1": 500
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320799,
+      "button": 2,
+      "actions": 3,
+      "focusNet": -200,
+      "payouts": {
+        "0": 400
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320800,
+      "button": 0,
+      "actions": 9,
+      "focusNet": -200,
+      "payouts": {
+        "2": 380
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320801,
+      "button": 1,
+      "actions": 2,
+      "focusNet": 0,
+      "payouts": {
+        "0": 200
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320802,
+      "button": 2,
+      "actions": 11,
+      "focusNet": 2756,
+      "payouts": {
+        "1": 5712
+      },
+      "equivalentUnknownAndNamed": true
+    },
+    {
+      "seed": 5320803,
+      "button": 0,
+      "actions": 2,
+      "focusNet": -100,
+      "payouts": {
+        "2": 200
+      },
+      "equivalentUnknownAndNamed": true
+    }
+  ],
+  "method": "Same secure-engine seeded test deck, public histories,stable personality and paired action seeds; stack100BBreset per controlledhand, alternating rake. Unknown mask cannot change assigned policy; no continuousbankroll claim."
+}

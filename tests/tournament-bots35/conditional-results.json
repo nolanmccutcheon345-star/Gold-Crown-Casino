@@ -1,0 +1,287 @@
+{
+  "version": "synthetic-tournament-shortstack-1.0.0",
+  "seed": 35100,
+  "denominator": "All 1326 legal starting combinations; one deterministic seeded draw per combo per specified public context. Synthetic controlled population, not human frequencies.",
+  "rows": [
+    {
+      "depth": 1.5,
+      "rows": [
+        {
+          "late": false,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 722,
+            "check": 0,
+            "call": 0,
+            "raise": 604
+          },
+          "legacy": {
+            "fold": 1181,
+            "check": 0,
+            "call": 1,
+            "raise": 144
+          }
+        },
+        {
+          "late": true,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 430,
+            "check": 0,
+            "call": 0,
+            "raise": 896
+          },
+          "legacy": {
+            "fold": 772,
+            "check": 0,
+            "call": 5,
+            "raise": 549
+          }
+        },
+        {
+          "late": false,
+          "raised": true,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 1047,
+            "check": 0,
+            "call": 279,
+            "raise": 0
+          },
+          "legacy": {
+            "fold": 1228,
+            "check": 0,
+            "call": 98,
+            "raise": 0
+          }
+        }
+      ]
+    },
+    {
+      "depth": 3,
+      "rows": [
+        {
+          "late": false,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 771,
+            "check": 0,
+            "call": 0,
+            "raise": 555
+          },
+          "legacy": {
+            "fold": 1181,
+            "check": 0,
+            "call": 1,
+            "raise": 144
+          }
+        },
+        {
+          "late": true,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 472,
+            "check": 0,
+            "call": 0,
+            "raise": 854
+          },
+          "legacy": {
+            "fold": 772,
+            "check": 0,
+            "call": 5,
+            "raise": 549
+          }
+        },
+        {
+          "late": false,
+          "raised": true,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 1128,
+            "check": 0,
+            "call": 198,
+            "raise": 0
+          },
+          "legacy": {
+            "fold": 1264,
+            "check": 0,
+            "call": 62,
+            "raise": 0
+          }
+        }
+      ]
+    },
+    {
+      "depth": 6,
+      "rows": [
+        {
+          "late": false,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 875,
+            "check": 0,
+            "call": 0,
+            "raise": 451
+          },
+          "legacy": {
+            "fold": 1181,
+            "check": 0,
+            "call": 1,
+            "raise": 144
+          }
+        },
+        {
+          "late": true,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 577,
+            "check": 0,
+            "call": 0,
+            "raise": 749
+          },
+          "legacy": {
+            "fold": 772,
+            "check": 0,
+            "call": 5,
+            "raise": 549
+          }
+        },
+        {
+          "late": false,
+          "raised": true,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 1184,
+            "check": 0,
+            "call": 142,
+            "raise": 0
+          },
+          "legacy": {
+            "fold": 1282,
+            "check": 0,
+            "call": 44,
+            "raise": 0
+          }
+        }
+      ]
+    },
+    {
+      "depth": 12,
+      "rows": [
+        {
+          "late": false,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 1088,
+            "check": 0,
+            "call": 0,
+            "raise": 238
+          },
+          "legacy": {
+            "fold": 1181,
+            "check": 0,
+            "call": 1,
+            "raise": 144
+          }
+        },
+        {
+          "late": true,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 778,
+            "check": 0,
+            "call": 0,
+            "raise": 548
+          },
+          "legacy": {
+            "fold": 772,
+            "check": 0,
+            "call": 5,
+            "raise": 549
+          }
+        },
+        {
+          "late": false,
+          "raised": true,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 1184,
+            "check": 0,
+            "call": 63,
+            "raise": 79
+          },
+          "legacy": {
+            "fold": 1282,
+            "check": 0,
+            "call": 8,
+            "raise": 36
+          }
+        }
+      ]
+    },
+    {
+      "depth": 25,
+      "rows": [
+        {
+          "late": false,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 1182,
+            "check": 0,
+            "call": 1,
+            "raise": 143
+          },
+          "legacy": {
+            "fold": 1182,
+            "check": 0,
+            "call": 1,
+            "raise": 143
+          }
+        },
+        {
+          "late": true,
+          "raised": false,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 770,
+            "check": 0,
+            "call": 4,
+            "raise": 552
+          },
+          "legacy": {
+            "fold": 770,
+            "check": 0,
+            "call": 4,
+            "raise": 552
+          }
+        },
+        {
+          "late": false,
+          "raised": true,
+          "opportunities": 1326,
+          "counts": {
+            "fold": 1282,
+            "check": 0,
+            "call": 9,
+            "raise": 35
+          },
+          "legacy": {
+            "fold": 1282,
+            "check": 0,
+            "call": 9,
+            "raise": 35
+          }
+        }
+      ]
+    }
+  ]
+}

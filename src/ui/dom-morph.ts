@@ -73,3 +73,45 @@ export function morphInto(root: HTMLElement, html: string): void {
   template.innerHTML = html;
   morphChildren(root, template.content);
 }
+
+/* Phase 10 (P10-F02): scroll preservation across a morph.
+ *
+ * morphChildren removes stale children at the end of its pass, so a scrollable element's
+ * content transiently collapses mid-morph; the browser clamps scrollTop to fit the momentary
+ * height and nothing put it back — a panel scrolled to the bottom snapped to the top on the
+ * next bot action or the 5-second session tick. renderBody already preserved drafts, focus
+ * and open <details>; scroll positions join that list: snapshot before the morph, restore
+ * after it. Nodes that survive the morph are restored by identity; a node the morph replaced
+ * is restored through its id. */
+export interface ScrollSpot { top: number; left: number }
+export interface ScrollSnapshot { byNode: Map<Element, ScrollSpot>; byId: Map<string, ScrollSpot> }
+
+export function snapshotScroll(root: ParentNode): ScrollSnapshot {
+  const byNode = new Map<Element, ScrollSpot>(), byId = new Map<string, ScrollSpot>();
+  root.querySelectorAll('*').forEach(el => {
+    if (el.scrollTop || el.scrollLeft) {
+      const spot = { top: el.scrollTop, left: el.scrollLeft };
+      byNode.set(el, spot);
+      if (el.id) byId.set(el.id, spot);
+    }
+  });
+  return { byNode, byId };
+}
+
+export function restoreScroll(root: ParentNode, snap: ScrollSnapshot): void {
+  for (const [el, spot] of snap.byNode) {
+    if ((el as Element).isConnected) {
+      if (el.scrollTop !== spot.top) el.scrollTop = spot.top;
+      if (el.scrollLeft !== spot.left) el.scrollLeft = spot.left;
+    }
+  }
+  if (snap.byId.size) {
+    root.querySelectorAll('[id]').forEach(el => {
+      const spot = snap.byId.get(el.id);
+      if (spot && !snap.byNode.has(el)) {
+        if (el.scrollTop !== spot.top) el.scrollTop = spot.top;
+        if (el.scrollLeft !== spot.left) el.scrollLeft = spot.left;
+      }
+    });
+  }
+}

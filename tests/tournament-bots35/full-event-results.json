@@ -1,0 +1,276 @@
+{
+  "version": "synthetic-tournament-shortstack-1.0.0",
+  "method": "Engine-only held-out 9-player events: 45000 conserved chips, Hero check/fold, public bot observations, seeded shuffle and decisions. Blinds double every 8 hands (controlled stress schedule, not shipped preset). Same seeds per before/after event; subsequent paths differ. No assertion on Hero profitability. Small samples are not human calibration.",
+  "events": [
+    {
+      "seed": 170035,
+      "overlay": false,
+      "hands": 77,
+      "decisions": 509,
+      "heroPlace": 5,
+      "headsUpBB": 3.515625,
+      "buckets": {
+        ">25": {
+          "opportunities": 151,
+          "fold": 114,
+          "call": 20,
+          "raise": 17,
+          "check": 0
+        },
+        "12-25": {
+          "opportunities": 66,
+          "fold": 54,
+          "call": 4,
+          "raise": 8,
+          "check": 0
+        },
+        "6-12": {
+          "opportunities": 44,
+          "fold": 31,
+          "call": 9,
+          "raise": 4,
+          "check": 0
+        },
+        "3-6": {
+          "opportunities": 42,
+          "fold": 34,
+          "call": 5,
+          "raise": 3,
+          "check": 0
+        },
+        "<=3": {
+          "opportunities": 66,
+          "fold": 53,
+          "call": 6,
+          "raise": 7,
+          "check": 0
+        }
+      }
+    },
+    {
+      "seed": 170035,
+      "overlay": true,
+      "hands": 56,
+      "decisions": 451,
+      "heroPlace": 4,
+      "headsUpBB": 7.03125,
+      "buckets": {
+        ">25": {
+          "opportunities": 151,
+          "fold": 114,
+          "call": 20,
+          "raise": 17,
+          "check": 0
+        },
+        "12-25": {
+          "opportunities": 72,
+          "fold": 57,
+          "call": 7,
+          "raise": 8,
+          "check": 0
+        },
+        "6-12": {
+          "opportunities": 53,
+          "fold": 35,
+          "call": 5,
+          "raise": 13,
+          "check": 0
+        },
+        "3-6": {
+          "opportunities": 37,
+          "fold": 23,
+          "call": 5,
+          "raise": 9,
+          "check": 0
+        },
+        "<=3": {
+          "opportunities": 23,
+          "fold": 17,
+          "call": 3,
+          "raise": 3,
+          "check": 0
+        }
+      }
+    },
+    {
+      "seed": 370035,
+      "overlay": false,
+      "hands": 74,
+      "decisions": 609,
+      "heroPlace": 7,
+      "headsUpBB": 3.515625,
+      "buckets": {
+        ">25": {
+          "opportunities": 153,
+          "fold": 124,
+          "call": 12,
+          "raise": 17,
+          "check": 0
+        },
+        "12-25": {
+          "opportunities": 80,
+          "fold": 66,
+          "call": 6,
+          "raise": 8,
+          "check": 0
+        },
+        "6-12": {
+          "opportunities": 66,
+          "fold": 49,
+          "call": 10,
+          "raise": 7,
+          "check": 0
+        },
+        "3-6": {
+          "opportunities": 64,
+          "fold": 48,
+          "call": 8,
+          "raise": 8,
+          "check": 0
+        },
+        "<=3": {
+          "opportunities": 78,
+          "fold": 58,
+          "call": 14,
+          "raise": 6,
+          "check": 0
+        }
+      }
+    },
+    {
+      "seed": 370035,
+      "overlay": true,
+      "hands": 49,
+      "decisions": 374,
+      "heroPlace": 4,
+      "headsUpBB": null,
+      "buckets": {
+        ">25": {
+          "opportunities": 166,
+          "fold": 133,
+          "call": 15,
+          "raise": 18,
+          "check": 0
+        },
+        "12-25": {
+          "opportunities": 74,
+          "fold": 62,
+          "call": 3,
+          "raise": 9,
+          "check": 0
+        },
+        "6-12": {
+          "opportunities": 45,
+          "fold": 31,
+          "call": 3,
+          "raise": 11,
+          "check": 0
+        },
+        "<=3": {
+          "opportunities": 2,
+          "fold": 1,
+          "call": 1,
+          "raise": 0,
+          "check": 0
+        },
+        "3-6": {
+          "opportunities": 17,
+          "fold": 10,
+          "call": 2,
+          "raise": 5,
+          "check": 0
+        }
+      }
+    },
+    {
+      "seed": 710035,
+      "overlay": false,
+      "hands": 68,
+      "decisions": 499,
+      "heroPlace": 3,
+      "headsUpBB": 7.03125,
+      "buckets": {
+        ">25": {
+          "opportunities": 146,
+          "fold": 116,
+          "call": 18,
+          "raise": 12,
+          "check": 0
+        },
+        "12-25": {
+          "opportunities": 88,
+          "fold": 79,
+          "call": 5,
+          "raise": 4,
+          "check": 0
+        },
+        "6-12": {
+          "opportunities": 54,
+          "fold": 37,
+          "call": 5,
+          "raise": 12,
+          "check": 0
+        },
+        "3-6": {
+          "opportunities": 39,
+          "fold": 29,
+          "call": 5,
+          "raise": 5,
+          "check": 0
+        },
+        "<=3": {
+          "opportunities": 20,
+          "fold": 14,
+          "call": 5,
+          "raise": 1,
+          "check": 0
+        }
+      }
+    },
+    {
+      "seed": 710035,
+      "overlay": true,
+      "hands": 56,
+      "decisions": 447,
+      "heroPlace": 4,
+      "headsUpBB": 14.0625,
+      "buckets": {
+        ">25": {
+          "opportunities": 142,
+          "fold": 114,
+          "call": 15,
+          "raise": 13,
+          "check": 0
+        },
+        "12-25": {
+          "opportunities": 100,
+          "fold": 75,
+          "call": 12,
+          "raise": 13,
+          "check": 0
+        },
+        "6-12": {
+          "opportunities": 72,
+          "fold": 55,
+          "call": 4,
+          "raise": 13,
+          "check": 0
+        },
+        "3-6": {
+          "opportunities": 21,
+          "fold": 7,
+          "call": 3,
+          "raise": 11,
+          "check": 0
+        },
+        "<=3": {
+          "opportunities": 5,
+          "fold": 2,
+          "call": 2,
+          "raise": 1,
+          "check": 0
+        }
+      }
+    }
+  ]
+}

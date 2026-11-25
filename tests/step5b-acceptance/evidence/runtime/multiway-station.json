@@ -1,0 +1,4597 @@
+{
+  "archetype": "station",
+  "claim": "Synthetic matched public-context contrast; not human-calibrated rates or full strategic optimality",
+  "matching": "Same own cards, board, pot6000 before bet,40000 remaining stack, postflop OOP,2000 call at20% eligible-pot price. More dealt callers and players left to act are intentional. Preflop seat labels differ with table size.",
+  "personalityBlocks": 4,
+  "opportunitiesPerBlockPerContext": 256,
+  "meanWeakBluffByPlayers": [
+    [
+      2,
+      0.005
+    ],
+    [
+      3,
+      0.005
+    ],
+    [
+      6,
+      0.005
+    ]
+  ],
+  "meanWeakPairContinueByPlayers": [
+    [
+      2,
+      0.590376358409981
+    ],
+    [
+      3,
+      0.40868359386147013
+    ],
+    [
+      6,
+      0.21773973277239816
+    ]
+  ],
+  "rows": [
+    {
+      "seed": 28785,
+      "kind": "air",
+      "count": 2,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2900,
+          "action": {
+            "type": "raise",
+            "to": 3000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 2800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 2,
+        "playersBehind": 1,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.00008098888161407422,
+        "bluff": 0.002868825454611655,
+        "semiBluff": 0,
+        "trap": 0.000006232513980862423,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28785,
+      "kind": "air",
+      "count": 3,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 1800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 3,
+        "playersBehind": 2,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.000020090864745292777,
+        "bluff": 0.0011612293213114871,
+        "semiBluff": 0,
+        "trap": 0.0000015460961173575844,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28785,
+      "kind": "air",
+      "count": 6,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 3,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 4,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 5,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-3",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-4",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-5",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 6,
+        "playersBehind": 5,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 3
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.0000020267192502049186,
+        "bluff": 0.00028075446508108457,
+        "semiBluff": 0,
+        "trap": 1.5596654516575095e-7,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28785,
+      "kind": "weak-pair",
+      "count": 2,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2900,
+          "action": {
+            "type": "raise",
+            "to": 3000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 2800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-3",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 2,
+        "playersBehind": 1,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.3947180268335623,
+        "check": 0,
+        "call": 0.6022555633006056,
+        "raise": 0.003026409865832189
+      },
+      "families": {
+        "value": 0.0009608246599334388,
+        "bluff": 0.0012738329353794713,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.00012543035835964325,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 113,
+          "check": 0,
+          "call": 142,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28785,
+      "kind": "weak-pair",
+      "count": 3,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 1800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-3",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-4",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-5",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 3,
+        "playersBehind": 2,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.5797609263094892,
+        "check": 0,
+        "call": 0.4181378783220583,
+        "raise": 0.002101195368452554
+      },
+      "families": {
+        "value": 0.0002942132670792304,
+        "bluff": 0.0005670105365960246,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.000051457189771214604,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 166,
+          "check": 0,
+          "call": 89,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28785,
+      "kind": "weak-pair",
+      "count": 6,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 3,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 4,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 5,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-3",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-4",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-5",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:10",
+          "handId": "independent-fixture",
+          "revision": 7,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-6",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:11",
+          "handId": "independent-fixture",
+          "revision": 8,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-7",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:12",
+          "handId": "independent-fixture",
+          "revision": 9,
+          "type": "action",
+          "seatId": 3,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-8",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:13",
+          "handId": "independent-fixture",
+          "revision": 10,
+          "type": "action",
+          "seatId": 4,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-9",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:14",
+          "handId": "independent-fixture",
+          "revision": 11,
+          "type": "action",
+          "seatId": 5,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-10",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:15",
+          "handId": "independent-fixture",
+          "revision": 12,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-11",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 6,
+        "playersBehind": 5,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.7767400958297415,
+        "check": 0,
+        "call": 0.22214360464940724,
+        "raise": 0.0011162995208512927
+      },
+      "families": {
+        "value": 0.00003081206101603785,
+        "bluff": 0.0001750930869218605,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.000013922120616375648,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 215,
+          "check": 0,
+          "call": 40,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28786,
+      "kind": "air",
+      "count": 2,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2900,
+          "action": {
+            "type": "raise",
+            "to": 3000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 2800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 2,
+        "playersBehind": 1,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.00008083702167719134,
+        "bluff": 0.0017218725713322675,
+        "semiBluff": 0,
+        "trap": 0.000006271646565308169,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28786,
+      "kind": "air",
+      "count": 3,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 1800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 3,
+        "playersBehind": 2,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.0000203582019557233,
+        "bluff": 0.0006992630859311493,
+        "semiBluff": 0,
+        "trap": 0.0000015794674855950019,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28786,
+      "kind": "air",
+      "count": 6,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 3,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 4,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 5,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-3",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-4",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-5",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 6,
+        "playersBehind": 5,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 3
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.0000020750411846664446,
+        "bluff": 0.0001695023017032691,
+        "semiBluff": 0,
+        "trap": 1.6098966350659427e-7,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28786,
+      "kind": "weak-pair",
+      "count": 2,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2900,
+          "action": {
+            "type": "raise",
+            "to": 3000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 2800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-3",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 2,
+        "playersBehind": 1,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.41364103903980154,
+        "check": 0,
+        "call": 0.5834271661553975,
+        "raise": 0.0029317948048009925
+      },
+      "families": {
+        "value": 0.0009706363413435527,
+        "bluff": 0.0007645217933233812,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.00006500706738373258,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 115,
+          "check": 0,
+          "call": 140,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28786,
+      "kind": "weak-pair",
+      "count": 3,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 1800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-3",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-4",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-5",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 3,
+        "playersBehind": 2,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.5953083892780333,
+        "check": 0,
+        "call": 0.40266815266835687,
+        "raise": 0.0020234580536098333
+      },
+      "families": {
+        "value": 0.00029812177913167334,
+        "bluff": 0.0003414663590722284,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.00002576357965428055,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 172,
+          "check": 0,
+          "call": 83,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28786,
+      "kind": "weak-pair",
+      "count": 6,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 3,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 4,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 5,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-3",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-4",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-5",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:10",
+          "handId": "independent-fixture",
+          "revision": 7,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-6",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:11",
+          "handId": "independent-fixture",
+          "revision": 8,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-7",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:12",
+          "handId": "independent-fixture",
+          "revision": 9,
+          "type": "action",
+          "seatId": 3,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-8",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:13",
+          "handId": "independent-fixture",
+          "revision": 10,
+          "type": "action",
+          "seatId": 4,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-9",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:14",
+          "handId": "independent-fixture",
+          "revision": 11,
+          "type": "action",
+          "seatId": 5,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-10",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:15",
+          "handId": "independent-fixture",
+          "revision": 12,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-11",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 6,
+        "playersBehind": 5,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.7850985239585921,
+        "check": 0,
+        "call": 0.21382696866120082,
+        "raise": 0.0010745073802070394
+      },
+      "families": {
+        "value": 0.00003116159540333611,
+        "bluff": 0.00010572508821485068,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.000006499788850592354,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 216,
+          "check": 0,
+          "call": 39,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28787,
+      "kind": "air",
+      "count": 2,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2900,
+          "action": {
+            "type": "raise",
+            "to": 3000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 2800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 2,
+        "playersBehind": 1,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.00008931866090888998,
+        "bluff": 0.0013801168391362965,
+        "semiBluff": 0,
+        "trap": 0.0000049606496988813895,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28787,
+      "kind": "air",
+      "count": 3,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 1800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 3,
+        "playersBehind": 2,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.00002253711910669609,
+        "bluff": 0.0005773637937773419,
+        "semiBluff": 0,
+        "trap": 0.000001251684160651792,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28787,
+      "kind": "air",
+      "count": 6,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 3,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 4,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 5,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-3",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-4",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-5",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 6,
+        "playersBehind": 5,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 3
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.00000230009309509716,
+        "bluff": 0.00014308771564266475,
+        "semiBluff": 0,
+        "trap": 1.2774437058826579e-7,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28787,
+      "kind": "weak-pair",
+      "count": 2,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2900,
+          "action": {
+            "type": "raise",
+            "to": 3000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 2800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-3",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 2,
+        "playersBehind": 1,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.4158877680747525,
+        "check": 0,
+        "call": 0.5811916707656213,
+        "raise": 0.002920561159626238
+      },
+      "families": {
+        "value": 0.001074022715633901,
+        "bluff": 0.0006127769993107394,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.00005833573290982982,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 118,
+          "check": 0,
+          "call": 137,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28787,
+      "kind": "weak-pair",
+      "count": 3,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 1800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-3",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-4",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-5",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 3,
+        "playersBehind": 2,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.5935190493551044,
+        "check": 0,
+        "call": 0.4044485458916712,
+        "raise": 0.0020324047532244783
+      },
+      "families": {
+        "value": 0.0003300229172207597,
+        "bluff": 0.0002819428454056168,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.000022936772433759843,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 172,
+          "check": 0,
+          "call": 83,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28787,
+      "kind": "weak-pair",
+      "count": 6,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 3,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 4,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 5,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-3",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-4",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-5",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:10",
+          "handId": "independent-fixture",
+          "revision": 7,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-6",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:11",
+          "handId": "independent-fixture",
+          "revision": 8,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-7",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:12",
+          "handId": "independent-fixture",
+          "revision": 9,
+          "type": "action",
+          "seatId": 3,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-8",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:13",
+          "handId": "independent-fixture",
+          "revision": 10,
+          "type": "action",
+          "seatId": 4,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-9",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:14",
+          "handId": "independent-fixture",
+          "revision": 11,
+          "type": "action",
+          "seatId": 5,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-10",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:15",
+          "handId": "independent-fixture",
+          "revision": 12,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-11",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 6,
+        "playersBehind": 5,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.7771183001613244,
+        "check": 0,
+        "call": 0.22176729133948217,
+        "raise": 0.001114408499193378
+      },
+      "families": {
+        "value": 0.000034488921261267514,
+        "bluff": 0.00008925082092808692,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.000005596359715704556,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 216,
+          "check": 0,
+          "call": 39,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28788,
+      "kind": "air",
+      "count": 2,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2900,
+          "action": {
+            "type": "raise",
+            "to": 3000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 2800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 2,
+        "playersBehind": 1,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.00007141322975762013,
+        "bluff": 0.003315503561103109,
+        "semiBluff": 0,
+        "trap": 0.000004712014667368102,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28788,
+      "kind": "air",
+      "count": 3,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 1800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 3,
+        "playersBehind": 2,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.000018207038659871942,
+        "bluff": 0.0013163735866078266,
+        "semiBluff": 0,
+        "trap": 0.0000012013436936802353,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28788,
+      "kind": "air",
+      "count": 6,
+      "ownCards": [
+        "9d",
+        "8c"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 6000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 3,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 4,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 5,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-3",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-4",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-5",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 6.666666666666667,
+        "activePlayers": 6,
+        "playersBehind": 5,
+        "price": 0,
+        "betToPot": 0,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": false,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 0,
+        "lastAggressor": 3
+      },
+      "features": {
+        "strength": 0.22898142857142856,
+        "draw": 0,
+        "made": false,
+        "handClass": "high-card",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.051000000000000004,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": true,
+        "pairRank": 0,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0,
+        "check": 0.995,
+        "call": 0,
+        "raise": 0.005
+      },
+      "families": {
+        "value": 0.0000018714902972004091,
+        "bluff": 0.000314052122136899,
+        "semiBluff": 0,
+        "trap": 1.2348537883212656e-7,
+        "checkRaise": 0,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 0,
+          "check": 254,
+          "call": 0,
+          "raise": 2
+        }
+      }
+    },
+    {
+      "seed": 28788,
+      "kind": "weak-pair",
+      "count": 2,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2900,
+          "action": {
+            "type": "raise",
+            "to": 3000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 2800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-3",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 2,
+        "playersBehind": 1,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.4142477324119598,
+        "check": 0,
+        "call": 0.5828235062501,
+        "raise": 0.002928761337940201
+      },
+      "families": {
+        "value": 0.0008659926132738462,
+        "bluff": 0.0014720547815049191,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.0001307898475057029,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 117,
+          "check": 0,
+          "call": 138,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28788,
+      "kind": "weak-pair",
+      "count": 3,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 2,
+          "amount": 1800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-3",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-4",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-5",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 3,
+        "playersBehind": 2,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.5966772596114926,
+        "check": 0,
+        "call": 0.4013061266865648,
+        "raise": 0.0020166137019425366
+      },
+      "families": {
+        "value": 0.00026662089898356366,
+        "bluff": 0.0006428569222008538,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.000053624509456653906,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 174,
+          "check": 0,
+          "call": 81,
+          "raise": 1
+        }
+      }
+    },
+    {
+      "seed": 28788,
+      "kind": "weak-pair",
+      "count": 6,
+      "ownCards": [
+        "2c",
+        "9d"
+      ],
+      "board": [
+        "Ah",
+        "Kd",
+        "2s"
+      ],
+      "pot": 8000,
+      "remainingStack": 40000,
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 2,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 3,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 4,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 5,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-2",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 1000,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-3",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:7",
+          "handId": "independent-fixture",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 900,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-4",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:8",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "action",
+          "seatId": 2,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-5",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:9",
+          "handId": "independent-fixture",
+          "revision": 6,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Ah",
+            "Kd",
+            "2s"
+          ]
+        },
+        {
+          "id": "independent-fixture:10",
+          "handId": "independent-fixture",
+          "revision": 7,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-6",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:11",
+          "handId": "independent-fixture",
+          "revision": 8,
+          "type": "action",
+          "seatId": 2,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-7",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:12",
+          "handId": "independent-fixture",
+          "revision": 9,
+          "type": "action",
+          "seatId": 3,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-8",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:13",
+          "handId": "independent-fixture",
+          "revision": 10,
+          "type": "action",
+          "seatId": 4,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-9",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:14",
+          "handId": "independent-fixture",
+          "revision": 11,
+          "type": "action",
+          "seatId": 5,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-10",
+          "street": "flop"
+        },
+        {
+          "id": "independent-fixture:15",
+          "handId": "independent-fixture",
+          "revision": 12,
+          "type": "action",
+          "seatId": 0,
+          "amount": 2000,
+          "action": {
+            "type": "raise",
+            "to": 2000
+          },
+          "decisionId": "fixture-11",
+          "street": "flop"
+        }
+      ],
+      "context": {
+        "position": "blinds",
+        "inPosition": false,
+        "effectiveStackBB": 200,
+        "spr": 5,
+        "activePlayers": 6,
+        "playersBehind": 5,
+        "price": 0.2,
+        "betToPot": 0.3333333333333333,
+        "preflopNode": "facing-open",
+        "limpers": 0,
+        "squeeze": true,
+        "ownPreflopAggressor": false,
+        "checkedEarlier": true,
+        "delayedCbetOpportunity": false,
+        "raisesThisStreet": 1,
+        "lastAggressor": 0
+      },
+      "features": {
+        "strength": 0.3533314285714285,
+        "draw": 0,
+        "made": true,
+        "handClass": "middle-pair",
+        "drawClass": "none",
+        "wetness": 0.17,
+        "vulnerability": 0.26457142857142857,
+        "playsBoard": false,
+        "nutDraw": false,
+        "overcards": 0,
+        "suited": false,
+        "connected": false,
+        "pairRank": 2,
+        "blockerStrength": 0,
+        "absoluteNuts": false,
+        "cleanOuts": 0,
+        "pairedBoard": false
+      },
+      "distribution": {
+        "fold": 0.7900841489607493,
+        "check": 0,
+        "call": 0.20886627178405445,
+        "raise": 0.0010495792551962536
+      },
+      "families": {
+        "value": 0.000027824481731132632,
+        "bluff": 0.00019590847726216683,
+        "semiBluff": 0,
+        "trap": 0,
+        "checkRaise": 0.000014669423085464815,
+        "delayedCbet": 0,
+        "cbet": 0,
+        "barrel": 0,
+        "protection": 0,
+        "thinValue": 0
+      },
+      "samples": {
+        "opportunities": 256,
+        "counts": {
+          "fold": 218,
+          "check": 0,
+          "call": 37,
+          "raise": 1
+        }
+      }
+    }
+  ]
+}

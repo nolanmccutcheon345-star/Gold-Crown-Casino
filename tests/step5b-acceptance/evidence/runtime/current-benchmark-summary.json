@@ -1,0 +1,4973 @@
+{
+  "sourceCommit": "e2861e51807161dcf39d3f03bbd3c9f52804d846",
+  "at": "2026-11-25T06:21:52.526Z",
+  "node": "v24.22.1",
+  "full": false,
+  "paired": false,
+  "totalHands": 42,
+  "totalActions": 430,
+  "elapsedMs": 3519,
+  "referenceHashes": {
+    "tests/step5b-acceptance/reference-agents.ts": "46b28d9915f50447907fc0a0176616b2328bd01dc863cc55c1fb70c99bee58fb",
+    "tests/step5b-acceptance/CURRENT_BENCHMARK_PROTOCOL.md": "a3d2bd7465a360cc5aa85df6298683c1e4efd166d42b4aa7f8a6cd62f30e8243",
+    "src/bots/MODEL_CARDS.md": "e84064bc2c77ba153098d04a7efb1e5b2c0e2a9c809097e715ce5f68b370c86a"
+  },
+  "opportunityDefinitions": {
+    "vpip": "Hand/player with voluntary preflop call/raise / hand/player with at least one voluntary decision",
+    "pfr": "Hand/player raising preflop / hand/player with a legal preflop raise opportunity",
+    "rfi": "Raise before any voluntary action / priced unopened decision with legal raising; excludes BB free option",
+    "limp": "Call before any voluntary action / priced unopened decision",
+    "overlimp": "Call behind limper / priced unraised decision after voluntary call",
+    "isolation": "Raise over limper(s) / unraised decision after voluntary call with legal raising",
+    "coldCall": "Call with no prior voluntary contribution, nonblind seat / priced first response to one open",
+    "threeBet": "Raise after one raise / first legal re-raise opportunity facing exactly one raise",
+    "fourBet": "Raise after two raises / first legal re-raise opportunity facing exactly two raises",
+    "squeeze": "Raise after open and cold call / legal re-raise opportunity after open and cold call",
+    "foldToThreeBet": "Fold / opener first priced response after second preflop raise",
+    "blindDefense": "Call or raise / SB or BB first priced response to open",
+    "flopCbet": "Bet / last preflop raiser first legal unopened-flop opportunity",
+    "turnBarrel": "Bet turn / previous flop aggressor first legal unopened-turn opportunity",
+    "riverBarrel": "Bet river / previous turn aggressor first legal unopened-river opportunity",
+    "checkRaise": "Raise after checking / first later legal raise opportunity facing price on same street",
+    "foldToCbet": "Fold / first response to a true flop cbet",
+    "drawCall": "Call / visible private-contribution draw facing price before river",
+    "drawRaise": "Raise / private-contribution draw with legal raising before river",
+    "valueBet": "Bet/raise / legal raising opportunity with operational private two-pair+ or top-pair value proxy",
+    "airBet": "Bet/raise / legal raising opportunity with unpaired no-live-draw proxy (not true bluff intention)",
+    "riverBluffCatch": "Call / river priced decision with one private pair proxy",
+    "foldSmall": "Fold / facing last postflop bet or raise increment ≤25% of pot after the raiser called, frozen at that raise event",
+    "continueOverbet": "Call/raise / facing last postflop bet or raise increment ≥150% of pot after the raiser called, frozen at that raise event",
+    "WTSD": "Reached showdown / saw flop while eligible (includes all-in runouts)",
+    "WSD": "Positive pot award / showdown participant; ties count as awards",
+    "WWSF": "Positive pot award / saw flop while eligible"
+  },
+  "summary": [
+    {
+      "cell": {
+        "name": "hu100",
+        "seats": 2,
+        "depth": 100,
+        "rake": false,
+        "styles": [
+          "tag"
+        ]
+      },
+      "reference": "always-minbet",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises the legal minimum whenever possible; otherwise checks/calls. Deliberately exploitable fixed probe.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": 6.67,
+        "blockMeans": [
+          6.67
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "valueBet": {
+          "count": 1,
+          "opportunities": 6,
+          "percent": 16.666666666666668,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            3.005258587173032,
+            56.350943656364606
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "foldSmall": {
+          "count": 0,
+          "opportunities": 3,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            56.15060804490177
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "checkRaise": {
+          "count": 0,
+          "opportunities": 2,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            65.76280471103807
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WTSD": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WWSF": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WSD": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|heads-up": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 1,
+            "opportunities": 1,
+            "percent": 100,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              20.654329147389294,
+              100
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "flop|unopened-street|rainbow/unpaired/dry|heads-up": {
+          "valueBet": {
+            "count": 1,
+            "opportunities": 1,
+            "percent": 100,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              20.654329147389294,
+              100
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "flop|reraise|rainbow/unpaired/dry|heads-up": {
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "foldSmall": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "turn|unopened-street|rainbow/unpaired/dry|heads-up": {
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "turn|facing-bet|rainbow/unpaired/dry|heads-up": {
+          "checkRaise": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "foldSmall": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "river|unopened-street|two-tone/unpaired/connected|heads-up": {
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "river|facing-bet|two-tone/unpaired/connected|heads-up": {
+          "checkRaise": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "foldSmall": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "hu100-always-minbet.json.gz"
+    },
+    {
+      "cell": {
+        "name": "hu100",
+        "seats": 2,
+        "depth": 100,
+        "rake": false,
+        "styles": [
+          "tag"
+        ]
+      },
+      "reference": "oversized-value-pressure",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls to river; 2.5pot or capped shove with private value, occasional ace-blocker air. Targets excessive oversized calls, not an optimal policy.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": 2,
+        "blockMeans": [
+          2
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "valueBet": {
+          "count": 2,
+          "opportunities": 3,
+          "percent": 66.66666666666667,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            20.76549551264879,
+            93.85096847238394
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "turnBarrel": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WTSD": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WWSF": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "flop|unopened-street|rainbow/unpaired/dry|heads-up": {
+          "valueBet": {
+            "count": 1,
+            "opportunities": 1,
+            "percent": 100,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              20.654329147389294,
+              100
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "turn|unopened-street|rainbow/unpaired/dry|heads-up": {
+          "turnBarrel": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "river|unopened-street|two-tone/unpaired/connected|heads-up": {
+          "valueBet": {
+            "count": 1,
+            "opportunities": 1,
+            "percent": 100,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              20.654329147389294,
+              100
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "hu100-oversized-value-pressure.json.gz"
+    },
+    {
+      "cell": {
+        "name": "hu100",
+        "seats": 2,
+        "depth": 100,
+        "rake": false,
+        "styles": [
+          "tag"
+        ]
+      },
+      "reference": "value-only-river",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls earlier streets; river bets1.5pot only with private two-pair or better, folds non-value to pressure.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": 2,
+        "blockMeans": [
+          2
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "valueBet": {
+          "count": 2,
+          "opportunities": 3,
+          "percent": 66.66666666666667,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            20.76549551264879,
+            93.85096847238394
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "turnBarrel": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WTSD": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WWSF": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "flop|unopened-street|rainbow/unpaired/dry|heads-up": {
+          "valueBet": {
+            "count": 1,
+            "opportunities": 1,
+            "percent": 100,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              20.654329147389294,
+              100
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "turn|unopened-street|rainbow/unpaired/dry|heads-up": {
+          "turnBarrel": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "river|unopened-street|two-tone/unpaired/connected|heads-up": {
+          "valueBet": {
+            "count": 1,
+            "opportunities": 1,
+            "percent": 100,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              20.654329147389294,
+              100
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "hu100-value-only-river.json.gz"
+    },
+    {
+      "cell": {
+        "name": "hu100",
+        "seats": 2,
+        "depth": 100,
+        "rake": false,
+        "styles": [
+          "tag"
+        ]
+      },
+      "reference": "overbluff",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises1.25pot at every legal opportunity regardless of strength; calls when raising unavailable.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -1,
+        "blockMeans": [
+          -1
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|heads-up": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "hu100-overbluff.json.gz"
+    },
+    {
+      "cell": {
+        "name": "hu100",
+        "seats": 2,
+        "depth": 100,
+        "rake": false,
+        "styles": [
+          "tag"
+        ]
+      },
+      "reference": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Preflop TT+/AQ+, value-led postflop; folds non-value to prices over20%. Fixed independent rule, not production nit archetype.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": 0.5,
+        "blockMeans": [
+          0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {},
+      "conditional": {},
+      "rawArtifact": "hu100-nit.json.gz"
+    },
+    {
+      "cell": {
+        "name": "hu100",
+        "seats": 2,
+        "depth": 100,
+        "rake": false,
+        "styles": [
+          "tag"
+        ]
+      },
+      "reference": "random",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Uniformly chooses among distinct legal fold/check/call/minraise/potraise/all-in actions.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -10.005,
+        "blockMeans": [
+          -10.005
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "valueBet": {
+          "count": 1,
+          "opportunities": 3,
+          "percent": 33.333333333333336,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": null,
+          "conditionalWilson95": [
+            6.14903152761605,
+            79.23450448735122
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "continueOverbet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 1,
+          "opportunities": 1,
+          "percent": 100,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            20.654329147389294,
+            100
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WTSD": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "WWSF": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|heads-up": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 1,
+            "opportunities": 1,
+            "percent": 100,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              20.654329147389294,
+              100
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "flop|unopened-street|rainbow/unpaired/dry|heads-up": {
+          "valueBet": {
+            "count": 1,
+            "opportunities": 1,
+            "percent": 100,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              20.654329147389294,
+              100
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "flop|reraise|rainbow/unpaired/dry|heads-up": {
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "turn|unopened-street|rainbow/unpaired/dry|heads-up": {
+          "valueBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        },
+        "turn|facing-bet|rainbow/unpaired/dry|heads-up": {
+          "continueOverbet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "hu100-random.json.gz"
+    },
+    {
+      "cell": {
+        "name": "hu100",
+        "seats": 2,
+        "depth": 100,
+        "rake": false,
+        "styles": [
+          "tag"
+        ]
+      },
+      "reference": "balanced-heuristic",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Declared mixture: value bets and ace-blocker air25%; price-sensitive private-pair/draw calls. Balanced is a descriptive heuristic, not solver equilibrium.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": 0.5,
+        "blockMeans": [
+          0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {},
+      "conditional": {},
+      "rawArtifact": "hu100-balanced-heuristic.json.gz"
+    },
+    {
+      "cell": {
+        "name": "loose625",
+        "seats": 6,
+        "depth": 25,
+        "rake": true,
+        "styles": [
+          "station",
+          "station",
+          "passive-reg",
+          "fit-or-fold"
+        ]
+      },
+      "reference": "always-minbet",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises the legal minimum whenever possible; otherwise checks/calls. Deliberately exploitable fixed probe.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "loose625-always-minbet.json.gz"
+    },
+    {
+      "cell": {
+        "name": "loose625",
+        "seats": 6,
+        "depth": 25,
+        "rake": true,
+        "styles": [
+          "station",
+          "station",
+          "passive-reg",
+          "fit-or-fold"
+        ]
+      },
+      "reference": "oversized-value-pressure",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls to river; 2.5pot or capped shove with private value, occasional ace-blocker air. Targets excessive oversized calls, not an optimal policy.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "loose625-oversized-value-pressure.json.gz"
+    },
+    {
+      "cell": {
+        "name": "loose625",
+        "seats": 6,
+        "depth": 25,
+        "rake": true,
+        "styles": [
+          "station",
+          "station",
+          "passive-reg",
+          "fit-or-fold"
+        ]
+      },
+      "reference": "value-only-river",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls earlier streets; river bets1.5pot only with private two-pair or better, folds non-value to pressure.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "loose625-value-only-river.json.gz"
+    },
+    {
+      "cell": {
+        "name": "loose625",
+        "seats": 6,
+        "depth": 25,
+        "rake": true,
+        "styles": [
+          "station",
+          "station",
+          "passive-reg",
+          "fit-or-fold"
+        ]
+      },
+      "reference": "overbluff",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises1.25pot at every legal opportunity regardless of strength; calls when raising unavailable.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "loose625-overbluff.json.gz"
+    },
+    {
+      "cell": {
+        "name": "loose625",
+        "seats": 6,
+        "depth": 25,
+        "rake": true,
+        "styles": [
+          "station",
+          "station",
+          "passive-reg",
+          "fit-or-fold"
+        ]
+      },
+      "reference": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Preflop TT+/AQ+, value-led postflop; folds non-value to prices over20%. Fixed independent rule, not production nit archetype.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "loose625-nit.json.gz"
+    },
+    {
+      "cell": {
+        "name": "loose625",
+        "seats": 6,
+        "depth": 25,
+        "rake": true,
+        "styles": [
+          "station",
+          "station",
+          "passive-reg",
+          "fit-or-fold"
+        ]
+      },
+      "reference": "random",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Uniformly chooses among distinct legal fold/check/call/minraise/potraise/all-in actions.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "loose625-random.json.gz"
+    },
+    {
+      "cell": {
+        "name": "loose625",
+        "seats": 6,
+        "depth": 25,
+        "rake": true,
+        "styles": [
+          "station",
+          "station",
+          "passive-reg",
+          "fit-or-fold"
+        ]
+      },
+      "reference": "balanced-heuristic",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Declared mixture: value bets and ace-blocker air25%; price-sensitive private-pair/draw calls. Balanced is a descriptive heuristic, not solver equilibrium.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "loose625-balanced-heuristic.json.gz"
+    },
+    {
+      "cell": {
+        "name": "tight6200",
+        "seats": 6,
+        "depth": 200,
+        "rake": false,
+        "styles": [
+          "nit",
+          "tag",
+          "nit",
+          "stronger-reg"
+        ]
+      },
+      "reference": "always-minbet",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises the legal minimum whenever possible; otherwise checks/calls. Deliberately exploitable fixed probe.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "tight6200-always-minbet.json.gz"
+    },
+    {
+      "cell": {
+        "name": "tight6200",
+        "seats": 6,
+        "depth": 200,
+        "rake": false,
+        "styles": [
+          "nit",
+          "tag",
+          "nit",
+          "stronger-reg"
+        ]
+      },
+      "reference": "oversized-value-pressure",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls to river; 2.5pot or capped shove with private value, occasional ace-blocker air. Targets excessive oversized calls, not an optimal policy.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "tight6200-oversized-value-pressure.json.gz"
+    },
+    {
+      "cell": {
+        "name": "tight6200",
+        "seats": 6,
+        "depth": 200,
+        "rake": false,
+        "styles": [
+          "nit",
+          "tag",
+          "nit",
+          "stronger-reg"
+        ]
+      },
+      "reference": "value-only-river",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls earlier streets; river bets1.5pot only with private two-pair or better, folds non-value to pressure.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "tight6200-value-only-river.json.gz"
+    },
+    {
+      "cell": {
+        "name": "tight6200",
+        "seats": 6,
+        "depth": 200,
+        "rake": false,
+        "styles": [
+          "nit",
+          "tag",
+          "nit",
+          "stronger-reg"
+        ]
+      },
+      "reference": "overbluff",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises1.25pot at every legal opportunity regardless of strength; calls when raising unavailable.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "tight6200-overbluff.json.gz"
+    },
+    {
+      "cell": {
+        "name": "tight6200",
+        "seats": 6,
+        "depth": 200,
+        "rake": false,
+        "styles": [
+          "nit",
+          "tag",
+          "nit",
+          "stronger-reg"
+        ]
+      },
+      "reference": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Preflop TT+/AQ+, value-led postflop; folds non-value to prices over20%. Fixed independent rule, not production nit archetype.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "tight6200-nit.json.gz"
+    },
+    {
+      "cell": {
+        "name": "tight6200",
+        "seats": 6,
+        "depth": 200,
+        "rake": false,
+        "styles": [
+          "nit",
+          "tag",
+          "nit",
+          "stronger-reg"
+        ]
+      },
+      "reference": "random",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Uniformly chooses among distinct legal fold/check/call/minraise/potraise/all-in actions.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "tight6200-random.json.gz"
+    },
+    {
+      "cell": {
+        "name": "tight6200",
+        "seats": 6,
+        "depth": 200,
+        "rake": false,
+        "styles": [
+          "nit",
+          "tag",
+          "nit",
+          "stronger-reg"
+        ]
+      },
+      "reference": "balanced-heuristic",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Declared mixture: value bets and ace-blocker air25%; price-sensitive private-pair/draw calls. Balanced is a descriptive heuristic, not solver equilibrium.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "tight6200-balanced-heuristic.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed9100",
+        "seats": 9,
+        "depth": 100,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "passive-reg",
+          "maniac"
+        ]
+      },
+      "reference": "always-minbet",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises the legal minimum whenever possible; otherwise checks/calls. Deliberately exploitable fixed probe.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed9100-always-minbet.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed9100",
+        "seats": 9,
+        "depth": 100,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "passive-reg",
+          "maniac"
+        ]
+      },
+      "reference": "oversized-value-pressure",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls to river; 2.5pot or capped shove with private value, occasional ace-blocker air. Targets excessive oversized calls, not an optimal policy.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed9100-oversized-value-pressure.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed9100",
+        "seats": 9,
+        "depth": 100,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "passive-reg",
+          "maniac"
+        ]
+      },
+      "reference": "value-only-river",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls earlier streets; river bets1.5pot only with private two-pair or better, folds non-value to pressure.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed9100-value-only-river.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed9100",
+        "seats": 9,
+        "depth": 100,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "passive-reg",
+          "maniac"
+        ]
+      },
+      "reference": "overbluff",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises1.25pot at every legal opportunity regardless of strength; calls when raising unavailable.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed9100-overbluff.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed9100",
+        "seats": 9,
+        "depth": 100,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "passive-reg",
+          "maniac"
+        ]
+      },
+      "reference": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Preflop TT+/AQ+, value-led postflop; folds non-value to prices over20%. Fixed independent rule, not production nit archetype.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed9100-nit.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed9100",
+        "seats": 9,
+        "depth": 100,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "passive-reg",
+          "maniac"
+        ]
+      },
+      "reference": "random",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Uniformly chooses among distinct legal fold/check/call/minraise/potraise/all-in actions.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed9100-random.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed9100",
+        "seats": 9,
+        "depth": 100,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "passive-reg",
+          "maniac"
+        ]
+      },
+      "reference": "balanced-heuristic",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Declared mixture: value bets and ace-blocker air25%; price-sensitive private-pair/draw calls. Balanced is a descriptive heuristic, not solver equilibrium.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed9100-balanced-heuristic.json.gz"
+    },
+    {
+      "cell": {
+        "name": "aggressive9250",
+        "seats": 9,
+        "depth": 250,
+        "rake": false,
+        "styles": [
+          "lag",
+          "maniac",
+          "tag",
+          "lag",
+          "stronger-reg",
+          "maniac",
+          "lag"
+        ]
+      },
+      "reference": "always-minbet",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises the legal minimum whenever possible; otherwise checks/calls. Deliberately exploitable fixed probe.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "aggressive9250-always-minbet.json.gz"
+    },
+    {
+      "cell": {
+        "name": "aggressive9250",
+        "seats": 9,
+        "depth": 250,
+        "rake": false,
+        "styles": [
+          "lag",
+          "maniac",
+          "tag",
+          "lag",
+          "stronger-reg",
+          "maniac",
+          "lag"
+        ]
+      },
+      "reference": "oversized-value-pressure",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls to river; 2.5pot or capped shove with private value, occasional ace-blocker air. Targets excessive oversized calls, not an optimal policy.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "aggressive9250-oversized-value-pressure.json.gz"
+    },
+    {
+      "cell": {
+        "name": "aggressive9250",
+        "seats": 9,
+        "depth": 250,
+        "rake": false,
+        "styles": [
+          "lag",
+          "maniac",
+          "tag",
+          "lag",
+          "stronger-reg",
+          "maniac",
+          "lag"
+        ]
+      },
+      "reference": "value-only-river",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls earlier streets; river bets1.5pot only with private two-pair or better, folds non-value to pressure.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "aggressive9250-value-only-river.json.gz"
+    },
+    {
+      "cell": {
+        "name": "aggressive9250",
+        "seats": 9,
+        "depth": 250,
+        "rake": false,
+        "styles": [
+          "lag",
+          "maniac",
+          "tag",
+          "lag",
+          "stronger-reg",
+          "maniac",
+          "lag"
+        ]
+      },
+      "reference": "overbluff",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises1.25pot at every legal opportunity regardless of strength; calls when raising unavailable.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "aggressive9250-overbluff.json.gz"
+    },
+    {
+      "cell": {
+        "name": "aggressive9250",
+        "seats": 9,
+        "depth": 250,
+        "rake": false,
+        "styles": [
+          "lag",
+          "maniac",
+          "tag",
+          "lag",
+          "stronger-reg",
+          "maniac",
+          "lag"
+        ]
+      },
+      "reference": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Preflop TT+/AQ+, value-led postflop; folds non-value to prices over20%. Fixed independent rule, not production nit archetype.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "aggressive9250-nit.json.gz"
+    },
+    {
+      "cell": {
+        "name": "aggressive9250",
+        "seats": 9,
+        "depth": 250,
+        "rake": false,
+        "styles": [
+          "lag",
+          "maniac",
+          "tag",
+          "lag",
+          "stronger-reg",
+          "maniac",
+          "lag"
+        ]
+      },
+      "reference": "random",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Uniformly chooses among distinct legal fold/check/call/minraise/potraise/all-in actions.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "aggressive9250-random.json.gz"
+    },
+    {
+      "cell": {
+        "name": "aggressive9250",
+        "seats": 9,
+        "depth": 250,
+        "rake": false,
+        "styles": [
+          "lag",
+          "maniac",
+          "tag",
+          "lag",
+          "stronger-reg",
+          "maniac",
+          "lag"
+        ]
+      },
+      "reference": "balanced-heuristic",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Declared mixture: value bets and ace-blocker air25%; price-sensitive private-pair/draw calls. Balanced is a descriptive heuristic, not solver equilibrium.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "aggressive9250-balanced-heuristic.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed1050",
+        "seats": 10,
+        "depth": 50,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "maniac",
+          "passive-reg",
+          "stronger-reg"
+        ]
+      },
+      "reference": "always-minbet",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises the legal minimum whenever possible; otherwise checks/calls. Deliberately exploitable fixed probe.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed1050-always-minbet.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed1050",
+        "seats": 10,
+        "depth": 50,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "maniac",
+          "passive-reg",
+          "stronger-reg"
+        ]
+      },
+      "reference": "oversized-value-pressure",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls to river; 2.5pot or capped shove with private value, occasional ace-blocker air. Targets excessive oversized calls, not an optimal policy.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed1050-oversized-value-pressure.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed1050",
+        "seats": 10,
+        "depth": 50,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "maniac",
+          "passive-reg",
+          "stronger-reg"
+        ]
+      },
+      "reference": "value-only-river",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Checks/calls earlier streets; river bets1.5pot only with private two-pair or better, folds non-value to pressure.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "squeeze": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "squeeze": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed1050-value-only-river.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed1050",
+        "seats": 10,
+        "depth": 50,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "maniac",
+          "passive-reg",
+          "stronger-reg"
+        ]
+      },
+      "reference": "overbluff",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Raises1.25pot at every legal opportunity regardless of strength; calls when raising unavailable.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "fourBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|threebet|preflop|multiway": {
+          "fourBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed1050-overbluff.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed1050",
+        "seats": 10,
+        "depth": 50,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "maniac",
+          "passive-reg",
+          "stronger-reg"
+        ]
+      },
+      "reference": "nit",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Preflop TT+/AQ+, value-led postflop; folds non-value to prices over20%. Fixed independent rule, not production nit archetype.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed1050-nit.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed1050",
+        "seats": 10,
+        "depth": 50,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "maniac",
+          "passive-reg",
+          "stronger-reg"
+        ]
+      },
+      "reference": "random",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Uniformly chooses among distinct legal fold/check/call/minraise/potraise/all-in actions.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {},
+      "rawArtifact": "mixed1050-random.json.gz"
+    },
+    {
+      "cell": {
+        "name": "mixed1050",
+        "seats": 10,
+        "depth": 50,
+        "rake": true,
+        "styles": [
+          "nit",
+          "station",
+          "tag",
+          "lag",
+          "fit-or-fold",
+          "maniac",
+          "passive-reg",
+          "stronger-reg"
+        ]
+      },
+      "reference": "balanced-heuristic",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "assumption": "Declared mixture: value bets and ace-blocker air25%; price-sensitive private-pair/draw calls. Balanced is a descriptive heuristic, not solver equilibrium.",
+      "outcome": {
+        "hands": 1,
+        "blocks": 1,
+        "meanBBPerHand": -0.5,
+        "blockMeans": [
+          -0.5
+        ],
+        "blockBootstrap95": null,
+        "warning": "Descriptive synthetic block interval; rare heavy tails and finite clusters limit inference."
+      },
+      "rates": {
+        "threeBet": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "blindDefense": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "vpip": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        },
+        "pfr": {
+          "count": 0,
+          "opportunities": 1,
+          "percent": 0,
+          "blocks": 1,
+          "clusterBootstrap95": null,
+          "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+          "conditionalWilson95": [
+            0,
+            79.34567085261071
+          ],
+          "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+        }
+      },
+      "conditional": {
+        "preflop|open|preflop|multiway": {
+          "threeBet": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          },
+          "blindDefense": {
+            "count": 0,
+            "opportunities": 1,
+            "percent": 0,
+            "blocks": 1,
+            "clusterBootstrap95": null,
+            "clusterBootstrapCaveat": "All observed outcomes identical; ordinary resampling cannot estimate unobserved tail uncertainty. Wilson is conditional only.",
+            "conditionalWilson95": [
+              0,
+              79.34567085261071
+            ],
+            "coverage": "INSUFFICIENT_FOR_PRECISE_CONDITIONAL_ESTIMATE"
+          }
+        }
+      },
+      "rawArtifact": "mixed1050-balanced-heuristic.json.gz"
+    }
+  ],
+  "limitations": "Independent frozen heuristics, not strategically optimal references; no human or solver calibration. Controlled hand resets, not ecology churn. Same seed/button cards matched across agent cells; reached histories differ. Losses retained; no model tuned on this cohort."
+}

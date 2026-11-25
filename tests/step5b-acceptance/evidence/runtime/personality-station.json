@@ -1,0 +1,1902 @@
+{
+  "claim": "Synthetic within-archetype heterogeneity; not human-calibrated frequencies",
+  "profiles": [
+    {
+      "archetype": "station",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "aggression": 0.08317776483250781,
+      "looseness": 0.8659258220600896,
+      "skill": 0.21791979610919954,
+      "environment": "neutral",
+      "unknown": false,
+      "traits": {
+        "positionAwareness": 0.16755047294776887,
+        "bluffFrequency": 0.06784720640862361,
+        "valueThreshold": 0.6342988036014139,
+        "drawCalling": 0.9598554108431563,
+        "sizeSensitivity": 0.20195351055823266,
+        "riskTolerance": 0.6673867127881385,
+        "riverCuriosity": 0.9030188240995631,
+        "slowPlay": 0.15940359455533326,
+        "multiwayCaution": 0.08456057691015303,
+        "adaptation": 0.12460421884898096,
+        "memoryRetention": 0.46242499039974067,
+        "mistakeRate": 0.4860787189146504,
+        "sizingAggression": 0.20009223666740583
+      },
+      "personalityId": "cash-v1.2:000111e7:station"
+    },
+    {
+      "archetype": "station",
+      "policyVersion": "synthetic-cash-1.6.0",
+      "aggression": 0.10513952905079349,
+      "looseness": 0.8848957383702509,
+      "skill": 0.21353566105477512,
+      "environment": "neutral",
+      "unknown": false,
+      "traits": {
+        "positionAwareness": 0.1467537382710725,
+        "bluffFrequency": 0.08414296941598877,
+        "valueThreshold": 0.6345995943248272,
+        "drawCalling": 0.9082168841036037,
+        "sizeSensitivity": 0.20394979118835183,
+        "riskTolerance": 0.7184146998287179,
+        "riverCuriosity": 0.9392166048195213,
+        "slowPlay": 0.16572817123029382,
+        "multiwayCaution": 0.09756964933127164,
+        "adaptation": 0.1394780874811113,
+        "memoryRetention": 0.45729064545594156,
+        "mistakeRate": 0.48098558287136256,
+        "sizingAggression": 0.2571322666783817
+      },
+      "personalityId": "cash-v1.2:0001832d:station"
+    }
+  ],
+  "scenarioCount": 12,
+  "independentBatches": 2,
+  "opportunitiesPerIdentityPerContextPerBatch": 128,
+  "repeatSameSeedChecks": "exact actions/sizes after JSON recovery",
+  "differentContexts": 12,
+  "totalDistributionL1Within": 0.12307042397234118,
+  "totalDistributionL1Contrast": 11.039441358263838,
+  "rows": [
+    {
+      "scenario": "early-jto",
+      "expectedDistributions": [
+        {
+          "fold": 0.04587052251683388,
+          "check": 0,
+          "call": 0.8882480791331909,
+          "raise": 0.06588139834997524
+        },
+        {
+          "fold": 0.04287098339382389,
+          "check": 0,
+          "call": 0.8809909033719201,
+          "raise": 0.07613811323425601
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "Open raise",
+            "raiseTo": 426,
+            "weight": 0.25
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 476,
+            "weight": 0.5
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 586,
+            "weight": 0.25
+          }
+        ],
+        [
+          {
+            "label": "Open raise",
+            "raiseTo": 433,
+            "weight": 0.25
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 483,
+            "weight": 0.5
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 593,
+            "weight": 0.25
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 104,
+              "raise": 19
+            },
+            "sizes": [
+              476,
+              476,
+              426,
+              426,
+              426,
+              586,
+              426,
+              426,
+              476,
+              476,
+              426,
+              426,
+              426,
+              476,
+              586,
+              476,
+              426,
+              476,
+              426
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 115,
+              "raise": 8
+            },
+            "sizes": [
+              476,
+              476,
+              426,
+              476,
+              586,
+              476,
+              586,
+              476
+            ]
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 103,
+              "raise": 20
+            },
+            "sizes": [
+              483,
+              483,
+              433,
+              433,
+              593,
+              433,
+              593,
+              433,
+              433,
+              483,
+              483,
+              433,
+              433,
+              433,
+              483,
+              593,
+              483,
+              433,
+              483,
+              433
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 114,
+              "raise": 9
+            },
+            "sizes": [
+              483,
+              483,
+              433,
+              483,
+              593,
+              483,
+              593,
+              483,
+              483
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "button-jto",
+      "expectedDistributions": [
+        {
+          "fold": 0.020423405287328777,
+          "check": 0,
+          "call": 0.9119381060446421,
+          "raise": 0.06763848866802918
+        },
+        {
+          "fold": 0.019654250443512433,
+          "check": 0,
+          "call": 0.9023607816018845,
+          "raise": 0.07798496795460312
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "Open raise",
+            "raiseTo": 426,
+            "weight": 0.25
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 476,
+            "weight": 0.5
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 586,
+            "weight": 0.25
+          }
+        ],
+        [
+          {
+            "label": "Open raise",
+            "raiseTo": 433,
+            "weight": 0.25
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 483,
+            "weight": 0.5
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 593,
+            "weight": 0.25
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 3,
+              "check": 0,
+              "call": 106,
+              "raise": 19
+            },
+            "sizes": [
+              476,
+              476,
+              426,
+              426,
+              426,
+              586,
+              426,
+              426,
+              476,
+              476,
+              426,
+              426,
+              426,
+              476,
+              586,
+              476,
+              426,
+              476,
+              426
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 3,
+              "check": 0,
+              "call": 117,
+              "raise": 8
+            },
+            "sizes": [
+              476,
+              476,
+              426,
+              476,
+              586,
+              476,
+              586,
+              476
+            ]
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 3,
+              "check": 0,
+              "call": 104,
+              "raise": 21
+            },
+            "sizes": [
+              483,
+              483,
+              433,
+              433,
+              593,
+              433,
+              593,
+              433,
+              433,
+              483,
+              483,
+              433,
+              433,
+              433,
+              483,
+              593,
+              593,
+              483,
+              433,
+              483,
+              433
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 2,
+              "check": 0,
+              "call": 117,
+              "raise": 9
+            },
+            "sizes": [
+              483,
+              483,
+              433,
+              483,
+              593,
+              483,
+              593,
+              483,
+              483
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "unopened-97s",
+      "expectedDistributions": [
+        {
+          "fold": 0.07097410202804766,
+          "check": 0,
+          "call": 0.8648778691077948,
+          "raise": 0.06414802886415748
+        },
+        {
+          "fold": 0.06629075193879008,
+          "check": 0,
+          "call": 0.8594341407106533,
+          "raise": 0.07427510735055665
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "Open raise",
+            "raiseTo": 426,
+            "weight": 0.25
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 476,
+            "weight": 0.5
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 586,
+            "weight": 0.25
+          }
+        ],
+        [
+          {
+            "label": "Open raise",
+            "raiseTo": 433,
+            "weight": 0.25
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 483,
+            "weight": 0.5
+          },
+          {
+            "label": "Open raise",
+            "raiseTo": 593,
+            "weight": 0.25
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 104,
+              "raise": 19
+            },
+            "sizes": [
+              476,
+              476,
+              426,
+              426,
+              426,
+              586,
+              426,
+              426,
+              476,
+              476,
+              426,
+              426,
+              426,
+              476,
+              586,
+              476,
+              426,
+              476,
+              426
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 115,
+              "raise": 8
+            },
+            "sizes": [
+              476,
+              476,
+              426,
+              476,
+              586,
+              476,
+              586,
+              476
+            ]
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 103,
+              "raise": 20
+            },
+            "sizes": [
+              483,
+              483,
+              433,
+              433,
+              593,
+              433,
+              593,
+              433,
+              433,
+              483,
+              483,
+              433,
+              433,
+              433,
+              483,
+              593,
+              483,
+              433,
+              483,
+              433
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 114,
+              "raise": 9
+            },
+            "sizes": [
+              483,
+              483,
+              433,
+              483,
+              593,
+              483,
+              593,
+              483,
+              483
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "limped-97s",
+      "expectedDistributions": [
+        {
+          "fold": 0.11644076252515145,
+          "check": 0,
+          "call": 0.8388718505342545,
+          "raise": 0.0446873869405941
+        },
+        {
+          "fold": 0.10833888928441637,
+          "check": 0,
+          "call": 0.839472699224343,
+          "raise": 0.05218841149124064
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "Isolation raise",
+            "raiseTo": 604,
+            "weight": 0.25
+          },
+          {
+            "label": "Isolation raise",
+            "raiseTo": 654,
+            "weight": 0.5
+          },
+          {
+            "label": "Isolation raise",
+            "raiseTo": 764,
+            "weight": 0.25
+          }
+        ],
+        [
+          {
+            "label": "Isolation raise",
+            "raiseTo": 617,
+            "weight": 0.25
+          },
+          {
+            "label": "Isolation raise",
+            "raiseTo": 667,
+            "weight": 0.5
+          },
+          {
+            "label": "Isolation raise",
+            "raiseTo": 777,
+            "weight": 0.25
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 11,
+              "check": 0,
+              "call": 106,
+              "raise": 11
+            },
+            "sizes": [
+              654,
+              604,
+              604,
+              764,
+              654,
+              604,
+              654,
+              764,
+              654,
+              604,
+              654
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 14,
+              "check": 0,
+              "call": 108,
+              "raise": 6
+            },
+            "sizes": [
+              654,
+              604,
+              654,
+              764,
+              654,
+              654
+            ]
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 10,
+              "check": 0,
+              "call": 104,
+              "raise": 14
+            },
+            "sizes": [
+              667,
+              617,
+              617,
+              777,
+              617,
+              667,
+              667,
+              617,
+              617,
+              667,
+              777,
+              667,
+              617,
+              667
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 13,
+              "check": 0,
+              "call": 109,
+              "raise": 6
+            },
+            "sizes": [
+              667,
+              617,
+              667,
+              777,
+              667,
+              667
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "open-kjs",
+      "expectedDistributions": [
+        {
+          "fold": 0.012387445826230414,
+          "check": 0,
+          "call": 0.9018679864053986,
+          "raise": 0.08574456776837103
+        },
+        {
+          "fold": 0.011769909891633845,
+          "check": 0,
+          "call": 0.8953728953349135,
+          "raise": 0.09285719477345272
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "3-bet",
+            "raiseTo": 1650,
+            "weight": 0.25
+          },
+          {
+            "label": "3-bet",
+            "raiseTo": 1800,
+            "weight": 0.5
+          },
+          {
+            "label": "3-bet",
+            "raiseTo": 2100,
+            "weight": 0.25
+          }
+        ],
+        [
+          {
+            "label": "3-bet",
+            "raiseTo": 1650,
+            "weight": 0.25
+          },
+          {
+            "label": "3-bet",
+            "raiseTo": 1800,
+            "weight": 0.5
+          },
+          {
+            "label": "3-bet",
+            "raiseTo": 2100,
+            "weight": 0.25
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 2,
+              "check": 0,
+              "call": 104,
+              "raise": 22
+            },
+            "sizes": [
+              1800,
+              1800,
+              1650,
+              1650,
+              2100,
+              1650,
+              2100,
+              1650,
+              1650,
+              2100,
+              1800,
+              1800,
+              1650,
+              1650,
+              1650,
+              1800,
+              2100,
+              2100,
+              1800,
+              1650,
+              1800,
+              1650
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 2,
+              "check": 0,
+              "call": 115,
+              "raise": 11
+            },
+            "sizes": [
+              1800,
+              1800,
+              1650,
+              1650,
+              1800,
+              2100,
+              1800,
+              2100,
+              1800,
+              1800,
+              1800
+            ]
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 2,
+              "check": 0,
+              "call": 103,
+              "raise": 23
+            },
+            "sizes": [
+              1800,
+              1800,
+              1650,
+              1650,
+              2100,
+              1650,
+              2100,
+              1650,
+              1650,
+              2100,
+              1800,
+              1800,
+              1650,
+              1650,
+              1650,
+              1800,
+              2100,
+              2100,
+              2100,
+              1800,
+              1650,
+              1800,
+              1650
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 2,
+              "check": 0,
+              "call": 115,
+              "raise": 11
+            },
+            "sizes": [
+              1800,
+              1800,
+              1650,
+              1650,
+              1800,
+              2100,
+              1800,
+              2100,
+              1800,
+              1800,
+              1800
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "threebet-kjs",
+      "expectedDistributions": [
+        {
+          "fold": 0.03808778480885666,
+          "check": 0,
+          "call": 0.8783989520454737,
+          "raise": 0.08351326314566959
+        },
+        {
+          "fold": 0.035144864049772684,
+          "check": 0,
+          "call": 0.874194325088587,
+          "raise": 0.09066081086164042
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "4-bet+",
+            "raiseTo": 3600,
+            "weight": 0.25
+          },
+          {
+            "label": "4-bet+",
+            "raiseTo": 4050,
+            "weight": 0.5
+          },
+          {
+            "label": "4-bet+",
+            "raiseTo": 4950,
+            "weight": 0.25
+          }
+        ],
+        [
+          {
+            "label": "4-bet+",
+            "raiseTo": 3600,
+            "weight": 0.25
+          },
+          {
+            "label": "4-bet+",
+            "raiseTo": 4050,
+            "weight": 0.5
+          },
+          {
+            "label": "4-bet+",
+            "raiseTo": 4950,
+            "weight": 0.25
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 4,
+              "check": 0,
+              "call": 102,
+              "raise": 22
+            },
+            "sizes": [
+              4050,
+              4050,
+              3600,
+              3600,
+              4950,
+              3600,
+              4950,
+              3600,
+              3600,
+              4950,
+              4050,
+              4050,
+              3600,
+              3600,
+              3600,
+              4050,
+              4950,
+              4950,
+              4050,
+              3600,
+              4050,
+              3600
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 112,
+              "raise": 11
+            },
+            "sizes": [
+              4050,
+              4050,
+              3600,
+              3600,
+              4050,
+              4950,
+              4050,
+              4950,
+              4050,
+              4050,
+              4050
+            ]
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 4,
+              "check": 0,
+              "call": 101,
+              "raise": 23
+            },
+            "sizes": [
+              4050,
+              4050,
+              3600,
+              3600,
+              4950,
+              3600,
+              4950,
+              3600,
+              3600,
+              4950,
+              4050,
+              4050,
+              3600,
+              3600,
+              3600,
+              4050,
+              4950,
+              4950,
+              4950,
+              4050,
+              3600,
+              4050,
+              3600
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 112,
+              "raise": 11
+            },
+            "sizes": [
+              4050,
+              4050,
+              3600,
+              3600,
+              4050,
+              4950,
+              4050,
+              4950,
+              4050,
+              4050,
+              4050
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "flop-marginal-cheap",
+      "expectedDistributions": [
+        {
+          "fold": 0.0020000000000000018,
+          "check": 0,
+          "call": 0.991667962762875,
+          "raise": 0.006332037237125031
+        },
+        {
+          "fold": 0.0020000000000000018,
+          "check": 0,
+          "call": 0.9906421324394391,
+          "raise": 0.007357867560560937
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 800,
+            "weight": 0.1714863882915084
+          },
+          {
+            "label": "33% pot",
+            "raiseTo": 1000,
+            "weight": 0.2090034077328681
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 1400,
+            "weight": 0.31045652657314354
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 2000,
+            "weight": 0.1977963906260082
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 2600,
+            "weight": 0.10925648437788313
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 3800,
+            "weight": 0.0015003979526106424
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 5000,
+            "weight": 0.0004577877653870714
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 7400,
+            "weight": 0.00004261668059078816
+          }
+        ],
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 800,
+            "weight": 0.16173572994019986
+          },
+          {
+            "label": "33% pot",
+            "raiseTo": 1000,
+            "weight": 0.19719350373675185
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 1400,
+            "weight": 0.29313377776996286
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 2000,
+            "weight": 0.22259438593300823
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 2600,
+            "weight": 0.12281582069234562
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 3800,
+            "weight": 0.0018960761445681107
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 5000,
+            "weight": 0.0005772128488351378
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 7400,
+            "weight": 0.00005349293432838348
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 0,
+              "call": 127,
+              "raise": 1
+            },
+            "sizes": [
+              1400
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 0,
+              "call": 128,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 0,
+              "call": 127,
+              "raise": 1
+            },
+            "sizes": [
+              1400
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 0,
+              "call": 128,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "flop-marginal-overbet",
+      "expectedDistributions": [
+        {
+          "fold": 0.05512025984405855,
+          "check": 0,
+          "call": 0.9262516393628603,
+          "raise": 0.018628100793081154
+        },
+        {
+          "fold": 0.05259080303527219,
+          "check": 0,
+          "call": 0.9274543009421607,
+          "raise": 0.01995489602256707
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 8000,
+            "weight": 0.5329164446177227
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 9000,
+            "weight": 0.2507068208217504
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 11500,
+            "weight": 0.1384825363387527
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 14000,
+            "weight": 0.07649338301987758
+          },
+          {
+            "label": "All-in",
+            "raiseTo": 19000,
+            "weight": 0.0014008152018966272
+          }
+        ],
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 8000,
+            "weight": 0.5113694896353728
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 9000,
+            "weight": 0.262361072204441
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 11500,
+            "weight": 0.1447569769805861
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 14000,
+            "weight": 0.07986925121356946
+          },
+          {
+            "label": "All-in",
+            "raiseTo": 19000,
+            "weight": 0.0016432099660307264
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 119,
+              "raise": 4
+            },
+            "sizes": [
+              8000,
+              8000,
+              8000,
+              8000
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 122,
+              "raise": 1
+            },
+            "sizes": [
+              9000
+            ]
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 119,
+              "raise": 4
+            },
+            "sizes": [
+              8000,
+              8000,
+              8000,
+              8000
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 5,
+              "check": 0,
+              "call": 120,
+              "raise": 3
+            },
+            "sizes": [
+              8000,
+              8000,
+              9000
+            ]
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "flop-flushdraw",
+      "expectedDistributions": [
+        {
+          "fold": 0.016269562816970895,
+          "check": 0,
+          "call": 0.978811784997114,
+          "raise": 0.004918652185915146
+        },
+        {
+          "fold": 0.019445209852428813,
+          "check": 0,
+          "call": 0.9747550510456414,
+          "raise": 0.0057997391019298595
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 2000,
+            "weight": 0.16118124275993165
+          },
+          {
+            "label": "33% pot",
+            "raiseTo": 2333,
+            "weight": 0.19644374888915028
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 3000,
+            "weight": 0.2918002371764271
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 4000,
+            "weight": 0.2243701643211596
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 5000,
+            "weight": 0.12393499838613597
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 7000,
+            "weight": 0.0017019751174878923
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 9000,
+            "weight": 0.0005192911550055751
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 13000,
+            "weight": 0.000048342194701909915
+          }
+        ],
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 2000,
+            "weight": 0.15085475441058485
+          },
+          {
+            "label": "33% pot",
+            "raiseTo": 2333,
+            "weight": 0.1839270616861797
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 3000,
+            "weight": 0.27341283259601834
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 4000,
+            "weight": 0.2506593850288216
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 5000,
+            "weight": 0.13830060429205246
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 7000,
+            "weight": 0.0021351359710765493
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 9000,
+            "weight": 0.0006499886199434233
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 13000,
+            "weight": 0.00006023739532305706
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 2,
+              "check": 0,
+              "call": 125,
+              "raise": 1
+            },
+            "sizes": [
+              3000
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 2,
+              "check": 0,
+              "call": 126,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 3,
+              "check": 0,
+              "call": 124,
+              "raise": 1
+            },
+            "sizes": [
+              3000
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 2,
+              "check": 0,
+              "call": 126,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "turn-delayed-cbet",
+      "expectedDistributions": [
+        {
+          "fold": 0,
+          "check": 0.995,
+          "call": 0,
+          "raise": 0.005
+        },
+        {
+          "fold": 0,
+          "check": 0.995,
+          "call": 0,
+          "raise": 0.005
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 500,
+            "weight": 0.14414053615937986
+          },
+          {
+            "label": "33% pot",
+            "raiseTo": 667,
+            "weight": 0.17567495327117374
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 1000,
+            "weight": 0.26094998349584786
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 1500,
+            "weight": 0.26831286065872884
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 2000,
+            "weight": 0.14820755715595407
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 3000,
+            "weight": 0.0020353054245193427
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 4000,
+            "weight": 0.0006209938640276744
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 6000,
+            "weight": 0.00005780997036853999
+          }
+        ],
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 500,
+            "weight": 0.13321500447243928
+          },
+          {
+            "label": "33% pot",
+            "raiseTo": 667,
+            "weight": 0.16242010032007217
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 1000,
+            "weight": 0.2414421200008612
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 1500,
+            "weight": 0.29615710393435674
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 2000,
+            "weight": 0.16340384157088772
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 3000,
+            "weight": 0.0025226890492346552
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 4000,
+            "weight": 0.0007679694388885519
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 6000,
+            "weight": 0.00007117121325967618
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 127,
+              "call": 0,
+              "raise": 1
+            },
+            "sizes": [
+              1000
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 128,
+              "call": 0,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 127,
+              "call": 0,
+              "raise": 1
+            },
+            "sizes": [
+              1000
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 128,
+              "call": 0,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "river-marginal-halfpot",
+      "expectedDistributions": [
+        {
+          "fold": 0.0020000000000000018,
+          "check": 0,
+          "call": 0.99301,
+          "raise": 0.0049900000000000005
+        },
+        {
+          "fold": 0.0020000000000000018,
+          "check": 0,
+          "call": 0.9921791297165656,
+          "raise": 0.005820870283434303
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 2000,
+            "weight": 0.1528038386032361
+          },
+          {
+            "label": "33% pot",
+            "raiseTo": 2333,
+            "weight": 0.18623357399335325
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 3000,
+            "weight": 0.2766339034393961
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 4000,
+            "weight": 0.24597289099112316
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 5000,
+            "weight": 0.13586766288757912
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 7000,
+            "weight": 0.0018658440675927822
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 9000,
+            "weight": 0.0005692893573853606
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 13000,
+            "weight": 0.00005299666033432214
+          }
+        ],
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 2000,
+            "weight": 0.14212845921231934
+          },
+          {
+            "label": "33% pot",
+            "raiseTo": 2333,
+            "weight": 0.17328767652729485
+          },
+          {
+            "label": "50% pot",
+            "raiseTo": 3000,
+            "weight": 0.2575970825552003
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 4000,
+            "weight": 0.27316687676819384
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 5000,
+            "weight": 0.15071904898063107
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 7000,
+            "weight": 0.0023268565213600202
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 9000,
+            "weight": 0.0007083531351694555
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 13000,
+            "weight": 0.00006564629983097767
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 0,
+              "call": 127,
+              "raise": 1
+            },
+            "sizes": [
+              3000
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 0,
+              "call": 128,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 0,
+              "call": 127,
+              "raise": 1
+            },
+            "sizes": [
+              3000
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 0,
+              "call": 128,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ]
+      ]
+    },
+    {
+      "scenario": "heads-up-air",
+      "expectedDistributions": [
+        {
+          "fold": 0,
+          "check": 0.995,
+          "call": 0,
+          "raise": 0.005
+        },
+        {
+          "fold": 0,
+          "check": 0.995,
+          "call": 0,
+          "raise": 0.005
+        }
+      ],
+      "sizing": [
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 200,
+            "weight": 0.6590915713729508
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 300,
+            "weight": 0.2181836413763165
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 400,
+            "weight": 0.12051775833773341
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 600,
+            "weight": 0.0016550468275891538
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 800,
+            "weight": 0.0005049728223733556
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 1200,
+            "weight": 0.00004700926303680958
+          }
+        ],
+        [
+          {
+            "label": "25% pot",
+            "raiseTo": 200,
+            "weight": 0.6183488290423577
+          },
+          {
+            "label": "75% pot",
+            "raiseTo": 300,
+            "weight": 0.24416319861022318
+          },
+          {
+            "label": "100% pot",
+            "raiseTo": 400,
+            "weight": 0.13471635187244851
+          },
+          {
+            "label": "150% pot",
+            "raiseTo": 600,
+            "weight": 0.0020798009542146293
+          },
+          {
+            "label": "200% pot",
+            "raiseTo": 800,
+            "weight": 0.000633143261272195
+          },
+          {
+            "label": "300% pot",
+            "raiseTo": 1200,
+            "weight": 0.00005867625948390071
+          }
+        ]
+      ],
+      "batches": [
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 127,
+              "call": 0,
+              "raise": 1
+            },
+            "sizes": [
+              200
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 128,
+              "call": 0,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ],
+        [
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 127,
+              "call": 0,
+              "raise": 1
+            },
+            "sizes": [
+              200
+            ]
+          },
+          {
+            "opportunities": 128,
+            "count": {
+              "fold": 0,
+              "check": 128,
+              "call": 0,
+              "raise": 0
+            },
+            "sizes": []
+          }
+        ]
+      ]
+    }
+  ]
+}

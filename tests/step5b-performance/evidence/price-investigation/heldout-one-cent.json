@@ -1,0 +1,2790 @@
+{
+  "method": "Held-out paired one-cent changes on $20 pots:4draw contexts×2archetypes×2stable personalities×2streets×3overbet sizes. Synthetic current range likelihood saturates over2pot, permitting an exact equal-posterior comparison; no globalmonotonic assertion imposed on changing ranges. All distinct sampled actions were committed to actual engine clones;49,152 seeded proposals. These are simulator conditionals, not human calibration.",
+  "opportunities": 49152,
+  "rows": [
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 202,
+          "check": 0,
+          "call": 45,
+          "raise": 9
+        },
+        {
+          "fold": 202,
+          "check": 0,
+          "call": 45,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.15750775529737204,
+      "continuationAfter": 0.15742693815144915,
+      "delta": -0.00008081714592289568,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 212,
+          "check": 0,
+          "call": 37,
+          "raise": 7
+        },
+        {
+          "fold": 212,
+          "check": 0,
+          "call": 37,
+          "raise": 7
+        }
+      ],
+      "continuationBefore": 0.12297915176900487,
+      "continuationAfter": 0.12292046044993277,
+      "delta": -0.00005869131907210168,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 219,
+          "check": 0,
+          "call": 32,
+          "raise": 5
+        },
+        {
+          "fold": 219,
+          "check": 0,
+          "call": 32,
+          "raise": 5
+        }
+      ],
+      "continuationBefore": 0.09763594423269273,
+      "continuationAfter": 0.09759236219783385,
+      "delta": -0.000043582034858880014,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 242,
+          "check": 0,
+          "call": 13,
+          "raise": 1
+        },
+        {
+          "fold": 242,
+          "check": 0,
+          "call": 13,
+          "raise": 1
+        }
+      ],
+      "continuationBefore": 0.04405260362727592,
+      "continuationAfter": 0.044026777199494216,
+      "delta": -0.00002582642778170552,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 245,
+          "check": 0,
+          "call": 11,
+          "raise": 0
+        },
+        {
+          "fold": 245,
+          "check": 0,
+          "call": 11,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.03334152218873565,
+      "continuationAfter": 0.03332385260052484,
+      "delta": -0.000017669588210811327,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.025873901775553265,
+      "continuationAfter": 0.025861335092814408,
+      "delta": -0.000012566682738857082,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 206,
+          "check": 0,
+          "call": 41,
+          "raise": 9
+        },
+        {
+          "fold": 206,
+          "check": 0,
+          "call": 41,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.1513742211849073,
+      "continuationAfter": 0.15129493217337942,
+      "delta": -0.00007928901152787216,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 214,
+          "check": 0,
+          "call": 36,
+          "raise": 6
+        },
+        {
+          "fold": 214,
+          "check": 0,
+          "call": 36,
+          "raise": 6
+        }
+      ],
+      "continuationBefore": 0.11757607036266171,
+      "continuationAfter": 0.1175187633012077,
+      "delta": -0.000057307061454014985,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 221,
+          "check": 0,
+          "call": 30,
+          "raise": 5
+        },
+        {
+          "fold": 221,
+          "check": 0,
+          "call": 30,
+          "raise": 5
+        }
+      ],
+      "continuationBefore": 0.09288295476544339,
+      "continuationAfter": 0.09284058816869689,
+      "delta": -0.00004236659674650145,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 242,
+          "check": 0,
+          "call": 13,
+          "raise": 1
+        },
+        {
+          "fold": 242,
+          "check": 0,
+          "call": 13,
+          "raise": 1
+        }
+      ],
+      "continuationBefore": 0.0420485423639253,
+      "continuationAfter": 0.04202350798019916,
+      "delta": -0.000025034383726141307,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.031682255545305904,
+      "continuationAfter": 0.031665184905366295,
+      "delta": -0.000017070639939609222,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.02447876742916677,
+      "continuationAfter": 0.02446666589803581,
+      "delta": -0.000012101531130959131,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 191,
+          "check": 0,
+          "call": 55,
+          "raise": 10
+        },
+        {
+          "fold": 191,
+          "check": 0,
+          "call": 55,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.20100154110839585,
+      "continuationAfter": 0.20089252658094425,
+      "delta": -0.00010901452745160078,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 203,
+          "check": 0,
+          "call": 44,
+          "raise": 9
+        },
+        {
+          "fold": 203,
+          "check": 0,
+          "call": 44,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.15428000626345273,
+      "continuationAfter": 0.15420047316338237,
+      "delta": -0.0000795331000703614,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 213,
+          "check": 0,
+          "call": 34,
+          "raise": 9
+        },
+        {
+          "fold": 213,
+          "check": 0,
+          "call": 34,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.11999186421933061,
+      "continuationAfter": 0.11993307896338312,
+      "delta": -0.000058785255947491066,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 242,
+          "check": 0,
+          "call": 12,
+          "raise": 2
+        },
+        {
+          "fold": 242,
+          "check": 0,
+          "call": 12,
+          "raise": 2
+        }
+      ],
+      "continuationBefore": 0.04301851795936762,
+      "continuationAfter": 0.04299040162069323,
+      "delta": -0.000028116338674388786,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.03150498307025251,
+      "continuationAfter": 0.031486262098774365,
+      "delta": -0.000018720971478147774,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.02369135744188744,
+      "continuationAfter": 0.023678391444896585,
+      "delta": -0.000012965996990854656,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 196,
+          "check": 0,
+          "call": 51,
+          "raise": 9
+        },
+        {
+          "fold": 196,
+          "check": 0,
+          "call": 51,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.19326094154422369,
+      "continuationAfter": 0.19315374673364705,
+      "delta": -0.00010719481057663849,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 209,
+          "check": 0,
+          "call": 38,
+          "raise": 9
+        },
+        {
+          "fold": 209,
+          "check": 0,
+          "call": 38,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.14745530184109468,
+      "continuationAfter": 0.14737757722791578,
+      "delta": -0.00007772461317889778,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 214,
+          "check": 0,
+          "call": 35,
+          "raise": 7
+        },
+        {
+          "fold": 214,
+          "check": 0,
+          "call": 35,
+          "raise": 7
+        }
+      ],
+      "continuationBefore": 0.11403745574436186,
+      "continuationAfter": 0.11398033015774822,
+      "delta": -0.00005712558661363776,
+      "equity": 0.4479166666666667,
+      "equityStdError": 0.04993370971094653,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 243,
+          "check": 0,
+          "call": 11,
+          "raise": 2
+        },
+        {
+          "fold": 243,
+          "check": 0,
+          "call": 11,
+          "raise": 2
+        }
+      ],
+      "continuationBefore": 0.040979599809409684,
+      "continuationAfter": 0.04095241457983945,
+      "delta": -0.000027185229570236835,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.029867499592642233,
+      "continuationAfter": 0.029849468319662842,
+      "delta": -0.000018031272979390778,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "straight-jt",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.02235487438796424,
+      "continuationAfter": 0.022342432370711207,
+      "delta": -0.000012442017253033733,
+      "equity": 0.3229166666666667,
+      "equityStdError": 0.047398996183266234,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 92,
+          "check": 0,
+          "call": 143,
+          "raise": 21
+        },
+        {
+          "fold": 92,
+          "check": 0,
+          "call": 143,
+          "raise": 21
+        }
+      ],
+      "continuationBefore": 0.6454634555497041,
+      "continuationAfter": 0.6453203228271028,
+      "delta": -0.00014313272260124688,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 114,
+          "check": 0,
+          "call": 121,
+          "raise": 21
+        },
+        {
+          "fold": 114,
+          "check": 0,
+          "call": 121,
+          "raise": 21
+        }
+      ],
+      "continuationBefore": 0.5752719036434086,
+      "continuationAfter": 0.5751349406152153,
+      "delta": -0.0001369630281933265,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 124,
+          "check": 0,
+          "call": 115,
+          "raise": 17
+        },
+        {
+          "fold": 124,
+          "check": 0,
+          "call": 115,
+          "raise": 17
+        }
+      ],
+      "continuationBefore": 0.5090120336735148,
+      "continuationAfter": 0.5088843673585243,
+      "delta": -0.0001276663149905044,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 201,
+          "check": 0,
+          "call": 45,
+          "raise": 10
+        },
+        {
+          "fold": 201,
+          "check": 0,
+          "call": 45,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.1648700138520296,
+      "continuationAfter": 0.16478350641114425,
+      "delta": -0.00008650744088534168,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 212,
+          "check": 0,
+          "call": 34,
+          "raise": 10
+        },
+        {
+          "fold": 212,
+          "check": 0,
+          "call": 34,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.12789666856327764,
+      "continuationAfter": 0.12783383010557758,
+      "delta": -0.00006283845770005403,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 218,
+          "check": 0,
+          "call": 29,
+          "raise": 9
+        },
+        {
+          "fold": 218,
+          "check": 0,
+          "call": 29,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.10078818652152322,
+      "continuationAfter": 0.10074163490527988,
+      "delta": -0.00004655161624333992,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 97,
+          "check": 0,
+          "call": 138,
+          "raise": 21
+        },
+        {
+          "fold": 97,
+          "check": 0,
+          "call": 138,
+          "raise": 21
+        }
+      ],
+      "continuationBefore": 0.634699933397358,
+      "continuationAfter": 0.6345530109431248,
+      "delta": -0.00014692245423320038,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 117,
+          "check": 0,
+          "call": 120,
+          "raise": 19
+        },
+        {
+          "fold": 117,
+          "check": 0,
+          "call": 120,
+          "raise": 19
+        }
+      ],
+      "continuationBefore": 0.5628087101960652,
+      "continuationAfter": 0.5626687679444091,
+      "delta": -0.00013994225165603336,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 127,
+          "check": 0,
+          "call": 115,
+          "raise": 14
+        },
+        {
+          "fold": 127,
+          "check": 0,
+          "call": 115,
+          "raise": 14
+        }
+      ],
+      "continuationBefore": 0.4952842626634718,
+      "continuationAfter": 0.49515452391504633,
+      "delta": -0.0001297387484254786,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 202,
+          "check": 0,
+          "call": 44,
+          "raise": 10
+        },
+        {
+          "fold": 202,
+          "check": 0,
+          "call": 44,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.1582063005523704,
+      "continuationAfter": 0.15812153416674557,
+      "delta": -0.00008476638562482375,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 212,
+          "check": 0,
+          "call": 35,
+          "raise": 9
+        },
+        {
+          "fold": 212,
+          "check": 0,
+          "call": 35,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.12206795699252604,
+      "continuationAfter": 0.12200670421189597,
+      "delta": -0.00006125278063007222,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 219,
+          "check": 0,
+          "call": 28,
+          "raise": 9
+        },
+        {
+          "fold": 219,
+          "check": 0,
+          "call": 28,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.09570417363836914,
+      "continuationAfter": 0.09565901327193282,
+      "delta": -0.00004516036643631427,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 55,
+          "check": 0,
+          "call": 163,
+          "raise": 38
+        },
+        {
+          "fold": 55,
+          "check": 0,
+          "call": 163,
+          "raise": 38
+        }
+      ],
+      "continuationBefore": 0.7681895204845057,
+      "continuationAfter": 0.768065374359881,
+      "delta": -0.0001241461246247466,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 71,
+          "check": 0,
+          "call": 151,
+          "raise": 34
+        },
+        {
+          "fold": 71,
+          "check": 0,
+          "call": 151,
+          "raise": 34
+        }
+      ],
+      "continuationBefore": 0.7042648211573457,
+      "continuationAfter": 0.7041340565913455,
+      "delta": -0.00013076456600014108,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 97,
+          "check": 0,
+          "call": 133,
+          "raise": 26
+        },
+        {
+          "fold": 97,
+          "check": 0,
+          "call": 133,
+          "raise": 26
+        }
+      ],
+      "continuationBefore": 0.6382110229875307,
+      "continuationAfter": 0.6380783165092215,
+      "delta": -0.000132706478309208,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 197,
+          "check": 0,
+          "call": 49,
+          "raise": 10
+        },
+        {
+          "fold": 198,
+          "check": 0,
+          "call": 48,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.17819119932956073,
+      "continuationAfter": 0.17808875557499548,
+      "delta": -0.00010244375456525123,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 211,
+          "check": 0,
+          "call": 35,
+          "raise": 10
+        },
+        {
+          "fold": 211,
+          "check": 0,
+          "call": 35,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.13465484351906976,
+      "continuationAfter": 0.13458140255620998,
+      "delta": -0.00007344096285977209,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 218,
+          "check": 0,
+          "call": 29,
+          "raise": 9
+        },
+        {
+          "fold": 218,
+          "check": 0,
+          "call": 29,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.10323248720457723,
+      "continuationAfter": 0.10317905447935904,
+      "delta": -0.00005343272521818321,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 57,
+          "check": 0,
+          "call": 163,
+          "raise": 36
+        },
+        {
+          "fold": 57,
+          "check": 0,
+          "call": 163,
+          "raise": 36
+        }
+      ],
+      "continuationBefore": 0.759413435338222,
+      "continuationAfter": 0.7592844619011233,
+      "delta": -0.00012897343709872278,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 74,
+          "check": 0,
+          "call": 150,
+          "raise": 32
+        },
+        {
+          "fold": 74,
+          "check": 0,
+          "call": 150,
+          "raise": 32
+        }
+      ],
+      "continuationBefore": 0.6931034935623668,
+      "continuationAfter": 0.6929680874914361,
+      "delta": -0.00013540607093065482,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 99,
+          "check": 0,
+          "call": 133,
+          "raise": 24
+        },
+        {
+          "fold": 99,
+          "check": 0,
+          "call": 133,
+          "raise": 24
+        }
+      ],
+      "continuationBefore": 0.6248592149852132,
+      "continuationAfter": 0.6247224476128815,
+      "delta": -0.0001367673723317031,
+      "equity": 0.5833333333333334,
+      "equityStdError": 0.05003653635854738,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 199,
+          "check": 0,
+          "call": 47,
+          "raise": 10
+        },
+        {
+          "fold": 199,
+          "check": 0,
+          "call": 47,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.1708058801807707,
+      "continuationAfter": 0.17070556077840038,
+      "delta": -0.00010031940237031911,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 211,
+          "check": 0,
+          "call": 35,
+          "raise": 10
+        },
+        {
+          "fold": 211,
+          "check": 0,
+          "call": 35,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.12830136189613273,
+      "continuationAfter": 0.12822989630434667,
+      "delta": -0.00007146559178605738,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "combo-76",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 219,
+          "check": 0,
+          "call": 28,
+          "raise": 9
+        },
+        {
+          "fold": 219,
+          "check": 0,
+          "call": 28,
+          "raise": 9
+        }
+      ],
+      "continuationBefore": 0.0978077550465366,
+      "continuationAfter": 0.09775605523765762,
+      "delta": -0.00005169980887897996,
+      "equity": 0.390625,
+      "equityStdError": 0.04978193951819256,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.025977240955347813,
+      "continuationAfter": 0.025962035332013578,
+      "delta": -0.000015205623334235696,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.019689235809267402,
+      "continuationAfter": 0.019678889795429977,
+      "delta": -0.000010346013837425616,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 247,
+          "check": 0,
+          "call": 9,
+          "raise": 0
+        },
+        {
+          "fold": 247,
+          "check": 0,
+          "call": 9,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.015322470941200317,
+      "continuationAfter": 0.015315130006149147,
+      "delta": -0.00000734093505116995,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 251,
+          "check": 0,
+          "call": 5,
+          "raise": 0
+        },
+        {
+          "fold": 251,
+          "check": 0,
+          "call": 5,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.005896240368706507,
+      "continuationAfter": 0.005892672445045322,
+      "delta": -0.0000035679236611851906,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.005210880388231587,
+      "continuationAfter": 0.005210880388231587,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.005210880388231587,
+      "continuationAfter": 0.005210880388231587,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.024776799243342085,
+      "continuationAfter": 0.024762080001360265,
+      "delta": -0.000014719241981819842,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.018698345071964995,
+      "continuationAfter": 0.018688359532024523,
+      "delta": -0.000009985539940471355,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 247,
+          "check": 0,
+          "call": 9,
+          "raise": 0
+        },
+        {
+          "fold": 247,
+          "check": 0,
+          "call": 9,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.014489523513523506,
+      "continuationAfter": 0.014482459056811892,
+      "delta": -0.000007064456711614042,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 251,
+          "check": 0,
+          "call": 5,
+          "raise": 0
+        },
+        {
+          "fold": 251,
+          "check": 0,
+          "call": 5,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.005607736433336008,
+      "continuationAfter": 0.00560429594264189,
+      "delta": -0.0000034404906941176705,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.00510692294774262,
+      "continuationAfter": 0.00510692294774262,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.00510692294774262,
+      "continuationAfter": 0.00510692294774262,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.028620256256417176,
+      "continuationAfter": 0.028601628357886155,
+      "delta": -0.000018627898531020648,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.021008290967720722,
+      "continuationAfter": 0.020995935687725287,
+      "delta": -0.000012355279995435176,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.015854669698802448,
+      "continuationAfter": 0.015846120084869297,
+      "delta": -0.000008549613933150901,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.005373214683150107,
+      "continuationAfter": 0.005373214683150107,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.005373214683150107,
+      "continuationAfter": 0.005373214683150107,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.005373214683150107,
+      "continuationAfter": 0.005373214683150107,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.027250291081893918,
+      "continuationAfter": 0.02723229777471381,
+      "delta": -0.00001799330718010861,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        },
+        {
+          "fold": 246,
+          "check": 0,
+          "call": 10,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.019909648880629516,
+      "continuationAfter": 0.0198977561841176,
+      "delta": -0.000011892696511917045,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 247,
+          "check": 0,
+          "call": 9,
+          "raise": 0
+        },
+        {
+          "fold": 247,
+          "check": 0,
+          "call": 9,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.014956962123736983,
+      "continuationAfter": 0.014948760821810292,
+      "delta": -0.000008201301926691329,
+      "equity": 0.3385416666666667,
+      "equityStdError": 0.04826757001402163,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.0052660358055584,
+      "continuationAfter": 0.0052660358055584,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.0052660358055584,
+      "continuationAfter": 0.0052660358055584,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "gutshot-98",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        },
+        {
+          "fold": 252,
+          "check": 0,
+          "call": 4,
+          "raise": 0
+        }
+      ],
+      "continuationBefore": 0.0052660358055584,
+      "continuationAfter": 0.0052660358055584,
+      "delta": 0,
+      "equity": 0.20833333333333334,
+      "equityStdError": 0.040329418397791125,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 123,
+          "check": 0,
+          "call": 120,
+          "raise": 13
+        },
+        {
+          "fold": 123,
+          "check": 0,
+          "call": 120,
+          "raise": 13
+        }
+      ],
+      "continuationBefore": 0.5114176584170039,
+      "continuationAfter": 0.5112579834057945,
+      "delta": -0.00015967501120939254,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 141,
+          "check": 0,
+          "call": 104,
+          "raise": 11
+        },
+        {
+          "fold": 141,
+          "check": 0,
+          "call": 104,
+          "raise": 11
+        }
+      ],
+      "continuationBefore": 0.4361263410036016,
+      "continuationAfter": 0.4359851513681977,
+      "delta": -0.00014118963540388219,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 160,
+          "check": 0,
+          "call": 86,
+          "raise": 10
+        },
+        {
+          "fold": 160,
+          "check": 0,
+          "call": 86,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.3702778321921709,
+      "continuationAfter": 0.370155579471366,
+      "delta": -0.00012225272080490512,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 113,
+          "check": 0,
+          "call": 124,
+          "raise": 19
+        },
+        {
+          "fold": 113,
+          "check": 0,
+          "call": 124,
+          "raise": 19
+        }
+      ],
+      "continuationBefore": 0.5816674608344136,
+      "continuationAfter": 0.5815176371484003,
+      "delta": -0.0001498236860132396,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 124,
+          "check": 0,
+          "call": 118,
+          "raise": 14
+        },
+        {
+          "fold": 124,
+          "check": 0,
+          "call": 118,
+          "raise": 14
+        }
+      ],
+      "continuationBefore": 0.5096903485759597,
+      "continuationAfter": 0.5095527268159157,
+      "delta": -0.0001376217600440599,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 140,
+          "check": 0,
+          "call": 102,
+          "raise": 14
+        },
+        {
+          "fold": 140,
+          "check": 0,
+          "call": 102,
+          "raise": 14
+        }
+      ],
+      "continuationBefore": 0.4395699429704645,
+      "continuationAfter": 0.4394350730266685,
+      "delta": -0.00013486994379596773,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 126,
+          "check": 0,
+          "call": 118,
+          "raise": 12
+        },
+        {
+          "fold": 126,
+          "check": 0,
+          "call": 118,
+          "raise": 12
+        }
+      ],
+      "continuationBefore": 0.4999950192916457,
+      "continuationAfter": 0.49983321123670943,
+      "delta": -0.00016180805493626327,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 145,
+          "check": 0,
+          "call": 101,
+          "raise": 10
+        },
+        {
+          "fold": 145,
+          "check": 0,
+          "call": 101,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.4239222130082253,
+      "continuationAfter": 0.4237800071629727,
+      "delta": -0.0001422058452525965,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 163,
+          "check": 0,
+          "call": 83,
+          "raise": 10
+        },
+        {
+          "fold": 163,
+          "check": 0,
+          "call": 83,
+          "raise": 10
+        }
+      ],
+      "continuationBefore": 0.35780456089358403,
+      "continuationAfter": 0.3576822115595668,
+      "delta": -0.00012234933401722436,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 114,
+          "check": 0,
+          "call": 125,
+          "raise": 17
+        },
+        {
+          "fold": 114,
+          "check": 0,
+          "call": 125,
+          "raise": 17
+        }
+      ],
+      "continuationBefore": 0.5703291941905811,
+      "continuationAfter": 0.5701763022570088,
+      "delta": -0.0001528919335723744,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 126,
+          "check": 0,
+          "call": 116,
+          "raise": 14
+        },
+        {
+          "fold": 126,
+          "check": 0,
+          "call": 116,
+          "raise": 14
+        }
+      ],
+      "continuationBefore": 0.4970618226197454,
+      "continuationAfter": 0.4969221119912154,
+      "delta": -0.00013971062853002092,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "tag",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 143,
+          "check": 0,
+          "call": 99,
+          "raise": 14
+        },
+        {
+          "fold": 143,
+          "check": 0,
+          "call": 99,
+          "raise": 14
+        }
+      ],
+      "continuationBefore": 0.42616513306752024,
+      "continuationAfter": 0.42602925149047643,
+      "delta": -0.000135881577043806,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 99,
+          "check": 0,
+          "call": 141,
+          "raise": 16
+        },
+        {
+          "fold": 99,
+          "check": 0,
+          "call": 141,
+          "raise": 16
+        }
+      ],
+      "continuationBefore": 0.6246730354910112,
+      "continuationAfter": 0.6245064400413307,
+      "delta": -0.00016659544968045115,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 119,
+          "check": 0,
+          "call": 123,
+          "raise": 14
+        },
+        {
+          "fold": 119,
+          "check": 0,
+          "call": 123,
+          "raise": 14
+        }
+      ],
+      "continuationBefore": 0.5429596284976155,
+      "continuationAfter": 0.5428004981858732,
+      "delta": -0.00015913031174230596,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 133,
+          "check": 0,
+          "call": 110,
+          "raise": 13
+        },
+        {
+          "fold": 133,
+          "check": 0,
+          "call": 110,
+          "raise": 13
+        }
+      ],
+      "continuationBefore": 0.4664172472282383,
+      "continuationAfter": 0.46627089760158,
+      "delta": -0.0001463496266582709,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 90,
+          "check": 0,
+          "call": 141,
+          "raise": 25
+        },
+        {
+          "fold": 90,
+          "check": 0,
+          "call": 141,
+          "raise": 25
+        }
+      ],
+      "continuationBefore": 0.6545578961112634,
+      "continuationAfter": 0.6544029117834125,
+      "delta": -0.00015498432785088223,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 113,
+          "check": 0,
+          "call": 122,
+          "raise": 21
+        },
+        {
+          "fold": 113,
+          "check": 0,
+          "call": 122,
+          "raise": 21
+        }
+      ],
+      "continuationBefore": 0.5780053934143661,
+      "continuationAfter": 0.5778551407207831,
+      "delta": -0.0001502526935829307,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 17,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 126,
+          "check": 0,
+          "call": 110,
+          "raise": 20
+        },
+        {
+          "fold": 126,
+          "check": 0,
+          "call": 111,
+          "raise": 19
+        }
+      ],
+      "continuationBefore": 0.4999622103662411,
+      "continuationAfter": 0.49980907019742515,
+      "delta": -0.00015314016881595727,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 103,
+          "check": 0,
+          "call": 139,
+          "raise": 14
+        },
+        {
+          "fold": 103,
+          "check": 0,
+          "call": 139,
+          "raise": 14
+        }
+      ],
+      "continuationBefore": 0.6135086834378353,
+      "continuationAfter": 0.6133381245040507,
+      "delta": -0.00017055893378459253,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 119,
+          "check": 0,
+          "call": 123,
+          "raise": 14
+        },
+        {
+          "fold": 119,
+          "check": 0,
+          "call": 123,
+          "raise": 14
+        }
+      ],
+      "continuationBefore": 0.5301004984181029,
+      "continuationAfter": 0.5299385926245549,
+      "delta": -0.00016190579354802281,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "flop",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 139,
+          "check": 0,
+          "call": 104,
+          "raise": 13
+        },
+        {
+          "fold": 139,
+          "check": 0,
+          "call": 104,
+          "raise": 13
+        }
+      ],
+      "continuationBefore": 0.4524915218311799,
+      "continuationAfter": 0.45234367935742736,
+      "delta": -0.00014784247375254633,
+      "equity": 0.5260416666666666,
+      "equityStdError": 0.05096104445456926,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2,
+      "priceAfter": 2.0005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 94,
+          "check": 0,
+          "call": 139,
+          "raise": 23
+        },
+        {
+          "fold": 94,
+          "check": 0,
+          "call": 139,
+          "raise": 23
+        }
+      ],
+      "continuationBefore": 0.6435826604542794,
+      "continuationAfter": 0.6434234289310591,
+      "delta": -0.00015923152322028233,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.25,
+      "priceAfter": 2.2505,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 117,
+          "check": 0,
+          "call": 118,
+          "raise": 21
+        },
+        {
+          "fold": 117,
+          "check": 0,
+          "call": 118,
+          "raise": 21
+        }
+      ],
+      "continuationBefore": 0.5651374467915553,
+      "continuationAfter": 0.5649839177096572,
+      "delta": -0.00015352908189814052,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    },
+    {
+      "fixture": "nut-flush-a5",
+      "archetype": "stronger-reg",
+      "seed": 193,
+      "street": "turn",
+      "price": 2.5,
+      "priceAfter": 2.5005,
+      "opportunitiesPerSide": 256,
+      "actions": [
+        {
+          "fold": 128,
+          "check": 0,
+          "call": 111,
+          "raise": 17
+        },
+        {
+          "fold": 128,
+          "check": 0,
+          "call": 111,
+          "raise": 17
+        }
+      ],
+      "continuationBefore": 0.48573773120008534,
+      "continuationAfter": 0.4855825392974096,
+      "delta": -0.00015519190267576644,
+      "equity": 0.484375,
+      "equityStdError": 0.051005850305145164,
+      "posteriorIdentical": true
+    }
+  ]
+}

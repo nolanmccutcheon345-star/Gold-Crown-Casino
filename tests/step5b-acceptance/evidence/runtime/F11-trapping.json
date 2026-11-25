@@ -1,0 +1,2573 @@
+{
+  "claim": "Configured slow-playing Custom TAG, not an additional archetype or human validation",
+  "rows": [
+    {
+      "seed": 332161,
+      "board": [
+        "Kh",
+        "7c",
+        "2d"
+      ],
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Kh",
+            "7c",
+            "2d"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.6398546508653089,
+          "looseness": 0.35788908158894633,
+          "skill": 0.6999169034697116,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.7743514033546671,
+            "bluffFrequency": 0.4059549117367715,
+            "valueThreshold": 0.5967538632871583,
+            "drawCalling": 0.5664536069333553,
+            "sizeSensitivity": 0.6858770425943658,
+            "riskTolerance": 0.5051406306261197,
+            "riverCuriosity": 0.4151576637709513,
+            "slowPlay": 0.22320394692011178,
+            "multiwayCaution": 0.6569800281431526,
+            "adaptation": 0.6372945293039084,
+            "memoryRetention": 0.7037900837464258,
+            "mistakeRate": 0.12947873657103628,
+            "sizingAggression": 0.5621607354376466
+          },
+          "personalityId": "cash-v1.2:00051181:tag"
+        },
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.6398546508653089,
+          "looseness": 0.35788908158894633,
+          "skill": 0.6999169034697116,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.7743514033546671,
+            "bluffFrequency": 0.4059549117367715,
+            "valueThreshold": 0.5967538632871583,
+            "drawCalling": 0.5664536069333553,
+            "sizeSensitivity": 0.6858770425943658,
+            "riskTolerance": 0.5051406306261197,
+            "riverCuriosity": 0.4151576637709513,
+            "slowPlay": 0.9,
+            "multiwayCaution": 0.6569800281431526,
+            "adaptation": 0.6372945293039084,
+            "memoryRetention": 0.7037900837464258,
+            "mistakeRate": 0.12947873657103628,
+            "sizingAggression": 0.5621607354376466
+          },
+          "personalityId": "cash-v1.2:00051181:tag"
+        }
+      ],
+      "analysis": [
+        {
+          "features": {
+            "strength": 0.84,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0,
+            "vulnerability": 0,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.44853566238072595,
+            "call": 0,
+            "raise": 0.551464337619274
+          },
+          "families": {
+            "value": 0.9625168495063938,
+            "bluff": 0.00020241391833842074,
+            "semiBluff": 0,
+            "trap": 0.10741877989346917,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.0340145968324893,
+            "barrel": 0,
+            "protection": 0,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.09180337309359621
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.11684256469584553
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.18927182352863062
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.39022338694820785
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.2069236021609941
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.003953642203108828
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0009301279789741584
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.00005147939064265307
+            }
+          ]
+        },
+        {
+          "features": {
+            "strength": 0.84,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0,
+            "vulnerability": 0,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.7742494647651341,
+            "call": 0,
+            "raise": 0.22575053523486593
+          },
+          "families": {
+            "value": 0.9625168495063938,
+            "bluff": 0.00020241391833842074,
+            "semiBluff": 0,
+            "trap": 0.4331325822778772,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.0340145968324893,
+            "barrel": 0,
+            "protection": 0,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.09180337309359621
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.11684256469584553
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.18927182352863062
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.39022338694820785
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.2069236021609941
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.003953642203108828
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0009301279789741584
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.00005147939064265307
+            }
+          ]
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 234,
+            "call": 0,
+            "raise": 278
+          }
+        },
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 400,
+            "call": 0,
+            "raise": 112
+          }
+        }
+      ]
+    },
+    {
+      "seed": 332161,
+      "board": [
+        "Kh",
+        "Qh",
+        "9s"
+      ],
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Kh",
+            "Qh",
+            "9s"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.6398546508653089,
+          "looseness": 0.35788908158894633,
+          "skill": 0.6999169034697116,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.7743514033546671,
+            "bluffFrequency": 0.4059549117367715,
+            "valueThreshold": 0.5967538632871583,
+            "drawCalling": 0.5664536069333553,
+            "sizeSensitivity": 0.6858770425943658,
+            "riskTolerance": 0.5051406306261197,
+            "riverCuriosity": 0.4151576637709513,
+            "slowPlay": 0.22320394692011178,
+            "multiwayCaution": 0.6569800281431526,
+            "adaptation": 0.6372945293039084,
+            "memoryRetention": 0.7037900837464258,
+            "mistakeRate": 0.12947873657103628,
+            "sizingAggression": 0.5621607354376466
+          },
+          "personalityId": "cash-v1.2:00051181:tag"
+        },
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.6398546508653089,
+          "looseness": 0.35788908158894633,
+          "skill": 0.6999169034697116,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.7743514033546671,
+            "bluffFrequency": 0.4059549117367715,
+            "valueThreshold": 0.5967538632871583,
+            "drawCalling": 0.5664536069333553,
+            "sizeSensitivity": 0.6858770425943658,
+            "riskTolerance": 0.5051406306261197,
+            "riverCuriosity": 0.4151576637709513,
+            "slowPlay": 0.9,
+            "multiwayCaution": 0.6569800281431526,
+            "adaptation": 0.6372945293039084,
+            "memoryRetention": 0.7037900837464258,
+            "mistakeRate": 0.12947873657103628,
+            "sizingAggression": 0.5621607354376466
+          },
+          "personalityId": "cash-v1.2:00051181:tag"
+        }
+      ],
+      "analysis": [
+        {
+          "features": {
+            "strength": 0.82488,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0.56,
+            "vulnerability": 0.168,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0.2,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.4040276501349441,
+            "call": 0,
+            "raise": 0.5959723498650559
+          },
+          "families": {
+            "value": 0.9138372371103365,
+            "bluff": 0.00045534780890333417,
+            "semiBluff": 0,
+            "trap": 0.0562962935737048,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.03238631101756817,
+            "barrel": 0,
+            "protection": 0.02633946976144463,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.0786095322045938
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.10005012934504151
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.16206996546768437
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.33414107640703433
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.31755541326194653
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.006067459055353539
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0014274213848250697
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.0000790028735208364
+            }
+          ]
+        },
+        {
+          "features": {
+            "strength": 0.82488,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0.56,
+            "vulnerability": 0.168,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0.2,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.5747285262594469,
+            "call": 0,
+            "raise": 0.4252714737405531
+          },
+          "families": {
+            "value": 0.9138372371103365,
+            "bluff": 0.00045534780890333417,
+            "semiBluff": 0,
+            "trap": 0.22699716969820755,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.03238631101756817,
+            "barrel": 0,
+            "protection": 0.02633946976144463,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.0786095322045938
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.10005012934504151
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.16206996546768437
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.33414107640703433
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.31755541326194653
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.006067459055353539
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0014274213848250697
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.0000790028735208364
+            }
+          ]
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 216,
+            "call": 0,
+            "raise": 296
+          }
+        },
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 300,
+            "call": 0,
+            "raise": 212
+          }
+        }
+      ]
+    },
+    {
+      "seed": 332183,
+      "board": [
+        "Kh",
+        "7c",
+        "2d"
+      ],
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Kh",
+            "7c",
+            "2d"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.5930023115780204,
+          "looseness": 0.307211939143017,
+          "skill": 0.6767413669824601,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.8026658151298762,
+            "bluffFrequency": 0.3965778758144007,
+            "valueThreshold": 0.5786736413370818,
+            "drawCalling": 0.5163953439518809,
+            "sizeSensitivity": 0.6867478608852253,
+            "riskTolerance": 0.44328765879850834,
+            "riverCuriosity": 0.40806196741294115,
+            "slowPlay": 0.23417151703033595,
+            "multiwayCaution": 0.6969274691352622,
+            "adaptation": 0.6417717897566035,
+            "memoryRetention": 0.6993713812250644,
+            "mistakeRate": 0.12041709375567734,
+            "sizingAggression": 0.5184204113762826
+          },
+          "personalityId": "cash-v1.2:00051197:tag"
+        },
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.5930023115780204,
+          "looseness": 0.307211939143017,
+          "skill": 0.6767413669824601,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.8026658151298762,
+            "bluffFrequency": 0.3965778758144007,
+            "valueThreshold": 0.5786736413370818,
+            "drawCalling": 0.5163953439518809,
+            "sizeSensitivity": 0.6867478608852253,
+            "riskTolerance": 0.44328765879850834,
+            "riverCuriosity": 0.40806196741294115,
+            "slowPlay": 0.9,
+            "multiwayCaution": 0.6969274691352622,
+            "adaptation": 0.6417717897566035,
+            "memoryRetention": 0.6993713812250644,
+            "mistakeRate": 0.12041709375567734,
+            "sizingAggression": 0.5184204113762826
+          },
+          "personalityId": "cash-v1.2:00051197:tag"
+        }
+      ],
+      "analysis": [
+        {
+          "features": {
+            "strength": 0.84,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0,
+            "vulnerability": 0,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.4868324150311064,
+            "call": 0,
+            "raise": 0.5131675849688936
+          },
+          "families": {
+            "value": 0.9621255607825092,
+            "bluff": 0.0001910524342359934,
+            "semiBluff": 0,
+            "trap": 0.11265120107105145,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.03151675463137251,
+            "barrel": 0,
+            "protection": 0,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.09760761259410579
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.12427843772946084
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.20147444813633925
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.38561718145352447
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.1868185906704949
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.0033693522359370407
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0007908130839538638
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.00004356409618382341
+            }
+          ]
+        },
+        {
+          "features": {
+            "strength": 0.84,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0,
+            "vulnerability": 0,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.8071377163121842,
+            "call": 0,
+            "raise": 0.19286228368781577
+          },
+          "families": {
+            "value": 0.9621255607825092,
+            "bluff": 0.0001910524342359934,
+            "semiBluff": 0,
+            "trap": 0.4329565023521292,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.03151675463137251,
+            "barrel": 0,
+            "protection": 0,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.09760761259410579
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.12427843772946084
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.20147444813633925
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.38561718145352447
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.1868185906704949
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.0033693522359370407
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0007908130839538638
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.00004356409618382341
+            }
+          ]
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 255,
+            "call": 0,
+            "raise": 257
+          }
+        },
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 424,
+            "call": 0,
+            "raise": 88
+          }
+        }
+      ]
+    },
+    {
+      "seed": 332183,
+      "board": [
+        "Kh",
+        "Qh",
+        "9s"
+      ],
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Kh",
+            "Qh",
+            "9s"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.5930023115780204,
+          "looseness": 0.307211939143017,
+          "skill": 0.6767413669824601,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.8026658151298762,
+            "bluffFrequency": 0.3965778758144007,
+            "valueThreshold": 0.5786736413370818,
+            "drawCalling": 0.5163953439518809,
+            "sizeSensitivity": 0.6867478608852253,
+            "riskTolerance": 0.44328765879850834,
+            "riverCuriosity": 0.40806196741294115,
+            "slowPlay": 0.23417151703033595,
+            "multiwayCaution": 0.6969274691352622,
+            "adaptation": 0.6417717897566035,
+            "memoryRetention": 0.6993713812250644,
+            "mistakeRate": 0.12041709375567734,
+            "sizingAggression": 0.5184204113762826
+          },
+          "personalityId": "cash-v1.2:00051197:tag"
+        },
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.5930023115780204,
+          "looseness": 0.307211939143017,
+          "skill": 0.6767413669824601,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.8026658151298762,
+            "bluffFrequency": 0.3965778758144007,
+            "valueThreshold": 0.5786736413370818,
+            "drawCalling": 0.5163953439518809,
+            "sizeSensitivity": 0.6867478608852253,
+            "riskTolerance": 0.44328765879850834,
+            "riverCuriosity": 0.40806196741294115,
+            "slowPlay": 0.9,
+            "multiwayCaution": 0.6969274691352622,
+            "adaptation": 0.6417717897566035,
+            "memoryRetention": 0.6993713812250644,
+            "mistakeRate": 0.12041709375567734,
+            "sizingAggression": 0.5184204113762826
+          },
+          "personalityId": "cash-v1.2:00051197:tag"
+        }
+      ],
+      "analysis": [
+        {
+          "features": {
+            "strength": 0.82488,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0.56,
+            "vulnerability": 0.168,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0.2,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.4389055303939803,
+            "call": 0,
+            "raise": 0.5610944696060197
+          },
+          "families": {
+            "value": 0.9138602211415401,
+            "bluff": 0.0004248621721445999,
+            "semiBluff": 0,
+            "trap": 0.05906400947739639,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.030022462900584662,
+            "barrel": 0,
+            "protection": 0.02539492660141289,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.08258476681896593
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.10515066937650595
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.17046539585503784
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.3518621206222424
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.28355655265988616
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.005114062263772755
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.001200310049869711
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.00006612235371915592
+            }
+          ]
+        },
+        {
+          "features": {
+            "strength": 0.82488,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0.56,
+            "vulnerability": 0.168,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0.2,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.6068443998481424,
+            "call": 0,
+            "raise": 0.3931556001518576
+          },
+          "families": {
+            "value": 0.9138602211415401,
+            "bluff": 0.0004248621721445999,
+            "semiBluff": 0,
+            "trap": 0.22700287893155852,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.030022462900584662,
+            "barrel": 0,
+            "protection": 0.02539492660141289,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.08258476681896593
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.10515066937650595
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.17046539585503784
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.3518621206222424
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.28355655265988616
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.005114062263772755
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.001200310049869711
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.00006612235371915592
+            }
+          ]
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 229,
+            "call": 0,
+            "raise": 283
+          }
+        },
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 315,
+            "call": 0,
+            "raise": 197
+          }
+        }
+      ]
+    },
+    {
+      "seed": 332211,
+      "board": [
+        "Kh",
+        "7c",
+        "2d"
+      ],
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Kh",
+            "7c",
+            "2d"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.6376134457741864,
+          "looseness": 0.3668117890623398,
+          "skill": 0.6950923582911492,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.8298444342659786,
+            "bluffFrequency": 0.424476978208404,
+            "valueThreshold": 0.5630074208788574,
+            "drawCalling": 0.5672558234352619,
+            "sizeSensitivity": 0.6384690789785237,
+            "riskTolerance": 0.5121998016186989,
+            "riverCuriosity": 0.412666612858884,
+            "slowPlay": 0.23957945209927856,
+            "multiwayCaution": 0.6543173448042945,
+            "adaptation": 0.6397492676880211,
+            "memoryRetention": 0.6996460617659613,
+            "mistakeRate": 0.14178883535787462,
+            "sizingAggression": 0.5606965283560568
+          },
+          "personalityId": "cash-v1.2:000511b3:tag"
+        },
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.6376134457741864,
+          "looseness": 0.3668117890623398,
+          "skill": 0.6950923582911492,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.8298444342659786,
+            "bluffFrequency": 0.424476978208404,
+            "valueThreshold": 0.5630074208788574,
+            "drawCalling": 0.5672558234352619,
+            "sizeSensitivity": 0.6384690789785237,
+            "riskTolerance": 0.5121998016186989,
+            "riverCuriosity": 0.412666612858884,
+            "slowPlay": 0.9,
+            "multiwayCaution": 0.6543173448042945,
+            "adaptation": 0.6397492676880211,
+            "memoryRetention": 0.6996460617659613,
+            "mistakeRate": 0.14178883535787462,
+            "sizingAggression": 0.5606965283560568
+          },
+          "personalityId": "cash-v1.2:000511b3:tag"
+        }
+      ],
+      "analysis": [
+        {
+          "features": {
+            "strength": 0.84,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0,
+            "vulnerability": 0,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.45674702891166286,
+            "call": 0,
+            "raise": 0.5432529710883371
+          },
+          "families": {
+            "value": 0.9646469332068875,
+            "bluff": 0.00021274443174588463,
+            "semiBluff": 0,
+            "trap": 0.11555479186347774,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.033971383537987884,
+            "barrel": 0,
+            "protection": 0,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.09221558565975616
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.11726229415330106
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.18961229822393558
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.38987795154732574
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.20609305658434138
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.003951821564781364
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0009347015869270878
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.000052290679631522896
+            }
+          ]
+        },
+        {
+          "features": {
+            "strength": 0.84,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0,
+            "vulnerability": 0,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.7752833569912846,
+            "call": 0,
+            "raise": 0.22471664300871544
+          },
+          "families": {
+            "value": 0.9646469332068875,
+            "bluff": 0.00021274443174588463,
+            "semiBluff": 0,
+            "trap": 0.4340911199430994,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.033971383537987884,
+            "barrel": 0,
+            "protection": 0,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.09221558565975616
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.11726229415330106
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.18961229822393558
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.38987795154732574
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.20609305658434138
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.003951821564781364
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0009347015869270878
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.000052290679631522896
+            }
+          ]
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 241,
+            "call": 0,
+            "raise": 271
+          }
+        },
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 410,
+            "call": 0,
+            "raise": 102
+          }
+        }
+      ]
+    },
+    {
+      "seed": 332211,
+      "board": [
+        "Kh",
+        "Qh",
+        "9s"
+      ],
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Kh",
+            "Qh",
+            "9s"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.6376134457741864,
+          "looseness": 0.3668117890623398,
+          "skill": 0.6950923582911492,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.8298444342659786,
+            "bluffFrequency": 0.424476978208404,
+            "valueThreshold": 0.5630074208788574,
+            "drawCalling": 0.5672558234352619,
+            "sizeSensitivity": 0.6384690789785237,
+            "riskTolerance": 0.5121998016186989,
+            "riverCuriosity": 0.412666612858884,
+            "slowPlay": 0.23957945209927856,
+            "multiwayCaution": 0.6543173448042945,
+            "adaptation": 0.6397492676880211,
+            "memoryRetention": 0.6996460617659613,
+            "mistakeRate": 0.14178883535787462,
+            "sizingAggression": 0.5606965283560568
+          },
+          "personalityId": "cash-v1.2:000511b3:tag"
+        },
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.6376134457741864,
+          "looseness": 0.3668117890623398,
+          "skill": 0.6950923582911492,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.8298444342659786,
+            "bluffFrequency": 0.424476978208404,
+            "valueThreshold": 0.5630074208788574,
+            "drawCalling": 0.5672558234352619,
+            "sizeSensitivity": 0.6384690789785237,
+            "riskTolerance": 0.5121998016186989,
+            "riverCuriosity": 0.412666612858884,
+            "slowPlay": 0.9,
+            "multiwayCaution": 0.6543173448042945,
+            "adaptation": 0.6397492676880211,
+            "memoryRetention": 0.6996460617659613,
+            "mistakeRate": 0.14178883535787462,
+            "sizingAggression": 0.5606965283560568
+          },
+          "personalityId": "cash-v1.2:000511b3:tag"
+        }
+      ],
+      "analysis": [
+        {
+          "features": {
+            "strength": 0.82488,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0.56,
+            "vulnerability": 0.168,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0.2,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.4066619374239997,
+            "call": 0,
+            "raise": 0.5933380625760003
+          },
+          "families": {
+            "value": 0.9186719883608649,
+            "bluff": 0.00047744006843882073,
+            "semiBluff": 0,
+            "trap": 0.060746201130004424,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.032443932266511065,
+            "barrel": 0,
+            "protection": 0.0262942870668076,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.07906219179859104
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.10053630223960128
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.16256648789137104
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.3342667637226603
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.3159957328759838
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.006059198559400098
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0014331473261472857
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.00008017558624535347
+            }
+          ]
+        },
+        {
+          "features": {
+            "strength": 0.82488,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0.56,
+            "vulnerability": 0.168,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0.2,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.5741138582028342,
+            "call": 0,
+            "raise": 0.42588614179716583
+          },
+          "families": {
+            "value": 0.9186719883608649,
+            "bluff": 0.00047744006843882073,
+            "semiBluff": 0,
+            "trap": 0.2281981219088388,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.032443932266511065,
+            "barrel": 0,
+            "protection": 0.0262942870668076,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.07906219179859104
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.10053630223960128
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.16256648789137104
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.3342667637226603
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.3159957328759838
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.006059198559400098
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0014331473261472857
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.00008017558624535347
+            }
+          ]
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 216,
+            "call": 0,
+            "raise": 296
+          }
+        },
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 302,
+            "call": 0,
+            "raise": 210
+          }
+        }
+      ]
+    },
+    {
+      "seed": 332239,
+      "board": [
+        "Kh",
+        "7c",
+        "2d"
+      ],
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Kh",
+            "7c",
+            "2d"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.5780975224683061,
+          "looseness": 0.31428507309872655,
+          "skill": 0.6758574497047812,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.7938270292943344,
+            "bluffFrequency": 0.34122255476657304,
+            "valueThreshold": 0.5814793483121321,
+            "drawCalling": 0.5125361568527297,
+            "sizeSensitivity": 0.6603132955729962,
+            "riskTolerance": 0.40871695975307376,
+            "riverCuriosity": 0.4051527027832344,
+            "slowPlay": 0.2758910334855318,
+            "multiwayCaution": 0.6642583833914251,
+            "adaptation": 0.6352227321779356,
+            "memoryRetention": 0.7123618935327977,
+            "mistakeRate": 0.11402922331821173,
+            "sizingAggression": 0.5090411950694398
+          },
+          "personalityId": "cash-v1.2:000511cf:tag"
+        },
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.5780975224683061,
+          "looseness": 0.31428507309872655,
+          "skill": 0.6758574497047812,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.7938270292943344,
+            "bluffFrequency": 0.34122255476657304,
+            "valueThreshold": 0.5814793483121321,
+            "drawCalling": 0.5125361568527297,
+            "sizeSensitivity": 0.6603132955729962,
+            "riskTolerance": 0.40871695975307376,
+            "riverCuriosity": 0.4051527027832344,
+            "slowPlay": 0.9,
+            "multiwayCaution": 0.6642583833914251,
+            "adaptation": 0.6352227321779356,
+            "memoryRetention": 0.7123618935327977,
+            "mistakeRate": 0.11402922331821173,
+            "sizingAggression": 0.5090411950694398
+          },
+          "personalityId": "cash-v1.2:000511cf:tag"
+        }
+      ],
+      "analysis": [
+        {
+          "features": {
+            "strength": 0.84,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0,
+            "vulnerability": 0,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.5175112688958845,
+            "call": 0,
+            "raise": 0.4824887311041155
+          },
+          "families": {
+            "value": 0.9618420751177782,
+            "bluff": 0.00016050786254528276,
+            "semiBluff": 0,
+            "trap": 0.13268180207705615,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.030715796838546094,
+            "barrel": 0,
+            "protection": 0,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.09946313397303612
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.12669658634409364
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.20557507734002858
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.38022537234919995
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.18396396897549505
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.0032687482329964743
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0007651821411137206
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.000041930644036269444
+            }
+          ]
+        },
+        {
+          "features": {
+            "strength": 0.84,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0,
+            "vulnerability": 0,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.8176584006218286,
+            "call": 0,
+            "raise": 0.18234159937817146
+          },
+          "families": {
+            "value": 0.9618420751177782,
+            "bluff": 0.00016050786254528276,
+            "semiBluff": 0,
+            "trap": 0.4328289338030002,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.030715796838546094,
+            "barrel": 0,
+            "protection": 0,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.09946313397303612
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.12669658634409364
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.20557507734002858
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.38022537234919995
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.18396396897549505
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.0032687482329964743
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.0007651821411137206
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.000041930644036269444
+            }
+          ]
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 283,
+            "call": 0,
+            "raise": 229
+          }
+        },
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 436,
+            "call": 0,
+            "raise": 76
+          }
+        }
+      ]
+    },
+    {
+      "seed": 332239,
+      "board": [
+        "Kh",
+        "Qh",
+        "9s"
+      ],
+      "publicEvents": [
+        {
+          "id": "independent-fixture:0",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "independent-fixture:1",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "independent-fixture:2",
+          "handId": "independent-fixture",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "independent-fixture:3",
+          "handId": "independent-fixture",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture-0",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:4",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture-1",
+          "street": "preflop"
+        },
+        {
+          "id": "independent-fixture:5",
+          "handId": "independent-fixture",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Kh",
+            "Qh",
+            "9s"
+          ]
+        },
+        {
+          "id": "independent-fixture:6",
+          "handId": "independent-fixture",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture-2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.5780975224683061,
+          "looseness": 0.31428507309872655,
+          "skill": 0.6758574497047812,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.7938270292943344,
+            "bluffFrequency": 0.34122255476657304,
+            "valueThreshold": 0.5814793483121321,
+            "drawCalling": 0.5125361568527297,
+            "sizeSensitivity": 0.6603132955729962,
+            "riskTolerance": 0.40871695975307376,
+            "riverCuriosity": 0.4051527027832344,
+            "slowPlay": 0.2758910334855318,
+            "multiwayCaution": 0.6642583833914251,
+            "adaptation": 0.6352227321779356,
+            "memoryRetention": 0.7123618935327977,
+            "mistakeRate": 0.11402922331821173,
+            "sizingAggression": 0.5090411950694398
+          },
+          "personalityId": "cash-v1.2:000511cf:tag"
+        },
+        {
+          "archetype": "tag",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.5780975224683061,
+          "looseness": 0.31428507309872655,
+          "skill": 0.6758574497047812,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.7938270292943344,
+            "bluffFrequency": 0.34122255476657304,
+            "valueThreshold": 0.5814793483121321,
+            "drawCalling": 0.5125361568527297,
+            "sizeSensitivity": 0.6603132955729962,
+            "riskTolerance": 0.40871695975307376,
+            "riverCuriosity": 0.4051527027832344,
+            "slowPlay": 0.9,
+            "multiwayCaution": 0.6642583833914251,
+            "adaptation": 0.6352227321779356,
+            "memoryRetention": 0.7123618935327977,
+            "mistakeRate": 0.11402922331821173,
+            "sizingAggression": 0.5090411950694398
+          },
+          "personalityId": "cash-v1.2:000511cf:tag"
+        }
+      ],
+      "analysis": [
+        {
+          "features": {
+            "strength": 0.82488,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0.56,
+            "vulnerability": 0.168,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0.2,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.46003953622866667,
+            "call": 0,
+            "raise": 0.5399604637713333
+          },
+          "families": {
+            "value": 0.9132815339335648,
+            "bluff": 0.00035678022310463054,
+            "semiBluff": 0,
+            "trap": 0.0695426674078105,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.029249723610895225,
+            "barrel": 0,
+            "protection": 0.02509444605296105,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.0832805467678199
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.10608313415112011
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.17212814596567697
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.35576253739282443
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.27661697715734107
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.0049150453772843295
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.001150564276409224
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.0000630489115241819
+            }
+          ]
+        },
+        {
+          "features": {
+            "strength": 0.82488,
+            "draw": 0,
+            "made": true,
+            "handClass": "set",
+            "drawClass": "none",
+            "wetness": 0.56,
+            "vulnerability": 0.168,
+            "playsBoard": false,
+            "nutDraw": false,
+            "overcards": 0,
+            "suited": false,
+            "connected": false,
+            "pairRank": 0,
+            "blockerStrength": 0.2,
+            "absoluteNuts": false,
+            "cleanOuts": 0,
+            "pairedBoard": false
+          },
+          "distribution": {
+            "fold": 0,
+            "check": 0.6173560018499538,
+            "call": 0,
+            "raise": 0.3826439981500463
+          },
+          "families": {
+            "value": 0.9132815339335648,
+            "bluff": 0.00035678022310463054,
+            "semiBluff": 0,
+            "trap": 0.2268591330290975,
+            "checkRaise": 0,
+            "delayedCbet": 0,
+            "cbet": 0.029249723610895225,
+            "barrel": 0,
+            "protection": 0.02509444605296105,
+            "thinValue": 0
+          },
+          "sizing": [
+            {
+              "label": "25% pot",
+              "raiseTo": 500,
+              "weight": 0.0832805467678199
+            },
+            {
+              "label": "33% pot",
+              "raiseTo": 667,
+              "weight": 0.10608313415112011
+            },
+            {
+              "label": "50% pot",
+              "raiseTo": 1000,
+              "weight": 0.17212814596567697
+            },
+            {
+              "label": "75% pot",
+              "raiseTo": 1500,
+              "weight": 0.35576253739282443
+            },
+            {
+              "label": "100% pot",
+              "raiseTo": 2000,
+              "weight": 0.27661697715734107
+            },
+            {
+              "label": "150% pot",
+              "raiseTo": 3000,
+              "weight": 0.0049150453772843295
+            },
+            {
+              "label": "200% pot",
+              "raiseTo": 4000,
+              "weight": 0.001150564276409224
+            },
+            {
+              "label": "300% pot",
+              "raiseTo": 6000,
+              "weight": 0.0000630489115241819
+            }
+          ]
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 247,
+            "call": 0,
+            "raise": 265
+          }
+        },
+        {
+          "opportunities": 512,
+          "count": {
+            "fold": 0,
+            "check": 329,
+            "call": 0,
+            "raise": 183
+          }
+        }
+      ]
+    }
+  ]
+}

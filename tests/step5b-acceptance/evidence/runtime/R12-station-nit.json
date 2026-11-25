@@ -1,0 +1,579 @@
+{
+  "claim": "24,576 repeated synthetic decisions in3 independent public strata; no real-human or live-profit inference",
+  "opportunitiesPerProfilePerContext": 4096,
+  "decisionSamples": 24576,
+  "rows": [
+    {
+      "scenario": "flop-marginal-overbet",
+      "own": [
+        "Qd",
+        "Jc"
+      ],
+      "board": [
+        "Qc",
+        "7h",
+        "2s"
+      ],
+      "publicEvents": [
+        {
+          "id": "step4a:flop-marginal-overbet:0",
+          "handId": "step4a:flop-marginal-overbet",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "step4a:flop-marginal-overbet:1",
+          "handId": "step4a:flop-marginal-overbet",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "step4a:flop-marginal-overbet:2",
+          "handId": "step4a:flop-marginal-overbet",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "step4a:flop-marginal-overbet:3",
+          "handId": "step4a:flop-marginal-overbet",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture:step4a:flop-marginal-overbet:0",
+          "street": "preflop"
+        },
+        {
+          "id": "step4a:flop-marginal-overbet:4",
+          "handId": "step4a:flop-marginal-overbet",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture:step4a:flop-marginal-overbet:1",
+          "street": "preflop"
+        },
+        {
+          "id": "step4a:flop-marginal-overbet:5",
+          "handId": "step4a:flop-marginal-overbet",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Qc",
+            "7h",
+            "2s"
+          ]
+        },
+        {
+          "id": "step4a:flop-marginal-overbet:6",
+          "handId": "step4a:flop-marginal-overbet",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 4000,
+          "action": {
+            "type": "raise",
+            "to": 4000
+          },
+          "decisionId": "fixture:step4a:flop-marginal-overbet:2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "station",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.14223337098956107,
+          "looseness": 0.9281632415391505,
+          "skill": 0.21679628620855512,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.14113417425658553,
+            "bluffFrequency": 0.12602350240573287,
+            "valueThreshold": 0.5786762317223475,
+            "drawCalling": 0.9455398564366624,
+            "sizeSensitivity": 0.1875375295430422,
+            "riskTolerance": 0.7594194701313973,
+            "riverCuriosity": 0.9130080388998613,
+            "slowPlay": 0.1357136270357296,
+            "multiwayCaution": 0.09734901637304573,
+            "adaptation": 0.09278335865121334,
+            "memoryRetention": 0.42425744476262484,
+            "mistakeRate": 0.451501465444453,
+            "sizingAggression": 0.2668502839608118
+          },
+          "personalityId": "cash-v1.2:00512a31:station"
+        },
+        {
+          "archetype": "nit",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.2722333709895611,
+          "looseness": 0.15816324153915048,
+          "skill": 0.5067962862085551,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.6411341742565856,
+            "bluffFrequency": 0.16602350240573285,
+            "valueThreshold": 0.7386762317223475,
+            "drawCalling": 0.2655398564366624,
+            "sizeSensitivity": 0.8375375295430422,
+            "riskTolerance": 0.27941947013139723,
+            "riverCuriosity": 0.17300803889986127,
+            "slowPlay": 0.28571362703572956,
+            "multiwayCaution": 0.8573490163730458,
+            "adaptation": 0.3227833586512133,
+            "memoryRetention": 0.5742574447626247,
+            "mistakeRate": 0.09150146544445306,
+            "sizingAggression": 0.36685028396081176
+          },
+          "personalityId": "cash-v1.2:00512a31:nit"
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 4096,
+          "count": {
+            "fold": 202,
+            "check": 0,
+            "call": 3797,
+            "raise": 97
+          }
+        },
+        {
+          "opportunities": 4096,
+          "count": {
+            "fold": 678,
+            "check": 0,
+            "call": 3263,
+            "raise": 155
+          }
+        }
+      ],
+      "continueCount": [
+        3894,
+        3418
+      ]
+    },
+    {
+      "scenario": "flop-flushdraw",
+      "own": [
+        "Ah",
+        "Kh"
+      ],
+      "board": [
+        "Qh",
+        "7h",
+        "2c"
+      ],
+      "publicEvents": [
+        {
+          "id": "step4a:flop-flushdraw:0",
+          "handId": "step4a:flop-flushdraw",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "step4a:flop-flushdraw:1",
+          "handId": "step4a:flop-flushdraw",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "step4a:flop-flushdraw:2",
+          "handId": "step4a:flop-flushdraw",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "step4a:flop-flushdraw:3",
+          "handId": "step4a:flop-flushdraw",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture:step4a:flop-flushdraw:0",
+          "street": "preflop"
+        },
+        {
+          "id": "step4a:flop-flushdraw:4",
+          "handId": "step4a:flop-flushdraw",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture:step4a:flop-flushdraw:1",
+          "street": "preflop"
+        },
+        {
+          "id": "step4a:flop-flushdraw:5",
+          "handId": "step4a:flop-flushdraw",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Qh",
+            "7h",
+            "2c"
+          ]
+        },
+        {
+          "id": "step4a:flop-flushdraw:6",
+          "handId": "step4a:flop-flushdraw",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 1000,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture:step4a:flop-flushdraw:2",
+          "street": "flop"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "station",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.14223337098956107,
+          "looseness": 0.9281632415391505,
+          "skill": 0.21679628620855512,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.14113417425658553,
+            "bluffFrequency": 0.12602350240573287,
+            "valueThreshold": 0.5786762317223475,
+            "drawCalling": 0.9455398564366624,
+            "sizeSensitivity": 0.1875375295430422,
+            "riskTolerance": 0.7594194701313973,
+            "riverCuriosity": 0.9130080388998613,
+            "slowPlay": 0.1357136270357296,
+            "multiwayCaution": 0.09734901637304573,
+            "adaptation": 0.09278335865121334,
+            "memoryRetention": 0.42425744476262484,
+            "mistakeRate": 0.451501465444453,
+            "sizingAggression": 0.2668502839608118
+          },
+          "personalityId": "cash-v1.2:00512a31:station"
+        },
+        {
+          "archetype": "nit",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.2722333709895611,
+          "looseness": 0.15816324153915048,
+          "skill": 0.5067962862085551,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.6411341742565856,
+            "bluffFrequency": 0.16602350240573285,
+            "valueThreshold": 0.7386762317223475,
+            "drawCalling": 0.2655398564366624,
+            "sizeSensitivity": 0.8375375295430422,
+            "riskTolerance": 0.27941947013139723,
+            "riverCuriosity": 0.17300803889986127,
+            "slowPlay": 0.28571362703572956,
+            "multiwayCaution": 0.8573490163730458,
+            "adaptation": 0.3227833586512133,
+            "memoryRetention": 0.5742574447626247,
+            "mistakeRate": 0.09150146544445306,
+            "sizingAggression": 0.36685028396081176
+          },
+          "personalityId": "cash-v1.2:00512a31:nit"
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 4096,
+          "count": {
+            "fold": 69,
+            "check": 0,
+            "call": 3972,
+            "raise": 55
+          }
+        },
+        {
+          "opportunities": 4096,
+          "count": {
+            "fold": 173,
+            "check": 0,
+            "call": 3832,
+            "raise": 91
+          }
+        }
+      ],
+      "continueCount": [
+        4027,
+        3923
+      ]
+    },
+    {
+      "scenario": "river-marginal-overbet",
+      "own": [
+        "Qd",
+        "Jc"
+      ],
+      "board": [
+        "Qc",
+        "7h",
+        "2s",
+        "8c",
+        "3d"
+      ],
+      "publicEvents": [
+        {
+          "id": "step4a:river-marginal-overbet:0",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 0,
+          "type": "start",
+          "detail": "practice-cash@0.1.0"
+        },
+        {
+          "id": "step4a:river-marginal-overbet:1",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 0,
+          "amount": 100
+        },
+        {
+          "id": "step4a:river-marginal-overbet:2",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 0,
+          "type": "blind",
+          "seatId": 1,
+          "amount": 200
+        },
+        {
+          "id": "step4a:river-marginal-overbet:3",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 1,
+          "type": "action",
+          "seatId": 0,
+          "amount": 900,
+          "action": {
+            "type": "raise",
+            "to": 1000
+          },
+          "decisionId": "fixture:step4a:river-marginal-overbet:0",
+          "street": "preflop"
+        },
+        {
+          "id": "step4a:river-marginal-overbet:4",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 2,
+          "type": "action",
+          "seatId": 1,
+          "amount": 800,
+          "action": {
+            "type": "call"
+          },
+          "decisionId": "fixture:step4a:river-marginal-overbet:1",
+          "street": "preflop"
+        },
+        {
+          "id": "step4a:river-marginal-overbet:5",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 2,
+          "type": "street",
+          "street": "flop",
+          "cards": [
+            "Qc",
+            "7h",
+            "2s"
+          ]
+        },
+        {
+          "id": "step4a:river-marginal-overbet:6",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 3,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture:step4a:river-marginal-overbet:2",
+          "street": "flop"
+        },
+        {
+          "id": "step4a:river-marginal-overbet:7",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 4,
+          "type": "action",
+          "seatId": 0,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture:step4a:river-marginal-overbet:3",
+          "street": "flop"
+        },
+        {
+          "id": "step4a:river-marginal-overbet:8",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 4,
+          "type": "street",
+          "street": "turn",
+          "cards": [
+            "8c"
+          ]
+        },
+        {
+          "id": "step4a:river-marginal-overbet:9",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 5,
+          "type": "action",
+          "seatId": 1,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture:step4a:river-marginal-overbet:4",
+          "street": "turn"
+        },
+        {
+          "id": "step4a:river-marginal-overbet:10",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 6,
+          "type": "action",
+          "seatId": 0,
+          "amount": 0,
+          "action": {
+            "type": "check"
+          },
+          "decisionId": "fixture:step4a:river-marginal-overbet:5",
+          "street": "turn"
+        },
+        {
+          "id": "step4a:river-marginal-overbet:11",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 6,
+          "type": "street",
+          "street": "river",
+          "cards": [
+            "3d"
+          ]
+        },
+        {
+          "id": "step4a:river-marginal-overbet:12",
+          "handId": "step4a:river-marginal-overbet",
+          "revision": 7,
+          "type": "action",
+          "seatId": 1,
+          "amount": 4000,
+          "action": {
+            "type": "raise",
+            "to": 4000
+          },
+          "decisionId": "fixture:step4a:river-marginal-overbet:6",
+          "street": "river"
+        }
+      ],
+      "profiles": [
+        {
+          "archetype": "station",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.14223337098956107,
+          "looseness": 0.9281632415391505,
+          "skill": 0.21679628620855512,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.14113417425658553,
+            "bluffFrequency": 0.12602350240573287,
+            "valueThreshold": 0.5786762317223475,
+            "drawCalling": 0.9455398564366624,
+            "sizeSensitivity": 0.1875375295430422,
+            "riskTolerance": 0.7594194701313973,
+            "riverCuriosity": 0.9130080388998613,
+            "slowPlay": 0.1357136270357296,
+            "multiwayCaution": 0.09734901637304573,
+            "adaptation": 0.09278335865121334,
+            "memoryRetention": 0.42425744476262484,
+            "mistakeRate": 0.451501465444453,
+            "sizingAggression": 0.2668502839608118
+          },
+          "personalityId": "cash-v1.2:00512a31:station"
+        },
+        {
+          "archetype": "nit",
+          "policyVersion": "synthetic-cash-1.6.0",
+          "aggression": 0.2722333709895611,
+          "looseness": 0.15816324153915048,
+          "skill": 0.5067962862085551,
+          "environment": "neutral",
+          "unknown": false,
+          "traits": {
+            "positionAwareness": 0.6411341742565856,
+            "bluffFrequency": 0.16602350240573285,
+            "valueThreshold": 0.7386762317223475,
+            "drawCalling": 0.2655398564366624,
+            "sizeSensitivity": 0.8375375295430422,
+            "riskTolerance": 0.27941947013139723,
+            "riverCuriosity": 0.17300803889986127,
+            "slowPlay": 0.28571362703572956,
+            "multiwayCaution": 0.8573490163730458,
+            "adaptation": 0.3227833586512133,
+            "memoryRetention": 0.5742574447626247,
+            "mistakeRate": 0.09150146544445306,
+            "sizingAggression": 0.36685028396081176
+          },
+          "personalityId": "cash-v1.2:00512a31:nit"
+        }
+      ],
+      "counts": [
+        {
+          "opportunities": 4096,
+          "count": {
+            "fold": 76,
+            "check": 0,
+            "call": 3939,
+            "raise": 81
+          }
+        },
+        {
+          "opportunities": 4096,
+          "count": {
+            "fold": 642,
+            "check": 0,
+            "call": 3337,
+            "raise": 117
+          }
+        }
+      ],
+      "continueCount": [
+        4020,
+        3454
+      ]
+    }
+  ]
+}

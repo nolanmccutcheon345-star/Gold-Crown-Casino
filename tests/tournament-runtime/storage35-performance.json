@@ -1,0 +1,77 @@
+{
+  "method": "Node real noble SHA256; matched initial nine-player active hand and immutable 59-hand completed fixtures. Seven paired samples. Before = full clone, full validation, legacy encode/decode; after = active clone, validated immutable archive reuse, compact checkpoint CAS commit. Not physical-device or IndexedDB latency. Full startup audit remains proportional to total history.",
+  "rows": [
+    {
+      "completedEvents": 0,
+      "canonicalBytes": 15160,
+      "checkpointBytes": 15294,
+      "archiveBytes": 0,
+      "beforeMs": {
+        "p50": 3.546613999999863,
+        "p95": 5.138819999999214,
+        "max": 5.138819999999214,
+        "samples": 7
+      },
+      "afterMs": {
+        "p50": 3.0258330000006026,
+        "p95": 4.305681000000732,
+        "max": 4.305681000000732,
+        "samples": 7
+      }
+    },
+    {
+      "completedEvents": 1,
+      "canonicalBytes": 536088,
+      "checkpointBytes": 15708,
+      "archiveBytes": 520739,
+      "beforeMs": {
+        "p50": 94.48546999999962,
+        "p95": 99.341316,
+        "max": 99.341316,
+        "samples": 7
+      },
+      "afterMs": {
+        "p50": 2.6144869999998264,
+        "p95": 5.951777999999649,
+        "max": 5.951777999999649,
+        "samples": 7
+      }
+    },
+    {
+      "completedEvents": 2,
+      "canonicalBytes": 1057017,
+      "checkpointBytes": 16123,
+      "archiveBytes": 1041478,
+      "beforeMs": {
+        "p50": 192.54670899999928,
+        "p95": 270.2108159999998,
+        "max": 270.2108159999998,
+        "samples": 7
+      },
+      "afterMs": {
+        "p50": 2.756069000000025,
+        "p95": 3.1440709999997125,
+        "max": 3.1440709999997125,
+        "samples": 7
+      }
+    },
+    {
+      "completedEvents": 10,
+      "canonicalBytes": 5224461,
+      "checkpointBytes": 19455,
+      "archiveBytes": 5207390,
+      "beforeMs": {
+        "p50": 966.0109979999997,
+        "p95": 1053.604582,
+        "max": 1053.604582,
+        "samples": 7
+      },
+      "afterMs": {
+        "p50": 3.52552199999991,
+        "p95": 6.476643999998487,
+        "max": 6.476643999998487,
+        "samples": 7
+      }
+    }
+  ]
+}

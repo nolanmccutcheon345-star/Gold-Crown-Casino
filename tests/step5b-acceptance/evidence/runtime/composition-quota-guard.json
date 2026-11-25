@@ -1,0 +1,198 @@
+{
+  "profile": {
+    "archetype": "stronger-reg",
+    "policyVersion": "synthetic-cash-1.6.0",
+    "aggression": 0.6783365437900648,
+    "looseness": 0.3973923579836265,
+    "skill": 0.8629385603684931,
+    "environment": "neutral",
+    "unknown": false,
+    "traits": {
+      "positionAwareness": 0.9542460940778255,
+      "bluffFrequency": 0.5223542724177241,
+      "valueThreshold": 0.6269541601696982,
+      "drawCalling": 0.5470335417846218,
+      "sizeSensitivity": 0.8009770414186641,
+      "riskTolerance": 0.5213865885697305,
+      "riverCuriosity": 0.4652353215124458,
+      "slowPlay": 0.3619512553419918,
+      "multiwayCaution": 0.8486345598800107,
+      "adaptation": 0.9043367982376367,
+      "memoryRetention": 0.870570958647877,
+      "mistakeRate": 0.07624672507867217,
+      "sizingAggression": 0.6661715286644175
+    },
+    "personalityId": "cash-v1.2:005418af:stronger-reg"
+  },
+  "rows": [
+    {
+      "mix": "loosePassive",
+      "hero": "never-fold",
+      "own": [
+        [
+          "As",
+          "Ah"
+        ],
+        [
+          "7c",
+          "2d"
+        ]
+      ],
+      "distributions": [
+        {
+          "fold": 0,
+          "check": 0,
+          "call": 0.014420545765387982,
+          "raise": 0.985579454234612
+        },
+        {
+          "fold": 0.9999034562830554,
+          "check": 0,
+          "call": 3.8751570622250233e-7,
+          "raise": 0.00009615620123834266
+        }
+      ]
+    },
+    {
+      "mix": "loosePassive",
+      "hero": "stack-pressure",
+      "own": [
+        [
+          "As",
+          "Ah"
+        ],
+        [
+          "7c",
+          "2d"
+        ]
+      ],
+      "distributions": [
+        {
+          "fold": 0,
+          "check": 0,
+          "call": 0.014420545765387982,
+          "raise": 0.985579454234612
+        },
+        {
+          "fold": 0.9999034562830554,
+          "check": 0,
+          "call": 3.8751570622250233e-7,
+          "raise": 0.00009615620123834266
+        }
+      ]
+    },
+    {
+      "mix": "tight",
+      "hero": "never-fold",
+      "own": [
+        [
+          "As",
+          "Ah"
+        ],
+        [
+          "7c",
+          "2d"
+        ]
+      ],
+      "distributions": [
+        {
+          "fold": 0,
+          "check": 0,
+          "call": 0.014420545765387982,
+          "raise": 0.985579454234612
+        },
+        {
+          "fold": 0.9999034562830554,
+          "check": 0,
+          "call": 3.8751570622250233e-7,
+          "raise": 0.00009615620123834266
+        }
+      ]
+    },
+    {
+      "mix": "tight",
+      "hero": "stack-pressure",
+      "own": [
+        [
+          "As",
+          "Ah"
+        ],
+        [
+          "7c",
+          "2d"
+        ]
+      ],
+      "distributions": [
+        {
+          "fold": 0,
+          "check": 0,
+          "call": 0.014420545765387982,
+          "raise": 0.985579454234612
+        },
+        {
+          "fold": 0.9999034562830554,
+          "check": 0,
+          "call": 3.8751570622250233e-7,
+          "raise": 0.00009615620123834266
+        }
+      ]
+    },
+    {
+      "mix": "aggressive",
+      "hero": "never-fold",
+      "own": [
+        [
+          "As",
+          "Ah"
+        ],
+        [
+          "7c",
+          "2d"
+        ]
+      ],
+      "distributions": [
+        {
+          "fold": 0,
+          "check": 0,
+          "call": 0.014420545765387982,
+          "raise": 0.985579454234612
+        },
+        {
+          "fold": 0.9999034562830554,
+          "check": 0,
+          "call": 3.8751570622250233e-7,
+          "raise": 0.00009615620123834266
+        }
+      ]
+    },
+    {
+      "mix": "aggressive",
+      "hero": "stack-pressure",
+      "own": [
+        [
+          "As",
+          "Ah"
+        ],
+        [
+          "7c",
+          "2d"
+        ]
+      ],
+      "distributions": [
+        {
+          "fold": 0,
+          "check": 0,
+          "call": 0.014420545765387982,
+          "raise": 0.985579454234612
+        },
+        {
+          "fold": 0.9999034562830554,
+          "check": 0,
+          "call": 3.8751570622250233e-7,
+          "raise": 0.00009615620123834266
+        }
+      ]
+    }
+  ],
+  "scope": "Matched legal state/hand-dependence check, not frequency target or empirical range validation"
+}

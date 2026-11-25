@@ -83,7 +83,7 @@ import { LIVE_ONE_TWO_DISCLOSURE, occupiedSeatIds, syntheticLiveOneTwoPreset, no
 import './opponent-setup.css';
 import {cardName,focusSelector,restoreFocus,savedPracticeAnnouncement,tableAnnouncement} from './accessibility';
 import {assertStudyImportRights,importRightsMarkup,PRACTICE_DISCLOSURE} from './practice-disclosure';
-import { morphInto } from './dom-morph';
+import { morphInto, snapshotScroll, restoreScroll } from './dom-morph';
 import './accessibility.css';
 import './phone-play.css';
 import './desktop-play.css';
@@ -2177,6 +2177,10 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const smallBlind = shown?.profile.smallBlind ?? settings.smallBlind;
     const bigBlind = shown?.profile.bigBlind ?? settings.bigBlind;
     const message = error || (controller.status === 'ready' ? controller.error : '');
+    // Phase 10 (P10-F02): scroll positions join drafts/focus/details in what a render
+    // must not lose — the morph transiently collapses scrollable subtrees and the
+    // browser clamps their scrollTop to 0 (the coach "why" snap-back).
+    const scrollSnap = snapshotScroll(content);
     // Edit the live tree in place instead of rebuilding it (see dom-morph.ts).
     morphInto(content, `<a class="skip-link" href="#main-content">Skip to table and controls</a><div class="app-shell view-${view}${game?' has-game':''}${motion?'':' motion-off'}${styleClasses(style)}${view==='tournaments'&&tournament?.data?.active?' tournament-active':''}${(view==='live'&&game)||(view==='tournaments'&&tournament?.data?.active)||(view==='omaha'&&plo?.state.active)?' at-table':''}"><header class="app-header"><a class="brand" href="#" aria-label="Gold Crown Casino home">${casinoWordmark()}</a><nav aria-label="Main navigation">${MENU.map(entry => { const current = menuGroup(view) === entry; return `<button data-view="${entry.view}" class="nav-button ${current ? 'selected' : ''}" aria-label="${entry.label}" ${view === entry.view ? 'aria-current="page"' : current ? 'aria-current="true"' : ''}>${navIcon(entry.view)}<span>${entry.text}</span></button>${entry.view === 'live' && view === 'live' && game ? `<button type="button" id="nav-games" class="nav-button nav-more" aria-label="Other games and setup" aria-expanded="${gamesMenuOpen}" aria-controls="subnav-Play"><span aria-hidden="true">${gamesMenuOpen ? '▴' : '▾'}</span></button>` : ''}`; }).join('')}</nav><div class="header-status"><span class="virtual-label"><span></span>Virtual chips only</span></div></header>${MENU.filter(entry => entry.pages.length).map(entry => { const current = menuGroup(view) === entry, overlay = view === 'live' && !!game; return `<nav class="subnav${overlay ? ' subnav-overlay' : ''}" id="subnav-${entry.group}" aria-label="${entry.group} pages" ${current && (!overlay || gamesMenuOpen) ? '' : 'hidden'}>${entry.pages.map(page => page.view === entry.view ? `<button type="button" data-view-home="${page.view}" class="subnav-button ${view === page.view ? 'selected' : ''}" ${view === page.view ? 'aria-current="true"' : ''}><span class="nav-full">${page.text}</span><span class="nav-short">${page.short}</span></button>` : `<button type="button" data-view="${page.view}" class="subnav-button ${view === page.view ? 'selected' : ''}" aria-label="${page.label}" ${view === page.view ? 'aria-current="page"' : ''}><span class="nav-full">${page.text}</span><span class="nav-short">${page.short}</span></button>`).join('')}</nav>`; }).join('')}
       <nav class="bottom-nav" aria-label="Primary">${MENU.map(entry => { const current = menuGroup(view) === entry; return `<button type="button" data-view="${entry.view}" class="bottom-nav-button ${current ? 'selected' : ''}" aria-label="${entry.label}" ${view === entry.view ? 'aria-current="page"' : current ? 'aria-current="true"' : ''}>${navIcon(entry.view)}<span>${entry.text}</span></button>`; }).join('')}</nav>
@@ -2228,6 +2232,8 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
       replacement?.focus({preventScroll:true});
       if ((replacement instanceof HTMLInputElement || replacement instanceof HTMLTextAreaElement) && selection && selection[0] !== null && selection[1] !== null) replacement.setSelectionRange(selection[0], selection[1]);
     }
+    // Phase 10 (P10-F02): put back every scroll position the morph clamped.
+    restoreScroll(content, scrollSnap);
   }
   async function prepareStudyPreview(text:string) {
     try{assertStudyImportRights(importRightsConfirmed);}catch(cause){error=(cause as Error).message;render();return;}
