@@ -212,7 +212,9 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     if (blackjackTab === 'trainer') trainer ??= newTrainer(DEFAULT_TRAINER);
     if (blackjackTab === 'strategy') coachDrill ??= newDrill(strategyQuestion(secureIndex));
     if (blackjackTab === 'deviations') deviationDrill ??= newDrill(deviationQuestion(coachRules(deviationTable), deviationSystem, secureIndex));
-    return blackjackTabsMarkup(blackjackTab) + (blackjackTab === 'trainer' ? countTrainerMarkup(trainer!, trainerDraft, trainerAcesDraft) : blackjackTab === 'strategy' ? strategyCoachMarkup(coachTable, coachDrill!) : blackjackTab === 'deviations' ? deviationCoachMarkup(deviationTable, deviationSystem, deviationDrill!) : blackjackLive.markup(blackjackLobby));
+    /* Phase 9 backdrops: the blackjack screens share one wrapper so the salon photo
+       paints behind them via --game-backdrop (see casino.css). Presentation only. */
+    return `<div class="bj-screen">${blackjackTabsMarkup(blackjackTab) + (blackjackTab === 'trainer' ? countTrainerMarkup(trainer!, trainerDraft, trainerAcesDraft) : blackjackTab === 'strategy' ? strategyCoachMarkup(coachTable, coachDrill!) : blackjackTab === 'deviations' ? deviationCoachMarkup(deviationTable, deviationSystem, deviationDrill!) : blackjackLive.markup(blackjackLobby))}</div>`;
   }
   let tournamentStarted=false,tournamentWorking=false,tournamentDraft='',tournamentWatch=false,tournamentFast=false;
   let tournamentPace: 'normal'|'fast'='normal',tournamentLastTick=0;

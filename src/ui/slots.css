@@ -114,6 +114,12 @@
 @keyframes slot-crown{0%{opacity:0;transform:translateY(26px) scale(.6)}35%{opacity:1;transform:translateY(0) scale(1.06)}55%{transform:translateY(-4px) scale(1)}100%{opacity:0;transform:translateY(-16px) scale(1.02)}}
 @media (prefers-reduced-motion:reduce){.slot-crown-moment{display:none}}
 .motion-off .slot-crown-moment{display:none}
+/* Phase 9: the EPIC tier also fires Nolan's jackpot-celebration banner. The art has a
+ * DARK background, not transparency, so it composites with screen blending over the
+ * machine window (bright pixels show, dark pixels vanish) — never a cutout. */
+.slot-jackpot-burst{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:screen;opacity:.85;pointer-events:none;border-radius:inherit;z-index:4}
+@media (prefers-reduced-motion:reduce){.slot-jackpot-burst{display:none}}
+.motion-off .slot-jackpot-burst{display:none}
 .slot-burst.spark i{width:10px;height:10px;background:radial-gradient(circle,#fff,#ffe14a 40%,transparent 70%)}
 @keyframes slot-fly{0%{opacity:1;translate:-50% -50%;rotate:0deg}60%{opacity:1}100%{opacity:0;translate:calc(-50% + var(--dx) * 3) calc(-50% + var(--dy) * 3);rotate:var(--r)}}
 /* Patch 92: cascades, bombs, wild multipliers and the chest bonus. */

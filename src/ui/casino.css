@@ -158,6 +158,30 @@
  * — plus, in that same future edit, a dark scrim layer if the photo fights the felt.
  * Unset (today) the slot paints nothing and every screen is unchanged. */
 .panel.cz-game,.panel.slots{background-image:var(--game-backdrop,none);background-size:cover;background-position:center top;background-repeat:no-repeat}
+/* Phase 9: Nolan's room photos land in the Phase 8 slot — one line per game, as planned.
+ * The WebP assets are pre-dimmed and desaturated at conversion (brightness .52, colour .68)
+ * so cards, chips, controls and text stay legible over them at phone size; the photo only
+ * ever paints the section's own background, behind the felt and panels. Decorative only:
+ * no layout, no input, no motion. Omaha has no backdrop of its own — it plays in the poker
+ * room, so the poker photo covers it. The lobby staircase goes to the Career panel. */
+.cz-game.roulette{--game-backdrop:url('/casino-art/backdrop-roulette.webp')}
+.cz-game.baccarat{--game-backdrop:url('/casino-art/backdrop-baccarat.webp')}
+.cz-game.craps{--game-backdrop:url('/casino-art/backdrop-craps.webp')}
+.cz-game.races{--game-backdrop:url('/casino-art/backdrop-racing.webp')}
+.panel.plo{--game-backdrop:url('/casino-art/backdrop-poker.webp')}
+.panel.career{--game-backdrop:url('/casino-art/backdrop-lobby-staircase.webp')}
+.panel.heads-up{--game-backdrop:url('/casino-art/backdrop-heads-up-duel.webp')}
+.tournament-play,.tournament-lobby{--game-backdrop:url('/casino-art/backdrop-poker.webp')}
+.bj-screen{--game-backdrop:url('/casino-art/backdrop-blackjack.webp')}
+.game-layout .table-panel{--game-backdrop:url('/casino-art/backdrop-poker.webp')}
+.panel.plo,.panel.career,.panel.heads-up,.tournament-play,.tournament-lobby,.bj-screen,.game-layout .table-panel{background-image:var(--game-backdrop,none);background-size:cover;background-position:center top;background-repeat:no-repeat}
+/* The shell theme paints .panel with a shorthand gradient at higher specificity
+ * (.app-shell:not(.theme-light) .panel in shell.css, imported last), which erases the
+ * slot's background-image. These rules outrank it in the dark theme and lay a scrim
+ * gradient over the photo for legibility; the light theme keeps the Phase 8 slot rule. */
+.app-shell:not(.theme-light) .panel.cz-game,.app-shell:not(.theme-light) .panel.plo,.app-shell:not(.theme-light) .panel.career,.app-shell:not(.theme-light) .panel.heads-up{background-image:linear-gradient(165deg,#080d0f94,#080d0fd1),var(--game-backdrop,none);background-size:cover;background-position:center top;background-repeat:no-repeat}
+/* Winner's circle: the racing win moment, a framed banner inside the result block. */
+.rc-result .rc-winners-circle{flex-basis:100%;width:100%;max-height:190px;object-fit:cover;object-position:center 38%;border-radius:10px;box-shadow:0 0 0 1px #e8c58b66}
 
 /* Races */
 .rc-card-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;font-size:14px}.rc-card-head span{opacity:.75}
