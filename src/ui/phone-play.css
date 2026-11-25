@@ -287,3 +287,37 @@
 @media (max-width:767px){
   .subnav:not(.subnav-overlay){-webkit-mask-image:linear-gradient(90deg,#000 93%,transparent);mask-image:linear-gradient(90deg,#000 93%,transparent)}
 }
+
+/* ---- Phase 10 (P10-F01/F03/F07): panel peek + compact coach ----
+   The pinned play panels get a collapse handle: in peek state only the status row
+   and the decision buttons stay on screen, so the table gets the rest. The state is
+   a class the markup carries (panel-peek), so it survives renders and orientation
+   flips — the "won't reduce back" complaint. The coach card likewise collapses to
+   its one-line suggestion on compact viewports until "Why this play" is tapped. */
+.panel-peek-toggle{display:none}
+.coach-toggle{display:none}
+@media(max-width:1180px){
+  .view-live.has-game .panel-peek-toggle{display:block;order:0;width:100%;min-height:30px;margin:0;padding:2px 8px;border:1px solid #42504880;border-radius:15px;background:#16241f;color:#c9d6cf;font:inherit;font-size:12px;cursor:pointer}
+  .view-live.has-game .action-panel.panel-peek .odds-helper-row,
+  .view-live.has-game .action-panel.panel-peek .coach-row,
+  .view-live.has-game .action-panel.panel-peek .raise-controls,
+  .view-live.has-game .action-panel.panel-peek .amount-slider,
+  .view-live.has-game .action-panel.panel-peek .sizing-validation,
+  .view-live.has-game .action-panel.panel-peek .sizing-more{display:none}
+  .t-action-panel .panel-peek-toggle{display:block;width:100%;min-height:30px;margin:0;padding:2px 8px;border:1px solid #42504880;border-radius:15px;background:#16241f;color:#c9d6cf;font:inherit;font-size:12px;cursor:pointer}
+  .t-action-panel.panel-peek .t-raise-row,
+  .t-action-panel.panel-peek .amount-slider,
+  .t-action-panel.panel-peek .t-size-row,
+  .t-action-panel.panel-peek #t-raise-help,
+  .t-action-panel.panel-peek .coach-row,
+  .t-action-panel.panel-peek .odds-helper-row,
+  .t-action-panel.panel-peek .t-watch-hint{display:none}
+  .coach-toggle{display:inline-block;min-height:32px;margin-left:6px;padding:2px 10px;border:1px solid #e8c58b59;border-radius:16px;background:transparent;color:#e8c58b;font:inherit;font-size:12px;cursor:pointer}
+  .coach-card .coach-detail{display:none}
+  .coach-card.coach-open .coach-detail{display:block}
+}
+@media (max-width:767px) and (orientation:portrait){
+  /* With the coach collapsed by default the panel's content fits again; keep a
+     firmer cap anyway so even an expanded coach leaves the felt on screen. */
+  .view-live.has-game .action-panel{max-height:calc(100dvh - 170px)}
+}

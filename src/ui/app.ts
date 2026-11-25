@@ -575,6 +575,12 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
   let sliderPercent: number | null = null;
   // null = follow the viewport default (open on wide screens, closed on phones).
   let sizingMoreOpen: boolean | null = null;
+  /* Phase 10 (P10-F03/F07): the phone action panel's peek state. The player's explicit
+   * choice is kept per decision token; with no choice the panel peeks while waiting
+   * (nothing to decide) and opens on the hero's turn. CSS applies it only where the
+   * panel is the pinned bottom bar, so wide layouts are untouched. */
+  let panelPeekChoice: boolean | null = null;
+  let panelPeekToken = '';
   let potLevelsOpen = false;
   // True wherever the action panel is the pinned bottom bar (see phone-play.css).
   const compactViewport = () => typeof matchMedia === 'function' && matchMedia('(max-width:1180px)').matches;
@@ -1408,6 +1414,8 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const preArmed = canPreAct && preCheckFold === `${shown.handId}:${shown.street}`;
     const token = `${shown.handId}:${shown.revision}`;
     if (raiseToken !== token) { raiseToken = token; raiseValue = min; sliderPercent = null; if (compactViewport()) sizingMoreOpen = null; }
+    if (panelPeekToken !== token) { panelPeekToken = token; panelPeekChoice = null; }
+    const panelPeek = panelPeekChoice ?? !turn;
     const sizingNow: SizingContext = {pot:shown.pot,streetCommitted:hero.streetCommitted,bigBlind:shown.profile.bigBlind,chipUnit:shown.profile.chipUnit,legal};
     const sizing = inspectSizing(sizingNow,raiseValue);
     // The slider and its label follow the amount in the raise box instead of resting at an unrelated 100%.
@@ -1418,7 +1426,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const streetSizes: string[][] = shown.street !== 'preflop' ? [] : facing <= shown.profile.bigBlind
       ? PREFLOP_OPEN_BIG_BLINDS.map(bb => [`bb-${bb}`, `${bb} BB <small>${money(openSizing(sizingNow, bb).to)}</small>`, 'street'])
       : PREFLOP_RAISE_MULTIPLES.map(multiple => [`x-${multiple}`, `${multiple}× <small>${money(raiseMultipleSizing({...sizingNow, streetCommitted: facing, legal: {...legal, callAmount: 0}}, multiple).to)}</small>`, 'street']);
-    return `<section id="table-actions" tabindex="-1" aria-label="Poker actions" class="action-panel ${turn ? 'your-action' : 'waiting'}" data-testid="action-panel" data-decision-token="${escape(token)}"><div class="action-top"><div><span class="eyebrow">${paused ? 'PAUSED' : turn ? 'YOUR DECISION' : 'WAITING FOR ACTION'}</span><h2>${paused ? 'Take your time.' : turn ? legal.check ? 'You can check.' : `${money(legal.callAmount)} to call` : `${style.avatars && shown.actor !== null ? `<span class="bar-face bar-face-actor" aria-hidden="true">${faceArt(seatName(shown.actor, shown), faceMood(shown, shown.actor), shown.actor === 0, 'seat', shown, shown.actor)}</span>` : ''}${escape(seatName(shown.actor ?? 0,shown))} is up next`}</h2>${style.handLabel && hero.hole.length === 2 && !hero.folded ? `<span class="hero-hand-label" data-testid="hero-hand-label">${escape(heroHandLabel(hero.hole, shown.board))}</span>` : ''}</div><div class="hero-stack-label">${style.avatars ? `<span class="bar-face" aria-hidden="true">${faceArt(seatName(0, shown), faceMood(shown, 0), true)}</span>` : ''}<span>YOUR STACK</span><b>${money(hero.stack)}</b></div></div>${canPreAct ? `<button type="button" id="skip-to-turn" class="pre-action skip-action${skipToTurn === shown.handId ? ' armed' : ''}" aria-pressed="${skipToTurn === shown.handId}" aria-label="Skip to my turn" title="Play the other players' actions quickly until your turn">${skipToTurn === shown.handId ? 'Skipping…' : 'Skip ▸'}</button>` : ''}${canPreAct ? `<button type="button" id="pre-check-fold" class="pre-action${preArmed ? ' armed' : ''}" aria-pressed="${preArmed}" title="When your turn comes: check if it is free, otherwise fold">${preArmed ? '✓ ' : ''}Check/Fold</button>` : ''}
+    return `<section id="table-actions" tabindex="-1" aria-label="Poker actions" class="action-panel ${turn ? 'your-action' : 'waiting'}${panelPeek ? ' panel-peek' : ''}" data-testid="action-panel" data-decision-token="${escape(token)}"><button type="button" id="panel-peek-toggle" class="panel-peek-toggle" aria-expanded="${!panelPeek}" aria-label="${panelPeek ? 'Expand the table controls' : 'Collapse the table controls to a peek strip'}">${panelPeek ? '▴ Controls' : '▾ Peek'}</button><div class="action-top"><div><span class="eyebrow">${paused ? 'PAUSED' : turn ? 'YOUR DECISION' : 'WAITING FOR ACTION'}</span><h2>${paused ? 'Take your time.' : turn ? legal.check ? 'You can check.' : `${money(legal.callAmount)} to call` : `${style.avatars && shown.actor !== null ? `<span class="bar-face bar-face-actor" aria-hidden="true">${faceArt(seatName(shown.actor, shown), faceMood(shown, shown.actor), shown.actor === 0, 'seat', shown, shown.actor)}</span>` : ''}${escape(seatName(shown.actor ?? 0,shown))} is up next`}</h2>${style.handLabel && hero.hole.length === 2 && !hero.folded ? `<span class="hero-hand-label" data-testid="hero-hand-label">${escape(heroHandLabel(hero.hole, shown.board))}</span>` : ''}</div><div class="hero-stack-label">${style.avatars ? `<span class="bar-face" aria-hidden="true">${faceArt(seatName(0, shown), faceMood(shown, 0), true)}</span>` : ''}<span>YOUR STACK</span><b>${money(hero.stack)}</b></div></div>${canPreAct ? `<button type="button" id="skip-to-turn" class="pre-action skip-action${skipToTurn === shown.handId ? ' armed' : ''}" aria-pressed="${skipToTurn === shown.handId}" aria-label="Skip to my turn" title="Play the other players' actions quickly until your turn">${skipToTurn === shown.handId ? 'Skipping…' : 'Skip ▸'}</button>` : ''}${canPreAct ? `<button type="button" id="pre-check-fold" class="pre-action${preArmed ? ' armed' : ''}" aria-pressed="${preArmed}" title="When your turn comes: check if it is free, otherwise fold">${preArmed ? '✓ ' : ''}Check/Fold</button>` : ''}
       <div class="action-buttons"><button class="button fold-button" id="fold" ${!turn || !legal.fold ? 'disabled' : ''}>Fold</button><button class="button call-button" id="call" ${!turn || (!legal.check && !legal.callAmount) ? 'disabled' : ''}>${turn ? legal.check ? 'Check' : `${allInCall ? 'Call all-in' : 'Call'} ${money(legal.callAmount)}` : 'Check / Call'}</button><button class="button primary" id="raise" ${!turn || !sizing.legal ? 'disabled' : ''}><span id="raise-action-label">${canRaise && (legal.shortAllInTo !== null || raiseValue === max) ? 'All-in' : turn && legal.callAmount === 0 && hero.streetCommitted === 0 ? 'Bet' : 'Raise'} to</span> <span id="raise-button-value">${money(raiseValue)}</span></button></div>
       ${oddsPanel(hero.hole, shown.board, turn ? legal.callAmount : 0, shown.pot, hero.folded, money)}
       ${coachPanel(shown, turn, 'cash', money)}
@@ -2440,6 +2448,8 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     // Patch 105: the Live coach.
     root.querySelector<HTMLInputElement>('#coach-on')?.addEventListener('change', e => { coachUi.on = (e.target as HTMLInputElement).checked; if (!coachUi.on) { coachUi.review = null; coachUi.last = null; } saveCoachUi(coachUi); render(); }, live);
     on('#coach-enable', () => { coachUi.on = true; saveCoachUi(coachUi); render(); });
+    /* Phase 10 (P10-F01): expand/collapse the coach card's "why" on compact viewports. */
+    root.querySelectorAll<HTMLButtonElement>('[data-coach-toggle]').forEach(el => el.addEventListener('click', () => { const key = el.dataset.coachToggle!; coachUi.expandedKey = coachUi.expandedKey === key ? null : key; render(); }, live));
     root.querySelector<HTMLInputElement>('#coach-test')?.addEventListener('change', e => { coachUi.test = (e.target as HTMLInputElement).checked; coachUi.revealed = null; saveCoachUi(coachUi); render(); }, live);
     on('#coach-reveal', () => { coachUi.revealed = coachUi.last?.key ?? null; render(); });
     root.querySelectorAll<HTMLButtonElement>('[data-coach-size]').forEach(b => b.addEventListener('click', () => { const to = Number(b.dataset.coachSize); if (!Number.isSafeInteger(to)) return; if (view === 'tournaments') tournamentDraft = String(to); else { raiseValue = to; sliderPercent = null; } render(); }, live));
@@ -2560,6 +2570,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
       } catch (cause) { error = (cause as Error).message; render(); }
     }, live);
     if (shown) {
+      on('#panel-peek-toggle', () => { const heroTurn = shown.street !== 'complete' && shown.actor === 0; panelPeekChoice = !(panelPeekChoice ?? !heroTurn); render(); });
       on('#fold', () => submit({ type: 'fold' }, shown.handId, shown.revision));
       on('#call', () => submit({ type: shown.legal.check ? 'check' : 'call' }, shown.handId, shown.revision));
       on('#raise', () => { const input = root.querySelector<HTMLInputElement>('#raise-to'); try { const value = cents(input?.value ?? ''); const legal = shown.legal; const minimum = legal.shortAllInTo ?? legal.minRaiseTo; const maximum = legal.maxRaiseTo ?? legal.shortAllInTo; if (minimum === null || maximum === null || value < minimum || value > maximum) throw new Error(`Enter a legal total between ${money(minimum ?? 0)} and ${money(maximum ?? 0)}.`); submit({ type: 'raise', to: value }, shown.handId, shown.revision); } catch (cause) { error = (cause as Error).message; render(); } });

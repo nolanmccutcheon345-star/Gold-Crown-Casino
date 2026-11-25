@@ -6,11 +6,14 @@ export const COACH_KEY='poker-night-ai:live-coach',COACH_TEST_KEY='poker-night-a
 export interface CoachUi {on:boolean;
  /** "Test me first": show the questions, and the play only when asked. */
  test:boolean;revealed:string|null;
+ /** Phase 10 (P10-F01): on compact viewports the coach card collapses to its one-line
+  * suggestion; this is the advice key the player has tapped open, if any. */
+ expandedKey:string|null;
  /** The advice for the decision on screen, kept so the action taken can be compared with it. */
  last:Advice|null;review:{text:string;matched:boolean}|null;tally:{matched:number;total:number}}
 export function freshCoachUi():CoachUi {
  const read=(k:string)=>{try{return localStorage.getItem(k)==='on';}catch{return false;}};
- return {on:read(COACH_KEY),test:read(COACH_TEST_KEY),revealed:null,last:null,review:null,tally:{matched:0,total:0}};
+ return {on:read(COACH_KEY),test:read(COACH_TEST_KEY),revealed:null,expandedKey:null,last:null,review:null,tally:{matched:0,total:0}};
 }
 export function saveCoachUi(ui:CoachUi):void {try{localStorage.setItem(COACH_KEY,ui.on?'on':'off');localStorage.setItem(COACH_TEST_KEY,ui.test?'on':'off');}catch{/* this visit only */}}
 const esc=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]!);
@@ -43,16 +46,23 @@ export function coachMarkup(ui:CoachUi,advice:Advice|null,o:{waiting:boolean;tou
  const ask=`<p><b>${advice.card.id} ${esc(advice.card.name)}:</b> ${esc(advice.card.master)}</p><p><b>${advice.overlay.id} ${esc(advice.overlay.name)}:</b> ${esc(advice.overlay.master)}</p>`;
  if(ui.test&&ui.revealed!==advice.key)return `<div class="coach-row">${head}${review}<div class="coach-card" data-testid="coach-quiz"><p class="coach-play"><span class="eyebrow">COACH · TEST ME</span> <b>What is your play, and why?</b></p><p>Work through your ${advice.overlay.id} ${esc(advice.overlay.name.toLowerCase())} before you look:</p><ol class="coach-questions">${advice.overlay.questions.map(q=>`<li>${esc(q)}</li>`).join('')}</ol><p><b>${advice.ask.id} ${esc(advice.ask.name)}:</b> ${esc(advice.ask.master)}</p><button type="button" class="button secondary" id="coach-reveal">Show the coach’s play</button></div></div>`;
  const w=advice.why,rows:[string,string][]=[['Ranges',w.ranges],['Objective',w.objective],['Responses',w.responses],['Alternatives',w.alternatives],['Future plan',w.future]];
- return `<div class="coach-row">${head}${review}<div class="coach-card" data-testid="coach-advice" data-coach-action="${advice.action}">
-  <p class="coach-play"><span class="eyebrow">COACH</span> <b data-testid="coach-headline">${esc(advice.headline)}</b>${advice.close?' <small class="coach-close">Close spot: another play is reasonable</small>':''}${advice.to!==null?` <button type="button" class="button secondary coach-use" data-coach-size="${advice.to}">Use this size</button>`:''}</p>
+ /* Phase 10 (P10-F01): the card leads with the one-line suggestion; everything behind
+  * "Why this play" sits in .coach-detail, which compact viewports keep closed until
+  * tapped (see phone-play.css). The lesson is a closed <details> by default now, with
+  * an id so a render can keep it open across the decision. */
+ const open=ui.expandedKey===advice.key;
+ return `<div class="coach-row">${head}${review}<div class="coach-card${open?' coach-open':''}" data-testid="coach-advice" data-coach-action="${advice.action}">
+  <p class="coach-play"><span class="eyebrow">COACH</span> <b data-testid="coach-headline">${esc(advice.headline)}</b>${advice.close?' <small class="coach-close">Close spot: another play is reasonable</small>':''}${advice.to!==null?` <button type="button" class="button secondary coach-use" data-coach-size="${advice.to}">Use this size</button>`:''} <button type="button" class="coach-toggle" data-coach-toggle="${esc(advice.key)}" aria-expanded="${open}">${open?'Hide the why':'Why this play'} ▾</button></p>
+  <div class="coach-detail">
   <p class="coach-job"><b>Your hand:</b> ${esc(advice.job)}</p>
   ${advice.spot?`<p class="coach-spot"><small>${esc(advice.spot)}</small></p>`:''}
   ${advice.gap?`<p class="coach-gap"><small>${esc(advice.gap)}</small></p>`:''}
   <dl class="coach-why">${rows.map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
   ${advice.numbers.length?`<ul class="coach-numbers">${advice.numbers.map(n=>`<li><span>${esc(n.label)}</span><b>${esc(n.value)}</b><small class="basis ${n.basis}">${BASIS[n.basis]}</small></li>`).join('')}</ul>`:''}
   ${advice.alternatives?.length?`<div class="coach-alternatives"><p class="coach-alt-head"><b>Close alternatives</b> <small>EV against folding; an estimate is only shown where the math supports one</small></p><ul class="coach-numbers">${advice.alternatives.map(a=>`<li><span>${esc(a.action)}${a.recommended?' · the coach’s play':''}</span><b>${esc(a.evLabel??'—')}</b><small class="basis ${a.basis}">${BASIS[a.basis]}</small><small class="coach-alt-note">${esc(a.note)}</small></li>`).join('')}</ul></div>`:''}
-  <details class="coach-lesson" open><summary>Learn: ${esc(advice.lesson.title)}</summary><p>${esc(advice.lesson.body)}</p></details>
-  <details class="coach-ask"><summary>Ask yourself (your notecards)</summary>${ask}</details>
+  <details class="coach-lesson" id="coach-lesson"><summary>Learn: ${esc(advice.lesson.title)}</summary><p>${esc(advice.lesson.body)}</p></details>
+  <details class="coach-ask" id="coach-ask"><summary>Ask yourself (your notecards)</summary>${ask}</details>
   <small class="coach-fine">A rule-based coach built from your playbook, not a solver. Estimates assume a typical range for the action shown. Pool figures are live-game averages, and these opponents may play differently.${o.tournament?(advice.icmPriced?' Tournament advice on this spot was priced with prize-ladder (ICM) pressure from the payout context supplied.':' It does not model prize-ladder (ICM) pressure.'):''}</small>
+  </div>
  </div></div>`;
 }
