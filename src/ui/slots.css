@@ -389,3 +389,4 @@ button.slot-chest:hover{transform:translateY(-2px) scale(1.04);box-shadow:inset 
   .slot-card-reels{display:none}
   .slot-card-text{grid-area:text;padding:8px 10px 8px 2px}
 }
+.slot-status.near{color:#ffd98a;font-size:17px}

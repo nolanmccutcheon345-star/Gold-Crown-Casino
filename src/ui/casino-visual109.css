@@ -403,3 +403,9 @@
  .view-live.has-game .table-panel .table-scene.perimeter-table{margin-inline:16px}
  .tournament-table .table-scene.perimeter-table{margin-inline:16px}
 }
+
+/* Phase 9 (F-14): the CROWN half of the hero wordmark still ghosted over the
+ * bright right side of the art. Deepen the scrim's mid-range and give the word
+ * a heavier shadow so it reads at every width. */
+.casino-home-hero{background-image:linear-gradient(100deg,#031213f5 0%,#041917d9 45%,#0926208c 72%,#10151140 100%),url('/casino-art/lobby-hero.webp')}
+.casino-home-copy h2{text-shadow:0 2px 0 #0009,0 4px 22px #000,0 0 44px #000e}
