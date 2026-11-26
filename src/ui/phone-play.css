@@ -311,6 +311,7 @@
   .t-action-panel.panel-peek #t-raise-help,
   .t-action-panel.panel-peek .coach-row,
   .t-action-panel.panel-peek .odds-helper-row,
+  .t-action-panel.panel-peek .t-panel-extra,
   .t-action-panel.panel-peek .t-watch-hint{display:none}
   .coach-toggle{display:inline-block;min-height:32px;margin-left:6px;padding:2px 10px;border:1px solid #e8c58b59;border-radius:16px;background:transparent;color:#e8c58b;font:inherit;font-size:12px;cursor:pointer}
   .coach-card .coach-detail{display:none}

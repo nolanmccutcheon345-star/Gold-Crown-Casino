@@ -1,6 +1,6 @@
 /** Tournament screens as markup strings, in the same style as the rest of the interface.
     Pure functions of their inputs: no storage, engine or controller access. */
-import { blindSchedule, ALL_PRESETS, findPreset, stakeBand, summarizeEvent, type BlindLevel, type EventPace, type EventPreset, type EventTier } from './presets';
+import { blindSchedule, ALL_PRESETS, findPreset, handsPerLevel, stakeBand, summarizeEvent, type BlindLevel, type EventPace, type EventPreset, type EventTier } from './presets';
 import { tournamentTotals, type StandingRow, type TournamentRecord, type TournamentView } from './view-model';
 
 const escape = (value: unknown) => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]!);
@@ -45,8 +45,14 @@ export function normalizeLobby(state: Partial<LobbyState>): LobbyState {
 
 const entryLabel = (preset: EventPreset) => preset.fee ? `${dollars(preset.buyIn)} + ${dollars(preset.fee)}` : dollars(preset.buyIn);
 
+/* Phase 12 (T-F08): levels advance by completed hands, never by a wall clock, so the
+   card states the real rule — hands per level at each pace (Faster first). */
+function levelFact(preset: EventPreset): string {
+  const real = handsPerLevel(preset, 'real'), fast = handsPerLevel(preset, 'fast');
+  return real === fast ? `${real} hands` : `${fast}–${real} hands`;
+}
 function eventCard(preset: EventPreset, selected: boolean): string {
-  return `<button type="button" class="event-card${selected ? ' selected' : ''}" data-tournament-event="${preset.id}" aria-pressed="${selected}"><span class="event-name">${escape(preset.name)}</span><span class="event-stake">${STAKE_LABELS[stakeBand(preset)]}</span><span class="event-facts"><span><small>Entry</small><b>${entryLabel(preset)}</b></span><span><small>Stack</small><b>${chips(preset.startingStack)}</b></span><span><small>Levels</small><b>${preset.levelMinutes} min</b></span></span></button>`;
+  return `<button type="button" class="event-card${selected ? ' selected' : ''}" data-tournament-event="${preset.id}" aria-pressed="${selected}"><span class="event-name">${escape(preset.name)}</span><span class="event-stake">${STAKE_LABELS[stakeBand(preset)]}</span><span class="event-facts"><span><small>Entry</small><b>${entryLabel(preset)}</b></span><span><small>Stack</small><b>${chips(preset.startingStack)}</b></span><span><small>Levels</small><b>${levelFact(preset)}</b></span></span></button>`;
 }
 
 /** The tournament lobby. `registration` says whether entering is possible yet and why not. */

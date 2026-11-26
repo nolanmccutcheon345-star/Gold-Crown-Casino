@@ -60,6 +60,15 @@
 
 /* ---- Level strip above the table ---- */
 .level-strip{display:flex;align-items:stretch;gap:0;border:1px solid #ffffff12;border-radius:10px;background:#101a1f;margin:0 0 12px;overflow:hidden}
+/* Phase 12 (T-F03): on compact viewports the strip sticks under the app header, so
+   current blinds, hands to the next level, players left and stack in BB stay visible
+   during play instead of sliding underneath the header after the register scroll. */
+@media(max-width:1180px){
+  .tournament-play .level-strip{position:sticky;top:64px;z-index:15;box-shadow:0 8px 20px #0007}
+}
+@media(max-width:767px) and (orientation:portrait){
+  .tournament-play .level-strip{top:56px}
+}
 .strip-cell{flex:1 1 0;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:8px 12px;border-right:1px solid #ffffff0d}
 .strip-cell b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
 .strip-cell span{font-size:12px;color:#a3b0ae;white-space:nowrap;font-variant-numeric:tabular-nums}
