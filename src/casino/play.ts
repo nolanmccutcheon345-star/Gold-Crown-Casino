@@ -41,6 +41,9 @@ export interface CasinoUi {
   dd:DailyDouble[];next:RaceCard;replay:boolean;lines:{at:number;text:string}[];phase:'betting'|'running'|'done';order:number[]|null;returned:number;wagered:number;call:string;paths:Record<number,number[]>|null;results:number[];frame:number};
   /** Patch 102: your net result at each table since this visit began. */
  session:Record<CasinoGame,number>;
+ /** Phase 13 (G-1): the app's global sound state, mirrored in each render so the
+  * casino games can offer the same in-view toggle and volume as poker and slots. */
+ soundOn?:boolean;volume?:number;
 }
 export interface CasinoDeps {render():void;sound(kind:string):void;active(game:string):boolean;}
 const key=(b:Pick<RouletteBet,'kind'|'numbers'>)=>`${b.kind}:${[...b.numbers].sort((x,y)=>x-y).join('-')}`;

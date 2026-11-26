@@ -251,6 +251,10 @@ export class SlotsPlayer {
   this.ui.phase='done';this.ui.pending=0;this.pickDone=null;this.ui.overlay=null;this.ui.freeRoll=false;this.ui.holdRoll=false;this.ui.tease=false;
   const s=this.ui.session,feature=!!(r.free||r.hold||r.wheel||r.pick);
   s.spins++;s.wagered+=r.bet;s.won+=r.total;s.best=Math.max(s.best,r.total);if(feature)s.features++;s.recent=[...s.recent,{total:r.total,bet:r.bet,feature}].slice(-14);
+  /* Phase 13 (S-6): mirror the same spin into the per-machine visit record the
+   * THIS VISIT strip now reads. The all-machines record above still feeds the
+   * neighbour feature. */
+  if(this.m){const ms=this.ui.machineSessions[this.m.id]??{spins:0,wagered:0,won:0,best:0,features:0,recent:[]};ms.spins++;ms.wagered+=r.bet;ms.won+=r.total;ms.best=Math.max(ms.best,r.total);if(feature)ms.features++;ms.recent=[...ms.recent,{total:r.total,bet:r.bet,feature}].slice(-14);this.ui.machineSessions[this.m.id]=ms;}
   // Patch 98: the player at the next machine reacts now and then. Display only.
   if(this.m){const nb=slotNeighbour(this.m.id,s.spins,{total:r.total,bet:r.bet,feature,big:!!winTier(r.total,r.bet)},s.recent);this.ui.neighbour=nb?{...nb,spin:s.spins}:(this.ui.neighbour&&s.spins-this.ui.neighbour.spin<2?this.ui.neighbour:null);}
   // Phase 11 (S-U07): losses are quiet now — no swish on a zero return, so wins stand out.
@@ -272,6 +276,7 @@ export class SlotsPlayer {
   const g=this.ui.gamble;if(!g||g.done||g.round>=GAMBLE_ROUNDS)return;
   const out=gamble(this.state,g.stake,choice);this.state=out.state;saveSlots(this.state);
   this.ui.session.won+=out.payout-g.stake;
+  if(this.m&&this.ui.machineSessions[this.m.id])this.ui.machineSessions[this.m.id].won+=out.payout-g.stake;
   g.cards=[...g.cards,{card:out.card,won:out.won}];
   if(out.won){g.stake=out.payout;g.round++;this.ui.session.best=Math.max(this.ui.session.best,g.stake);this.deps.sound(g.round>=GAMBLE_ROUNDS?'bigwin':'money');if(g.round>=GAMBLE_ROUNDS){g.done='collected';this.wait(1800,()=>{this.ui.gamble=null;});}}
   else{g.stake=0;g.done='lost';this.deps.sound('lose');this.wait(1700,()=>{this.ui.gamble=null;});}

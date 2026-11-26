@@ -47,13 +47,16 @@ export interface SlotsUi {machine:string|null;bet:Record<string,number>;
  soundOn?:boolean;volume?:number;
  autoOpen:boolean;autoPlan:AutoPlan;autoStart:number;
  session:{spins:number;wagered:number;won:number;best:number;features:number;recent:{total:number;bet:number;feature:boolean}[]};
+ /** Phase 13 (S-6): the same visit record kept per machine, so the THIS VISIT
+  * strip on a machine counts that machine's spins only. */
+ machineSessions:Record<string,{spins:number;wagered:number;won:number;best:number;features:number;recent:{total:number;bet:number;feature:boolean}[]}>;
  /** Patch 93: the double-up in progress, whether this spin's win was already offered, and the floor filter. */
  gamble:{stake:number;round:number;cards:{card:string;won:boolean}[];done:'lost'|'collected'|null}|null;gambleTaken:boolean;
  floor:'all'|'classic'|'video'|'bonus'|'fav';
  /** Patch 103: starred machines (kept on this device) and how the floor is sorted. */
  favs:string[];sort:SlotSort;}
 export type SlotSort='floor'|'played'|'payback'|'calm';
-export const freshSlotsUi=():SlotsUi=>({machine:null,bet:{},payBet:{},phase:'idle',stopped:0,step:0,result:null,pending:0,auto:0,error:'',notice:'',picked:[],turbo:false,overlay:null,lineIndex:-1,anticipate:[],freeRoll:false,holdRoll:false,tally:-1,tease:false,soundHint:true,autoOpen:false,autoPlan:{count:25,stopFeature:true,stopBig:true,lossLimit:0},autoStart:0,session:{spins:0,wagered:0,won:0,best:0,features:0,recent:[]},gamble:null,gambleTaken:false,floor:'all',favs:[],sort:'floor'});
+export const freshSlotsUi=():SlotsUi=>({machine:null,bet:{},payBet:{},phase:'idle',stopped:0,step:0,result:null,pending:0,auto:0,error:'',notice:'',picked:[],turbo:false,overlay:null,lineIndex:-1,anticipate:[],freeRoll:false,holdRoll:false,tally:-1,tease:false,soundHint:true,autoOpen:false,autoPlan:{count:25,stopFeature:true,stopBig:true,lossLimit:0},autoStart:0,session:{spins:0,wagered:0,won:0,best:0,features:0,recent:[]},machineSessions:{},gamble:null,gambleTaken:false,floor:'all',favs:[],sort:'floor'});
 /** Decorative machine-specific commissioned artwork. Reels and payouts remain live DOM. */
 export function slotCabinetArt(machineId:string,large=false):string {
  if(!MACHINES.some(m=>m.id===machineId))return '';
@@ -219,7 +222,7 @@ function machineMarkup(state:SlotsState,ui:SlotsUi,m:Machine):string {
  return `<div class="slot-head"><button type="button" class="button secondary" id="slots-back" ${busy?'disabled':''}>← Machines</button><span class="slot-name"><small>${m.rtp.toFixed(1)}% payback · ${swingMeter(m)}</small><small>Pays on ${m.stats.hitRate.toFixed(0)}% of spins${m.stats.featureEvery?` · feature about 1 in ${m.stats.featureEvery}`:''} · biggest seen ${m.stats.topSeen.toLocaleString()}× bet</small><small>Top award <b>${money(topAward(m))}</b> at the ${money(m.bets.at(-1)!)} max bet</small></span></div>
  ${soundBarMarkup(ui)}
  <div class="slot-cabinet kind-${m.kind}${big?' big-win':''}${tier==='MEGA WIN'?' mega-win':''}${tier==='EPIC WIN'?' epic-win':''}${!tier&&r&&ui.phase==='done'&&r.total>=5*r.bet?' nice-win':''}${r&&settled&&meaningfulWin?' winning':''}${ui.phase==='free'?' free-spins':''}${ui.phase!=='idle'&&ui.phase!=='done'&&ui.phase!=='spinning'?' in-feature':''}${ui.tease?' tease':''}" data-testid="slot-machine" style="--top:${m.theme.top};--bottom:${m.theme.bottom};--glow:${m.theme.glow};--reels:${m.reels.length};--rows:${m.rows};--cabinet-scene:url('/casino-art/${m.id}-cinematic.webp')">
-  <div class="slot-marquee"><i class="slot-lights" aria-hidden="true"></i>${slotCabinetArt(m.id,true)}<h3 style="--len:${m.name.length}">${esc(m.name)}</h3><small>${esc(m.theme.marquee)}</small></div>${ui.neighbour&&ui.machine===m.id?`<div class="slot-neighbour" data-testid="slot-neighbour" aria-live="polite"><span class="slot-nb-face" aria-hidden="true">${esc(ui.neighbour.name[0])}</span><span><b>${esc(ui.neighbour.name)}</b> <small>at the next machine</small><br>“${esc(ui.neighbour.text)}”</span></div>`:''}
+  <div class="slot-marquee"><i class="slot-lights" aria-hidden="true"></i>${slotCabinetArt(m.id,true)}<h3 style="--len:${m.name.length}">${esc(m.name)}</h3><small>${esc(m.theme.marquee)}</small></div>
   <div class="slot-window-frame"><div class="slot-window${ui.phase==='idle'||(ui.phase==='done'&&!wins.length)?' idle':''}" style="--reels:${m.reels.length};--rows:${m.rows}">${reels}${settled&&!ui.gamble?floats(m,wins,grid.length,grid[0]?.length??m.rows):''}${settled?paylines(m,wins):''}<i class="slot-glass" aria-hidden="true"></i>${ui.phase==='spinning'?'<button type="button" class="slot-slam" id="slots-slam" aria-label="Stop the reels now"></button>':''}</div>${ui.phase==='free'&&r?.free?`<div class="slot-fs-banner" data-testid="slot-fs-banner"><span>FREE SPINS</span><b>${r.free.spins.length-Math.min(ui.step,r.free.spins.length-1)} LEFT</b><span class="slot-fs-won">WON ${money(shownWin)}</span></div>`:''}${tier==='EPIC WIN'?`<span class="slot-crown-moment" aria-hidden="true">${artFor('crown')}</span><img class="slot-jackpot-burst" src="/casino-art/jackpot-celebration.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">`:''}${winBurst(tier,r,ui)}</div>
   ${ui.overlay?overlayMarkup(ui):''}${ui.gamble?gambleMarkup(ui):''}${m.wheel?wheelMarkup(m,ui):''}${m.pick&&r?.pick&&(ui.phase==='pick'||ui.phase==='done')?pickMarkup(m,ui,r):''}
   ${ui.phase==='free'||ui.phase==='hold'||ui.phase==='cascade'||ui.phase==='wheel'?`<button type="button" class="slot-skip-feature" id="slots-skip-feature">Skip feature ▸▸</button>`:''}
@@ -230,6 +233,7 @@ function machineMarkup(state:SlotsState,ui:SlotsUi,m:Machine):string {
    <div class="slot-keys"><button type="button" class="slot-key small" id="slots-pays">PAYS<small>table</small></button><button type="button" class="slot-key small" id="slots-max" ${busy||bet===m.bets.at(-1)?'disabled':''}>MAX<small>bet</small></button>${r&&ui.phase==='done'&&r.total>0&&ui.auto===0&&!ui.gambleTaken&&!ui.gamble&&r.total<=state.balance?`<button type="button" class="slot-key small gamble" id="slots-gamble">GAMBLE<small>${money(r.total)}</small></button>`:''}<button type="button" class="slot-key small${ui.turbo?' on':''}" id="slots-turbo" aria-pressed="${ui.turbo}">PACE<small>${ui.turbo?'fast':'standard'}</small></button>${ui.auto>0?`<button type="button" class="slot-key small on" id="slots-stop">STOP<small>${ui.auto} left</small></button>`:`<button type="button" class="slot-key small${ui.autoOpen?' on':''}" id="slots-auto" aria-expanded="${ui.autoOpen}" ${busy?'disabled':''}>AUTO<small>${ui.autoPlan.count}</small></button>`}</div>
    <button type="button" class="slot-spin-button${ui.phase==='spinning'&&ui.stopped<m.reels.length?' stop':''}" id="slots-spin" ${(busy&&ui.phase==='pick')||(!busy&&state.balance<bet)?'disabled':''} aria-label="${ui.phase==='spinning'&&ui.stopped<m.reels.length?'Stop the reels':busy?'Advance the feature':`Spin for ${money(bet)}`}"><span>${ui.phase==='spinning'&&ui.stopped<m.reels.length?'STOP':busy?'▸▸':'SPIN'}</span></button>
   </div>
+  ${ui.neighbour&&ui.machine===m.id?`<div class="slot-neighbour" data-testid="slot-neighbour" aria-live="polite"><span class="slot-nb-face" aria-hidden="true">${esc(ui.neighbour.name[0])}</span><span><b>${esc(ui.neighbour.name)}</b> <small>at the next machine</small><br>“${esc(ui.neighbour.text)}”</span></div>`:''}
  </div>
  ${ui.autoOpen&&!busy?autoMarkup(ui,state.balance):''}${sessionMarkup(ui)}
  ${state.balance<bet&&!busy?`<p class="muted">Not enough for this bet.${state.balance<smallestBet()?' <button type="button" class="button secondary" id="slots-reload">Reload $1,000 of practice chips</button>':' Pick a smaller bet.'}</p>`:''}
@@ -329,7 +333,13 @@ function autoMarkup(ui:SlotsUi,balance:number):string {
  <button type="button" class="button primary" id="slots-auto-start" ${balance<=0?'disabled':''}>Start ${p.count} spins</button></div>`;
 }
 function sessionMarkup(ui:SlotsUi):string {
- const s=ui.session;if(!s.spins)return '';
+ /* Phase 13 (S-6): the strip scopes to the machine on screen — it used to count
+  * every machine's spins while the line below it counted only this one. */
+ const rec=ui.machine?ui.machineSessions[ui.machine]:ui.session;
+ /* The all-machines record is only a fallback for a ui that predates the
+  * per-machine records (none written yet); once any machine has a record,
+  * a machine without one shows no strip rather than another machine's visit. */
+ const s=rec??(Object.keys(ui.machineSessions).length===0?ui.session:{spins:0,wagered:0,won:0,best:0,features:0,recent:[]});if(!s.spins)return '';
  const net=s.won-s.wagered;
  return `<div class="slot-session" data-testid="slot-session"><div class="slot-session-row"><span><small>THIS VISIT</small><b>${s.spins} spin${s.spins===1?'':'s'}</b></span><span><small>NET</small><b class="${net>=0?'positive':'negative'}">${net>=0?'+':'−'}${money(Math.abs(net))}</b></span><span><small>BEST WIN</small><b>${money(s.best)}</b></span><span><small>FEATURES</small><b>${s.features}</b></span></div><div class="slot-recent" aria-label="Last spins">${s.recent.map(x=>`<i class="${x.feature?'feat':x.total>=x.bet*5?'good':x.total>0?'win':'none'}" title="${x.total?money(x.total):'No win'}">${x.total?money(x.total):'·'}</i>`).join('')}</div></div>`;
 }

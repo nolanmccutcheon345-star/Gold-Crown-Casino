@@ -413,3 +413,42 @@
    the letters themselves go dark. Pin them to the bright end of the ramp. */
 .casino-home-copy h2 em{background:none;-webkit-background-clip:initial;background-clip:initial;color:#ffe9a8;-webkit-text-fill-color:#ffe9a8;animation:none}
 .casino-home-copy h2{text-shadow:0 2px 0 #0009,0 4px 22px #000,0 0 44px #000e}
+
+/* ============ Phase 13: full-audit slots fixes (S-1, S-2, S-4, S-5, S-7) ============
+   Presentation only — no game math, frequency or payouts change. This sheet loads
+   last for slots, so these rules win the cascade over the Phase 8/9 layers. */
+
+/* S-2: on phones the floor card is a compact row whose marquee column was 92px
+   while the name carried white-space:nowrap from the desktop marquee — every
+   machine name clipped at ~74px. Widen the column a touch and let the name
+   wrap onto the full column instead of ellipsising. */
+@media (max-width:700px){
+ .slot-card{grid-template-columns:106px minmax(0,1fr)}
+ .slot-card-marquee b{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:break-word;font-size:14px;line-height:1.15}
+}
+
+/* S-1: on the classic 3-reel machines and the wheel, symbols fill their cells
+   (the 9% cell padding shrank every printed symbol, leaving the strip mostly
+   empty air), and a blank stop reads as an unprinted section of the strip —
+   a shaded segment with hairline edges — instead of a white void. */
+.slot-cabinet.kind-classic .slot-cell,.slot-cabinet.kind-wheel .slot-cell{padding:2%}
+.slot-sym.tone-blank{visibility:visible;background:linear-gradient(180deg,#f8f0da,#eee1c2);box-shadow:inset 0 1px 0 #fffdf4,inset 0 -1px 0 #d8c491;border-radius:6%}
+
+/* S-5: a cell whose art has not painted yet (mid-roll, mid-cascade) sits on lit
+   felt, never a black void; the crown watermark already lives on .slot-sym. */
+.slot-sym:has(>.slot-art-img){background:radial-gradient(ellipse at 50% 38%,#1d4a38,#0e2019 78%)}
+.slot-art-img{background:radial-gradient(ellipse at 50% 38%,#1d4a38,#0e2019 78%)}
+
+/* S-7: reserve a stable three-line status box so a long win / near-miss line at
+   settle can no longer shove the deck (and the SPIN button) down the cabinet. */
+.slot-cabinet .slot-status-row{min-height:60px}
+
+/* S-4: during a feature the cabinet belongs to the feature — tighter chrome, a
+   shorter marquee band, and the machine's own scene art filling the cabinet
+   instead of dead gradient below a small window. */
+@media (max-width:700px){
+ .slot-cabinet.in-feature,.slot-cabinet.free-spins{padding:0 6px 10px;background-image:linear-gradient(180deg,color-mix(in srgb,var(--top) 84%,transparent),color-mix(in srgb,var(--bottom) 74%,transparent)),var(--cabinet-scene)}
+ .slot-cabinet.in-feature .slot-marquee,.slot-cabinet.free-spins .slot-marquee{margin:0 -6px;padding:8px 8px 6px}
+ .slot-cabinet.in-feature .slot-marquee .casino-slot-art,.slot-cabinet.free-spins .slot-marquee .casino-slot-art{height:48px}
+ .slot-cabinet.in-feature .slot-window-frame,.slot-cabinet.free-spins .slot-window-frame{padding:5px}
+}

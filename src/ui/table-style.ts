@@ -36,7 +36,10 @@ export function normalizeStyle(raw:unknown):TableStyle {
  const flag=(key:keyof TableStyle)=>typeof v[key]==='boolean'?v[key] as boolean:DEFAULT_STYLE[key] as boolean;
  return {felt:pick(v.felt,FELTS,DEFAULT_STYLE.felt),back:pick(v.back,BACKS,DEFAULT_STYLE.back),fourColor:flag('fourColor'),sound:flag('sound'),handLabel:flag('handLabel'),chips:flag('chips'),keys:flag('keys'),theme:pick(v.theme,THEMES,DEFAULT_STYLE.theme),vibrate:flag('vibrate'),avatars:flag('avatars'),breakEvery:(BREAK_CHOICES as readonly number[]).includes(v.breakEvery as number)?v.breakEvery as number:DEFAULT_STYLE.breakEvery,textSize:pick(v.textSize,TEXT_SIZES,DEFAULT_STYLE.textSize),trends:flag('trends'),heroFace:normalizeFace(v.heroFace),portraits:flag('portraits'),heroPortrait:validPortrait(v.heroPortrait),dealerVoice:flag('dealerVoice'),tokes:v.tokes==='one'||v.tokes==='regular'?v.tokes:'off',volume:typeof v.volume==='number'&&Number.isFinite(v.volume)?Math.max(0,Math.min(100,Math.round(v.volume))):70,ambience:flag('ambience'),clicks:flag('clicks')};
 }
-export function readStyle():TableStyle {try{const text=localStorage.getItem(TABLE_STYLE_KEY);return normalizeStyle(text?JSON.parse(text):null);}catch{return {...DEFAULT_STYLE};}}
+/* Phase 13 (P-1): a player who has never saved a style gets the hand label ON
+ * (Omaha shows its equivalent by default). Once any style is saved, the saved
+ * value governs — DEFAULT_STYLE itself is unchanged. */
+export function readStyle():TableStyle {try{const text=localStorage.getItem(TABLE_STYLE_KEY);return text?normalizeStyle(JSON.parse(text)):{...normalizeStyle(null),handLabel:true};}catch{return {...DEFAULT_STYLE};}}
 export function saveStyle(style:TableStyle):void {try{localStorage.setItem(TABLE_STYLE_KEY,JSON.stringify(normalizeStyle(style)));}catch{/* keep for this visit only */}}
 /** Classes for the app shell. Blackjack keeps its own look. */
 export const styleClasses=(style:TableStyle):string=>` felt-${style.felt} back-${style.back}${style.fourColor?' four-color':''}${style.chips?'':' no-chips'}${style.theme==='light'?' theme-light':''}${style.textSize==='normal'?'':` text-${style.textSize}`}`;
