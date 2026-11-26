@@ -95,9 +95,10 @@
 .daily-gift p{margin:0}
 .daily-gift.claimed{background:none;border-style:dashed}
 /* Phase 14: all-in equity strip — each street fades in behind the previous one. */
-.allin-equity{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:8px;padding:7px 10px;border-radius:10px;background:#0a1512b8;border:1px solid #ddbf8259;font-variant-numeric:tabular-nums}
-.allin-equity-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#edcf91;font-weight:700}
-.allin-equity-step{display:inline-flex;align-items:baseline;gap:5px;animation:allin-equity-in .5s ease both;animation-delay:calc(var(--eq-i,0)*.55s)}
+.allin-equity{display:flex;flex-wrap:wrap;align-items:flex-start;gap:3px 6px;margin-top:6px;padding:5px 8px;border-radius:10px;background:#0a1512b8;border:1px solid #ddbf8259;font-variant-numeric:tabular-nums;font-size:13px}
+.allin-equity-title{flex-basis:100%;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#edcf91;font-weight:700}
+@media (max-width:480px){.allin-equity-arrow{display:none}.allin-equity{justify-content:space-between}}
+.allin-equity-step{display:inline-flex;flex-direction:column;align-items:center;gap:0;animation:allin-equity-in .5s ease both;animation-delay:calc(var(--eq-i,0)*.55s)}
 .allin-equity-step small{font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
 .allin-equity-step b{font-size:16px;color:#fce8bd}
 .allin-equity-arrow{opacity:.5;animation:allin-equity-in .5s ease both}
