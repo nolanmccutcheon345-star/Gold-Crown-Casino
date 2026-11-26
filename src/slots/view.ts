@@ -2,6 +2,7 @@
 import type {Machine,SpinResult,Sym} from './engine';
 import type {SlotsState} from './state';
 import {MACHINES} from './machines';
+import {lineWinReachable,maxCountAnywhere} from './exact';
 import {SLOT_DEFS,artFor} from './art';
 import {symbolImage} from './symbol-images';
 import type {AutoPlan} from './play';
@@ -63,6 +64,15 @@ export function slotCabinetArt(machineId:string,large=false):string {
  return `<span class="casino-slot-art ${large?'casino-slot-art-large':''}" aria-hidden="true"><picture><source type="image/webp" srcset="/casino-art/${machineId}-marquee.webp"><img src="/casino-art/${machineId}.svg" alt="" loading="${large?'eager':'lazy'}" decoding="async"></picture></span>`;
 }
 const money=(cents:number)=>`$${(cents/100).toLocaleString('en-US',cents%100?{minimumFractionDigits:2,maximumFractionDigits:2}:{maximumFractionDigits:0})}`;
+/** Phase 13.6: money that can carry tenths of a cent, shown exactly. Ways
+ * machines split the bet into 50 units, so a per-way award can be worth
+ * $0.176; rounding that to $0.18 in the paytable made the table's arithmetic
+ * disagree with settlement ($0.18 × 12 ways implies $2.16; the engine pays
+ * $2.11, from 17.6¢ × 12 rounded once). Whole-cent amounts render as money(). */
+export function moneyExact(cents:number):string {
+ if(Math.abs(cents-Math.round(cents))<1e-9)return money(Math.round(cents));
+ return `$${(cents/100).toFixed(3)}`;
+}
 const esc=(s:string)=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]!);
 export const smallestBet=()=>Math.min(...MACHINES.flatMap(m=>m.bets));
 export function betFor(m:Machine,ui:SlotsUi,balance:number):number {
@@ -70,19 +80,24 @@ export function betFor(m:Machine,ui:SlotsUi,balance:number):number {
  return [...m.bets].reverse().find(b=>b<=Math.max(m.bets[0],balance/40))??m.bets[0];
 }
 /** Phase 10 (P10-F09): the largest single award a machine can pay, in cents, at its max
- * bet — computed only from the machine's own published data (line pays at the max-bet
- * unit, the Hold & Spin Grand, the top wheel segment, the top chest prize, scatter and
- * scatter-pay tops). Display only; the engine is untouched. */
+ * bet. Phase 13.6: REACHABLE awards only — the Phase 10 version promoted whatever the
+ * paytable's biggest number was, and an independent audit proved four of those could
+ * never occur (five wilds on machines whose wild never lands on reel one, five Zeus
+ * with Zeus on two reels, fifteen pearls on reels that can show nine). Line pays now
+ * count only when src/slots/exact.ts can construct them from the reel strips, and
+ * scatter / scatter-pay tiers only up to the most the window can physically show.
+ * Display only; the engine is untouched. */
 export function topAward(m:Machine):number {
  const bet=m.bets.at(-1)!;
  const unit=m.cascade?bet:m.ways?bet/m.ways.betUnit:bet/m.lines.length;
  let top=0;
- for(const p of Object.values(m.pays))top=Math.max(top,Math.max(...p)*unit);
+ if(m.cascade||m.ways)for(const p of Object.values(m.pays))top=Math.max(top,Math.max(...p)*unit);
+ else for(const [s,p] of Object.entries(m.pays))for(let c=3;c<p.length;c++)if(p[c]>0&&lineWinReachable(m,s,c))top=Math.max(top,p[c]*unit);
  if(m.coin)top=Math.max(top,m.coin.grand*bet);
  if(m.wheel)top=Math.max(top,Math.max(...m.wheel.segments.map(s=>s.x))*bet);
  if(m.pick)top=Math.max(top,Math.max(...m.pick.prizes.map(p=>p.x))*bet);
- if(m.scatter)top=Math.max(top,Math.max(...Object.values(m.scatter.pays))*bet);
- if(m.scatterPay)top=Math.max(top,Math.max(...Object.values(m.scatterPay.pays))*bet);
+ if(m.scatter){const maxN=maxCountAnywhere(m,m.scatter.sym);for(const [n,x] of Object.entries(m.scatter.pays))if(Number(n)<=maxN)top=Math.max(top,x*bet);}
+ if(m.scatterPay){const maxN=maxCountAnywhere(m,m.scatterPay.sym);for(const [n,x] of Object.entries(m.scatterPay.pays))if(Number(n)<=maxN)top=Math.max(top,x*bet);}
  return Math.round(top);
 }
 
@@ -291,8 +306,11 @@ export function featureAwardsMarkup(m:Machine,bet:number):string {
  }
  if(m.wheel)for(const s of [...m.wheel.segments].sort((a,b)=>b.x-a.x))rows.push(`<tr><td>Wheel segment (${s.x}× bet)</td><td>${money(s.x*bet)}</td></tr>`);
  if(m.pick)for(const p of [...m.pick.prizes].sort((a,b)=>b.x-a.x))rows.push(`<tr><td>Chest prize (${p.x}× bet)</td><td>${money(Math.round(p.x*bet))}</td></tr>`);
- if(m.scatter)for(const n of Object.keys(m.scatter.pays).map(Number).sort((a,b)=>a-b))rows.push(`<tr><td>${n} ${esc(m.symbols[m.scatter.sym]?.label.replace(/ \(.*\)/,'')??'scatter')}s anywhere (${m.scatter.pays[n]}× bet + ${m.scatter.freeSpins[n]} free spins)</td><td>${money(Math.round(m.scatter.pays[n]*bet))}</td></tr>`);
- if(m.scatterPay)for(const n of Object.keys(m.scatterPay.pays).map(Number).sort((a,b)=>a-b))rows.push(`<tr><td>${n} ${esc(m.symbols[m.scatterPay.sym]?.label.replace(/ \(.*\)/,'')??'scatter')}s anywhere (${m.scatterPay.pays[n]}× bet)</td><td>${money(Math.round(m.scatterPay.pays[n]*bet))}</td></tr>`);
+ /* Phase 13.6: tiers above the most the window can physically show are not
+  * advertised — Poseidon's reels can show at most nine pearls, so the 12- and
+  * 15-pearl rows the engine's table carries are never displayed. */
+ if(m.scatter)for(const n of Object.keys(m.scatter.pays).map(Number).sort((a,b)=>a-b).filter(n=>n<=maxCountAnywhere(m,m.scatter!.sym)))rows.push(`<tr><td>${n} ${esc(m.symbols[m.scatter.sym]?.label.replace(/ \(.*\)/,'')??'scatter')}s anywhere (${m.scatter.pays[n]}× bet + ${m.scatter.freeSpins[n]} free spins)</td><td>${money(Math.round(m.scatter.pays[n]*bet))}</td></tr>`);
+ if(m.scatterPay)for(const n of Object.keys(m.scatterPay.pays).map(Number).sort((a,b)=>a-b).filter(n=>n<=maxCountAnywhere(m,m.scatterPay!.sym)))rows.push(`<tr><td>${n} ${esc(m.symbols[m.scatterPay.sym]?.label.replace(/ \(.*\)/,'')??'scatter')}s anywhere (${m.scatterPay.pays[n]}× bet)</td><td>${money(Math.round(m.scatterPay.pays[n]*bet))}</td></tr>`);
  const bombs=m.cascade?`<p class="muted">Multiplier bombs are worth ${[...m.cascade.bomb.values].sort((a,b)=>a.x-b.x).map(v=>`×${v.x}`).join(', ')}: the bombs left on the screen add together and multiply the whole cascade win (they are multipliers of the win, not of your bet).</p>`:'';
  const wildMult=m.wildMultiplier?`<p class="muted">A wild in a winning line multiplies that win ×${m.wildMultiplier}; two wilds in one line multiply it ×${m.wildMultiplier**2}.</p>`:'';
  if(!rows.length&&!bombs&&!wildMult)return '';
@@ -308,15 +326,15 @@ function paytableMarkup(m:Machine,bet:number,ui:SlotsUi):string {
  const row=(s:string,cells:string)=>`<tr><td>${symbolMarkup(m,s,'',true)}<span class="pay-name">${esc(m.symbols[s]?.label??s)}</span></td>${cells}</tr>`;
  let intro='',head='',body='';
  if(m.cascade){const t=m.cascade.tiers;
-  intro=`Eight or more of the same gem anywhere on the screen pay, as shown. Winning gems shatter, the rest fall, and new gems drop in; this repeats while there are wins. Multiplier bombs (×2 to ×100) left on the screen at the end add together and multiply the whole cascade. ${m.scatter?`Four or more diamonds pay ${m.scatter.pays[4]}× to ${m.scatter.pays[6]}× your bet and start ${m.scatter.freeSpins[4]} free spins.`:''}`;
+  intro=`${t[0]} or more of the same gem anywhere on the screen pay, as shown. Winning gems shatter, the rest fall, and new gems drop in; this repeats while there are wins. Multiplier bombs (×2 to ×100) left on the screen at the end add together and multiply the whole cascade. ${m.scatter?`${esc(m.symbols[m.scatter.sym].label.replace(/ \(.*\)/,''))}s pay and start free spins: ${Object.keys(m.scatter.pays).map(Number).sort((a,b)=>a-b).map(n=>`${n} pay ${m.scatter!.pays[n]}× your bet and start ${m.scatter!.freeSpins[n]} free spins`).join('; ')}.`:''}`;
   head=`<th>Gem</th><th>${t[0]}–${t[1]-1}</th><th>${t[1]}–${t[2]-1}</th><th>${t[2]}+</th>`;
   body=Object.entries(m.pays).map(([s,p])=>row(s,p.map(x=>`<td>${money(Math.round(x*bet))}</td>`).join(''))).join('');}
  else{
   const unit=m.ways?bet/m.ways.betUnit:bet/m.lines.length;
-  intro=m.ways?`1,024 ways: a symbol pays when it lands on adjacent reels from the left, in any row; every combination pays (your bet buys ${m.ways.betUnit} units of ${money(unit)}). ${esc(m.symbols[m.wild!].label)} stands in on the middle reels. ${m.scatter?`Three, four or five ${esc(m.symbols[m.scatter.sym].label.toLowerCase())}s pay ${m.scatter.pays[3]}×, ${m.scatter.pays[4]}× or ${m.scatter.pays[5]}× your bet and start ${m.scatter.freeSpins[3]}, ${m.scatter.freeSpins[4]} or ${m.scatter.freeSpins[5]} free spins; there every wild is ×2 or ×3, and the wilds in a win multiply together.`:''}`
-   :`${m.lines.length} line${m.lines.length===1?'':'s'}, ${money(unit)} each. ${m.wild?`${esc(m.symbols[m.wild].label)} stands in for every symbol except bonus symbols${m.wildMultiplier?` and multiplies the win ×${m.wildMultiplier} (two of them ×${m.wildMultiplier**2})`:''}. `:''}${m.cherry?`Cherries pay anywhere on a line: one ${money(m.cherry.pays[1]*unit)}, two ${money(m.cherry.pays[2]*unit)}, three ${money(m.cherry.pays[3]*unit)}. `:''}${m.anyBar?`Any three bars ${money(m.anyBar.pay*unit)}. `:''}${m.scatter?`Three, four or five ${esc(m.symbols[m.scatter.sym].label.toLowerCase())}s anywhere pay ${m.scatter.pays[3]}×, ${m.scatter.pays[4]}× or ${m.scatter.pays[5]}× your bet and start ${m.scatter.freeSpins[3]}, ${m.scatter.freeSpins[4]} or ${m.scatter.freeSpins[5]} free spins at ${m.scatter.freeMultiplier}× pay. `:''}${m.coin?`${m.coin.trigger} or more coins start Hold &amp; Spin: coins stay, you get 3 respins and each new coin resets them to 3. Coins are worth 1× to 10× your bet, or a Mini (20×), Minor (50×) or Major (150×) jackpot; fill all 15 spaces for the Grand (${m.coin.grand}×). `:''}${m.wheel?`The wheel in the middle of the last reel spins the bonus wheel for ${Math.min(...m.wheel.segments.map(s=>s.x))}× to ${Math.max(...m.wheel.segments.map(s=>s.x))}× your bet. `:''}${m.pick?`Three treasure maps open the chest bonus: pick ${m.pick.picks} of ${m.pick.board} chests, each worth ${Math.min(...m.pick.prizes.map(x=>x.x))}× to ${Math.max(...m.pick.prizes.map(x=>x.x))}× your bet. What is in each chest is decided when the maps land; your taps only open them. `:''}${m.scatterPay?`${esc(m.symbols[m.scatterPay.sym].label.replace(/ \(.*\)/,''))}s pay anywhere on the window, as multiples of your whole bet: ${Object.entries(m.scatterPay.pays).sort((a,b)=>Number(a[0])-Number(b[0])).map(([n,x])=>`${n} pay ${x}×`).join(', ')}. They never pay on a line. `:''}${m.expandWild?`${esc(m.symbols[m.expandWild].label.replace(/ \(.*\)/,''))} expands to fill its whole reel whenever it lands, so every line through that reel can use it. `:''}`;
+  intro=m.ways?`1,024 ways: a symbol pays when it lands on adjacent reels from the left, in any row; every combination pays (your bet buys ${m.ways.betUnit} units of ${moneyExact(unit)}). Per-way awards below are shown exactly, to the tenth of a cent where the unit split needs it: a win pays the per-way award times the number of ways, rounded once to the nearest cent. ${esc(m.symbols[m.wild!].label)} stands in on the middle reels. ${m.scatter?`Three, four or five ${esc(m.symbols[m.scatter.sym].label.toLowerCase())}s pay ${m.scatter.pays[3]}×, ${m.scatter.pays[4]}× or ${m.scatter.pays[5]}× your bet and start ${m.scatter.freeSpins[3]}, ${m.scatter.freeSpins[4]} or ${m.scatter.freeSpins[5]} free spins; there every wild is ×2 or ×3, and the wilds in a win multiply together.`:''}`
+   :`${m.lines.length} line${m.lines.length===1?'':'s'}, ${money(unit)} each. ${m.wild?`${esc(m.symbols[m.wild].label)} stands in for every symbol except bonus symbols${m.wildMultiplier?` and multiplies the win ×${m.wildMultiplier} (two of them ×${m.wildMultiplier**2})`:''}. `:''}${m.cherry?`Cherries pay anywhere on a line: one ${money(m.cherry.pays[1]*unit)}, two ${money(m.cherry.pays[2]*unit)}, three ${money(m.cherry.pays[3]*unit)}. `:''}${m.anyBar?`Any three bars ${money(m.anyBar.pay*unit)}. `:''}${m.scatter?`Three, four or five ${esc(m.symbols[m.scatter.sym].label.toLowerCase())}s anywhere pay ${m.scatter.pays[3]}×, ${m.scatter.pays[4]}× or ${m.scatter.pays[5]}× your bet and start ${m.scatter.freeSpins[3]}, ${m.scatter.freeSpins[4]} or ${m.scatter.freeSpins[5]} free spins at ${m.scatter.freeMultiplier}× pay. `:''}${m.coin?`${m.coin.trigger} or more coins start Hold &amp; Spin: coins stay, you get 3 respins and each new coin resets them to 3. Coins are worth 1× to 10× your bet, or a Mini (20×), Minor (50×) or Major (150×) jackpot; fill all 15 spaces for the Grand (${m.coin.grand}×). `:''}${m.wheel?`The wheel in the middle of the last reel spins the bonus wheel for ${Math.min(...m.wheel.segments.map(s=>s.x))}× to ${Math.max(...m.wheel.segments.map(s=>s.x))}× your bet. `:''}${m.pick?`Three treasure maps open the chest bonus: pick ${m.pick.picks} of ${m.pick.board} chests, each worth ${Math.min(...m.pick.prizes.map(x=>x.x))}× to ${Math.max(...m.pick.prizes.map(x=>x.x))}× your bet. What is in each chest is decided when the maps land; your taps only open them. `:''}${m.scatterPay?`${esc(m.symbols[m.scatterPay.sym].label.replace(/ \(.*\)/,''))}s pay anywhere on the window, as multiples of your whole bet: ${Object.entries(m.scatterPay.pays).sort((a,b)=>Number(a[0])-Number(b[0])).filter(([n])=>Number(n)<=maxCountAnywhere(m,m.scatterPay!.sym)).map(([n,x])=>`${n} pay ${x}×`).join(', ')}. They never pay on a line. `:''}${m.expandWild?`${esc(m.symbols[m.expandWild].label.replace(/ \(.*\)/,''))} expands to fill its whole reel whenever it lands, so every line through that reel can use it. `:''}`;
   head=`<th>Symbol</th>${m.reels.length===3?'<th>Three</th>':'<th>Three</th><th>Four</th><th>Five</th>'}`;
-  body=Object.entries(m.pays).map(([s,p])=>row(s,p.slice(3).map(x=>`<td>${x?money(Math.round(x*unit)):'—'}</td>`).join(''))).join('');}
+  body=Object.entries(m.pays).map(([s,p])=>row(s,p.slice(3).map((x,ci)=>`<td>${m.ways?(x?moneyExact(x*unit):'—'):(x&&lineWinReachable(m,s,ci+3)?money(Math.round(x*unit)):'—')}</td>`).join(''))).join('');}
  return `<details class="slot-paytable" id="slot-paytable"><summary>Paytable at ${money(bet)} a spin</summary>${switcher}<p class="muted">${intro}</p><table class="deep-table slot-pays"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>${featureAwardsMarkup(m,bet)}</details>`;
 }
 
