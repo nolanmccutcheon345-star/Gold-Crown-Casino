@@ -49,7 +49,7 @@
 .rl-history{display:flex;flex-wrap:wrap;gap:4px}
 .rl-history span{min-width:28px;height:28px;border-radius:7px;display:grid;place-items:center;font-weight:700;font-size:13px;background:#141414;box-shadow:0 0 0 1px #fff2}
 .rl-history .red{background:#b71c1c}.rl-history .green{background:#1b7a3e}.rl-history .latest{box-shadow:0 0 0 2px var(--gold);transform:scale(1.1)}
-.rl-layout{display:grid;grid-template-columns:44px repeat(3,minmax(0,1fr)) 56px;grid-template-rows:38px repeat(12,36px) 34px;gap:0;max-width:520px;width:100%;margin:0 auto;padding:10px;border-radius:16px;
+.rl-layout{display:grid;grid-template-columns:44px repeat(3,minmax(0,1fr)) 56px;grid-template-rows:44px repeat(12,44px) 44px;gap:0;max-width:520px;width:100%;margin:0 auto;padding:10px;border-radius:16px;
  background:linear-gradient(#11603f,#0a4a2f);box-shadow:inset 0 0 0 2px #ffffff22,0 0 0 3px var(--gold2),0 8px 20px #0008}
 .rl-cell,.rl-out{position:relative;border:1px solid #ffffff40}
 .rl-cell.red .rl-num{color:#ff6b6b}.rl-cell.black .rl-num{color:#fff}
@@ -67,11 +67,16 @@
 .dia{display:inline-block;width:18px;height:18px;transform:rotate(45deg);border-radius:2px}.dia.red{background:#c62828}.dia.black{background:#111;box-shadow:0 0 0 1px #fff5}
 .hs{position:absolute;z-index:3;border:0;padding:0;background:transparent;cursor:pointer;border-radius:4px}
 .hs:hover{background:#e8c58b55}
-/* Phase 6: split/corner/street hotspots get real touch targets — at least 32px across,
- * centred on the seam they bet on (the visible chip stays small; corners sit above strips). */
-.hs-r{right:-16px;top:calc(50% - 16px);width:32px;height:32px}.hs-b{bottom:-16px;left:22%;width:56%;height:32px}.hs-br{right:-16px;bottom:-16px;width:32px;height:32px;z-index:5;border-radius:50%}
-.hs-l{left:-16px;top:calc(50% - 16px);width:32px;height:32px}.hs-bl{left:-16px;bottom:-16px;width:32px;height:32px;z-index:5;border-radius:50%}
-.hs-t{top:-16px;left:22%;width:56%;height:32px}.hs-tl{top:-16px;left:8%;width:38%;height:32px}.hs-tr{top:-16px;right:8%;width:38%;height:32px}.hs-tc{top:-16px;left:-16px;width:32px;height:32px;z-index:5;border-radius:50%}
+/* Phase 13.5 (roulette hotfix): hotspots are true seam strips — 16px bands centred on the
+ * shared edge they bet on, 22px circles on the corner points — and the grid rows are a full
+ * 44px, so a number's centre always belongs to the number itself. The Phase 6 geometry put
+ * 32px targets on 36px cells under buttons rendered 42px tall: the digit's visual centre sat
+ * inside the bottom split strip, and a centre tap on 17 booked Split 17 and 20 (33 of 37
+ * centres hit the wrong target in the 2026-11-26 audit). Do not widen these bands again:
+ * wider strips re-create the overlap; the seam is the target. */
+.hs-r{right:-8px;top:50%;width:16px;height:26px;transform:translateY(-50%)}.hs-b{bottom:-8px;left:50%;width:52%;height:16px;transform:translateX(-50%)}.hs-br{right:-11px;bottom:-11px;width:22px;height:22px;z-index:5;border-radius:50%}
+.hs-l{left:-8px;top:50%;width:16px;height:26px;transform:translateY(-50%)}.hs-bl{left:-11px;bottom:-11px;width:22px;height:22px;z-index:5;border-radius:50%}
+.hs-t{top:-8px;left:50%;width:52%;height:16px;transform:translateX(-50%)}.hs-tl{top:-8px;left:0;width:44%;height:16px}.hs-tr{top:-8px;right:0;width:52%;height:16px}.hs-tc{top:-11px;left:-11px;width:22px;height:22px;z-index:5;border-radius:50%}
 .hs .cz-chip{min-width:22px;height:22px;font-size:9px}
 @media (prefers-reduced-motion:reduce){.rl-rotor{transition:none}.rl-ball-orbit.spinning,.rl-ball-orbit.spinning .rl-ball{animation:none}}
 
@@ -243,8 +248,8 @@
 .rl-dolly{position:absolute;left:50%;top:50%;translate:-50% -50%;width:16px;height:22px;border-radius:50% 50% 40% 40%;background:linear-gradient(#fff,#cfd8dc);box-shadow:0 2px 4px #000a;z-index:6;pointer-events:none}
 .rt{display:flex;flex-direction:column;gap:6px}.rt h3{margin:0;font-size:14px}.rt h3 small{font-weight:400;opacity:.7;font-size:11px}
 .rt-ring{display:grid;grid-template-columns:repeat(19,minmax(0,1fr));gap:2px;padding:6px;border-radius:40px;background:#0a4a2f;box-shadow:inset 0 0 0 2px #ffffff22,0 0 0 2px var(--gold2,#b8893e)}
-@media (max-width:560px){.rt-ring{grid-template-columns:repeat(13,minmax(0,1fr));border-radius:20px}}
-.rt-n{border:0;border-radius:6px;height:26px;color:#fff;font:700 11px/1 inherit;cursor:pointer;background:#151515}
+@media (max-width:560px){.rt-ring{grid-template-columns:repeat(10,minmax(0,1fr));border-radius:20px}}
+.rt-n{border:0;border-radius:6px;height:40px;color:#fff;font:700 12px/1 inherit;cursor:pointer;background:#151515}
 .rt-n.red{background:#b71c1c}.rt-n.green{background:#1b7a3e}.rt-n.hit{box-shadow:0 0 0 2px var(--gold,#e8c58b)}
 .rt-n.sec-voisins{outline:1px solid #e8c58b55}
 .rt-secs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
@@ -291,7 +296,18 @@
 /* ---------- Patch 101 ---------- */
 .rt-finals{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
 .rt-finals span{font-size:12px;opacity:.8;margin-right:4px}
-.rt-finals button{width:30px;height:30px;border-radius:50%;border:0;background:#0a4a2f;color:#f4ecd8;font:700 12px/1 inherit;cursor:pointer;box-shadow:inset 0 0 0 1px #e8c58b66}
+.rt-finals button{width:36px;height:36px;border-radius:50%;border:0;background:#0a4a2f;color:#f4ecd8;font:700 12px/1 inherit;cursor:pointer;box-shadow:inset 0 0 0 1px #e8c58b66}
+.rt-width button{min-width:38px}
+/* Phase 13.5: the pending-bet ticket — what is booked, in words, before the spin. */
+.rl-ticket{max-width:520px;margin:10px auto 0;padding:10px 12px;border-radius:12px;background:#0a3524;box-shadow:inset 0 0 0 1px #e8c58b55;color:#f4ecd8}
+.rl-ticket h3{margin:0 0 6px;font-size:13px;letter-spacing:.04em}.rl-ticket h3 small{opacity:.7;font-weight:400;letter-spacing:0}
+.rl-ticket ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.rl-ticket li{display:flex;align-items:baseline;gap:8px;font-size:13px}
+.rl-ticket-name{font-weight:700;white-space:nowrap}
+.rl-ticket-nums{opacity:.75;font-size:12px;flex:1}
+.rl-ticket-amt{font-weight:700;color:var(--gold,#e8c58b)}
+.rl-ticket li .rc-x{flex:none}
+.rl-ticket-total{display:flex;justify-content:space-between;margin:8px 0 0;padding-top:8px;border-top:1px solid #ffffff26;font-size:13px}
 .rl-tools{display:flex;flex-direction:column;gap:8px}
 .rl-favs,.rl-auto,.bc-auto{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .rl-fav{display:inline-flex;align-items:center}

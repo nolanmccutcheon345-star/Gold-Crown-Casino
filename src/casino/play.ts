@@ -190,6 +190,11 @@ export class CasinoPlayer {
  stopAuto(){this.ui.roulette.auto=null;this.ui.baccarat.auto=0;this.deps.render();}
  undoRoulette(){const r=this.ui.roulette;if(r.phase==='spinning')return;r.bets=r.bets.slice(0,-1);this.deps.render();}
  clearRoulette(){const r=this.ui.roulette;if(r.phase==='spinning')return;r.bets=[];this.deps.render();}
+ /** Phase 13.5: take one named bet back off the layout (the ticket's remove control). */
+ removeRouletteBet(kind:RouletteBet['kind'],numbers:number[]){
+  const r=this.ui.roulette;if(r.phase==='spinning')return;
+  const k=key({kind,numbers});r.bets=r.bets.filter(b=>key(b)!==k);this.deps.render();
+ }
  rebetRoulette(){const r=this.ui.roulette;if(r.phase==='spinning'||!r.last.length)return;const total=r.last.reduce((a,b)=>a+b.amount,0);
   if(total>this.state.balance)return this.fail(new Error('Not enough for the same bets again.'));r.bets=r.last.filter(b=>validBet(b,r.wheel)).map(b=>({...b}));r.phase='betting';r.result=null;this.deps.render();}
  spinRoulette(){
