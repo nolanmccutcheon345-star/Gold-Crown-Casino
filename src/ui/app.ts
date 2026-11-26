@@ -697,7 +697,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
       if(controller.status!=='deleted'&&controller.status!=='ready')throw new Error('Nothing was changed. Your cash save is not ready.');
       if(backup.tournament){await tournament!.restoreBackup(backup.tournament);report.push(`Tournaments restored: ${backup.summary.tournamentEvents} finished events.`);}else report.push('No tournament data in this backup; left as it was.');
       if(backup.omaha){savePlo(backup.omaha);plo=new PloTable();report.push(`Omaha restored: balance $${Math.round(backup.omaha.balance/100).toLocaleString('en-US')}, ${backup.omaha.hands.length} recent hands.`);}
-      if(backup.slots){saveSlots(backup.slots);slotsPlayer.state=backup.slots;report.push(`Slots restored: balance ${money(backup.slots.balance)}.`);}
+      if(backup.slots){saveSlots(backup.slots);slotsPlayer.state=backup.slots;slotsPlayer.durableBase=structuredClone(backup.slots);report.push(`Slots restored: balance ${money(backup.slots.balance)}.`);}
       if(backup.casino){casino.restore(backup.casino);report.push(`Casino restored: balance ${money(backup.casino.balance)}.`);}
       if(backup.blackjack){await blackjackLive.controller.restoreBackup(backup.blackjack);report.push(`Blackjack restored: ${backup.summary.blackjackRecords} records.`);}else report.push('No blackjack data in this backup; left as it was.');
       clearTimer();
@@ -2549,7 +2549,10 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
         giftBook = readGiftBook().book;
         if (!giftAvailable(giftBook, date)) return;
         const claimed = claimGift(giftBook, date);
-        saveGiftBook(claimed);
+        /* The claim must be durable before the credit moves: if the write
+         * cannot land (storage full), no chips are issued and the day is
+         * not burned — the player is told why and can retry. */
+        if (!saveGiftBook(claimed)) throw new Error('Your browser storage is full, so today\u2019s gift could not be saved. Free up space (or clear old site data for this app) and claim it again — it is still waiting for you.');
         try {
           await controller.adjustBankroll(controller.data.wallet + DAILY_GIFT_CENTS, `Daily gift · ${date}`);
           giftBook = claimed;

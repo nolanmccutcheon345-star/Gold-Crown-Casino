@@ -1,6 +1,10 @@
 /** Patch 99: the casino tables' controller. Each round is paid for, decided and saved before anything moves on screen;
  * the wheel, the cards, the dice and the race are only the show. */
-import {readCasino,saveCasino,stake,settle,pushBoard,reloadCasino,secureRandom,money,CHIPS,type CasinoState,type CasinoGame,type Random} from './wallet';
+import {readCasino,saveCasino,overwriteCasino,stake,settle,pushBoard,reloadCasino,secureRandom,money,CHIPS,type CasinoState,type CasinoGame,type Random} from './wallet';
+
+/** Phase 14 (Round-3 audit): when a save cannot land, the player is told at
+ * once and no new money moves until the state is durable again. */
+const STORAGE_MSG='Your browser storage is full, so this could not be saved. Play is paused at the casino tables until it saves — free up space (or clear old site data for this app) and try again.';
 import {resolve,spinWheel,validBet,call as rouletteCall,announcedBets,neighbours,finals,specialBets,type Special,colourOf,label as pocketLabel,ORDER,type Announced,type RouletteBet,type SpinOutcome,type Wheel} from './roulette';
 import {patronsFor,patronLine,pickFor,speaks,heroLine,replyLine,actLine,turnover,chatAnswers,chanceOf,chooseOf,CHAT,type Patron,type PatronLine,type HeroEvent} from './patrons';
 import {payout,call as baccaratCall,newShoe,dealShoe,checkShoe,SPOTS,type BaccaratBets,type BaccaratSpot,type Coup,type Shoe} from './baccarat';
@@ -51,8 +55,11 @@ export const RACE_FRAMES=280,RACE_MS=14000,QUICK_RACE_MS=7000;
 
 export class CasinoPlayer {
  state:CasinoState;ui:CasinoUi;private timers:number[]=[];private raceTimer=0;day:RaceDay;
+ /** Phase 14: the durable state this tab last read or wrote (the merge base
+  * for cross-tab saves), and whether the last save failed to land. */
+ private durableBase:CasinoState;private saveFailed=false;
  constructor(private deps:CasinoDeps,private random:Random=secureRandom){
-  const read=readCasino();this.state=read.state;const day=new Date().toISOString().slice(0,10);
+  const read=readCasino();this.state=read.state;this.durableBase=structuredClone(read.state);const day=new Date().toISOString().slice(0,10);
   this.day=this.loadDay();
   this.ui={chip:CHIPS[1],error:'',notice:read.notice,
    patrons:{roulette:patronsFor('roulette',day),craps:patronsFor('craps',day),baccarat:patronsFor('baccarat',day),races:patronsFor('races',day)},talk:{roulette:[],craps:[],baccarat:[],races:[]},said:{roulette:-1,craps:-1,baccarat:-1,races:-1},
@@ -104,7 +111,26 @@ export class CasinoPlayer {
  private record(s:CasinoState,game:CasinoGame,wagered:number,returned:number,bet:string,result:string):CasinoState {
   this.ui.session[game]+=returned-wagered;return settle(s,game,wagered,returned,{bet,result});
  }
- private save(){saveCasino(this.state);}
+ /** Persist the casino state, merging another tab's writes instead of
+  * erasing them. Returns false (and warns, and blocks new money) when the
+  * write did not land. `force` replaces outright — backup restores only. */
+ private save(force=false):boolean {
+  if(force){
+   if(!overwriteCasino(this.state)){this.saveFailed=true;this.ui.error=STORAGE_MSG;return false;}
+  } else {
+   const written=saveCasino(this.state,undefined,this.durableBase);
+   if(!written){this.saveFailed=true;this.ui.error=STORAGE_MSG;return false;}
+   this.state=written;
+  }
+  this.durableBase=structuredClone(this.state);this.saveFailed=false;return true;
+ }
+ /** Gate for anything that moves money: while a previous save has not
+  * landed, retry it; if it still cannot land, warn and refuse. */
+ private ensureDurable():boolean {
+  if(!this.saveFailed)return true;
+  if(this.save()){this.ui.error='';return true;}
+  this.deps.render();return false;
+ }
  private wait(ms:number,fn:()=>void){const t=window.setTimeout(()=>{this.timers=this.timers.filter(x=>x!==t);fn();},ms);this.timers.push(t);}
  private fail(e:unknown){this.ui.error=(e as Error).message;this.deps.render();}
  get craps():CrapsTable {try{return this.state.craps?checkTable(this.state.craps):freshTable();}catch{return freshTable();}}
@@ -116,9 +142,9 @@ export class CasinoPlayer {
   return this.ui.races.phase==='betting'?this.ui.races.bets.reduce((a,b)=>a+b.amount,0)+this.ui.races.dd.reduce((a,b)=>a+b.amount,0):0;
  }
  setChip(c:number){if((CHIPS as readonly number[]).includes(c))this.ui.chip=c;this.deps.render();}
- reload(){try{this.state=reloadCasino(this.state);this.save();this.ui.error='';this.ui.notice='Your casino balance is back to $1,000.';}catch(e){this.ui.error=(e as Error).message;}this.deps.render();}
+ reload(){try{this.state=reloadCasino(this.state);if(this.save()){this.ui.error='';this.ui.notice='Your casino balance is back to $1,000.';}}catch(e){this.ui.error=(e as Error).message;}this.deps.render();}
  /** Patch 101: replace the casino save with one from a backup (already checked). */
- restore(state:CasinoState){this.finishNow();this.state=state;this.save();this.ui.roulette.bets=[];this.ui.baccarat.bets={};this.ui.races.bets=[];this.ui.error='';this.ui.notice='';}
+ restore(state:CasinoState){this.finishNow();this.state=state;const saved=this.save(true);this.ui.roulette.bets=[];this.ui.baccarat.bets={};this.ui.races.bets=[];if(saved){this.ui.error='';}this.ui.notice='';}
  /** Finish anything still animating straight away (leaving a table). */
  finishNow(){for(const t of this.timers)clearTimeout(t);this.timers=[];this.ui.notice='';this.ui.error='';this.ui.roulette.auto=null;this.ui.baccarat.auto=0;
   const r=this.ui.roulette;if(r.phase==='spinning')r.phase='done';
@@ -171,7 +197,7 @@ export class CasinoPlayer {
   const favs=[...(this.state.favs??[])];if(favs.length>=3)favs.shift();
   const total=bets.reduce((a,b)=>a+b.amount,0);
   favs.push({name:`${r.wheel==='european'?'Single zero':'Double zero'} · ${bets.length} bet${bets.length===1?'':'s'} · $${(total/100).toLocaleString('en-US')}`,wheel:r.wheel,bets:bets.map(b=>({kind:b.kind,numbers:[...b.numbers],amount:b.amount}))});
-  this.state={...this.state,favs};this.save();this.ui.error='';this.ui.notice='Layout saved to your favourites.';this.deps.render();
+  this.state={...this.state,favs};if(this.save()){this.ui.error='';this.ui.notice='Layout saved to your favourites.';}this.deps.render();
  }
  useFavourite(i:number){
   const r=this.ui.roulette,f=this.state.favs?.[i];if(!f||r.phase==='spinning')return;
@@ -194,12 +220,17 @@ export class CasinoPlayer {
   if(total>this.state.balance)return this.fail(new Error('Not enough for the same bets again.'));r.bets=r.last.filter(b=>validBet(b,r.wheel)).map(b=>({...b}));r.phase='betting';r.result=null;this.deps.render();}
  spinRoulette(){
   const r=this.ui.roulette;if(r.phase==='spinning')return;
+  if(!this.ensureDurable())return;
   if(!r.bets.length&&r.phase==='done'&&r.last.length&&r.last.reduce((a,b)=>a+b.amount,0)<=this.state.balance)r.bets=r.last.filter(b=>validBet(b,r.wheel)).map(b=>({...b}));
   if(!r.bets.length){r.auto=null;return this.fail(new Error('Place a chip on the layout first.'));}
   try{
+   const before=this.state;
    const total=this.pending('roulette');this.state=stake(this.state,total);
    const pocket=spinWheel(r.wheel,this.random),out=resolve(r.bets,pocket,r.partage&&r.wheel==='european');
-   this.state=pushBoard(this.record(this.state,'roulette',out.wagered,out.returned,describeRoulette(r.bets),`${pocketLabel(pocket)} ${colourOf(pocket)}`),'roulette',pocket,300);this.save();
+   this.state=pushBoard(this.record(this.state,'roulette',out.wagered,out.returned,describeRoulette(r.bets),`${pocketLabel(pocket)} ${colourOf(pocket)}`),'roulette',pocket,300);
+   /* The settlement must be durable before the wheel presents it: if the
+    * save cannot land, the round is rolled back and never spins. */
+   if(!this.save()){this.state=before;throw new Error(STORAGE_MSG);}
    r.last=r.bets.map(b=>({...b}));r.result=out;r.phase='spinning';r.spins++;this.ui.error='';
    // The other players' picks: a straight number or a colour each.
    const seed=`rl:${r.spins}:${pocket}:${this.state.games.roulette?.rounds??0}`,ps=this.ui.patrons.roulette;
@@ -243,16 +274,19 @@ export class CasinoPlayer {
  rebetBaccarat(){const b=this.ui.baccarat;if(b.phase==='dealing')return;const total=Object.values(b.last).reduce((x:number,y)=>x+(y??0),0);if(!total)return;if(total>this.state.balance)return this.fail(new Error('Not enough for the same bets again.'));b.bets={...b.last};b.phase='betting';b.coup=null;b.shown=0;this.deps.render();}
  dealBaccarat(){
   const b=this.ui.baccarat;if(b.phase==='dealing')return;
+  if(!this.ensureDurable())return;
   if(b.phase==='done'){b.phase='betting';b.bets={};const again=Object.values(b.last).reduce((x:number,y)=>x+(y??0),0);if(again&&again<=this.state.balance)b.bets={...b.last};}
   const total=this.pending('baccarat');if(!total)return this.fail(new Error('Bet on Player, Banker, Tie or a pair first.'));
   try{
+   const before=this.state;
    this.state=stake(this.state,total);
    // Patch 102: the hand comes from the shoe on the table. After the hand that follows the cut card, the shoe is
    // shuffled and the roads start again.
    let sh=this.shoe();b.shuffled=false;
    if(sh.last||sh.cards.length-sh.next<6){sh=newShoe(this.random,sh.number+1);this.state={...this.state,boards:{...(this.state.boards??{}),baccarat:[]}};b.shuffled=true;}
    const dealt=dealShoe(sh),coup=dealt.coup,res=payout(coup,b.bets,b.ez);
-   this.state=pushBoard(this.record({...this.state,bacShoe:dealt.shoe},'baccarat',total,res.returned,describeBaccarat(b.bets),baccaratCall(coup).replace(/\.$/,'')),'baccarat',coup.winner==='player'?'P':coup.winner==='banker'?'B':'T',150);this.save();
+   this.state=pushBoard(this.record({...this.state,bacShoe:dealt.shoe},'baccarat',total,res.returned,describeBaccarat(b.bets),baccaratCall(coup).replace(/\.$/,'')),'baccarat',coup.winner==='player'?'P':coup.winner==='banker'?'B':'T',150);
+   if(!this.save()){this.state=before;throw new Error(STORAGE_MSG);}
    b.last={...b.bets};b.coup=coup;b.shown=0;b.phase='dealing';b.returned=res.returned;b.bySpot=res.bySpot;b.wagered=total;this.ui.error='';
    // Squeeze the side you backed most (Player or Banker).
    const pb=b.bets.player??0,bb=b.bets.banker??0;b.squeezeSide=b.squeeze&&(pb||bb)?(pb>=bb?'P':'B'):null;b.waiting=false;b.faceDown=-1;
@@ -282,7 +316,7 @@ export class CasinoPlayer {
  /** The shoe in use (a fresh one if the saved shoe is missing or damaged). */
  shoe():Shoe {try{if(this.state.bacShoe)return checkShoe(this.state.bacShoe);}catch{/* shuffle a new one */}const s=newShoe(this.random);this.state={...this.state,bacShoe:s};return s;}
  /** Shuffle now: a new shoe and fresh roads (only between hands). */
- shuffleShoe(){const b=this.ui.baccarat;if(b.phase==='dealing')return;const old=this.shoe();this.state={...this.state,bacShoe:newShoe(this.random,old.number+1),boards:{...(this.state.boards??{}),baccarat:[]}};this.save();b.shuffled=true;b.coup=null;b.shown=0;if(b.phase==='done')b.phase='betting';this.ui.error='';this.deps.sound('shuffle');this.deps.render();}
+ shuffleShoe(){const b=this.ui.baccarat;if(b.phase==='dealing')return;const old=this.shoe();this.state={...this.state,bacShoe:newShoe(this.random,old.number+1),boards:{...(this.state.boards??{}),baccarat:[]}};const saved=this.save();b.shuffled=true;b.coup=null;b.shown=0;if(b.phase==='done')b.phase='betting';if(saved)this.ui.error='';this.deps.sound('shuffle');this.deps.render();}
  baccaratCall():string {const b=this.ui.baccarat;return b.coup&&b.phase==='done'?baccaratCall(b.coup):'';}
 
  /* ---------- Craps ---------- */
@@ -292,7 +326,7 @@ export class CasinoPlayer {
    const t=this.craps;
    if(this.ui.craps.takeDown){const {table,back}=removeBet(t,spot);this.state={...this.state,balance:this.state.balance+back,craps:table};this.ui.craps.takeDown=false;}
    else{const why=cannotAdd(t,spot,this.ui.chip);if(why)throw new Error(why);this.state=stake(this.state,this.ui.chip);this.state={...this.state,craps:addBet(t,spot,this.ui.chip)};this.deps.sound('chip');}
-   this.save();this.ui.error='';
+   if(this.save())this.ui.error='';
   }catch(e){this.ui.error=(e as Error).message;}
   this.deps.render();
  }
@@ -302,7 +336,7 @@ export class CasinoPlayer {
   try{let t=this.craps,s=this.state,n=0;
    for(const [spot,a] of Object.entries(lay)){if(!a||cannotAdd(t,spot as Spot,a))continue;if(a>s.balance)break;s=stake(s,a);t=addBet(t,spot as Spot,a);n++;}
    if(!n)throw new Error('Those bets cannot go back on right now.');
-   this.state={...s,craps:t};this.save();this.ui.error='';this.deps.sound('chip');
+   this.state={...s,craps:t};if(this.save())this.ui.error='';this.deps.sound('chip');
   }catch(e){this.ui.error=(e as Error).message;}
   this.deps.render();
  }
@@ -311,7 +345,7 @@ export class CasinoPlayer {
   if(this.ui.craps.phase==='rolling')return;const c=this.ui.chip;
   try{if(4*c>this.state.balance)throw new Error('A Horn bet needs four chips.');let t=this.craps,s=this.state;
    for(const spot of ['aces','aceDeuce','yo','twelve'] as Spot[]){s=stake(s,c);t=addBet(t,spot,c);}
-   this.state={...s,craps:t};this.save();this.ui.error='';this.deps.sound('chip');}catch(e){this.ui.error=(e as Error).message;}
+   this.state={...s,craps:t};if(this.save())this.ui.error='';this.deps.sound('chip');}catch(e){this.ui.error=(e as Error).message;}
   this.deps.render();
  }
  /** Press: one more chip on every place and buy bet that is up. */
@@ -320,7 +354,7 @@ export class CasinoPlayer {
   try{let t=this.craps,s=this.state;const spots=[...Object.keys(t.place).map(n=>`place${n}`),...Object.keys(t.buy).map(n=>`buy${n}`)] as Spot[];
    if(!spots.length)throw new Error('No place or buy bets to press.');if(spots.length*c>s.balance)throw new Error('Not enough to press every bet.');
    for(const spot of spots){s=stake(s,c);t=addBet(t,spot,c);}
-   this.state={...s,craps:t};this.save();this.ui.error='';this.deps.sound('chip');}catch(e){this.ui.error=(e as Error).message;}
+   this.state={...s,craps:t};if(this.save())this.ui.error='';this.deps.sound('chip');}catch(e){this.ui.error=(e as Error).message;}
   this.deps.render();
  }
  /** Who is shooting now: "You" or another player's name. */
@@ -329,7 +363,7 @@ export class CasinoPlayer {
  setOddsX(x:OddsX){
   if(this.ui.craps.phase==='rolling'||(x!=='345'&&x!=='10'))return;const t=this.craps;
   if(oddsUp(t)&&t.oddsX!==x)return this.fail(new Error('Take your odds down first, then change the odds limit.'));
-  this.state={...this.state,craps:{...t,oddsX:x}};this.save();this.ui.error='';this.deps.render();
+  this.state={...this.state,craps:{...t,oddsX:x}};if(this.save())this.ui.error='';this.deps.render();
  }
  /** Patch 103: call place, buy and hardway bets and come odds working (or off) on the come-out. */
  setWorking(on:boolean){if(this.ui.craps.phase==='rolling')return;this.state={...this.state,craps:{...this.craps,working:on}};this.save();this.deps.render();}
@@ -338,12 +372,14 @@ export class CasinoPlayer {
   if(this.ui.craps.phase==='rolling')return;const c=this.ui.chip,spots:Spot[]=which==='ce'?['anyCraps','yo']:['aces','aceDeuce','yo','twelve','any7'];
   try{if(spots.length*c>this.state.balance)throw new Error(`That bet needs ${spots.length} chips.`);let t=this.craps,s=this.state;
    for(const spot of spots){s=stake(s,c);t=addBet(t,spot,c);}
-   this.state={...s,craps:t};this.save();this.ui.error='';this.deps.sound('chip');}catch(e){this.ui.error=(e as Error).message;}
+   this.state={...s,craps:t};if(this.save())this.ui.error='';this.deps.sound('chip');}catch(e){this.ui.error=(e as Error).message;}
   this.deps.render();
  }
  toggleTakeDown(){this.ui.craps.takeDown=!this.ui.craps.takeDown;this.deps.render();}
  rollCraps(){
   const c=this.ui.craps;if(c.phase==='rolling')return;
+  if(!this.ensureDurable())return;
+  const before=this.state,shBefore={...c.shooter},layoutBefore=c.lastLayout;
   const t=this.craps;if(!onLayout(t))return this.fail(new Error('Put a bet on the layout first. On the come-out, start with the Pass line.'));
   const r=roll(t,rollDice(this.random));
   const wagered=r.settled.reduce((a,p)=>a+p.stake,0),returned=r.settled.reduce((a,p)=>a+p.back,0);
@@ -373,7 +409,10 @@ export class CasinoPlayer {
   let s:CasinoState={...this.state,craps:r.table};
   if(wagered)s=this.record(s,'craps',wagered,returned,[...new Set(r.settled.map(x=>SPOT_LABEL[x.spot]??x.spot))].slice(0,4).join(', ')+(r.settled.length>4?'…':''),`${r.sum} (${r.dice.join('-')})`);
   s={...s,balance:s.balance-r.restaked};
-  this.state=pushBoard(s,'craps',r.dice,600);this.save();
+  this.state=pushBoard(s,'craps',r.dice,600);
+  /* Durable before the dice are presented, like every other table: a roll
+   * whose settlement cannot be saved does not happen. */
+  if(!this.save()){this.state=before;c.shooter=shBefore;c.lastLayout=layoutBefore;return this.fail(new Error(STORAGE_MSG));}
   c.phase='rolling';c.last=r;c.rolls++;c.lastReturned=returned-r.restaked;c.takeDown=false;this.ui.error='';
   this.deps.sound('dice');this.deps.render();
   this.wait(1200,()=>{c.phase='idle';if(sevenOut){c.shooter={rolls:0,points:0,best:sh.best};c.shooterSeat=(c.shooterSeat+1)%(this.ui.patrons.craps.length+1);}this.deps.sound(returned>wagered?'money':returned>0?'win':wagered?'fold':'flip');this.deps.render();});
@@ -442,9 +481,11 @@ export class CasinoPlayer {
  }
  startRace(){
   const h=this.ui.races;if(h.phase!=='betting')return;
+  if(!this.ensureDurable())return;
   const riding=this.day.dd.filter(d=>d.race===h.card.number-1);
   const total=this.pending('races');if(!total&&!riding.length)return this.fail(new Error('Put a bet on a runner first.'));
   try{
+   const before=this.state,dayBefore=this.day;
    if(total)this.state=stake(this.state,total);
    const order=runRace(h.card,this.random);
    let returned=h.bets.reduce((a,b)=>a+settleBet(b,b.odds,order),0),wagered=h.bets.reduce((a,b)=>a+b.amount,0);
@@ -454,7 +495,8 @@ export class CasinoPlayer {
    const winner=h.card.runners[order[0]-1];
    if(wagered)this.state=this.record(this.state,'races',wagered,returned,describeRace(h.bets,riding.length+h.dd.length),`#${winner.no} ${winner.name} won`);
    this.day={...this.day,dd:[...this.day.dd.filter(d=>d.race!==h.card.number-1),...carry],results:[...this.day.results,{number:h.card.number,track:h.card.track,no:winner.no,name:winner.name,odds:odds(h.card,'win',[winner.no])}].slice(-12)};
-   this.state=pushBoard({...this.state,raceDay:this.day},'races',winner.name,12);this.save();
+   this.state=pushBoard({...this.state,raceDay:this.day},'races',winner.name,12);
+   if(!this.save()){this.state=before;this.day=dayBefore;throw new Error(STORAGE_MSG);}
    h.order=order;h.returned=returned;h.wagered=wagered;h.phase='running';h.replay=false;h.paths=paths(order,RACE_FRAMES,this.random);h.results=[];h.frame=0;this.ui.error='';
    const leaderAt=(f:number)=>{const k=Math.round(f*RACE_FRAMES);let best=order[0],x=-1;for(const no of order){const v=h.paths![no][Math.min(RACE_FRAMES,k)];if(v>x){x=v;best=no;}}return best;};
    const won=margin(h.paths,order);h.photo=won.photo;h.marginText=won.text;

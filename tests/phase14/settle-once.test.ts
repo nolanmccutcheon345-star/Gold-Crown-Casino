@@ -49,7 +49,11 @@ describe('slots: reload mid-feature settles the feature exactly once', () => {
     let b = freshSlots(); b = spinAt(b, 0); b = playSpin(b, machine, bet, lcg(seed)).state;
     saveSlots(b, store);
     const restored = readSlots(store).state;
-    expect(restored).toEqual(aAfterFeature); // the feature money is there, once
+    /* The full state must match — except the recent entries' wall-clock
+     * stamps, which legitimately differ by a millisecond between the two
+     * runs. Every money and counter field is compared exactly. */
+    const stripClock = (s: SlotsState) => ({ ...s, recent: s.recent.map(e => ({ ...e, at: '' })) });
+    expect(stripClock(restored)).toEqual(stripClock(aAfterFeature)); // the feature money is there, once
     b = spinAt(restored, 2); b = spinAt(b, 3); b = spinAt(b, 4);
     expect(b.balance).toBe(a.balance);
     expect(b.machines[machine.id]).toEqual(a.machines[machine.id]);

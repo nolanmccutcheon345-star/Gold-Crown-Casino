@@ -38,7 +38,9 @@ export function readGiftBook(store: Pick<Storage, 'getItem'> | null = globalThis
   try { const raw = store?.getItem(GIFT_KEY); return { book: raw ? checkGiftBook(JSON.parse(raw)) : freshGiftBook(), notice: '' }; }
   catch { return { book: freshGiftBook(), notice: 'Your daily gift record could not be read, so it starts fresh. Your balances and game records are stored separately and were not changed.' }; }
 }
-export function saveGiftBook(book: GiftBook, store: Pick<Storage, 'setItem'> | null = globalThis.localStorage ?? null): void { try { store?.setItem(GIFT_KEY, JSON.stringify(book)); } catch { /* this visit only */ } }
+/** Save the gift book. False when the write did not land (storage full or
+ * unavailable): the claim was not made durable and must not be credited. */
+export function saveGiftBook(book: GiftBook, store: Pick<Storage, 'setItem'> | null = globalThis.localStorage ?? null): boolean { try { if (!store) return false; store.setItem(GIFT_KEY, JSON.stringify(book)); return true; } catch { return false; } }
 
 /** Today's gift can be claimed when the last claim was on an earlier local day. */
 export const giftAvailable = (book: GiftBook, date: string = localDayKey()): boolean => book.lastClaimDate !== date;

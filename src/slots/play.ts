@@ -4,7 +4,7 @@ import {slotNeighbour} from '../bots/table-life';
  * slam-stop, turbo and overlays never change what a spin pays. */
 import type {Machine,SpinResult} from './engine';
 import {machineById} from './machines';
-import {playSpin,reloadSlots,saveSlots,gamble,GAMBLE_ROUNDS,type SlotsState,type GambleChoice} from './state';
+import {playSpin,readSlots,reloadSlots,saveSlots,gamble,GAMBLE_ROUNDS,type SlotsState,type GambleChoice} from './state';
 import {betFor,smallestBet,type SlotsUi} from './view';
 import {symbolImage} from './symbol-images';
 
@@ -80,15 +80,26 @@ export function preloadMachineArt(m:Machine):void {
  }catch{/* preload is decoration only */}
 }
 
+/** Phase 14 (Round-3 audit): when a save cannot land, the spin does not
+ * happen — the player is told, and nothing is presented as saved. */
+const STORAGE_MSG='Your browser storage is full, so this spin could not be saved. Play is paused on the slots floor until it saves — free up space (or clear old site data for this app) and try again. Nothing was charged.';
 export class SlotsPlayer {
  state:SlotsState;ui:SlotsUi;
+ /** Phase 14: the durable state this tab last read or wrote (the merge base
+  * for cross-tab saves). The app resets it when it hands over a new state
+  * (backup restores). */
+ durableBase:SlotsState;
  private timer=0;private cycle=0;private after:(()=>void)|null=null;private pickDone:(()=>void)|null=null;
  /* Phase 11: every wait carries a generation. A step that was superseded by a newer
   * wait, or already consumed early by skip/tap-to-advance, can never fire a second
   * time — multi-step feature chains (real free-spin rolls, respin rolls) would
   * otherwise fork when an overlay is tapped through. */
  private waitGen=0;
- constructor(state:SlotsState,ui:SlotsUi,private deps:SlotDeps){this.state=state;this.ui=ui;
+ constructor(state:SlotsState,ui:SlotsUi,private deps:SlotDeps){this.state=state;
+  /* The merge base is the durable record as it stands now — in the app the
+   * handed state IS that record (it was just read from it); anchoring to
+   * the record itself keeps the first save exact either way. */
+  this.durableBase=readSlots().state;this.ui=ui;
   try{const p=JSON.parse(localStorage.getItem(PREFS)??'{}');ui.turbo=p.turbo===true;ui.soundHint=p.soundHint!==false;if(p.plan&&AUTO_COUNTS.includes(p.plan.count)&&LOSS_LIMITS.includes(p.plan.lossLimit))ui.autoPlan={count:p.plan.count,stopFeature:p.plan.stopFeature!==false,stopBig:p.plan.stopBig!==false,lossLimit:p.plan.lossLimit};
    if(Array.isArray(p.favs))ui.favs=p.favs.filter((x:unknown)=>typeof x==='string'&&!!machineById(x));if(['floor','played','payback','calm'].includes(p.sort))ui.sort=p.sort;
    if(p.bets&&typeof p.bets==='object')for(const [id,b] of Object.entries(p.bets))if(machineById(id)?.bets.includes(b as number))ui.bet[id]=b as number;}catch{/* defaults */}}
@@ -111,7 +122,15 @@ export class SlotsPlayer {
  setPlan(p:Partial<AutoPlan>){this.ui.autoPlan={...this.ui.autoPlan,...p};this.savePrefs();}
  startAuto(){const m=this.m;if(!m||this.busy)return;this.ui.auto=this.ui.autoPlan.count;this.ui.autoStart=this.state.balance;this.ui.autoOpen=false;this.spin();}
  stopAuto(){this.ui.auto=0;}
- reload(){this.state=reloadSlots(this.state,smallestBet());saveSlots(this.state);this.ui.notice='Your slots balance is back to $1,000 of practice chips.';this.ui.error='';}
+ /** Persist, merging another tab's writes instead of erasing them. On
+  * failure the caller rolls its change back: an unsaved result is never
+  * presented as final. */
+ private persist():boolean {
+  const written=saveSlots(this.state,undefined,this.durableBase);
+  if(!written)return false;
+  this.state=written;this.durableBase=structuredClone(written);return true;
+ }
+ reload(){const before=this.state;this.state=reloadSlots(this.state,smallestBet());if(!this.persist()){this.state=before;this.ui.error=STORAGE_MSG;this.deps.render();return;}this.ui.notice='Your slots balance is back to $1,000 of practice chips.';this.ui.error='';}
  /** Space bar or the Spin button: spin when idle, slam the reels when spinning, skip an overlay.
   * Phase 11 (S-U03): during a feature, pressing advances the presentation to the next step
   * at once — the result was settled at the original spin and can never change. */
@@ -131,7 +150,11 @@ export class SlotsPlayer {
   const bet=betFor(m,this.ui,this.state.balance);
   this.ui.error='';this.ui.notice='';this.stopCycle();
   let result:SpinResult;
-  try{const played=playSpin(this.state,m,bet);this.state=played.state;saveSlots(this.state);result=played.result;}
+  try{const before=this.state;const played=playSpin(this.state,m,bet);this.state=played.state;
+   /* The settlement must be durable before the reels present it: if the
+    * save cannot land, the spin is rolled back and never shown. */
+   if(!this.persist()){this.state=before;throw new Error(STORAGE_MSG);}
+   result=played.result;}
   catch(cause){this.ui.error=(cause as Error).message;this.ui.auto=0;this.deps.render();return;}
   Object.assign(this.ui,{result,pending:result.total,phase:'spinning',stopped:0,step:0,picked:[],overlay:null,anticipate:teasedReels(m,result.grid),freeRoll:false,holdRoll:false,tally:-1,tease:false});
   this.ui.bet[m.id]=bet;
@@ -274,7 +297,8 @@ export class SlotsPlayer {
  openGamble(){if(!this.canGamble)return;this.stopCycle();this.ui.gambleTaken=true;this.ui.gamble={stake:this.ui.result!.total,round:0,cards:[],done:null};this.deps.sound('flip');}
  choose(choice:GambleChoice){
   const g=this.ui.gamble;if(!g||g.done||g.round>=GAMBLE_ROUNDS)return;
-  const out=gamble(this.state,g.stake,choice);this.state=out.state;saveSlots(this.state);
+  const before=this.state;const out=gamble(this.state,g.stake,choice);this.state=out.state;
+  if(!this.persist()){this.state=before;this.ui.error=STORAGE_MSG;this.deps.render();return;}
   this.ui.session.won+=out.payout-g.stake;
   if(this.m&&this.ui.machineSessions[this.m.id])this.ui.machineSessions[this.m.id].won+=out.payout-g.stake;
   g.cards=[...g.cards,{card:out.card,won:out.won}];

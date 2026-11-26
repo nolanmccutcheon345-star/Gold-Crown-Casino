@@ -63,6 +63,8 @@ describe('screens and navigation',()=>{
   it('every table renders and the four games are under Play',()=>{
     const p=player();for(const g of ['roulette','craps','baccarat','races'] as const){const m=casinoMarkup(p,g);expect(m).toContain(`data-testid="${g}"`);expect(m).toContain('data-testid="casino-balance"');}
     const app=readFileSync('src/ui/app.ts','utf8');for(const v of ['roulette','craps','baccarat','races'])expect(app).toContain(`{ view: '${v}'`);
-    expect(app).toContain("['CASINO', 'casino', casino.state.balance]");expect(app).toContain("import './casino.css';");
+    /* Phase 14 contract change: the Home hub strip became the unified
+     * wallet; the casino balance now reaches Home through walletComponents. */
+    expect(app).toContain("casino: { available: casino.state.balance, inPlay: 0 }");expect(app).toContain("import './casino.css';");
   });
 });

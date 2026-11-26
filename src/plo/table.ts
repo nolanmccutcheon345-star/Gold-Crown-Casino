@@ -48,13 +48,40 @@ export function loadPlo():{state:PloState;notice:string} {
  catch(e){const keep=(()=>{try{const v=JSON.parse(text!);return Number.isSafeInteger(v?.balance)&&v.balance>=0?v.balance as number:PLO_START_BALANCE;}catch{return PLO_START_BALANCE;}})();
   return {state:{...freshPlo(),balance:keep},notice:`${(e as Error).message} The table was closed; your balance was kept.`};}
 }
-export function savePlo(state:PloState):void {try{localStorage.setItem(PLO_KEY,JSON.stringify(state));}catch{/* this visit only */}}
+/** Save the Omaha state. False when the write did not land (storage full or
+ * unavailable) — the result was not made durable and must not be presented
+ * as saved. */
+export function savePlo(state:PloState):boolean {try{localStorage.setItem(PLO_KEY,JSON.stringify(state));return true;}catch{return false;}}
 
 /** The table: you in seat 0 and five Omaha regulars. */
 export class PloTable {
  state:PloState;notice:string;
- constructor(state?:PloState){const loaded=state?{state,notice:''}:loadPlo();this.state=loaded.state;this.notice=loaded.notice;}
- private save(){if(this.state.active)assertChips(this.state.active.hand);savePlo(this.state);}
+ /** Phase 14 (Round-3 audit): cross-tab and storage protection. A live
+  * Omaha hand cannot be merged with another tab's, so this tab never
+  * overwrites a durable state it did not write: if the stored state has
+  * moved since this tab last read or wrote it, saving stops and the player
+  * is told. The same stop applies when a write cannot land at all. */
+ saveBlocked=false;
+ private lastSeenRaw:string|null;
+ constructor(state?:PloState){const loaded=state?{state,notice:''}:loadPlo();this.state=loaded.state;this.notice=loaded.notice;
+  let raw:string|null=null;try{raw=state?null:localStorage.getItem(PLO_KEY);}catch{/* storage off */}
+  this.lastSeenRaw=raw;}
+ private save(){
+  if(this.state.active)assertChips(this.state.active.hand);
+  if(this.saveBlocked)return;
+  let raw:string|null=null;try{raw=localStorage.getItem(PLO_KEY);}catch{/* storage off */}
+  if(raw!==null&&raw!==this.lastSeenRaw){
+   this.saveBlocked=true;
+   this.notice='Another tab has been playing Omaha on this device, so this tab will not overwrite its table. Close the other tab and reload this one to keep playing here.';
+   return;
+  }
+  if(!savePlo(this.state)){
+   this.saveBlocked=true;
+   this.notice='Your browser storage is full, so Omaha could not be saved. Free up space (or clear old site data for this app) and reload — this tab will not keep dealing unsaved hands.';
+   return;
+  }
+  this.lastSeenRaw=JSON.stringify(this.state);
+ }
  get hand():PloHand|null {return this.state.active?ploView(this.state.active.hand,0):null;}
  get heroTurn():boolean {const h=this.state.active?.hand;return !!h&&h.street!=='complete'&&h.actor===0;}
  get botTurn():boolean {const h=this.state.active?.hand;return !!h&&h.street!=='complete'&&h.actor!==null&&h.actor!==0;}

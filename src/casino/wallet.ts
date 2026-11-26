@@ -43,7 +43,64 @@ export function readCasino(store:Pick<Storage,'getItem'>|null=globalThis.localSt
  try{const raw=store?.getItem(CASINO_KEY);return {state:raw?checkCasino(JSON.parse(raw)):freshCasino(),notice:''};}
  catch{return {state:freshCasino(),notice:'Your casino save could not be read, so the casino balance was reset to $1,000.'};}
 }
-export function saveCasino(state:CasinoState,store:Pick<Storage,'setItem'>|null=globalThis.localStorage??null):void {try{store?.setItem(CASINO_KEY,JSON.stringify(state));}catch{/* this visit only */}}
+/** Phase 14 (Round-3 audit, BLOCKER): two tabs on one profile must not erase
+ * each other. The money and the per-game records are additive, so a tab that
+ * saves with the base it read is merged with whatever another tab wrote
+ * since — both tabs' settled rounds and debits survive. Single-blob session
+ * features (the craps layout, the race day, the baccarat shoe, saved layouts)
+ * describe one live table rather than a ledger; those follow whichever tab
+ * changed them most recently. */
+export function mergeCasino(base:CasinoState,mine:CasinoState,theirs:CasinoState):CasinoState {
+ const delta=(b:number,m:number,t:number)=>Math.max(0,t+(m-b));
+ const games:CasinoState['games']={};
+ for(const g of CASINO_GAMES){
+  const b=base.games[g],m=mine.games[g],t=theirs.games[g];
+  if(!m){if(t)games[g]=t;continue;}
+  if(!t){games[g]=m;continue;}
+  const bb=b??{rounds:0,wagered:0,returned:0,biggest:0};
+  games[g]={rounds:delta(bb.rounds,m.rounds,t.rounds),wagered:delta(bb.wagered,m.wagered,t.wagered),returned:delta(bb.returned,m.returned,t.returned),biggest:Math.max(m.biggest,t.biggest)};
+ }
+ /* Append-only lists merge as multisets: theirs' entries plus mine's net
+  * additions over base, counted per entry — repeated identical entries
+  * (two Banker coups, two rolls of the same dice) are distinct rounds and
+  * all survive. When theirs is base, the result is exactly mine. */
+ const additions=<T,>(b:readonly T[],m:readonly T[]):T[]=>{
+  const counts=new Map<string,number>();for(const e of b){const k=JSON.stringify(e);counts.set(k,(counts.get(k)??0)+1);}
+  const seen=new Map<string,number>(),out:T[]=[];
+  for(const e of m){const k=JSON.stringify(e),n=(seen.get(k)??0)+1;seen.set(k,n);if(n>(counts.get(k)??0))out.push(e);}
+  return out;
+ };
+ const recent=trimRecent([...theirs.recent,...additions(base.recent,mine.recent)]);
+ const boards:CasinoState['boards']={};
+ for(const g of CASINO_GAMES){
+  const b=(base.boards?.[g]??[]) as unknown[],m=(mine.boards?.[g]??[]) as unknown[],t=(theirs.boards?.[g]??[]) as unknown[];
+  boards[g]=[...t,...additions(b,m)].slice(-Math.max(m.length,t.length,72));
+ }
+ const blob=<T,>(b:T,m:T,t:T):T=>JSON.stringify(m)!==JSON.stringify(b)?m:t;
+ return {balance:delta(base.balance,mine.balance,theirs.balance),reloads:delta(base.reloads,mine.reloads,theirs.reloads),games,recent,boards,
+  craps:blob(base.craps,mine.craps,theirs.craps),favs:blob(base.favs,mine.favs,theirs.favs),raceDay:blob(base.raceDay,mine.raceDay,theirs.raceDay),bacShoe:blob(base.bacShoe,mine.bacShoe,theirs.bacShoe)};
+}
+/** Save the casino state. Returns the state actually written, or null when
+ * the write did not land (storage full or unavailable) — callers must not
+ * present a result as saved on null. With `base` (the state this tab read
+ * or last wrote), another tab's intervening writes are merged, not erased. */
+export function saveCasino(state:CasinoState,store:Pick<Storage,'getItem'|'setItem'>|null=globalThis.localStorage??null,base?:CasinoState):CasinoState|null {
+ try{
+  let out=state;
+  if(base&&store&&typeof store.getItem==='function'){
+   const raw=store.getItem(CASINO_KEY);
+   if(raw){const theirs=checkCasino(JSON.parse(raw));if(JSON.stringify(theirs)!==JSON.stringify(base))out=mergeCasino(base,state,theirs);}
+  }
+  store?.setItem(CASINO_KEY,JSON.stringify(out));
+  return out;
+ }catch{return null;}
+}
+/** Replace the casino save outright (backup restores — an explicit player
+ * action that is supposed to supersede, never merge). False when the write
+ * did not land. */
+export function overwriteCasino(state:CasinoState,store:Pick<Storage,'setItem'>|null=globalThis.localStorage??null):boolean {
+ try{store?.setItem(CASINO_KEY,JSON.stringify(state));return true;}catch{return false;}
+}
 /** Take a stake off the balance (the chips go on the layout). */
 export function stake(state:CasinoState,amount:number):CasinoState {
  if(!Number.isSafeInteger(amount)||amount<=0)throw new Error('Bets must be at least one cent.');

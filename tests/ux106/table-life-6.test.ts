@@ -77,7 +77,12 @@ describe('casino tables: the players and you',()=>{
   expect(chatAnswers('roulette',table,'nope','x')).toEqual([]);
  });
  it('is the same for the same seed, and nothing touches the money',()=>{
-  const a=player(21),b=player(21);for(const p of [a,b]){p.setChip(100);for(let i=0;i<40;i++){p.placeRoulette('red',[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);p.spinRoulette();flush();}}
+  /* Phase 14: casino saves merge across tabs (the two-tab audit fix), so
+   * two players sharing one store are one continuing profile, not two
+   * universes. Each run gets its own clean store — the helper's usual
+   * isolation — and the determinism claim is unchanged. */
+  const a=player(21);for(const p of [a]){p.setChip(100);for(let i=0;i<40;i++){p.placeRoulette('red',[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);p.spinRoulette();flush();}}
+  const b=player(21);for(const p of [b]){p.setChip(100);for(let i=0;i<40;i++){p.placeRoulette('red',[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);p.spinRoulette();flush();}}
   expect(a.ui.talk.roulette).toEqual(b.ui.talk.roulette);expect(a.state.balance).toBe(b.state.balance);
   const src=readFileSync('src/casino/patrons.ts','utf8');expect([...src.matchAll(/^import .* from '([^']+)'/gm)].map(m=>m[1])).toEqual(['../bots/personas']);expect(src).not.toMatch(/stake\(|settle\(|\.balance/);
  });

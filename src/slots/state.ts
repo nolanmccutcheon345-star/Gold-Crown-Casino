@@ -30,7 +30,67 @@ export function readSlots(store:Pick<Storage,'getItem'>|null=globalThis.localSto
  try{const raw=store?.getItem(SLOTS_KEY);return {state:raw?checkSlots(JSON.parse(raw)):freshSlots(),notice:''};}
  catch{return {state:freshSlots(),notice:'Your slots save could not be read, so the slots balance was reset to $1,000.'};}
 }
-export function saveSlots(state:SlotsState,store:Pick<Storage,'setItem'>|null=globalThis.localStorage??null):void {try{store?.setItem(SLOTS_KEY,JSON.stringify(state));}catch{/* this visit only */}}
+/** Phase 14 (Round-3 audit, BLOCKER): two tabs on one profile must not erase
+ * each other. Slots state is additive — a balance, per-machine counters, a
+ * recent list — so a tab that saves with the base it read can be merged with
+ * whatever another tab wrote since: every counter moves by the saver's own
+ * delta, and the recent list gains the saver's new entries. Both tabs'
+ * spins, records and debits survive. */
+export function mergeSlots(base:SlotsState,mine:SlotsState,theirs:SlotsState):SlotsState {
+ const delta=(b:number,m:number,t:number)=>Math.max(0,t+(m-b));
+ const machines:Record<string,MachineRecord>={};
+ for(const id of new Set([...Object.keys(base.machines),...Object.keys(mine.machines),...Object.keys(theirs.machines)])){
+  const b=base.machines[id],m=mine.machines[id],t=theirs.machines[id];
+  if(!m){if(t)machines[id]=t;continue;}
+  if(!t){machines[id]=m;continue;}
+  const bb=b??{spins:0,wagered:0,won:0,biggest:0,features:0};
+  machines[id]={spins:delta(bb.spins,m.spins,t.spins),wagered:delta(bb.wagered,m.wagered,t.wagered),won:delta(bb.won,m.won,t.won),biggest:Math.max(m.biggest,t.biggest),features:delta(bb.features,m.features,t.features)};
+ }
+ /* The recent list merges as a multiset, like the casino lists: mine's net
+  * additions over base, counted per entry, appended to theirs — repeated
+  * identical spins all survive, and when theirs is base the result is
+  * exactly mine. */
+ const counts=new Map<string,number>();for(const e of base.recent){const k=JSON.stringify(e);counts.set(k,(counts.get(k)??0)+1);}
+ const seen=new Map<string,number>(),adds:SlotsState['recent']=[];
+ for(const e of mine.recent){const k=JSON.stringify(e),n=(seen.get(k)??0)+1;seen.set(k,n);if(n>(counts.get(k)??0))adds.push(e);}
+ const recent=[...theirs.recent,...adds].slice(-30);
+ const merged:SlotsState={balance:delta(base.balance,mine.balance,theirs.balance),reloads:delta(base.reloads,mine.reloads,theirs.reloads),machines,recent};
+ const g=(s:SlotsState)=>s.gamble??{rounds:0,wagered:0,won:0};
+ if(mine.gamble||theirs.gamble)merged.gamble={rounds:delta(g(base).rounds,g(mine).rounds,g(theirs).rounds),wagered:delta(g(base).wagered,g(mine).wagered,g(theirs).wagered),won:delta(g(base).won,g(mine).won,g(theirs).won)};
+ const watch:Record<string,MachineWatch>={};
+ const wids=new Set([...Object.keys(base.watch??{}),...Object.keys(mine.watch??{}),...Object.keys(theirs.watch??{})]);
+ if(wids.size){
+  for(const id of wids){
+   const b=base.watch?.[id],m=mine.watch?.[id],t=theirs.watch?.[id];
+   if(!m){if(t)watch[id]=t;continue;}
+   if(!t){watch[id]=m;continue;}
+   /* One side unchanged since base: the other side's entry wins wholesale
+    * (keeps the merge exactly mine when theirs is base). */
+   if(JSON.stringify(t)===JSON.stringify(b)){watch[id]=m;continue;}
+   if(JSON.stringify(m)===JSON.stringify(b)){watch[id]=t;continue;}
+   const bb=b??{since:0,hits:0,spins:0};
+   watch[id]={spins:delta(bb.spins,m.spins,t.spins),hits:delta(bb.hits,m.hits,t.hits),since:(m.hits>bb.hits||t.hits>bb.hits)?Math.min(m.since,t.since):delta(bb.since,m.since,t.since)};
+  }
+  merged.watch=watch;
+ }
+ return merged;
+}
+/** Save the slots state. Returns the state actually written, or null when
+ * the write did not land (storage full or unavailable) — callers must not
+ * present a result as saved on null. With `base` (the state this tab read
+ * or last wrote), another tab's intervening writes are merged, not erased;
+ * without one, the save is a plain overwrite (genesis and backup restores). */
+export function saveSlots(state:SlotsState,store:Pick<Storage,'getItem'|'setItem'>|null=globalThis.localStorage??null,base?:SlotsState):SlotsState|null {
+ try{
+  let out=state;
+  if(base&&store&&typeof store.getItem==='function'){
+   const raw=store.getItem(SLOTS_KEY);
+   if(raw){const theirs=checkSlots(JSON.parse(raw));if(JSON.stringify(theirs)!==JSON.stringify(base))out=mergeSlots(base,state,theirs);}
+  }
+  store?.setItem(SLOTS_KEY,JSON.stringify(out));
+  return out;
+ }catch{return null;}
+}
 /** Pay for a spin, play it, and credit the win. Throws if the bet is not allowed or not affordable. */
 export function playSpin(state:SlotsState,machine:Machine,bet:number,random:Random=secureRandom):{state:SlotsState;result:SpinResult} {
  if(!machine.bets.includes(bet))throw new Error('That bet is not offered on this machine.');

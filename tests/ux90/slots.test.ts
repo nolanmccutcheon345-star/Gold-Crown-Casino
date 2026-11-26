@@ -51,6 +51,6 @@ describe('balance',()=>{
     const s=freshSlots(),ui=freshSlotsUi();const lobby=slotsMarkup(s,ui);for(const m of MACHINES){expect(lobby).toContain(`data-slot-machine="${m.id}"`);expect(lobby).toContain(`${m.rtp.toFixed(1)}%`);}
     expect(lobby).toContain('No machine is "due"');
     ui.machine='gold-rush';const page=slotsMarkup(s,ui);expect(page).toContain('id="slots-spin"');expect(page).toContain('Paytable');
-    const app=readFileSync('src/ui/app.ts','utf8');expect(app).toContain("{ view: 'slots', label: 'Slots'");expect(readFileSync('src/slots/play.ts','utf8')).toContain('saveSlots(this.state)');
+    const app=readFileSync('src/ui/app.ts','utf8');expect(app).toContain("{ view: 'slots', label: 'Slots'");expect(readFileSync('src/slots/play.ts','utf8')).toContain('saveSlots(this.state');
   });
 });
