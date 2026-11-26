@@ -120,6 +120,7 @@ import './casino-visual107.css';
 import './casino-visual108.css';
 import './casino-visual109.css';
 import './shell.css';
+import './one-screen.css';
 import { casinoWordmark, casinoHomeHero, casinoGameArt, casinoFeaturedMachines } from './casino-components';
 import { dealClass, readMotion, saveMotion, turnTitle } from './motion';
 import { FACE_PARTS, avatarSvg, faceFor, liveMood, sessionMoodFace, type FacePart, type Mood } from './avatars';
@@ -2650,6 +2651,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     on('#slots-reload', slotDo(() => slotsPlayer.reload()));
     // Patch 99: the casino tables.
     root.querySelectorAll<HTMLButtonElement>('[data-casino-chip]').forEach(b => b.addEventListener('click', () => casino.setChip(Number(b.dataset.casinoChip)), live));
+    root.querySelectorAll<HTMLButtonElement>('[data-more]').forEach(b => b.addEventListener('click', () => casino.toggleMore(b.dataset.more!), live));
     on('#casino-reload', () => casino.reload());
     root.querySelectorAll<HTMLButtonElement>('[data-wheel]').forEach(b => b.addEventListener('click', () => casino.setWheel(b.dataset.wheel as 'european' | 'american'), live));
     root.querySelectorAll<HTMLButtonElement>('[data-rbet]').forEach(b => b.addEventListener('click', () => { const [kind, ns] = b.dataset.rbet!.split('|'); casino.placeRoulette(kind as never, ns.split('-').map(Number)); }, live));

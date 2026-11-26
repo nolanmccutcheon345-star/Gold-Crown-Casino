@@ -48,6 +48,10 @@ export interface CasinoUi {
  /** Phase 13 (G-1): the app's global sound state, mirrored in each render so the
   * casino games can offer the same in-view toggle and volume as poker and slots. */
  soundOn?:boolean;volume?:number;
+ /** Phase 14.2: which re-homed detail panels the one-screen phone stage has open
+  * (named bets, propositions, table history…). Presentation only; wider layouts
+  * ignore it and always show the panels. */
+ more:Record<string,boolean>;
 }
 export interface CasinoDeps {render():void;sound(kind:string):void;active(game:string):boolean;}
 const key=(b:Pick<RouletteBet,'kind'|'numbers'>)=>`${b.kind}:${[...b.numbers].sort((x,y)=>x-y).join('-')}`;
@@ -67,7 +71,7 @@ export class CasinoPlayer {
    baccarat:{bets:{},last:{},phase:'betting',coup:null,shown:0,returned:0,bySpot:{},wagered:0,ez:false,squeeze:false,waiting:false,squeezeSide:null,faceDown:-1,auto:0,shuffled:false},
    craps:{phase:'idle',last:null,rolls:0,takeDown:false,lastReturned:0,shooter:{rolls:0,points:0,best:0},lastLayout:null,shooterSeat:0},
    races:{card:this.day.card,next:this.day.next,quick:false,box:false,dd:[],replay:false,lines:[],bets:[],kind:'win',picking:[],photo:false,marginText:'',phase:'betting',order:null,returned:0,wagered:0,call:'',paths:null,results:[],frame:0},
-   session:{roulette:0,craps:0,baccarat:0,races:0}};
+   session:{roulette:0,craps:0,baccarat:0,races:0},more:{}};
  }
  /* ---------- Patch 104: table life ---------- */
  /** Add to a round's lines: a word to you, another player answering the first line, and something someone does.
@@ -142,6 +146,8 @@ export class CasinoPlayer {
   return this.ui.races.phase==='betting'?this.ui.races.bets.reduce((a,b)=>a+b.amount,0)+this.ui.races.dd.reduce((a,b)=>a+b.amount,0):0;
  }
  setChip(c:number){if((CHIPS as readonly number[]).includes(c))this.ui.chip=c;this.deps.render();}
+ /** Phase 14.2: open or close a re-homed detail panel on the one-screen stage. */
+ toggleMore(k:string){this.ui.more[k]=!this.ui.more[k];this.deps.render();}
  reload(){try{this.state=reloadCasino(this.state);if(this.save()){this.ui.error='';this.ui.notice='Your casino balance is back to $1,000.';}}catch(e){this.ui.error=(e as Error).message;}this.deps.render();}
  /** Patch 101: replace the casino save with one from a backup (already checked). */
  restore(state:CasinoState){this.finishNow();this.state=state;const saved=this.save(true);this.ui.roulette.bets=[];this.ui.baccarat.bets={};this.ui.races.bets=[];if(saved){this.ui.error='';}this.ui.notice='';}
