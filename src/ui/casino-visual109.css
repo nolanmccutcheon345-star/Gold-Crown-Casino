@@ -452,3 +452,43 @@
  .slot-cabinet.in-feature .slot-marquee .casino-slot-art,.slot-cabinet.free-spins .slot-marquee .casino-slot-art{height:48px}
  .slot-cabinet.in-feature .slot-window-frame,.slot-cabinet.free-spins .slot-window-frame{padding:5px}
 }
+
+/* ============ Phase 14.1: the phone floor card crush (421–700px) ============
+   Root cause, measured on the unmodified Phase 14 build: three layers from
+   three phases compose into a broken card on real phones. (1) This sheet's
+   ≤760px rule and visual108's set the floor grid to two columns at
+   specificity (0,3,0)/(0,1,0) — beating the Phase 9 F-11 single-column rule
+   in slots.css — but only down to 420px, where this sheet switches back to
+   one column. A 430/440px phone (iPhone Pro Max) therefore gets two ~180px
+   cards. (2) The F-11 compact-row card layout (slots.css ≤700px, marquee
+   column widened to 106px by S-2 above) was designed for a full-width row;
+   inside a 180px card it leaves a ~70px text column. (3) premium-casino.css
+   sets overflow-wrap:anywhere on every <small>, and the card facts are a
+   <small> — so at 70px the copy breaks mid-word ("stea/dy", "paybac/k").
+   The favourite star (absolute, top-right of the row) sits on the text
+   column's first lines, and the card button never fills its grid row, so
+   paired cards end at wildly different heights (measured spread 219px).
+   At 390/393px the ≤420px one-column rule masks all of it — which is why
+   the 390px harness passed while the owner's 440px phone was broken.
+   Fix: restore the F-11 design intent across the whole phone range — one
+   full-width compact row per machine — and harden the card itself. */
+
+/* One machine per row on phones: the compact row gets its designed width. */
+@media (max-width:700px){
+ .panel.slots .slot-machines{grid-template-columns:minmax(0,1fr)}
+ /* The star hangs over the card's top-right corner, which in the row layout
+    is the text column: keep the copy's measure clear of it. */
+ .panel.slots .slot-card-text{padding-right:48px}
+ /* The deck's SPIN ring (7px of box-shadow past the button box) exactly
+    touched the cabinet's inner frame line (measured 0px clearance), which
+    reads as clipping on a real device. Give the deck real clearance. */
+ .panel.slots .slot-cabinet .slot-deck{padding-right:8px}
+}
+/* Card copy never breaks mid-word, at any width: the global <small> rule in
+   premium-casino.css (overflow-wrap:anywhere) is for diagnostics strings,
+   not for player-facing card facts. Long words wrap whole or not at all. */
+.panel.slots .slot-card-text small{overflow-wrap:break-word}
+/* A card fills its grid row, so machines paired in a row share one height
+   instead of ending wherever their copy happens to stop. */
+.panel.slots .slot-li{display:flex}
+.panel.slots .slot-li .slot-card{flex:1 1 auto;height:100%}
