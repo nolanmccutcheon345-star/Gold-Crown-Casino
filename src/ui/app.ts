@@ -133,7 +133,7 @@ import { bankrollSeries, bindCharts, lineChartMarkup, resultSeries } from './cha
 import { canVibrate, playCues, playSound, soundCues, soundState, unlockAudio, vibrateFor, setVolume, ploSoundState, ploSoundCues, bjSoundCues, ambience, type SoundKind, type SoundState, type PloSoundState, type BjSoundState } from './sounds';
 import { BlackjackLiveUI } from '../blackjack/live-ui';
 import { regularFor, regularById, isRegularName, REGULARS } from '../bots/regulars';
-import { cashThinkPlan, pacedMs, READ_HOLD_MS, tournamentThinkPlan } from './think-time';
+import { cashThinkPlan, pacedMs, READ_HOLD_MS, STREET_BUDGET_MS, streetBudgetDelay, tournamentThinkPlan } from './think-time';
 import { cashBreak } from '../session/human-context';
 import { tournamentMoment, tournamentRecent } from '../tournament/runtime';
 import { cashRecentResults } from '../session/human-context';
@@ -388,7 +388,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     if (!current) return 0;
     const plan = tournamentThinkPlan(current);
     if (!plan) return 0;
-    const fast = tournamentPace === 'fast', ms = pacedMs(plan, fast ? .15 : .7, fast ? 0 : 2000);
+    const fast = tournamentPace === 'fast', ms = pacedMs(plan, fast ? .15 : .35, fast ? 0 : 1200);
     const at = (id: number) => tournamentProfileAt(current, id), told = lastActionTells(current.game, at);
     const said = !fast && tableTalk && (needleFor(current.game, at) || (told?.tells.speech && told.event.action?.type === 'raise')) ? READ_AFTER_MS * .8 : 0;
     return Math.max(ms, said);
@@ -476,11 +476,11 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
   const slotsUi = freshSlotsUi(); slotsUi.notice = slotsRead.notice;
   const slotsPlayer = new SlotsPlayer(slotsRead.state, slotsUi, {
     render: () => render(),
-    sound: kind => { if (style.sound && view === 'slots') playSound(kind); },
+    sound: (kind, opt) => { if (style.sound && view === 'slots') playSound(kind, 0, opt); },
     active: () => view === 'slots' && document.visibilityState === 'visible',
     motion: () => motion,
   });
-  function slotsView(): string { return slotsMarkup(slotsPlayer.state, slotsUi); }
+  function slotsView(): string { slotsUi.soundOn = style.sound; slotsUi.volume = style.volume; return slotsMarkup(slotsPlayer.state, slotsUi); }
   /* Patch 99: roulette, craps, baccarat and the races share one casino balance. */
   const CASINO_SOUNDS: Record<string, SoundKind> = { chip: 'chip', dice: 'dice', roll: 'ballroll', drop: 'balldrop', card: 'cardsnap', bugle: 'bugle', crowd: 'crowd', shuffle: 'shuffle', flip: 'flip', money: 'money', win: 'win', fold: 'fold' };
   const casino = new CasinoPlayer({
@@ -507,7 +507,9 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     if (!plo || ploTimer || view !== 'omaha' || !plo.botTurn) return;
     ploUi.thinking = true;
     let wait = 900; try { wait = plo.planBot(); } catch (cause) { ploUi.error = (cause as Error).message; }
-    if (ploUi.fast) wait = Math.min(1200, Math.round(wait * 0.4));
+    /* Phase 11 (EA-F01): Omaha's default think is halved too (timing only — the bot's
+     * decided action and its tempo read are untouched); the Faster toggle goes further. */
+    if (ploUi.fast) wait = Math.min(900, Math.round(wait * 0.3)); else wait = Math.round(wait * 0.5);
     ploTimer = window.setTimeout(() => { ploTimer = 0; ploUi.thinking = false; try { plo!.botStep(); } catch (cause) { ploUi.error = (cause as Error).message; } render(); }, wait);
   }
   function ploDo(work: () => void) { if (!plo) return; ploUi.error = ''; ploUi.blockedByTable = false; try { work(); } catch (cause) { ploUi.error = (cause as Error).message; } render(); }
@@ -563,7 +565,12 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
   }
   /** Patch 67: a long think gets "time" called on it (display only). */
   let timeCall: { token: string; at: number; by: number } | null = null;
-  const rememberedPace = () => { try { const value = Number(localStorage.getItem(PACE_KEY)); return [250, 900, 1800].includes(value) ? value : 900; } catch { return 900; } };
+  /* Phase 11 (EA-F01): the default pace is ~2× faster than the old Normal (900 → 450).
+   * A stored 900 was the old Normal, so it follows Normal to 450; Fast and Relaxed are
+   * unchanged. Think plans are authored against 900, so scale = pace/900 does the rest. */
+  const rememberedPace = () => { try { const value = Number(localStorage.getItem(PACE_KEY)); return value === 900 || value === 450 ? 450 : [250, 1800].includes(value) ? value : 450; } catch { return 450; } };
+  /* Phase 11 (EA-F01): think time already spent on the current street, for the budget. */
+  let streetThink = { key: '', spent: 0 };
   let pace = rememberedPace();
   let error = '';
   let raiseValue = 0;
@@ -771,7 +778,13 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
       const plan = cashThinkPlan(active, controller.data), scale = pace / 900;
       // Patch 94: a remark from the last player stays up long enough to read before the next one acts.
       const said = tableTalk && active.humanLayer && (quipFor(active.game, id => active.profiles[id], true) || reraiseLine(active.game, namesAt(active.game, id => active.profiles[id])) || spectatorLine(active.game, namesAt(active.game, id => active.profiles[id]))) ? READ_AFTER_MS * Math.max(.5, scale) : 0;
-      const delay = heroFolded ? Math.min(pace, FOLDED_PACE_MS) : skipToTurn === current.handId ? SKIP_PACE_MS : plan ? Math.max(said, pacedMs(plan, scale, pace <= 250 ? 1000 : READ_HOLD_MS)) : pace;
+      let delay = heroFolded ? Math.min(pace, FOLDED_PACE_MS) : skipToTurn === current.handId ? SKIP_PACE_MS : plan ? Math.max(said, pacedMs(plan, scale, pace <= 250 ? 1000 : READ_HOLD_MS)) : pace;
+      /* Phase 11 (EA-F01): budget the street's total think time. Decisions at a full
+       * table no longer stack without limit; once the street's budget is spent, the
+       * rest of the street moves briskly. Timing only — decisions never change. */
+      const streetKey = `${current.handId}:${current.street}`;
+      if (streetThink.key !== streetKey) streetThink = { key: streetKey, spent: 0 };
+      if (!heroFolded && skipToTurn !== current.handId) { delay = streetBudgetDelay(streetThink.spent, delay, STREET_BUDGET_MS * (pace / 450)); streetThink.spent += delay; }
       // Patch 67: someone calls time on a long think, part way through it.
       timeCall = null;
       if (!heroFolded && delay >= TIME_CALL_MS && current.actor !== null) {
@@ -1404,7 +1417,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
       ${(()=>{const a=controller.data?.active;if(!a||!shown||shown.street!=='complete')return '';const t=a.dealerTips?.lastHand===shown.handId?a.dealerTips.lastTip:0;return t?`<p class="toke-line" data-testid="toke-line">You toss the dealer ${dollars(t)}. “Thank you!”</p>`:'';})()}
       ${(()=>{const d=controller.data,m=d?.active?matchState(d):null;if(!m)return '';const a=d!.active!,ids=new Set(d!.sessions.find(x=>x.id===a.sessionId)?.handIds??[]);const noticed=(()=>{try{return [...(cashInsight(d!.hands.filter(h=>ids.has(h.id)),a,1)?.leaks[0]??[])];}catch{return [];}})();const hero0=a.game.seats.find(x=>x.id===0),netBB=hero0?((a.game.payouts?.[0]??0)-hero0.totalCommitted)/a.game.profile.bigBlind:0;const said=a.game.street==='complete'?matchLine(m,a.game.handId,noticed,a.game.profile.bigBlind)??(tableTalk&&!m.over?headsUpExtra(m.name,m.opponent,netBB,m.hero+m.villain?m.hero/(m.hero+m.villain):.5,`${a.game.handId}:hu`):null):m.hands===0?matchLine(m,a.game.handId,noticed,a.game.profile.bigBlind):null;return matchBanner(m)+noticedMarkup(m.name,noticed)+(said?`<p class="hu-say" data-testid="hu-say"><b>${escape(m.name)}:</b> “${escape(said)}”</p>`:'')+(m.over?`<div class="hu-over" data-testid="hu-over"><b>${m.won?'You win the match!':`${escape(m.name)} wins the match.`}</b> ${m.how==='bust'?'Someone is out of chips.':`${m.hands} hands played.`} <button type="button" class="button primary" id="hu-finish">Finish match</button></div>`:'');})()}
       ${controller.data?.active&&!controller.data.sessions.find(x=>x.id===controller.data!.active!.sessionId)?.settings.challenge?promoBoard(controller.data,controller.data.active.sessionId,controller.data.ledger.at(-1)?.id.startsWith('promo:')?controller.data.ledger.at(-1)!.note:''):''}
-      <div class="table-toolbar">${sessionClock() ? `<span class="session-clock" data-testid="session-clock" title="Playing time this session"><span aria-hidden="true">⏱</span> <span id="session-clock-time">${durationText(sessionClock()!.ms)}</span></span>` : ''}<span><i class="status-dot"></i>${!game ? 'Ready when you are' : paused ? 'Table paused' : game.street === 'complete' ? 'Ready for the next hand' : game.actor === 0 ? 'Action is on you' : `${escape(seatName(game.actor ?? 0,shown))} is thinking`}</span><div><label class="auto-deal-toggle" for="auto-deal"><input type="checkbox" id="auto-deal" ${autoDeal ? 'checked' : ''}>Auto-deal</label><label class="auto-deal-toggle" for="table-talk"><input type="checkbox" id="table-talk" ${tableTalk ? 'checked' : ''}>Table talk</label>${game?.profile.straddle ? `<label class="auto-deal-toggle" for="hero-straddle"><input type="checkbox" id="hero-straddle" ${unavailable()?'disabled':''} ${controller.data?.active?.heroStraddle ? 'checked' : ''}>Straddle UTG</label>` : ''}<label for="pace">Pace</label><select id="pace" aria-label="Bot action pace"><option value="250" ${pace === 250 ? 'selected' : ''}>Fast</option><option value="900" ${pace === 900 ? 'selected' : ''}>Normal</option><option value="1800" ${pace === 1800 ? 'selected' : ''}>Relaxed</option></select><button id="pause" class="icon-button" ${!game || game.street === 'complete' || unavailable() ? 'disabled' : ''}><span class="shape-icon ${paused ? 'shape-play' : 'shape-pause'}" aria-hidden="true"></span>${paused ? 'Resume' : 'Pause'}</button></div></div>${quickChatMarkup()}${breakReminder()}${stylePanel()}${talkLogMarkup()}${profileCard(shown)}
+      <div class="table-toolbar">${sessionClock() ? `<span class="session-clock" data-testid="session-clock" title="Playing time this session"><span aria-hidden="true">⏱</span> <span id="session-clock-time">${durationText(sessionClock()!.ms)}</span></span>` : ''}<span><i class="status-dot"></i>${!game ? 'Ready when you are' : paused ? 'Table paused' : game.street === 'complete' ? 'Ready for the next hand' : game.actor === 0 ? 'Action is on you' : `${escape(seatName(game.actor ?? 0,shown))} is thinking`}</span><div><label class="auto-deal-toggle" for="auto-deal"><input type="checkbox" id="auto-deal" ${autoDeal ? 'checked' : ''}>Auto-deal</label><label class="auto-deal-toggle" for="table-talk"><input type="checkbox" id="table-talk" ${tableTalk ? 'checked' : ''}>Table talk</label>${game?.profile.straddle ? `<label class="auto-deal-toggle" for="hero-straddle"><input type="checkbox" id="hero-straddle" ${unavailable()?'disabled':''} ${controller.data?.active?.heroStraddle ? 'checked' : ''}>Straddle UTG</label>` : ''}<label for="pace">Pace</label><select id="pace" aria-label="Bot action pace"><option value="250" ${pace === 250 ? 'selected' : ''}>Fast</option><option value="450" ${pace === 450 ? 'selected' : ''}>Normal</option><option value="1800" ${pace === 1800 ? 'selected' : ''}>Relaxed</option></select><button id="pause" class="icon-button" ${!game || game.street === 'complete' || unavailable() ? 'disabled' : ''}><span class="shape-icon ${paused ? 'shape-play' : 'shape-pause'}" aria-hidden="true"></span>${paused ? 'Resume' : 'Pause'}</button></div></div>${quickChatMarkup()}${breakReminder()}${stylePanel()}${talkLogMarkup()}${profileCard(shown)}
     </section>`;
   }
   function potBreakdown(shown: HeroViewModel): string {
@@ -2305,7 +2318,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     if ((style.sound || style.vibrate) && lastSoundView === view) { const cues = soundCues(lastSound, nextSound, soundView); if (style.sound) playCues(cues); if (style.vibrate) vibrateFor(cues); }
     lastSound = nextSound; lastSoundView = view;
     // Patch 83: the card-room murmur, only at a table and only while the page is visible.
-    ambience(style.sound && style.ambience && ['live', 'omaha', 'blackjack', 'tournaments', 'heads-up'].includes(view) && document.visibilityState === 'visible');
+    ambience(style.sound && style.ambience && ['live', 'omaha', 'blackjack', 'tournaments', 'heads-up', 'slots'].includes(view) && document.visibilityState === 'visible');
     // Patch 80: Omaha and blackjack sounds.
     if (view === 'omaha' && plo) { const next = ploSoundState(plo.state.active ? plo.hand : null, plo.heroTurn); if (style.sound && lastPloSound && next) { const cues = ploSoundCues(lastPloSound, next, plo.hand); playCues(cues); if (style.vibrate) vibrateFor(cues); } lastPloSound = next; } else lastPloSound = null;
     if (view === 'blackjack') { const next = blackjackLive.soundState(); if (style.sound && lastBjSound && next) { const cues = bjSoundCues(lastBjSound, next); playCues(cues); } lastBjSound = next; } else lastBjSound = null;
@@ -2496,6 +2509,13 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     on('#slots-max', slotDo(() => slotsPlayer.maxBet()));
     on('#slots-pays', () => { const table = root.querySelector<HTMLDetailsElement>('#slot-paytable'); if (table) { table.open = true; table.scrollIntoView({ block: 'start' }); } });
     on('#slots-turbo', slotDo(() => slotsPlayer.toggleTurbo()));
+    /* Phase 11 (S-U01): the slots floor and machine screens carry the sound controls —
+     * the same global style the poker style panel edits. */
+    on('#slots-sound-toggle', () => { unlockAudio(); restyle({ sound: !style.sound }); if (style.sound) setTimeout(() => playSound('chip'), 40); });
+    root.querySelector<HTMLInputElement>('#slots-sound-volume')?.addEventListener('input', event => { const v = Number((event.currentTarget as HTMLInputElement).value); setVolume(v / 100); style = { ...style, volume: v }; saveStyle(style); }, live);
+    on('#slots-sound-hint-on', () => { unlockAudio(); slotsPlayer.dismissSoundHint(); restyle({ sound: true }); setTimeout(() => playSound('chip'), 40); });
+    on('#slots-sound-hint-dismiss', slotDo(() => slotsPlayer.dismissSoundHint()));
+    on('#slots-skip-feature', () => slotsPlayer.skipFeature());
     on('#slots-auto', slotDo(() => { slotsUi.autoOpen = !slotsUi.autoOpen; }));
     on('#slots-auto-start', () => slotsPlayer.startAuto());
     on('#slots-stop', slotDo(() => slotsPlayer.stopAuto()));

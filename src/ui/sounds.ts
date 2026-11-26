@@ -8,6 +8,7 @@ export type SoundKind='deal'|'card'|'chip'|'check'|'fold'|'turn'|'win'|
  /* Patch 80 */'allin'|'collect'|'shuffle'|'blackjack'|'bust'|'push'|'lose'|'flip'|
  /* Patch 83 */'levelup'|'money'|'champion'|'knockout'|'promo'|'matchwin'|'matchlose'|'tap'|
  /* Patch 92: slots */'reel'|'anticipate'|'bigwin'|'bells'|
+ /* Phase 11: slots layers */'whirr'|'scatterland'|'clink'|'wheeltick'|'countup'|'countupbig'|'megawin'|'epicwin'|'vault'|'gliss'|'chest'|'retrigger'|'teaseland'|'teasemiss'|'reset'|
  /* Patch 102: casino tables */'ballroll'|'balldrop'|'dice'|'cardsnap'|'bugle'|'crowd';
 /** Patch 102: every sound the casino tables use, for checking that each one has a voice. */
 export const CASINO_KINDS:readonly SoundKind[]=['ballroll','balldrop','dice','cardsnap','bugle','crowd','chip','shuffle','money','win','fold'];
@@ -73,7 +74,9 @@ function rumble(at:number,duration:number,volume:number,freq:number,q:number,att
  gain.gain.setValueAtTime(0.0001,at);gain.gain.exponentialRampToValueAtTime(volume,at+attack);gain.gain.exponentialRampToValueAtTime(0.0001,at+duration);
  source.connect(filter).connect(gain).connect(out());source.start(at);source.stop(at+duration+.05);
 }
-export function playSound(kind:SoundKind,delay=0):void {
+/** Phase 11: `opt.ms` stretches a voice over a duration (riser, count-ups); `opt.pitch`
+ * multiplies its base frequencies (the Hold & Spin coin ladder). */
+export function playSound(kind:SoundKind,delay=0,opt?:{ms?:number;pitch?:number}):void {
  if(!context||context.state!=='running')return;
  const t=context.currentTime+delay;
  switch(kind){
@@ -104,7 +107,32 @@ export function playSound(kind:SoundKind,delay=0):void {
   case 'tap':tone(t,1800,.025,.05,'square');break;
   // Patch 92: a reel thudding to a stop, a rising whirr while a reel holds back for a bonus, and a big-win fanfare.
   case 'reel':tone(t,140,.06,.18,'triangle');swish(t,.04,.25,1400);break;
-  case 'anticipate':for(let i=0;i<8;i++)tone(t+i*.09,330+i*70,.11,.05,'sawtooth');break;
+  // Phase 11: the riser is a sustained climb matched to the tease length, not one fixed phrase.
+  case 'anticipate':{const ms=opt?.ms??800,n=Math.max(6,Math.round(ms/90));for(let i=0;i<n;i++)tone(t+i*(ms/1000/n),330+570*(i/(n-1)),.13,.045,'sawtooth');break;}
+  // Phase 11: slots layers (S-U07). All synth, no files, under the one master volume.
+  // A soft mechanical whirr under rolling reels.
+  case 'whirr':rumble(t,.75,.045,950,1.1,.22);for(let i=0;i<5;i++)tone(t+.08+i*.13,1750,.02,.02,'triangle');break;
+  // A bonus symbol landing is its own event, brighter than the reel thud.
+  case 'scatterland':tone(t,1319,.3,.07,'sine');tone(t+.02,1760,.34,.06,'sine');tone(t+.05,2637,.22,.03,'sine');break;
+  // One coin hitting the tray; the ladder climbs via opt.pitch.
+  case 'clink':{const p=opt?.pitch??1;tone(t,2950*p,.06,.07,'triangle');tone(t+.03,3900*p,.05,.05,'triangle');break;}
+  // The bonus wheel's pointer ticking over the pegs, slowing with the disc's 2.6s decel.
+  case 'wheeltick':for(let i=0,at=0;i<26;i++){at+=.042+i*.0062;tone(t+at,2350,.02,.04,'square');}break;
+  // Tick streams under a win count-up; density and pitch climb with the tally.
+  case 'countup':case 'countupbig':{const ms=opt?.ms??(kind==='countupbig'?2100:850),n=Math.max(6,Math.round(ms/55));for(let i=0;i<n;i++)tone(t+i*(ms/1000/n),1900+900*(i/n),.03,.028,'triangle');break;}
+  // Tier-distinct fanfares: BIG keeps 'bigwin'; MEGA runs higher and wider; EPIC adds bells.
+  case 'megawin':[659,784,988,1319,1568,1319,1568,2093].forEach((f,i)=>tone(t+i*.11,f,i===7?.85:.24,.09,'triangle'));for(let i=0;i<20;i++)tone(t+.35+i*.05,2400+((i*277)%1100),.05,.05,'triangle');break;
+  case 'epicwin':[523,659,784,1047,1319,1568,2093].forEach((f,i)=>tone(t+i*.12,f,.3,.09,'triangle'));[1568,2093,2637,3136].forEach((f,i)=>{tone(t+.75+i*.13,f,1,.05,'sine');tone(t+.75+i*.13,f*2.76,.45,.013,'sine');});for(let i=0;i<24;i++)tone(t+.4+i*.05,2300+((i*311)%1200),.05,.05,'triangle');break;
+  // Feature intros, one per feature: a vault clunk for Hold & Spin, a rising gliss for the wheel,
+  // a chest creak and coin spill for the pick bonus, and a bright chime when the respin counter resets.
+  case 'vault':tone(t,82,.3,.22,'sine');tone(t+.03,124,.2,.12,'triangle');tone(t+.16,2900,.05,.06,'triangle');tone(t+.2,3400,.06,.05,'triangle');break;
+  case 'gliss':for(let i=0;i<11;i++)tone(t+i*.055,520+i*95,.16,.05,'triangle');break;
+  case 'chest':tone(t,196,.22,.07,'sawtooth');tone(t+.1,147,.26,.06,'sawtooth');for(let i=0;i<6;i++)tone(t+.34+i*.045,2200+((i*317)%600),.05,.06,'triangle');break;
+  case 'reset':tone(t,1047,.16,.07,'triangle');tone(t+.09,1568,.24,.07,'triangle');tone(t+.12,2950,.05,.05,'triangle');break;
+  // A retrigger inside free spins, and the two ways an anticipation tease can resolve.
+  case 'retrigger':[1047,1319,1568].forEach((f,i)=>tone(t+i*.08,f,.26,.08,'triangle'));tone(t+.26,2093,.4,.06,'sine');break;
+  case 'teaseland':tone(t,880,.18,.08,'triangle');tone(t+.1,1319,.3,.08,'triangle');break;
+  case 'teasemiss':tone(t,392,.2,.05,'sine');tone(t+.14,311,.3,.04,'sine');break;
   // Patch 102: the casino tables.
   // The ball rolling round the rim, slowing: a low whirr and ticks that spread out.
   case 'ballroll':rumble(t,3.6,.09,420,1.2,.3);for(let i=0,at=0;i<22;i++){at+=.06+i*.0075;tone(t+at,2600-i*35,.02,.035,'triangle');}break;

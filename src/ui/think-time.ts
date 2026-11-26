@@ -93,3 +93,13 @@ export function pacedMs(plan:ThinkPlan,scale:number,readFloor:number):number {
  const ms=plan.snap?plan.ms*Math.min(1,Math.max(.5,scale)):plan.ms*scale;
  return Math.round(Math.max(plan.snap?Math.min(180,MIN_THINK_MS*scale):MIN_THINK_MS*scale,plan.visibleTell?Math.max(ms,readFloor):ms));
 }
+/** Phase 11 (EA-F01): a per-street think budget. Bot decisions are committed one at a
+ * time, so at a full table their think times used to add up without limit (a 9-max
+ * street could take half a minute). Once the time already spent thinking on this
+ * street reaches the budget, the remaining decisions on the street are capped to a
+ * brisk floor. Timing only: the decisions themselves are already saved and never
+ * change — only how long the table dwells on them. */
+export const STREET_BUDGET_MS=6500,STREET_BUDGET_FLOOR_MS=250;
+export function streetBudgetDelay(spentMs:number,delayMs:number,budgetMs:number):number {
+ return spentMs>=budgetMs?Math.min(delayMs,STREET_BUDGET_FLOOR_MS):delayMs;
+}
