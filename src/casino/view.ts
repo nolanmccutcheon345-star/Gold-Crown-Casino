@@ -1,6 +1,6 @@
 /** Patch 99: the casino tables' markup: roulette, craps, baccarat and the races. */
 import {CHIPS,money,type CasinoState} from './wallet';
-import {ORDER,DOUBLE_ZERO,colourOf,label,outside,stats,ANNOUNCED,sectionOf,PAYS,SPECIALS,type Special,type BetKind as RBetKind,type Announced} from './roulette';
+import {ORDER,DOUBLE_ZERO,colourOf,label,outside,stats,ANNOUNCED,sectionOf,PAYS,SPECIALS,type Special,type BetKind as RBetKind,type Announced,type RouletteBet} from './roulette';
 import {total as bacTotal,bigRoad,derivedRoad,ask,cardsLeft,type BaccaratSpot} from './baccarat';
 import {POINTS,HARD,BUYS,SPOT_LABEL,maxOdds,maxLay,oddsUp,type Spot} from './craps';
 import {odds,oddsLabel,settleBet,paddockNote,BOXABLE,TAKE,PICKS,type BetKind as RaceKind} from './races';
@@ -126,6 +126,36 @@ function rouletteLayout(ui:CasinoUi):string {
  const even=(['low','even','red','black','odd','high'] as const).map((k,i)=>`<div class="rl-out em" style="grid-column:5;grid-row:${2+2*i}/span 2">${spot(k,outside(k),`rl-ob ${k}`,{low:'1–18',even:'EVEN',red:'<i class="dia red"></i> RED',black:'<i class="dia black"></i> BLACK',odd:'ODD',high:'19–36'}[k],{low:'Low 1 to 18',even:'Even',red:'Red',black:'Black',odd:'Odd',high:'High 19 to 36'}[k])}</div>`).join('');
  return `<div class="rl-layout${am?' american':''}" data-testid="roulette-layout">${zeros}${cells.join('')}${dozens}${cols}${even}</div>`;
 }
+/** Phase 13.5: a booked bet in plain words — the name a player would say, and the numbers it covers. */
+function betName(b:RouletteBet):{name:string;covers:string} {
+ const ns=[...b.numbers].sort((a,b)=>a-b),L=(n:number)=>label(n),list=ns.map(L).join(', ');
+ switch(b.kind){
+  case 'straight':return {name:`Straight ${L(ns[0])}`,covers:`${L(ns[0])} only`};
+  case 'split':return {name:`Split ${L(ns[0])} and ${L(ns[1])}`,covers:list};
+  case 'street':return {name:`Street ${L(ns[0])} to ${L(ns[2])}`,covers:list};
+  case 'corner':return {name:ns[0]===0?'First four 0, 1, 2, 3':`Corner ${list}`,covers:list};
+  case 'line':return {name:`Six line ${L(ns[0])} to ${L(ns[5])}`,covers:list};
+  case 'basket':return {name:'Top line',covers:'0, 00, 1, 2, 3'};
+  case 'dozen':{const w=Math.floor((ns[0]-1)/12);return {name:`${['First','Second','Third'][w]} dozen`,covers:`${ns[0]} to ${ns[ns.length-1]}`};}
+  case 'column':{const w=(ns[0]-1)%3;return {name:`Column ${w+1}`,covers:list};}
+  case 'red':return {name:'Red',covers:'all 18 red numbers'};
+  case 'black':return {name:'Black',covers:'all 18 black numbers'};
+  case 'odd':return {name:'Odd',covers:'all 18 odd numbers'};
+  case 'even':return {name:'Even',covers:'all 18 even numbers'};
+  case 'low':return {name:'Low',covers:'1 to 18'};
+  case 'high':return {name:'High',covers:'19 to 36'};
+ }
+}
+/** Phase 13.5: the pending-bet ticket. Every chip on the layout, readable before the spin:
+ * what each bet is called, which numbers it covers, and what is on it — with a remove
+ * control per line, so a bet that is not the one the player tapped can be taken back. */
+function rouletteTicket(p:CasinoPlayer):string {
+ const r=p.ui.roulette;if(!r.bets.length)return '';
+ const total=r.bets.reduce((a,b)=>a+b.amount,0),locked=r.phase==='spinning';
+ const lines=r.bets.map(b=>{const nm=betName(b),k=rkey(b.kind,[...b.numbers]);
+  return `<li data-ticket-bet="${k}"><span class="rl-ticket-name">${esc(nm.name)}</span><span class="rl-ticket-nums">${esc(nm.covers)}</span><span class="rl-ticket-amt">${money(b.amount)}</span>${locked?'':`<button type="button" class="rc-x" data-rbet-remove="${k}" aria-label="Remove ${esc(nm.name)}">×</button>`}</li>`;}).join('');
+ return `<div class="rl-ticket" data-testid="roulette-ticket"><h3>Your bets <small>${locked?'on this spin':'check them before you spin'}</small></h3><ul>${lines}</ul><p class="rl-ticket-total"><span>${r.bets.length} bet${r.bets.length===1?'':'s'}</span><b>Total ${money(total)}</b></p></div>`;
+}
 /** Patch 100: the French racetrack. Tap a number for it and two neighbours each side; tap a section for the
  * announced bet. */
 function racetrack(p:CasinoPlayer):string {
@@ -160,6 +190,7 @@ export function rouletteMarkup(p:CasinoPlayer):string {
   <div class="rl-history" aria-label="Last numbers">${shownBoard.slice(-12).reverse().map((n,i)=>`<span class="${colourOf(n)}${i===0?' latest':''}">${label(n)}</span>`).join('')||'<small>No spins yet</small>'}</div>
   <p class="cz-fine">${r.wheel==='european'?`Single zero: 2.70% house edge on every bet${r.partage?' (1.35% on even money with La Partage)':''}.`:'Double zero: 5.26% house edge (7.89% on the top line).'} Straight 35:1 · split 17:1 · street 11:1 · corner 8:1 · six line 5:1 · dozens and columns 2:1 · even money 1:1.</p></div></div>
  ${rouletteLayout(ui)}</div>
+ ${rouletteTicket(p)}
  <div class="rl-specials" role="group" aria-label="Named bets"><b>Named bets</b>${(['snake','redSplits','blackSplits'] as Special[]).map(k=>`<button type="button" class="button secondary" data-special="${k}" ${spinning?'disabled':''} title="${esc(SPECIALS[k].blurb)}" aria-label="${esc(SPECIALS[k].name)}: ${esc(SPECIALS[k].blurb)}, ${money(SPECIALS[k].pieces.length*ui.chip)}">${esc(SPECIALS[k].name)} <small>${SPECIALS[k].pieces.length} chips · ${short(SPECIALS[k].pieces.length*ui.chip)}</small></button>`).join('')}</div>
  ${r.wheel==='european'?racetrack(p):''}
  ${statsMarkup(shownBoard)}

@@ -14,8 +14,13 @@ describe('P10-F09 top award (from published machine data, at max bet)', () => {
   it('Crown Wheel tops out at its 150× wheel segment, not its top line', () => {
     expect(topAward(machineById('crown-wheel')!)).toBe(150 * 500);
   });
-  it('Olympus Gold tops out at the Zeus line: 3300× the $0.25 max-bet unit', () => {
-    expect(topAward(machineById('olympus-gold')!)).toBe(3300 * 25);
+  it('Olympus Gold tops out at the column line: 1200× the $0.25 max-bet unit', () => {
+    /* Phase 13.6 deliberate contract change: this pin used to assert 3300×25 —
+     * the five-Zeus line — but Zeus appears only on reels two and four, so that
+     * award can never occur (independent audit, 2026-11-26). The largest
+     * REACHABLE single award is five columns, 1200× the unit. The full
+     * reachability guard lives in tests/phase13-6. */
+    expect(topAward(machineById('olympus-gold')!)).toBe(1200 * 25);
   });
   it('every machine has a positive top award', () => {
     for (const m of MACHINES) expect(topAward(m), m.id).toBeGreaterThan(0);

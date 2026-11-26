@@ -2653,6 +2653,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     on('#casino-reload', () => casino.reload());
     root.querySelectorAll<HTMLButtonElement>('[data-wheel]').forEach(b => b.addEventListener('click', () => casino.setWheel(b.dataset.wheel as 'european' | 'american'), live));
     root.querySelectorAll<HTMLButtonElement>('[data-rbet]').forEach(b => b.addEventListener('click', () => { const [kind, ns] = b.dataset.rbet!.split('|'); casino.placeRoulette(kind as never, ns.split('-').map(Number)); }, live));
+    root.querySelectorAll<HTMLButtonElement>('[data-rbet-remove]').forEach(b => b.addEventListener('click', () => { const [kind, ns] = b.dataset.rbetRemove!.split('|'); casino.removeRouletteBet(kind as never, ns.split('-').map(Number)); }, live));
     on('#roulette-spin', () => casino.spinRoulette()); on('#roulette-undo', () => casino.undoRoulette()); on('#roulette-clear', () => casino.clearRoulette()); on('#roulette-rebet', () => casino.rebetRoulette());
     root.querySelectorAll<HTMLButtonElement>('[data-bspot]').forEach(b => b.addEventListener('click', () => casino.placeBaccarat(b.dataset.bspot as never), live));
     on('#bac-deal', () => casino.dealBaccarat()); on('#bac-clear', () => casino.clearBaccarat()); on('#bac-rebet', () => casino.rebetBaccarat());

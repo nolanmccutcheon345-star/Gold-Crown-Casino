@@ -1,6 +1,11 @@
-/** Patch 90: the slot machines. Reel strips are fixed; the payback shown on each machine is measured in
- * tests/ux90 over millions of spins (Lucky Sevens 94.53% and Triple Diamond 94.58%: computed exactly).
- * Phase 4 took the floor from eight machines to thirteen. */
+/** Patch 90: the slot machines. Reel strips are fixed.
+ * Phase 4 took the floor from eight machines to thirteen.
+ * Phase 13.6: the payback and feature-frequency figures below are COMPUTED from
+ * these reel strips and pay rules by src/slots/exact.ts (closed form; the
+ * three-reel machines by full stop enumeration) and pinned to the computation
+ * by tests/phase13-6 — no longer simulation estimates. Exceptions, still
+ * measured estimates: both cascade machines' payback (the tumble chain has no
+ * closed form) and the hit rate of every five-reel and ways machine. */
 import type {Machine,Sym} from './engine';
 
 /** A reel strip from symbol counts, spread out by a fixed shuffle so the same symbols do not bunch together. */
@@ -24,7 +29,7 @@ export const MACHINES:readonly Machine[]=[
   pays:{'7':[0,0,0,200],B3:[0,0,0,70],B2:[0,0,0,35],B1:[0,0,0,15]},cherry:{sym:'CH',pays:[0,1,2,20]},anyBar:{syms:['B3','B2','B1'],pay:6},
   wheel:{sym:'WH',reel:2,row:1,segments:[{x:5,w:60},{x:8,w:48},{x:10,w:36},{x:15,w:24},{x:20,w:16},{x:30,w:8},{x:50,w:4},{x:100,w:2},{x:250,w:1}]},
   bets:[50,100,250,500,1000],symbols:CLASSIC_SYMBOLS,theme:{top:'#5a1a6a',bottom:'#1a0624',glow:'#ff7ad9',marquee:'Spin the wheel'}},
- {id:'gold-rush',name:'Gold Rush',tagline:'Five reels, twenty lines. Gold is wild; three nuggets start free spins at double pay.',kind:'video',rtp:95.6,volatility:'low',stats:{hitRate:31.8,featureEvery:75,swing:1,topSeen:330},rows:3,
+ {id:'gold-rush',name:'Gold Rush',tagline:'Five reels, twenty lines. Gold is wild; three nuggets start free spins at double pay.',kind:'video',rtp:95.4,volatility:'low',stats:{hitRate:31.8,featureEvery:75,swing:1,topSeen:330},rows:3,
   reels:[strip({nug:2,pick:3,lamp:4,mule:4,A:6,K:7,Q:7,J:8,T:9},301),strip({nug:2,gold:2,pick:3,lamp:4,mule:5,A:6,K:7,Q:7,J:8,T:8},302),strip({nug:2,gold:2,pick:3,lamp:4,mule:5,A:6,K:7,Q:7,J:8,T:8},303),strip({nug:2,gold:2,pick:3,lamp:4,mule:5,A:6,K:7,Q:7,J:8,T:8},304),strip({nug:2,pick:3,lamp:4,mule:4,A:6,K:7,Q:7,J:8,T:9},305)],
   lines:LINES20,wild:'gold',
   pays:{gold:[0,0,0,140,550,2750],pick:[0,0,0,80,275,1350],lamp:[0,0,0,55,165,675],mule:[0,0,0,40,110,400],A:[0,0,0,22,70,275],K:[0,0,0,16,55,220],Q:[0,0,0,14,40,160],J:[0,0,0,11,35,135],T:[0,0,0,8,27,110]},
@@ -32,7 +37,7 @@ export const MACHINES:readonly Machine[]=[
   bets:[20,40,100,200,500],
   symbols:{gold:{label:'Gold bar (wild)',art:'goldWild',tone:'wild'},nug:{label:'Nugget (bonus)',art:'nugget',tone:'bonus'},pick:{label:'Pickaxe',art:'pickaxe',tone:'high'},lamp:{label:'Lantern',art:'lantern',tone:'high'},mule:{label:'Mine cart',art:'cart',tone:'high'},A:{label:'Ace',art:'A',tone:'low'},K:{label:'King',art:'K',tone:'low'},Q:{label:'Queen',art:'Q',tone:'low'},J:{label:'Jack',art:'J',tone:'low'},T:{label:'Ten',art:'T',tone:'low'}},
   theme:{top:'#6b4a0e',bottom:'#2a1c06',glow:'#ffcf4a',marquee:'Strike it rich'}},
- {id:'lucky-lightning',name:'Lucky Lightning',tagline:'Six coins start Hold & Spin: coins stick, every new coin resets three respins. Fill the screen for the Grand.',kind:'hold',rtp:94.1,volatility:'high',stats:{hitRate:33.8,featureEvery:124,swing:5,topSeen:1362},rows:3,
+ {id:'lucky-lightning',name:'Lucky Lightning',tagline:'Six coins start Hold & Spin: coins stick, every new coin resets three respins. Fill the screen for the Grand.',kind:'hold',rtp:94.3,volatility:'high',stats:{hitRate:33.8,featureEvery:125,swing:5,topSeen:1362},rows:3,
   reels:[0,1,2,3,4].map(i=>strip({coin:7,bolt:i>0&&i<4?2:0,seven:3,bell:4,star:5,A:6,K:7,Q:8,J:9},401+i)),
   lines:LINES20,wild:'bolt',
   pays:{bolt:[0,0,0,50,180,700],seven:[0,0,0,30,100,350],bell:[0,0,0,18,50,180],star:[0,0,0,12,36,120],A:[0,0,0,8,24,70],K:[0,0,0,6,18,60],Q:[0,0,0,5,14,50],J:[0,0,0,4,12,40]},
@@ -44,7 +49,7 @@ export const MACHINES:readonly Machine[]=[
   reels:[0,1,2].map(i=>strip({DW:2,'7':3,B3:4,B2:6,B1:8,CH:3,'-':38},501+i)),lines:[[1,1,1],[0,0,0],[2,2,2],[0,1,2],[2,1,0],[0,1,0],[2,1,2],[1,0,1],[1,2,1]],wild:'DW',wildMultiplier:3,
   pays:{DW:[0,0,0,1000],'7':[0,0,0,90],B3:[0,0,0,35],B2:[0,0,0,25],B1:[0,0,0,10]},cherry:{sym:'CH',pays:[0,1,3,8]},anyBar:{syms:['B3','B2','B1'],pay:5},
   bets:[45,90,225,450,900],symbols:{...CLASSIC_SYMBOLS,DW:{label:'Triple diamond (wild ×3)',art:'diamondWild',tone:'wild'}},theme:{top:'#0d4a5a',bottom:'#04161c',glow:'#7af0ff',marquee:'Wilds pay triple'}},
- {id:'dust-devil',name:'Dust Devil',tagline:'1,024 ways to win across five reels of four. Sunsets start free spins where every sheriff star is a ×2 or ×3 wild.',kind:'ways',rtp:94.8,volatility:'medium',stats:{hitRate:55.3,featureEvery:49,swing:3,topSeen:403},rows:4,
+ {id:'dust-devil',name:'Dust Devil',tagline:'1,024 ways to win across five reels of four. Sunsets start free spins where every sheriff star is a ×2 or ×3 wild.',kind:'ways',rtp:94.7,volatility:'medium',stats:{hitRate:55.3,featureEvery:49,swing:3,topSeen:403},rows:4,
   reels:[0,1,2,3,4].map(i=>strip({sunset:2,sheriff:i>0&&i<4?3:0,hat:3,boot:4,horseshoe:4,wagon:5,cactus:5,A:6,K:6,Q:7,J:7,T:8},601+i)),lines:[],wild:'sheriff',
   ways:{betUnit:50,freeWild:[{x:2,w:3},{x:3,w:1}]},
   pays:{hat:[0,0,0,33,88,275],boot:[0,0,0,22,55,165],horseshoe:[0,0,0,16,44,132],wagon:[0,0,0,11,28,88],cactus:[0,0,0,9,22,66],A:[0,0,0,4,11,33],K:[0,0,0,4,11,33],Q:[0,0,0,3,9,22],J:[0,0,0,3,9,22],T:[0,0,0,2,7,16]},
@@ -60,7 +65,7 @@ export const MACHINES:readonly Machine[]=[
   bets:[20,40,100,200,500],
   symbols:{ruby:{label:'Ruby',art:'ruby',tone:'high'},emerald:{label:'Emerald',art:'emerald',tone:'high'},sapphire:{label:'Sapphire',art:'sapphire',tone:'high'},amethyst:{label:'Amethyst',art:'amethyst',tone:'mid'},topaz:{label:'Topaz',art:'topaz',tone:'mid'},citrine:{label:'Citrine',art:'citrine',tone:'mid'},onyx:{label:'Onyx',art:'onyx',tone:'low'},pearl:{label:'Pearl',art:'pearl',tone:'low'},diamond:{label:'Diamond (bonus)',art:'diamond',tone:'bonus'},bomb:{label:'Multiplier bomb',art:'bomb',tone:'bonus'}},
   theme:{top:'#3a0f6a',bottom:'#0e0420',glow:'#c07aff',marquee:'Tumbling gems'}},
- {id:'pirates-plunder',name:"Pirate's Plunder",tagline:'Twenty lines on the high seas. Three treasure maps open the chest bonus: pick three chests.',kind:'pick',rtp:95.2,volatility:'low',stats:{hitRate:28.2,featureEvery:115,swing:1,topSeen:105},rows:3,
+ {id:'pirates-plunder',name:"Pirate's Plunder",tagline:'Twenty lines on the high seas. Three treasure maps open the chest bonus: pick three chests.',kind:'pick',rtp:95.3,volatility:'low',stats:{hitRate:28.2,featureEvery:115,swing:1,topSeen:105},rows:3,
   reels:[0,1,2,3,4].map(i=>strip({map:i%2===0?2:0,helm:i>0&&i<4?2:0,chest:3,compass:4,anchor:4,coin:5,A:6,K:6,Q:7,J:7,T:8},701+i)),lines:LINES20,wild:'helm',
   pays:{helm:[0,0,0,184,690,2760],chest:[0,0,0,115,345,1380],compass:[0,0,0,69,207,690],anchor:[0,0,0,57,161,506],coin:[0,0,0,46,115,368],A:[0,0,0,23,69,230],K:[0,0,0,23,57,207],Q:[0,0,0,18,46,161],J:[0,0,0,14,37,138],T:[0,0,0,12,32,115]},
   pick:{sym:'map',trigger:3,picks:3,board:12,prizes:[{x:2,w:14},{x:3,w:21},{x:5,w:20},{x:8,w:12},{x:10,w:8},{x:15,w:5},{x:25,w:3},{x:50,w:1}]},
@@ -71,7 +76,7 @@ export const MACHINES:readonly Machine[]=[
   * Poseidon's Bounty adds scatter-pay (pearls pay anywhere), Crown Wheel puts the bonus wheel on a twenty-line
   * video machine, and Olympus Gold adds expanding wilds. Every payback and machine fact below is measured by
   * simulation in tests/phase4 (the ux90/ux94 protocols), never asserted. */
- {id:'stampede-run',name:'Stampede Run',tagline:'1,024 ways across the prairie. Features land often; in free spins every eagle wild is ×2 or ×3.',kind:'ways',rtp:94.4,volatility:'high',stats:{hitRate:62.7,featureEvery:27,swing:4,topSeen:304},rows:4,
+ {id:'stampede-run',name:'Stampede Run',tagline:'1,024 ways across the prairie. Features land often; in free spins every eagle wild is ×2 or ×3.',kind:'ways',rtp:94.8,volatility:'high',stats:{hitRate:62.7,featureEvery:27,swing:4,topSeen:304},rows:4,
   reels:[0,1,2,3,4].map(i=>strip({buffalo:3,eagle:i>0&&i<4?3:0,wolf:4,puma:4,bear:5,A:6,K:6,Q:7,J:7,T:8,mesa:2},801+i)),lines:[],wild:'eagle',
   ways:{betUnit:50,freeWild:[{x:2,w:3},{x:3,w:1}]},
   pays:{buffalo:[0,0,0,17,45,151],wolf:[0,0,0,12,30,88],puma:[0,0,0,10,22,69],bear:[0,0,0,8,17,55],A:[0,0,0,3,7,25],K:[0,0,0,3,6,22],Q:[0,0,0,2,6,19],J:[0,0,0,2,5,17],T:[0,0,0,2,5,14]},
@@ -79,7 +84,7 @@ export const MACHINES:readonly Machine[]=[
   bets:[40,80,200,400,800],
   symbols:{eagle:{label:'Eagle (wild)',art:'eagle',tone:'wild'},mesa:{label:'Mesa (bonus)',art:'mesa',tone:'bonus'},buffalo:{label:'Buffalo',art:'buffalo',tone:'high'},wolf:{label:'Wolf',art:'wolf',tone:'high'},puma:{label:'Puma',art:'puma',tone:'high'},bear:{label:'Bear',art:'bear',tone:'high'},A:{label:'Ace',art:'A',tone:'low'},K:{label:'King',art:'K',tone:'low'},Q:{label:'Queen',art:'Q',tone:'low'},J:{label:'Jack',art:'J',tone:'low'},T:{label:'Ten',art:'T',tone:'low'}},
   theme:{top:'#6a2a0e',bottom:'#200c04',glow:'#ffb347',marquee:'1,024 ways'}},
- {id:'poseidons-bounty',name:"Poseidon's Bounty",tagline:'Twenty lines under the sea. Pearls pay anywhere by count; three shells start free spins at double pay.',kind:'video',rtp:95.9,volatility:'low',stats:{hitRate:26.7,featureEvery:50,swing:2,topSeen:329},rows:3,
+ {id:'poseidons-bounty',name:"Poseidon's Bounty",tagline:'Twenty lines under the sea. Pearls pay anywhere by count; three shells start free spins at double pay.',kind:'video',rtp:95.7,volatility:'low',stats:{hitRate:26.7,featureEvery:50,swing:2,topSeen:329},rows:3,
   reels:[0,1,2,3,4].map(i=>strip({shell:2,pearl:7,trident:i>0&&i<4?2:0,seahorse:4,turtle:4,anchor:4,compass:5,A:6,K:7,Q:7,J:8},901+i)),
   lines:LINES20,wild:'trident',
   pays:{trident:[0,0,0,112,488,2440],seahorse:[0,0,0,68,244,1120],turtle:[0,0,0,54,180,830],anchor:[0,0,0,39,132,635],compass:[0,0,0,32,102,470],A:[0,0,0,20,64,250],K:[0,0,0,16,52,210],Q:[0,0,0,13,39,155],J:[0,0,0,10,32,127]},
@@ -88,7 +93,7 @@ export const MACHINES:readonly Machine[]=[
   bets:[20,40,100,200,500],
   symbols:{trident:{label:'Trident (wild)',art:'trident',tone:'wild'},pearl:{label:'Pearl (pays anywhere)',art:'seaPearl',tone:'bonus'},shell:{label:'Shell (bonus)',art:'shell',tone:'bonus'},seahorse:{label:'Seahorse',art:'seahorse',tone:'high'},turtle:{label:'Sea turtle',art:'turtle',tone:'high'},anchor:{label:'Anchor',art:'anchor',tone:'high'},compass:{label:'Compass',art:'compass',tone:'high'},A:{label:'Ace',art:'A',tone:'low'},K:{label:'King',art:'K',tone:'low'},Q:{label:'Queen',art:'Q',tone:'low'},J:{label:'Jack',art:'J',tone:'low'}},
   theme:{top:'#0a4a6a',bottom:'#03182a',glow:'#4adfd0',marquee:'Pearls pay anywhere'}},
- {id:'crown-wheel',name:'Crown Wheel',tagline:'Twenty royal lines. A crown in the middle of the last reel spins the bonus wheel.',kind:'video',rtp:95.6,volatility:'medium',stats:{hitRate:38.7,featureEvery:22,swing:3,topSeen:159},rows:3,
+ {id:'crown-wheel',name:'Crown Wheel',tagline:'Twenty royal lines. A crown in the middle of the last reel spins the bonus wheel.',kind:'video',rtp:95.3,volatility:'medium',stats:{hitRate:38.7,featureEvery:23,swing:3,topSeen:159},rows:3,
   reels:[0,1,2,3,4].map(i=>strip({crown:i===4?2:0,scepter:i>0&&i<4?2:0,orb:4,seven:3,bell:4,star:5,A:6,K:7,Q:7,J:8},1001+i)),
   lines:LINES20,wild:'scepter',
   pays:{scepter:[0,0,0,94,375,1870],orb:[0,0,0,56,187,750],seven:[0,0,0,37,122,510],bell:[0,0,0,25,75,320],star:[0,0,0,15,51,185],A:[0,0,0,10,31,130],K:[0,0,0,8,25,103],Q:[0,0,0,7,21,85],J:[0,0,0,5,17,71]},
@@ -96,7 +101,7 @@ export const MACHINES:readonly Machine[]=[
   bets:[25,50,100,250,500],
   symbols:{crown:{label:'Crown (bonus wheel)',art:'crown',tone:'bonus'},scepter:{label:'Scepter (wild)',art:'scepter',tone:'wild'},orb:{label:'Royal orb',art:'orb',tone:'high'},seven:{label:'Seven',art:'seven',tone:'high'},bell:{label:'Bell',art:'bell',tone:'high'},star:{label:'Star',art:'star',tone:'high'},A:{label:'Ace',art:'A',tone:'low'},K:{label:'King',art:'K',tone:'low'},Q:{label:'Queen',art:'Q',tone:'low'},J:{label:'Jack',art:'J',tone:'low'}},
   theme:{top:'#6a0e1c',bottom:'#20040a',glow:'#ff5a6a',marquee:'Spin the crown wheel'}},
- {id:'northern-lights',name:'Northern Lights',tagline:'Six or more of a gem anywhere pay on a smaller sky. Winners shatter, new gems tumble in, and bombs multiply it all.',kind:'cascade',rtp:93.8,volatility:'medium',stats:{hitRate:38.5,featureEvery:64,swing:3,topSeen:468},rows:4,
+ {id:'northern-lights',name:'Northern Lights',tagline:'Six or more of a gem anywhere pay on a smaller sky. Winners shatter, new gems tumble in, and bombs multiply it all.',kind:'cascade',rtp:93.8,volatility:'medium',stats:{hitRate:38.5,featureEvery:63,swing:3,topSeen:468},rows:4,
   reels:[0,1,2,3,4].map(i=>['aurora','glacier','violet','amber','moonstone','rose','shadow','icegem'].map((_,k,a)=>a[(i+k)%a.length]).slice(0,4)),lines:[],
   cascade:{weights:[{sym:'aurora',w:5},{sym:'glacier',w:6},{sym:'violet',w:7},{sym:'amber',w:8},{sym:'moonstone',w:9},{sym:'rose',w:10},{sym:'shadow',w:11},{sym:'icegem',w:3}],tiers:[6,8,10],bomb:{w:1,values:[{x:2,w:40},{x:3,w:25},{x:5,w:15},{x:10,w:10},{x:25,w:5},{x:50,w:3},{x:100,w:1}]}},
   pays:{aurora:[1.24,3.1,8.9],glacier:[.78,1.97,5.6],violet:[.56,1.35,3.5],amber:[.4,.89,2.38],moonstone:[.27,.62,1.6],rose:[.18,.45,1.14],shadow:[.13,.31,.85]},
@@ -104,7 +109,7 @@ export const MACHINES:readonly Machine[]=[
   bets:[20,40,100,200,500],
   symbols:{icegem:{label:'Ice diamond (bonus)',art:'icegem',tone:'bonus'},aurora:{label:'Aurora gem',art:'aurora',tone:'high'},glacier:{label:'Glacier gem',art:'glacier',tone:'high'},violet:{label:'Violet gem',art:'violet',tone:'mid'},amber:{label:'Amber gem',art:'amber',tone:'mid'},moonstone:{label:'Moonstone',art:'moonstone',tone:'low'},rose:{label:'Rose gem',art:'rose',tone:'low'},shadow:{label:'Shadow gem',art:'shadow',tone:'low'},bomb:{label:'Multiplier bomb',art:'bomb',tone:'bonus'}},
   theme:{top:'#0e2a5a',bottom:'#040e24',glow:'#7affd4',marquee:'Tumbling lights'}},
- {id:'olympus-gold',name:'Olympus Gold',tagline:'Twenty lines on the mountain. When Zeus lands, his bolt fills the whole reel with wilds.',kind:'video',rtp:95.5,volatility:'high',stats:{hitRate:30.6,featureEvery:77,swing:4,topSeen:305},rows:3,
+ {id:'olympus-gold',name:'Olympus Gold',tagline:'Twenty lines on the mountain. When Zeus lands, his bolt fills the whole reel with wilds.',kind:'video',rtp:95.0,volatility:'high',stats:{hitRate:30.6,featureEvery:77,swing:4,topSeen:305},rows:3,
   reels:[0,1,2,3,4].map(i=>strip({laurel:2,zeus:i===1||i===3?2:0,column:4,owl:4,lyre:5,A:6,K:7,Q:7,J:8,T:8},1101+i)),
   lines:LINES20,wild:'zeus',expandWild:'zeus',
   pays:{zeus:[0,0,0,165,650,3300],column:[0,0,0,82,285,1200],owl:[0,0,0,57,180,740],lyre:[0,0,0,37,115,490],A:[0,0,0,14,49,205],K:[0,0,0,12,39,165],Q:[0,0,0,9,31,130],J:[0,0,0,7,25,108],T:[0,0,0,6,20,92]},
