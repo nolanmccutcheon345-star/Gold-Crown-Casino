@@ -79,6 +79,30 @@
 .hub-balances{position:relative;z-index:1}
 .hub-balances>div{border-radius:11px;background:linear-gradient(155deg,#263c3a,#0e1f25);border:1px solid #ddbf8240;box-shadow:inset 0 1px 0 #fff4da1a}
 .hub-balances b{font-variant-numeric:tabular-nums;color:#fce8bd}
+/* Phase 14: the hybrid wallet — one total, the wallets it sums, the results by game. */
+.hub-wallet{position:relative;z-index:1;display:grid;gap:12px}
+.wallet-total{display:grid;gap:2px}
+.wallet-total>b{font-family:Georgia,serif;font-size:clamp(30px,4.5vw,44px);line-height:1.05;color:#fce8bd;font-variant-numeric:tabular-nums}
+.wallet-figures{display:flex;flex-wrap:wrap;gap:10px 34px}
+.wallet-figures>div{display:grid;gap:2px}
+.wallet-figures b{font-family:Georgia,serif;font-size:clamp(24px,3.6vw,36px);line-height:1.05;color:#fce8bd;font-variant-numeric:tabular-nums}
+.wallet-receipt{border:1px solid #ddbf8266;border-radius:11px;padding:12px 14px;background:linear-gradient(155deg,#263c3a,#0e1f25);display:grid;gap:10px}
+.wallet-receipt h3{margin:2px 0 4px}
+.wallet-receipt .section-heading{margin:0}
+.wallet-total .muted{max-width:62ch}
+.wallet-table{width:100%}
+.daily-gift{border:1px solid #ddbf8240;border-radius:11px;padding:10px 12px;background:linear-gradient(155deg,#263c3a,#0e1f25);display:grid;gap:8px;justify-items:start}
+.daily-gift p{margin:0}
+.daily-gift.claimed{background:none;border-style:dashed}
+/* Phase 14: all-in equity strip — each street fades in behind the previous one. */
+.allin-equity{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:8px;padding:7px 10px;border-radius:10px;background:#0a1512b8;border:1px solid #ddbf8259;font-variant-numeric:tabular-nums}
+.allin-equity-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#edcf91;font-weight:700}
+.allin-equity-step{display:inline-flex;align-items:baseline;gap:5px;animation:allin-equity-in .5s ease both;animation-delay:calc(var(--eq-i,0)*.55s)}
+.allin-equity-step small{font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
+.allin-equity-step b{font-size:16px;color:#fce8bd}
+.allin-equity-arrow{opacity:.5;animation:allin-equity-in .5s ease both}
+@keyframes allin-equity-in{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.allin-equity-step,.allin-equity-arrow{animation:none}}
 #home-game-collection{scroll-margin-top:80px}
 .home-cards{gap:12px}
 .home-card{position:relative;min-height:140px;overflow:hidden;padding-right:104px;border-radius:14px;border:1px solid #d5b37b52;background:radial-gradient(ellipse at 100% 20%,#eeb9691c,transparent 80%),linear-gradient(145deg,#223a36,#101e25 80%);box-shadow:var(--casino-lift);text-align:left}

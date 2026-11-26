@@ -16,6 +16,9 @@ import { cashResult, tournamentResult, blackjackResult, omahaResult, slotsResult
 import { careerStats, slotsMachines, CAREER_GAMES, type CareerGameId, type CareerSources, type CareerStats } from '../stats/career';
 import { readStatsBook, saveStatsBook, takeSnapshot, deleteSnapshot, resetCounters, clearBaseline, cursorsFromSources, periodStats, periodArchives, type StatsBook } from '../stats/snapshots';
 import { readDailyBook, saveDailyBook, ensureDay, fixBjBaseline, setSessionGoal, localDayKey, dailyObjectives, cashToday, handStreak, type DailyBaselines, type DailyBook } from '../stats/daily';
+import { walletBreakdown, type WalletBreakdown, type WalletComponents } from '../stats/wallet';
+import { ensureWalletReceipt, type WalletReceipt } from '../stats/wallet-receipt';
+import { readGiftBook, saveGiftBook, claimGift, giftAvailable, nextDayKey, DAILY_GIFT_CENTS, type GiftBook } from '../stats/gift';
 import { CASINO_GAMES } from '../casino/wallet';
 import { machineById, MACHINES } from '../slots/machines';
 import { newHandId } from '../identity';
@@ -126,6 +129,7 @@ import { sideTells, sideTellMarkup, TELL_GUIDE, type SideTell } from '../bots/mo
 import { DEFAULT_HERO_PORTRAIT, PORTRAIT_COUNT, portraitFor, portraitMarkup, tablePortraits, tablePortraitsForSeats } from './portraits';
 import { potPile, winningCards } from './showdown-cards';
 import { allInSpotlight, headsUpPotsNet, rivalsOf, sessionRecap, sparkline, stackBaselines, stackTrend } from './recap';
+import { allInEquityMarkup } from './all-in-equity';
 import { BACKS, BREAK_CHOICES, FELTS, TEXT_SIZES, THEMES, breaksDue, chipStackMarkup, heroHandLabel, readStyle, saveStyle, shortcutTarget, styleClasses, type TableStyle } from './table-style';
 import { durationText, emoteMarkup, handMoment, momentMarkup, seatEmote, summarizeSession, tournamentFlags, tournamentMoment as eventMilestone, type SessionSummary, type TournamentFlags } from './moments';
 import { cashMilestones, sessionResults, sessionStreaks, tournamentMilestones, type Milestone } from './achievements';
@@ -1424,7 +1428,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     }).join(';');
     return `<section class="table-panel"><div class="table-heading"><div><span class="live-dot"></span><b>${shown ? 'Practice table' : 'Your next hand starts here'}</b><span class="muted">${ids.length}-handed · ${capacity} positions · No-Limit Hold’em</span></div><span class="table-hand">${shown ? `HAND ${String(handNumber).padStart(3, '0')}` : 'CASH TABLE'}</span></div>
       <div class="table-scene perimeter-table seats-${capacity}${allInSpotlight(shown) ? ' allin-spotlight' : ''}${shown && (shown.street === 'complete' ? totalAwardFor(shown) : shown.pot) >= 40 * shown.profile.bigBlind ? ' pot-big' : ''}" data-testid="poker-table" style="${layoutStyle};--short-height:${shortPerimeterLayout(capacity).height}px;--reveal-n:${revealOrder.size}${sweat && shown && sweat.handId === shown.handId ? ';--sweat:1.7s' : ''}"><div class="table-rail"><div class="felt"><div class="felt-line"></div><div class="table-watermark">GOLD<br><strong>CROWN</strong></div></div></div>
-      <div class="board-area"><div class="street-row"><span class="street-label" data-testid="street">${shown ? shown.street === 'complete' ? 'HAND COMPLETE' : shown.street.toUpperCase() : 'NO-LIMIT TEXAS HOLD’EM'}</span>${shown ? `<span class="hand-tag">Hand ${handNumber}</span>` : ''}</div><div class="board-cards${winSet.size ? ' has-winner' : ''}${sweat && shown && sweat.handId === shown.handId ? ` sweat${sweat.turn ? ' sweat-turn' : ''}` : ''}">${Array.from({ length: 5 }, (_, i) => shown?.board[i] ? card(shown.board[i], winSet.has(shown.board[i]) ? 'win-card' : '') : '<span class="board-slot" aria-label="Community card not dealt">♠</span>').join('')}</div>${allInSpotlight(shown) ? '<span class="allin-badge" role="status">ALL IN</span>' : ''}<div class="pot-display${shown?.street === 'complete' && totalAward > 0 ? ' awarded' : ''}">${shown ? potPileMarkup(shown.street === 'complete' ? totalAward : shown.pot, shown.profile.bigBlind) : ''}<span>${shown?.street === 'complete' ? 'TOTAL AWARDED' : 'TOTAL POT'}</span><strong data-testid="pot">${money(shown?.street === 'complete' ? totalAward : shown?.pot ?? 0)}</strong></div>${!shown ? '<span class="table-intro">The felt is yours.</span>' : ''}</div>
+      <div class="board-area"><div class="street-row"><span class="street-label" data-testid="street">${shown ? shown.street === 'complete' ? 'HAND COMPLETE' : shown.street.toUpperCase() : 'NO-LIMIT TEXAS HOLD’EM'}</span>${shown ? `<span class="hand-tag">Hand ${handNumber}</span>` : ''}</div><div class="board-cards${winSet.size ? ' has-winner' : ''}${sweat && shown && sweat.handId === shown.handId ? ` sweat${sweat.turn ? ' sweat-turn' : ''}` : ''}">${Array.from({ length: 5 }, (_, i) => shown?.board[i] ? card(shown.board[i], winSet.has(shown.board[i]) ? 'win-card' : '') : '<span class="board-slot" aria-label="Community card not dealt">♠</span>').join('')}</div>${allInSpotlight(shown) ? '<span class="allin-badge" role="status">ALL IN</span>' : ''}<div class="pot-display${shown?.street === 'complete' && totalAward > 0 ? ' awarded' : ''}">${shown ? potPileMarkup(shown.street === 'complete' ? totalAward : shown.pot, shown.profile.bigBlind) : ''}<span>${shown?.street === 'complete' ? 'TOTAL AWARDED' : 'TOTAL POT'}</span><strong data-testid="pot">${money(shown?.street === 'complete' ? totalAward : shown?.pot ?? 0)}</strong></div>${allInEquityMarkup(shown, 0)}${!shown ? '<span class="table-intro">The felt is yours.</span>' : ''}</div>
       ${cashMoment(shown)}<div class="seat-layer has-dealer-glide pitch" style="--deal-n:${Math.max(1, dealOrder.size)};${shown ? dealerVars(shown.button, capacity) : ''}">${slots.map(slot => slot.occupied ? seatMarkup(shown,slot.id,slot.id,capacity) : emptySeat(slot.id,capacity)).join('')}${tableAnchors(shown, capacity)}</div></div>
       ${shown ? potBreakdown(shown) : ''}
       ${(()=>{const n=controller.data?.active?.churnNews;return n&&game&&n.handId===game.handId?`<p class="table-news" role="status"><b>Table news</b> ${n.lines.map(escape).join(' ')}</p>`:'';})()}
@@ -1584,7 +1588,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const stack = game?.seats.find(seat => seat.id === 0)?.stack ?? 0;
     const between = game?.street === 'complete';
     const locked = unavailable();
-    return `<div class="cashier-layout"><section class="panel cashier-panel"><div class="section-heading"><div><span class="eyebrow">VIRTUAL CHIPS ONLY</span><h2>Your bankroll</h2><p>Manual changes and transfers never count as poker winnings.</p></div><span class="outline-tag">EPOCH ${data?.epoch ?? 1}</span></div><div class="money-cards"><div><span>Available bankroll</span><b data-testid="cashier-wallet">${money(data?.wallet ?? 0)}</b></div><div><span>Seated stack</span><b data-testid="cashier-table">${money(stack)}</b></div><div><span>Lifetime poker result</span><b data-testid="cashier-profit" class="${stats?(stats.profit >= 0 ? 'positive' : 'negative'):''}">${stats?signed(stats.profit):'—'}</b></div></div>${stats?'':statisticsPending()}<form id="bankroll-form" class="cash-form" data-cashier-context="${data?.epoch}"><label>Set available virtual bankroll ($)<input name="bankroll" id="bankroll-amount" inputmode="decimal" value="${(data?.wallet ?? 0) / 100}" required ${locked ? 'disabled' : ''}></label><label>Adjustment note<input name="note" id="bankroll-note" value="Manual bankroll adjustment" maxlength="160" ${locked ? 'disabled' : ''}></label><button type="submit" id="save-bankroll" class="button primary" ${locked ? 'disabled' : ''}>Record bankroll adjustment</button></form><p class="muted">This edits only unseated funds. It is safe during a hand and leaves cards, table chips and past results intact.</p><div class="reset-area">${resetConfirm ? `<p>Reset the available bankroll to the original ${money(data?.initialBankroll ?? 1000000)} baseline? This starts a new accounting epoch; saved poker results and seated chips remain unchanged.</p><button class="button secondary" id="confirm-reset" ${locked ? 'disabled' : ''}>Confirm bankroll reset</button><button class="button secondary" id="cancel-reset">Cancel</button>` : `<button class="button secondary" id="show-reset" ${locked ? 'disabled' : ''}>Reset bankroll baseline…</button>`}</div></section>
+    return `<div class="cashier-layout"><section class="panel cashier-panel"><div class="section-heading"><div><span class="eyebrow">VIRTUAL CHIPS ONLY</span><h2>Your whole casino</h2><p>Every game, one balance — and each game's own stack and record underneath it.</p></div></div>${walletMarkup()}</section><section class="panel cashier-panel"><div class="section-heading"><div><span class="eyebrow">CASH BANKROLL</span><h2>Your bankroll</h2><p>Manual changes and transfers never count as poker winnings.</p></div><span class="outline-tag">EPOCH ${data?.epoch ?? 1}</span></div><div class="money-cards"><div><span>Available bankroll</span><b data-testid="cashier-wallet">${money(data?.wallet ?? 0)}</b></div><div><span>Seated stack</span><b data-testid="cashier-table">${money(stack)}</b></div><div><span>Lifetime poker result</span><b data-testid="cashier-profit" class="${stats?(stats.profit >= 0 ? 'positive' : 'negative'):''}">${stats?signed(stats.profit):'—'}</b></div></div>${stats?'':statisticsPending()}<form id="bankroll-form" class="cash-form" data-cashier-context="${data?.epoch}"><label>Set available virtual bankroll ($)<input name="bankroll" id="bankroll-amount" inputmode="decimal" value="${(data?.wallet ?? 0) / 100}" required ${locked ? 'disabled' : ''}></label><label>Adjustment note<input name="note" id="bankroll-note" value="Manual bankroll adjustment" maxlength="160" ${locked ? 'disabled' : ''}></label><button type="submit" id="save-bankroll" class="button primary" ${locked ? 'disabled' : ''}>Record bankroll adjustment</button></form><p class="muted">This edits only unseated funds. It is safe during a hand and leaves cards, table chips and past results intact.</p><div class="reset-area">${resetConfirm ? `<p>Reset the available bankroll to the original ${money(data?.initialBankroll ?? 1000000)} baseline? This starts a new accounting epoch; saved poker results and seated chips remain unchanged.</p><button class="button secondary" id="confirm-reset" ${locked ? 'disabled' : ''}>Confirm bankroll reset</button><button class="button secondary" id="cancel-reset">Cancel</button>` : `<button class="button secondary" id="show-reset" ${locked ? 'disabled' : ''}>Reset bankroll baseline…</button>`}</div></section>
       <section class="panel cashier-panel"><span class="eyebrow">TABLE TRANSFERS</span><h2>${game ? 'Manage your seat' : 'Ready for another session?'}</h2>${game && current ? `<p class="muted">${money(current.profile.smallBlind)} / ${money(current.profile.bigBlind)} · ${current.settings.seats} seats · buy-in ${current.settings.minBuyInBB}–${current.settings.maxBuyInBB} BB. ${current.settings.allowTopUp ? 'Top-ups allowed between hands.' : 'Top-ups disabled for this table.'}</p><form id="topup-form" class="cash-form" data-cashier-context="${escape(current.id)}"><label>Add chips ($)<input name="amount" id="topup-amount" inputmode="decimal" value="${Math.max(0, Math.min(current.settings.buyIn - stack, data?.wallet ?? 0)) / 100}" required ${!between || !current.settings.allowTopUp || locked ? 'disabled' : ''}></label><button type="submit" id="topup-submit" class="button primary" ${!between || !current.settings.allowTopUp || locked ? 'disabled' : ''}>Transfer to table</button></form><div class="cash-actions"><button class="button secondary" data-action="continue-session" ${locked ? 'disabled' : ''}>Continue session →</button><button class="button secondary" data-action="new-session">End session / new table</button><button class="button secondary" id="cashout" ${!between || locked ? 'disabled' : ''}>Cash out ${money(stack)} and leave</button></div>${!between ? '<p class="muted">Finish the active hand before adding chips or cashing out. Your bankroll adjustment remains available.</p>' : ''}` : '<p class="muted">Choose stakes and a buy-in to transfer funds from your bankroll to the next table.</p><button class="button primary" data-action="new-session">New session →</button>'}<div class="saved-note"><b>Guest save</b><p>No Google sign-in is required. This browser stores your save locally; another device has a separate bankroll.</p><button class="button secondary" id="protect-storage">Request storage protection</button><p id="storage-protection-notice" role="status">${escape(protectionNotice || 'Storage remains subject to browser policies and can be removed when you clear site data.')}</p></div></section>
       ${archiveCheck()}
       ${backupControls({...backupState,blocked:backupBlocked()})}
@@ -1716,6 +1720,18 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
   const dailyRead = readDailyBook();
   let dailyBook: DailyBook = dailyRead.book;
   const dailyNotice = dailyRead.notice;
+  /* Phase 14 (CB-U05): the daily gift's claim state, in its own record. The
+   * money itself moves through the bankroll ledger when claimed. */
+  const giftRead = readGiftBook();
+  let giftBook: GiftBook = giftRead.book;
+  const giftNotice = giftRead.notice;
+  function giftMarkup(): string {
+    const date = localDayKey();
+    const todayLabel = new Date(`${date}T12:00:00`).toLocaleDateString();
+    if (giftAvailable(giftBook, date)) return `<div class="daily-gift" data-testid="daily-gift"><p><b>Daily gift:</b> ${money(DAILY_GIFT_CENTS)} of virtual chips is yours today (${escape(todayLabel)}). One tap adds it to your cash bankroll — no mission, no play required. One gift per day, by this device's local calendar.</p><button type="button" class="button primary" id="claim-daily-gift" ${controller.data && !controller.busy ? '' : 'disabled'}>Claim ${money(DAILY_GIFT_CENTS)} gift</button>${giftNotice ? `<p class="muted">${escape(giftNotice)}</p>` : ''}</div>`;
+    const claimedLabel = giftBook.lastClaimDate ? new Date(`${giftBook.lastClaimDate}T12:00:00`).toLocaleDateString() : todayLabel;
+    return `<div class="daily-gift claimed" data-testid="daily-gift"><p><b>Daily gift claimed</b> on ${escape(claimedLabel)} — ${money(DAILY_GIFT_CENTS)} went into your cash bankroll. ${giftBook.claims} ${giftBook.claims === 1 ? 'gift' : 'gifts'} claimed, ${money(giftBook.totalClaimed)} in all. Gifts are free chips, not winnings, and never count in your results. The next gift is available tomorrow, ${escape(new Date(`${nextDayKey(date)}T12:00:00`).toLocaleDateString())}, by this device's local calendar.</p></div>`;
+  }
   function dailyCounters(): DailyBaselines & { handsToday: number; showdownFreePotsToday: number } {
     const data = controller.data;
     const slots = slotsPlayer.state;
@@ -1740,7 +1756,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const day = dailyBook.days[date];
     const objectives = dailyObjectives(date, counters, day.baselines);
     const done = objectives.filter(o => o.done).length;
-    return `<div class="hub-block daily-card" data-testid="daily-card"><h3>Today's card · ${done} of ${objectives.length} done</h3>${dailyNotice ? `<p class="muted">${escape(dailyNotice)}</p>` : ''}<ul class="daily-objectives">${objectives.map(o => `<li class="${o.done ? 'done' : ''}"><span aria-hidden="true">${o.done ? '✓' : '○'}</span> ${escape(o.label)} <small>${o.have} / ${o.need}</small></li>`).join('')}</ul><p class="muted">Objectives count only events your saved records on this device show. A fresh day starts a fresh card.</p></div>`;
+    return `<div class="hub-block daily-card" data-testid="daily-card"><h3>Today's card · ${done} of ${objectives.length} done</h3>${dailyNotice ? `<p class="muted">${escape(dailyNotice)}</p>` : ''}${giftMarkup()}<ul class="daily-objectives">${objectives.map(o => `<li class="${o.done ? 'done' : ''}"><span aria-hidden="true">${o.done ? '✓' : '○'}</span> ${escape(o.label)} <small>${o.have} / ${o.need}</small></li>`).join('')}</ul><p class="muted">Objectives count only events your saved records on this device show. A fresh day starts a fresh card.</p></div>`;
   }
   function trophyRoomMarkup(): string {
     const data = controller.data;
@@ -2007,6 +2023,61 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     }
   }
 
+  /* Phase 14 (CB-U03): the hybrid wallet. Components read exactly the balances
+   * the games report for themselves (unseated funds plus the stack currently
+   * seated), so the unified total is the sum of the lines by construction and
+   * play keeps running through each game's own wallet untouched. */
+  function walletComponents(): WalletComponents {
+    ensureTournament();
+    const data = controller.data, t = tournament?.data, bj = blackjackLive.controller.data;
+    if (!bj && blackjackLive.controller.status !== 'error') blackjackLive.init();
+    const heroStack = data?.active?.game.seats.find(x => x.id === 0)?.stack ?? 0;
+    const o = (plo ??= new PloTable()).state;
+    return {
+      cash: data ? { available: data.wallet, inPlay: heroStack } : null,
+      tournaments: t ? { available: t.balance, inPlay: 0 } : null,
+      blackjack: bj ? { available: bj.balance, inPlay: bj.active?.engine.balance ?? 0 } : null,
+      omaha: { available: o.balance, inPlay: o.active?.stacks[0] ?? 0 },
+      slots: { available: slotsPlayer.state.balance, inPlay: 0 },
+      casino: { available: casino.state.balance, inPlay: 0 },
+    };
+  }
+  /* The one-time combined statement (Phase 14): issued the first time a save
+   * meets the unified wallet, shown during that session, stored forever. */
+  let walletReceipt: WalletReceipt | null = null;
+  let receiptJustCreated = false;
+  let receiptDismissed = false;
+  function walletReceiptMarkup(view: WalletBreakdown): string {
+    if (view.total === null) return '';
+    if (!walletReceipt) {
+      const issued = ensureWalletReceipt(view.buckets.map(b => ({ id: b.id, label: b.label, available: b.available, inPlay: b.inPlay })));
+      walletReceipt = issued.receipt; receiptJustCreated = issued.created;
+    }
+    if (!receiptJustCreated || receiptDismissed || !walletReceipt) return '';
+    const lines = walletReceipt.lines.map(l => `<tr><th scope="row">${escape(l.label)}</th><td>${money(l.available)}</td><td>${l.inPlay ? money(l.inPlay) : '—'}</td><td>${money(l.available + l.inPlay)}</td></tr>`).join('');
+    return `<div class="wallet-receipt" data-testid="wallet-receipt"><div class="section-heading"><div><span class="eyebrow">ONE-TIME STATEMENT · ${escape(new Date(`${walletReceipt.at.slice(0, 10)}T12:00:00`).toLocaleDateString())}</span><h3>Your balances, combined</h3><p class="muted">Nothing moved. Your chips stayed in each game; this statement simply adds them up for the first time, so the combined total can be followed back to each game's own balance. It is saved once and never re-issued — reopening or restoring this save will not grant a second opening balance.</p></div><button type="button" class="button secondary" id="dismiss-wallet-receipt">Got it</button></div><table class="stats-table wallet-table"><thead><tr><th scope="col">Game</th><th scope="col">Available</th><th scope="col">In play</th><th scope="col">Total</th></tr></thead><tbody>${lines}</tbody><tfoot><tr><th scope="row">Whole casino</th><td colspan="2"></td><td><b>${money(walletReceipt.total)}</b></td></tr></tfoot></table></div>`;
+  }
+  function walletMarkup(): string {
+    if (blackjackRounds.state === 'idle') loadBlackjackRounds();
+    const career = careerStats(careerSources());
+    const pending: string[] = [];
+    if (blackjackRounds.state !== 'ready') pending.push('blackjack');
+    if (!tournament?.data) pending.push('tournaments');
+    const data = controller.data;
+    const huNet = data ? headsUpHands(cashPerformanceHands(data.hands)).reduce((a, h) => a + h.net, 0) : null;
+    const view = walletBreakdown(walletComponents(), career, huNet, pending);
+    const buckets = view.buckets.map(b => `<div><span class="eyebrow">${escape(b.label)}</span><b data-count-key="wallet-${b.id}" data-count="${b.total}">${money(b.total)}</b>${b.inPlay ? `<small>${money(b.inPlay)} in play</small>` : ''}</div>`).join('');
+    const balanceCell = (r: WalletBreakdown['rows'][number]) => r.available === null
+      ? `<span class="muted">${escape(r.balanceNote ?? '')}</span>`
+      : `${money(r.available + (r.inPlay ?? 0))}${r.inPlay ? ` <small class="muted">(${money(r.inPlay)} in play)</small>` : ''}`;
+    const rows = view.rows.map(r => `<tr><th scope="row">${escape(r.label)}</th><td>${balanceCell(r)}</td><td>${r.net === null ? '—' : netCell(r.net)}</td></tr>`).join('');
+    const figures = view.total === null
+      ? `<span class="eyebrow">Your Gold Crown balance · all games</span><b>—</b>`
+      : `<div class="wallet-figures"><div><span class="eyebrow">Available</span><b>${money(view.available ?? 0)}</b></div><div><span class="eyebrow">In play</span><b>${money(view.inPlay ?? 0)}</b></div><div><span class="eyebrow">Total · all games</span><b data-testid="wallet-total" data-count-key="wallet-total" data-count="${view.total}">${money(view.total)}</b></div></div>`;
+    const giftLine = giftBook.claims > 0 ? `<p class="muted">Daily gifts claimed so far: ${money(giftBook.totalClaimed)} across ${giftBook.claims} ${giftBook.claims === 1 ? 'day' : 'days'} — free chips, kept out of every win/loss figure above.</p>` : '';
+    return `<div class="hub-wallet" data-testid="unified-wallet"><div class="wallet-total">${figures}<p class="muted">One balance for the whole casino. Available is ready to play; in play is seated at a table or in a shoe — still yours, never a loss. The total is always the exact sum of the stacks below, and each game keeps its own records so you can see where you stand, game by game.</p></div>${walletReceiptMarkup(view)}<div class="hub-balances">${buckets}</div><table class="stats-table wallet-table"><thead><tr><th scope="col">Game</th><th scope="col">Chips there</th><th scope="col">Career win / loss</th></tr></thead><tbody>${rows}</tbody></table><p class="muted">Career win / loss is settled play only, from each game's own saved records. Heads-up matches are staked from the cash bankroll, and their result is part of the cash games result as well as shown on its own line. Chips inside a running tournament are scoring units, not wealth, and are never counted above — the entry fee is the transaction.</p>${giftLine}</div>`;
+  }
+
   /** Patch 67: the home screen hub. */
   function homeView(): string {
     ensureTournament();
@@ -2055,7 +2126,7 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     const huStrip = `<div class="hub-block"><h3>Heads-up ladder</h3><p>${ladderState.beaten.length} of ${LADDER_IDS.length} regulars beaten${nextOpp ? `. Next up: <b>${escape(nextOpp.name)}</b> — ${escape(nextOpp.style)}.` : '. The whole ladder is beaten. Rematch anyone.'}</p><button type="button" class="button secondary" data-view="heads-up">${nextOpp ? `Challenge ${escape(nextOpp.name)}` : 'Open the ladder'}</button></div>`;
     return `<section class="panel home-hub" data-testid="home-hub">
       ${casinoHomeHero()}
-      <div class="hub-balances">${[['CASH BANKROLL', 'cash', data ? data.wallet + heroStack : null], ['TOURNAMENTS', 'tournament', t ? t.balance : null], ['BLACKJACK', 'blackjack', bj ? bj.balance + (bj.active?.engine.balance ?? 0) : null], ['OMAHA', 'omaha', (() => { const o = (plo ??= new PloTable()).state; return o.balance + (o.active?.stacks[0] ?? 0); })()], ['SLOTS', 'slots', slotsPlayer.state.balance], ['CASINO', 'casino', casino.state.balance]].map(([label, key, cents]) => `<div><span class="eyebrow">${label}</span><b ${cents === null ? '' : `data-count-key="home-${key}" data-count="${cents}"`}>${cents === null ? '—' : money(cents as number)}</b></div>`).join('')}</div><p class="hub-balances-note muted">Six games, six separate chip balances. Each stack belongs to its own game.</p>
+      ${walletMarkup()}
       <div class="home-cards">${games.join('')}${start}</div><div class="home-tiles" id="home-game-collection">${tiles}</div>${featureStrip}${casinoFeaturedMachines()}
       <div class="hub-block">${career && data ? (() => { const st = careerStatus(data, career); return `<h3>Career · ${st.stake}</h3><p>${money(st.bankroll)} · ${Math.floor(st.buyIns)} buy-ins${st.nextStake ? ` · ${st.canMoveUp ? `<b>ready to move up to ${st.nextStake}</b>` : `next ${st.nextStake}: ${Math.min(100, Math.round(100 * st.bankroll / st.needBankroll!))}% of the bankroll, ${st.handsHere.toLocaleString()}/${MOVE_UP_HANDS} hands`}` : ''}${st.mustMoveDown ? ' · <b>time to move down</b>' : ''}</p><button type="button" class="button secondary" data-view="career">Open career</button>`; })() : `<h3>Career mode</h3><p class="muted">Start at $1/$2 and climb the stakes with bankroll rules.</p><button type="button" class="button secondary" data-view="career">Start a career</button>`}</div>
       ${drill ? `<div class="hub-block"><h3>Drill of the day</h3><p>${escape(drill.prompt)}</p><button type="button" class="button secondary" id="home-drill" data-drill-id="${escape(drill.id)}">Try it</button></div>` : ''}
@@ -2461,6 +2532,32 @@ export function mountApp(root: HTMLElement, suppliedController?: SessionControll
     on('#stats-reset-cancel',()=>{statsResetConfirm=false;render();});
     on('#stats-reset-confirm',()=>{const sources=careerSources();statsBook=resetCounters(statsBook,careerStats(sources),cursorsFromSources(sources),new Date().toISOString());saveStatsBook(statsBook);statsResetConfirm=false;statsNotice='Counters reset. Your career totals, records and snapshots are unchanged.';render();});
     on('#stats-baseline-clear',()=>{statsBook=clearBaseline(statsBook);saveStatsBook(statsBook);statsNotice='Reset point cleared. Your current counters are your whole career again.';render();});
+    /* Phase 14 (CB-U05): claim the daily gift — exactly once per local day.
+     * The claim is written to the durable gift record FIRST (re-read fresh at
+     * claim time, so a second tab or a double tap sees it), then the credit
+     * moves through the bankroll ledger's existing adjustment path; if the
+     * credit fails, the claim is rolled back so the day is not burned. A
+     * crash between the two leaves a recorded claim without a credit — the
+     * safe direction: a gift can be re-issued by hand, never doubled. */
+    let giftClaimInFlight = false;
+    on('#claim-daily-gift', () => { void (async () => {
+      if (giftClaimInFlight) return;
+      const date = localDayKey();
+      if (!controller.data || controller.busy) return;
+      giftClaimInFlight = true;
+      try {
+        giftBook = readGiftBook().book;
+        if (!giftAvailable(giftBook, date)) return;
+        const claimed = claimGift(giftBook, date);
+        saveGiftBook(claimed);
+        try {
+          await controller.adjustBankroll(controller.data.wallet + DAILY_GIFT_CENTS, `Daily gift · ${date}`);
+          giftBook = claimed;
+        } catch (cause) { saveGiftBook(giftBook); throw cause; }
+      } catch (cause) { error = (cause as Error).message; }
+      finally { giftClaimInFlight = false; render(); }
+    })(); });
+    on('#dismiss-wallet-receipt', () => { receiptDismissed = true; render(); });
     on('#history-newer',()=>{historyPage=Math.max(0,historyPage-1);render();});
     on('#history-older',()=>{historyPage++;render();});
     for(const [selector,key] of [['#results-filter-session','sessionId'],['#results-filter-stake','stake']] as const)root.querySelector<HTMLSelectElement>(selector)?.addEventListener('change',event=>{resultsFilter={...resultsFilter,[key]:(event.target as HTMLSelectElement).value};filteredCache=null;configurationHistoryPage=0;if(!controller.historyLoaded&&(resultsFilter.sessionId!=='all'||resultsFilter.stake!=='all'))void controller.loadFullHistory().catch(cause=>{error=(cause as Error).message;render();});render();}, live);
