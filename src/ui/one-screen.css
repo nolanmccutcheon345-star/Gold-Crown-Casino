@@ -1,0 +1,269 @@
+/* ---------- Phase 14.2: the ONE-SCREEN stage (phone portrait) ----------
+ * Nolan's standard (2026-11-26): a game must be fully playable in a single
+ * phone viewport with NO scrolling — the slot cabinet, the roulette layout +
+ * Spin and the craps layout + Roll all fit one screen, and supporting detail
+ * (paytables, racetrack, named bets, propositions, history) lives behind
+ * taps, never down the page.
+ *
+ * How it works: on phone portrait the app shell becomes a fixed-height stage
+ * (100dvh, no page scroll). Each game section flexes to fill the space
+ * between the app header and the bottom nav; the play surface (reel window,
+ * roulette grid) absorbs whatever height is left. Detail that used to stack
+ * below the table travels in toggle panels (.cz-more, .slot-detail-sheet)
+ * that open as sheets OVER the stage.
+ *
+ * The grey band Nolan photographed at the bottom of the slot screen: the
+ * machine page was an ordinary scrolling page — the cabinet ended partway
+ * down and everything below it (paytable summary, record line, the app
+ * footer inside main) sat on the panel's flat slate-grey gradient, so the
+ * bottom of the screen read as an unthemed grey-brown band. On the stage
+ * the cabinet itself fills the screen edge to edge, so there is no
+ * below-the-cabinet left to show.
+ *
+ * Everything outside the stage media query is display:contents plumbing so
+ * desktop and landscape render exactly as before. */
+
+/* ----- Re-homed detail panels: plumbing at every size ----- */
+.cz-more, .cz-more-body { display: contents; }
+.cz-more-toggle { display: none; }
+.slot-detail-sheet { display: contents; }
+/* The roulette section is a grid on wide screens and its span rules name the
+ * direct children; the wrapped blocks keep their full-width span. */
+@media (min-width: 960px) {
+  .roulette .cz-more-body > .rl-specials, .roulette .cz-more-body > .rt,
+  .roulette .cz-more-body > .rl-stats, .roulette .cz-more-body > .rl-tools,
+  .roulette .cz-more-body > .cz-patrons, .roulette .cz-more-body > .cz-rounds { grid-column: 1 / -1; }
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+  /* ----- The stage frame ----- */
+  .app-shell.view-roulette, .app-shell.view-craps,
+  .app-shell.view-slots:has(.slot-cabinet) {
+    height: 100dvh; display: flex; flex-direction: column; overflow: hidden;
+  }
+  .app-shell.view-roulette main, .app-shell.view-craps main,
+  .app-shell.view-slots:has(.slot-cabinet) main {
+    flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; flex-direction: column;
+    overflow: hidden; padding: 8px 10px 0; margin: 0;
+  }
+  /* Page chrome leaves the stage: the game section is the whole screen. */
+  .app-shell.view-roulette .page-heading, .app-shell.view-craps .page-heading,
+  .app-shell.view-slots:has(.slot-cabinet) .page-heading,
+  .app-shell.view-roulette .save-status, .app-shell.view-craps .save-status,
+  .app-shell.view-slots:has(.slot-cabinet) .save-status,
+  .app-shell.view-roulette .practice-disclosure, .app-shell.view-craps .practice-disclosure,
+  .app-shell.view-slots:has(.slot-cabinet) .practice-disclosure,
+  .app-shell.view-roulette main > footer, .app-shell.view-craps main > footer,
+  .app-shell.view-slots:has(.slot-cabinet) main > footer,
+  .app-shell.view-roulette .session-notice, .app-shell.view-craps .session-notice,
+  .app-shell.view-slots:has(.slot-cabinet) .session-notice { display: none; }
+  .app-shell.view-roulette main > section.panel, .app-shell.view-craps main > section.panel,
+  .app-shell.view-slots:has(.slot-cabinet) main > section.panel {
+    flex: 1 1 auto; min-height: 0; min-width: 0; display: flex; flex-direction: column;
+    overflow: hidden; position: relative;
+  }
+
+  /* ----- Shared casino chrome, compact ----- */
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game { gap: 6px; padding: 9px; }
+  /* Only the play surface may flex; every other section child keeps its
+   * natural height (a squeezed banner is how the roulette room banner
+   * collapsed to 18px in the first stage build). */
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game > * { flex: none; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game > .rl-stage { flex: 1 1 auto; min-height: 0; }
+  .panel.slots > * { flex: none; }
+  .panel.slots > .slot-cabinet { flex: 1 1 auto; min-height: 0; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game .cz-seg button { min-height: 0; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-mode-banner .cz-mode-seal { line-height: 1; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game .cz-mode-banner { padding: 5px 9px; gap: 8px; min-height: 0; margin: 0; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-mode-banner .cz-mode-seal { font-size: 19px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-mode-banner .cz-mode-copy small, :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-mode-banner .cz-mode-copy p,
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-mode-banner .cz-mode-ornament { display: none; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game .cz-mode-copy h2 { font-size: 15px; margin: 0; letter-spacing: .06em; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-wallet { flex-wrap: nowrap; gap: 6px 8px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-balance { padding: 3px 8px; flex: none; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-balance span { font-size: 8.5px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-balance b { font-size: 15px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-balance small { font-size: 9px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-record { display: none; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-chips { flex: none; flex-wrap: nowrap; gap: 5px; }
+  /* width alone loses to the visual sheets' min-width/min-height floors. */
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-chip-pick { width: 30px; height: 30px; min-width: 0; min-height: 0; font-size: 9.5px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-sound-bar, .panel.slots .slot-sound-bar { gap: 6px; flex-wrap: nowrap; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-sound-bar .slot-volume, .panel.slots .slot-sound-bar .slot-volume, .panel.slots .slot-sound-bar .slot-sound-hint { display: none; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .slot-key.small, .panel.slots .slot-sound-bar .slot-key.small { min-height: 26px; padding: 2px 10px; font-size: 11px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-seg button { padding: 4px 8px; font-size: 11px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game .cz-actions { padding: 6px; gap: 6px; flex-wrap: nowrap; position: static; min-width: 0; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game .cz-actions .button { min-height: 38px; min-width: 0; flex: 1 1 0; padding: 7px 4px; font-size: 12px; }
+  :is(.app-shell.view-roulette, .app-shell.view-craps) .cz-game .cz-actions .cz-go { flex: 1.5 1 0; }
+
+  /* ----- Toggle panels on the stage ----- */
+  .cz-more { display: block; }
+  .cz-more-toggle {
+    display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 8px;
+    min-height: 30px; padding: 5px 10px; border-radius: 10px; cursor: pointer;
+    border: 1px solid #e8c58b55; background: linear-gradient(180deg, #1d2a30, #121c20);
+    color: #ffe9b0; font: 600 12px/1.2 inherit; letter-spacing: .02em; text-align: left;
+  }
+  .cz-more-toggle::after { content: '▾'; color: var(--gold, #e8c58b); }
+  .cz-more.open .cz-more-toggle::after { content: '▴'; }
+  .cz-more-body { display: none; }
+  .cz-more.open .cz-more-body {
+    display: flex; flex-direction: column; gap: 10px;
+    position: absolute; inset: 0; z-index: 20; overflow: auto;
+    background: linear-gradient(165deg, #101a1e, #0a1216);
+    padding: 50px 12px 14px;
+  }
+  .cz-more.open .cz-more-toggle { position: absolute; top: 8px; left: 10px; right: 10px; width: auto; z-index: 21; }
+  /* The payouts card in the roulette side column opens as a small overlay
+   * under its toggle instead of taking over the stage. */
+  .rl-side .cz-more { position: relative; }
+  .rl-side .cz-more.open .cz-more-toggle { position: static; width: 100%; }
+  .rl-side .cz-more.open .cz-more-body {
+    inset: auto; top: calc(100% + 4px); left: -6px; right: -6px;
+    padding: 9px 10px; border-radius: 10px; border: 1px solid #e8c58b55;
+    box-shadow: 0 12px 28px #000c; max-height: 220px;
+  }
+
+  /* ================= SLOTS: the cabinet fills the stage ================= */
+  .panel.slots { padding: 9px; gap: 6px; }
+  .slot-head { flex-wrap: nowrap; gap: 8px; }
+  .slot-head .button { min-height: 34px; padding: 6px 10px; font-size: 12px; white-space: nowrap; }
+  .slot-name small { font-size: 10.5px; line-height: 1.3; }
+  .slot-name small + small { display: none; }
+  .slot-cabinet {
+    flex: 1 1 auto; min-height: 0; width: 100%;
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 0 10px 10px;
+  }
+  .slot-marquee { padding: 7px 6px 15px; margin: 0 -10px; }
+  .slot-marquee > .casino-slot-art { display: none; }
+  .slot-marquee h3 { font-size: 21px; }
+  .slot-marquee small { font-size: 9px; margin-top: 2px; }
+  .slot-window-frame { flex: 1 1 auto; min-height: 0; display: flex; }
+  .slot-window { flex: 1 1 auto; min-height: 0; height: auto; }
+  .slot-reel { aspect-ratio: auto; }
+  .slot-cell { min-height: 0; }
+  .slot-status-row { min-height: 23px; }
+  .slot-status { font-size: 14px; }
+  .slot-status.win { font-size: 16px; }
+  .slot-status.big { font-size: 19px; }
+  .slot-meters > div { padding: 3px 4px; }
+  .slot-meters b { font-size: 14px; }
+  .slot-deck { gap: 6px; }
+  .slot-spin-button { width: 58px; height: 58px; font-size: 14px; }
+  .slot-key { min-width: 38px; min-height: 38px; padding: 0 7px; font-size: 15px; }
+  .slot-keys { gap: 4px; }
+  .slot-deck .slot-key.small { min-height: 38px; padding: 0 6px; font-size: 10.5px; }
+  .slot-bet-step > span { min-width: 42px; font-size: 13px; }
+  .slot-skip-feature { align-self: center; padding: 3px 12px; min-height: 26px; font-size: 12px; }
+  /* Feature panels that normally stack under the window take it over instead. */
+  .slot-cabinet .slot-pick { position: absolute; left: 10px; right: 10px; top: 50%; translate: 0 -50%; z-index: 8; }
+  .slot-cabinet .slot-bonus-wheel { position: absolute; left: 50%; top: 50%; translate: -50% -50%; z-index: 8; margin: 0; width: min(225px, 60vw); }
+  .slot-cabinet .slot-neighbour { position: absolute; left: 10px; right: 10px; bottom: 92px; z-index: 7; margin: 0; max-width: none; }
+  /* The detail sheet: hidden while playing; a strip under the cabinet when
+   * the auto panel is open; a full sheet when the paytable is opened. */
+  .slot-detail-sheet { display: none; }
+  .panel.slots:has(.slot-auto-panel) .slot-detail-sheet {
+    display: block; flex: 0 1 auto; max-height: 42%; overflow: auto;
+  }
+  .panel.slots:has(.slot-paytable[open]) .slot-detail-sheet {
+    display: block; position: absolute; inset: 0; z-index: 16; overflow: auto;
+    background: linear-gradient(165deg, #101a1e, #0a1216); padding: 12px;
+  }
+
+  /* ================= ROULETTE: layout + chips + Spin ================= */
+  .rl-stage { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
+  .rl-top { display: flex; gap: 8px; align-items: flex-start; padding: 6px 8px; }
+  .rl-wheel-col { flex: 0 0 64px; width: 64px; }
+  .rl-wheel-col .cz-call { font-size: 10px; line-height: 1.25; margin-top: 2px; }
+  .rl-wheel-col .cz-result { font-size: 10px; padding: 2px 6px; margin-top: 2px; }
+  /* The side column wraps into rows: wheel choice + history on one line,
+   * La Partage under them, the payouts toggle last — a slim strip, not a stack. */
+  .rl-side { flex: 1 1 auto; min-width: 0; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 5px 8px; }
+  .rl-side .auto-deal-toggle { font-size: 9.5px; line-height: 1.2; flex-basis: 100%; min-height: 0; }
+  .rl-side .cz-more { flex-basis: 100%; }
+  .rl-history { gap: 3px; line-height: 1.2; }
+  .rl-history small { font-size: 11px; }
+  .rl-history span { min-width: 19px; height: 19px; font-size: 11px; border-radius: 5px; }
+  .rl-history span:nth-child(n + 9) { display: none; }
+  .rl-layout {
+    flex: 1 1 auto; min-height: 0; min-width: 0; width: 100%; max-width: none; margin: 0; padding: 5px;
+    grid-template-columns: 30px repeat(3, minmax(0, 1fr)) 42px;
+    grid-template-rows: repeat(14, minmax(0, 1fr));
+  }
+  /* The fitted rows can only work if the desktop touch-target floors from
+   * the visual sheets (42px buttons, 38px cells) stand down on the stage. */
+  .roulette .rl-cell { min-height: 0; }
+  .rl-num, .rl-ob { min-height: 0; }
+  .rl-layout .hs { min-height: 0; }
+  .rl-num { font-size: 12px; }
+  .rl-ob { font-size: 10px; }
+  .rl-cell.red .rl-num::before, .rl-cell.black .rl-num::before { inset: 2px 5px; }
+  /* Seam hotspots scale with the fitted rows: the bands stay centred on the
+   * seams they bet on, slim enough that a tap on a number's centre always
+   * books the number (at 17px rows the desktop 16px band reached the centre
+   * and booked splits instead — the Phase 13.5 failure in miniature). */
+  .hs-b { height: 8px; bottom: -4px; }
+  .hs-t { height: 8px; top: -4px; }
+  .hs-tl, .hs-tr { height: 8px; top: -4px; }
+  .hs-r { width: 10px; height: 14px; right: -5px; }
+  .hs-l { width: 10px; height: 14px; left: -5px; }
+  .hs-br { width: 12px; height: 12px; right: -6px; bottom: -6px; }
+  .hs-bl { width: 12px; height: 12px; left: -6px; bottom: -6px; }
+  .hs-tc { width: 12px; height: 12px; left: -6px; top: -6px; }
+  /* The pending-bet ticket becomes one horizontal strip: every bet (and its
+   * remove button) stays reachable by swiping the strip sideways. */
+  .rl-ticket { display: flex; align-items: center; gap: 8px; max-height: 34px; overflow: hidden; padding: 3px 8px; margin: 0; max-width: none; min-width: 0; }
+  .rl-ticket h3 { margin: 0; font-size: 11px; white-space: nowrap; }
+  .rl-ticket h3 small { display: none; }
+  .rl-ticket ul { flex: 1 1 auto; min-width: 0; flex-direction: row; gap: 10px; overflow-x: auto; }
+  .rl-ticket li { white-space: nowrap; font-size: 11px; }
+  .rl-ticket-total { margin: 0; white-space: nowrap; font-size: 11px; }
+
+  /* ================= CRAPS: the whole layout + Roll ================= */
+  .cr-oddsx { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+  .cr-oddsx small { display: none; }
+  .cr-oddsx .cz-seg { flex: none; flex-wrap: nowrap; }
+  .cr-oddsx .cz-seg button { white-space: nowrap; }
+  .cr-oddsx .auto-deal-toggle { font-size: 9.5px; line-height: 1.2; flex: 1 1 auto; min-width: 0; }
+  .craps .cr-felt { flex: 1 1 auto; min-height: 0; padding: 8px; gap: 4px; }
+  /* Nothing in the felt may shrink: a squeezed grid is how the number boxes
+   * collapsed to nothing in the first stage build. */
+  .cr-felt > * { flex: none; }
+  /* The visual sheets' 43px floor on every craps spot is what stretched the
+   * number boxes to 157px; on the stage the main spots keep honest sizes
+   * and the number-box buttons fit their box. */
+  .cr-felt .cr-spot { min-height: 0; }
+  .cr-felt .cr-come { min-height: 30px; }
+  .cr-felt .cr-field { min-height: 29px; }
+  .cr-felt .cr-pass { min-height: 27px; }
+  .cr-felt .cr-dp, .cr-felt .cr-odds { min-height: 26px; }
+  .cr-felt .cr-fire-spot { min-height: 32px; }
+  .cr-head { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; padding-bottom: 2px; }
+  .cr-dice { padding: 4px; border-radius: 12px; }
+  .cr-puck { width: 29px; height: 29px; font-size: 9px; }
+  .cr-dice { gap: 5px; }
+  .cz-die { width: 25px; height: 25px; padding: 3px; border-radius: 6px; }
+  .cz-die i.pip { width: 5px; height: 5px; }
+  .cr-head .cz-call { font-size: 11.5px; flex: 1 1 auto; min-width: 0; }
+  .cr-shooter { flex-basis: 100%; font-size: 9.5px; opacity: .85; }
+  .cr-felt .cz-result { font-size: 11px; padding: 2px 8px; margin: 0; }
+  .cr-numbers { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 3px; }
+  .cr-num { min-height: 0; padding: 3px 1px 2px; border-radius: 7px; }
+  .cr-big { font-size: 12px; }
+  .cr-num .cr-spot { padding: 2px 0; border-radius: 5px; }
+  .cr-num .cr-spot small { font-size: 8.5px; }
+  .cr-place { margin-top: 2px; }
+  .cr-come-chip { font-size: 8px; padding: 0 3px; margin: 1px 0; }
+  .cr-num .cr-puck { width: 17px; height: 17px; font-size: 7px; top: -6px; right: -3px; }
+  .cr-row { gap: 4px; }
+  .cr-spot { padding: 3px 4px; font-size: 11px; line-height: 1.15; gap: 0; }
+  .cr-spot small { font-size: 8.5px; }
+  .cr-come { min-height: 33px; }
+  .cr-field { min-height: 31px; }
+  .cr-pass { min-height: 29px; }
+  .cr-dp, .cr-odds { min-height: 27px; }
+  .cr-fire { gap: 6px; }
+  .cr-fire-spot { padding: 4px; }
+  .cr-fire-points i { width: 17px; height: 17px; font-size: 10px; }
+}

@@ -180,6 +180,13 @@ export function casinoSoundBar(p:CasinoPlayer):string {
  const on=p.ui.soundOn===true;
  return `<div class="slot-sound-bar cz-sound-bar"><button type="button" class="slot-key small${on?' on':''}" id="casino-sound-toggle" aria-pressed="${on}">SOUND<small>${on?'on':'off'}</small></button><label class="slot-volume">Volume <input type="range" id="casino-sound-volume" min="0" max="100" step="1" value="${p.ui.volume??70}" aria-label="Sound volume"></label></div>`;
 }
+/* Phase 14.2: supporting detail the one-screen phone stage re-homes behind a
+ * labelled toggle (src/ui/one-screen.css). Outside the stage the wrapper and its
+ * body are display:contents and the toggle is hidden, so wider layouts render
+ * exactly as before; on the stage the body stays hidden until the toggle opens
+ * it as a sheet over the table. Nothing is removed — it is re-homed. */
+const moreOpen=(ui:CasinoUi,key:string,label:string)=>`<div class="cz-more${ui.more[key]?' open':''}"><button type="button" class="cz-more-toggle" data-more="${key}" aria-expanded="${!!ui.more[key]}">${label}</button><div class="cz-more-body">`;
+const moreClose=()=>`</div></div>`;
 export function rouletteMarkup(p:CasinoPlayer):string {
  const ui=p.ui,r=ui.roulette,board=(p.state.boards?.roulette??[]) as number[],shownBoard=r.phase==='spinning'?board.slice(0,-1):board;
  const spinning=r.phase==='spinning',res=r.result&&!spinning?r.result:null;
@@ -188,17 +195,21 @@ export function rouletteMarkup(p:CasinoPlayer):string {
   <div class="rl-side"><div class="cz-seg" role="group" aria-label="Wheel"><button type="button" data-wheel="european" class="${r.wheel==='european'?'on':''}" ${spinning?'disabled':''}>Single zero</button><button type="button" data-wheel="american" class="${r.wheel==='american'?'on':''}" ${spinning?'disabled':''}>Double zero</button></div>
   ${r.wheel==='european'?`<label class="auto-deal-toggle"><input type="checkbox" id="rl-partage" ${r.partage?'checked':''} ${spinning?'disabled':''}>La Partage: even-money bets lose only half on zero (1.35% edge)</label>`:''}
   <div class="rl-history" aria-label="Last numbers">${shownBoard.slice(-12).reverse().map((n,i)=>`<span class="${colourOf(n)}${i===0?' latest':''}">${label(n)}</span>`).join('')||'<small>No spins yet</small>'}</div>
-  <p class="cz-fine">${r.wheel==='european'?`Single zero: 2.70% house edge on every bet${r.partage?' (1.35% on even money with La Partage)':''}.`:'Double zero: 5.26% house edge (7.89% on the top line).'} Straight 35:1 · split 17:1 · street 11:1 · corner 8:1 · six line 5:1 · dozens and columns 2:1 · even money 1:1.</p></div></div>
+  ${moreOpen(ui,'rl-pays','Payouts & house edge')}<p class="cz-fine">${r.wheel==='european'?`Single zero: 2.70% house edge on every bet${r.partage?' (1.35% on even money with La Partage)':''}.`:'Double zero: 5.26% house edge (7.89% on the top line).'} Straight 35:1 · split 17:1 · street 11:1 · corner 8:1 · six line 5:1 · dozens and columns 2:1 · even money 1:1.</p>${moreClose()}</div></div>
  ${rouletteLayout(ui)}</div>
  ${rouletteTicket(p)}
+ ${moreOpen(ui,'rl-bets','Named bets · Racetrack · Stats · Auto-spin')}
  <div class="rl-specials" role="group" aria-label="Named bets"><b>Named bets</b>${(['snake','redSplits','blackSplits'] as Special[]).map(k=>`<button type="button" class="button secondary" data-special="${k}" ${spinning?'disabled':''} title="${esc(SPECIALS[k].blurb)}" aria-label="${esc(SPECIALS[k].name)}: ${esc(SPECIALS[k].blurb)}, ${money(SPECIALS[k].pieces.length*ui.chip)}">${esc(SPECIALS[k].name)} <small>${SPECIALS[k].pieces.length} chips · ${short(SPECIALS[k].pieces.length*ui.chip)}</small></button>`).join('')}</div>
  ${r.wheel==='european'?racetrack(p):''}
  ${statsMarkup(shownBoard)}
  <div class="rl-tools"><div class="rl-favs"><b>Favourites</b>${(p.state.favs??[]).map((f,i)=>`<span class="rl-fav"><button type="button" class="button secondary" data-fav="${i}" ${spinning?'disabled':''}>${esc(f.name)}</button><button type="button" class="rc-x" data-fav-del="${i}" aria-label="Delete saved layout">×</button></span>`).join('')}<button type="button" class="button secondary" id="rl-save" ${spinning||(!r.bets.length&&!r.last.length)?'disabled':''}>Save layout</button></div>
   <div class="rl-auto">${r.auto?`<span>Auto-spin: ${r.auto.left} left${r.auto.stopOnWin?' · stops on a win':''}</span><button type="button" class="button secondary" id="casino-stop-auto">Stop</button>`:`<b>Auto-spin</b>${[5,10,25].map(n=>`<button type="button" class="button secondary" data-auto-spin="${n}" ${spinning||(!r.bets.length&&!r.last.length)?'disabled':''}>${n}</button>`).join('')}<label class="auto-deal-toggle"><input type="checkbox" id="rl-stop-win" checked>Stop on a win</label>`}</div></div>
+ ${moreClose()}
  <div class="cz-actions"><button type="button" class="button secondary" id="roulette-undo" ${spinning||!r.bets.length?'disabled':''}>Undo</button><button type="button" class="button secondary" id="roulette-clear" ${spinning||!r.bets.length?'disabled':''}>Clear</button><button type="button" class="button secondary" id="roulette-rebet" ${spinning||!r.last.length?'disabled':''}>Rebet</button><button type="button" class="button secondary" id="roulette-double" ${spinning||(!r.bets.length&&!r.last.length)?'disabled':''}>Double</button><button type="button" class="button cz-go" id="roulette-spin" ${spinning?'disabled':''}>${!r.bets.length&&r.phase==='done'&&r.last.length?`Spin again · ${money(r.last.reduce((a,b)=>a+b.amount,0))}`:`Spin${r.bets.length?` · ${money(r.bets.reduce((a,b)=>a+b.amount,0))}`:''}`}</button></div>
+ ${moreOpen(ui,'rl-table','At the table · Round history')}
  ${patronsMarkup(p,'roulette')}
  ${roundsPanel(p,'roulette')}
+ ${moreClose()}
  </section>`;
 }
 
@@ -271,18 +282,22 @@ export function crapsMarkup(p:CasinoPlayer):string {
   ${spot('field','<b>FIELD</b><small>3 · 4 · 9 · 10 · 11 &nbsp;·&nbsp; <em>2 pays double</em> · <em>12 pays triple</em></small>','cr-field','Field')}
   <div class="cr-row">${spot('dontPass','<b>DON’T PASS BAR</b><small>bar 12</small>','cr-dp','Don’t pass')}${spot('dontOdds',`<small>LAY ODDS${t.point&&t.dontPass?` · up to ${short(maxLay(t))}`:''}</small>`,'cr-odds','Lay odds')}</div>
   <div class="cr-row">${spot('pass','<b>PASS LINE</b>','cr-pass','Pass line')}${spot('passOdds',`<small>ODDS${t.point&&t.pass?` · up to ${short(maxOdds(t))}`:''}</small>`,'cr-odds','Pass odds')}</div>
+  ${moreOpen(ui,'cr-props','Proposition bets · Hop bets')}
   <div class="cr-props"><span class="cr-props-title">PROPOSITIONS</span>
    ${HARD.map(h=>spot(`hard${h}` as Spot,`<b>Hard ${h}</b><small>${h===4||h===10?'7:1':'9:1'}</small>`,'cr-prop',`Hard ${h}`)).join('')}
    ${spot('any7','<b>Any 7</b><small>4:1</small>','cr-prop seven','Any seven')}${spot('anyCraps','<b>Any craps</b><small>7:1</small>','cr-prop','Any craps')}${spot('yo','<b>Yo 11</b><small>15:1</small>','cr-prop','Yo eleven')}${spot('aceDeuce','<b>Ace-deuce</b><small>15:1</small>','cr-prop','Ace-deuce')}${spot('aces','<b>Aces</b><small>30:1</small>','cr-prop','Aces')}${spot('twelve','<b>Twelve</b><small>30:1</small>','cr-prop','Twelve')}<button type="button" class="cr-spot cr-prop cr-horn" id="craps-horn" ${rolling?'disabled':''} aria-label="Horn bet: one chip each on 2, 3, 11 and 12"><b>Horn</b><small>4 chips</small></button><button type="button" class="cr-spot cr-prop cr-horn" id="craps-ce" ${rolling?'disabled':''} aria-label="C and E: one chip each on Any craps and Yo eleven"><b>C &amp; E</b><small>2 chips</small></button><button type="button" class="cr-spot cr-prop cr-horn" id="craps-world" ${rolling?'disabled':''} aria-label="World bet: the Horn plus Any 7, five chips"><b>World</b><small>5 chips</small></button></div>
   <details class="cr-hops"><summary>Hop bets <small>one roll, exact dice · easy 15:1 · hard 30:1</small></summary><div class="cr-hop-grid">${[1,2,3,4,5,6].flatMap(a=>[1,2,3,4,5,6].filter(b=>b>=a).map(b=>spot(`hop${a}${b}` as Spot,`<b>${a}-${b}</b>`,'cr-prop cr-hop'+(a===b?' hard':''),`Hop ${a} and ${b}, pays ${a===b?'30':'15'} to 1`))).join('')}</div></details>
+  ${moreClose()}
   <div class="cr-fire">${spot('fire',`<b>🔥 FIRE BET</b><small>4 points 24:1 · 5 points 249:1 · 6 points 999:1</small>`,'cr-fire-spot',`Fire Bet`)}<span class="cr-fire-points" aria-label="Points made by this shooter">${POINTS.map(n=>`<i class="${t.firePoints.includes(n)?'lit':''}">${n}</i>`).join('')}</span>${t.newShooter&&!t.point?'':'<small class="cr-fire-note">Fire Bet opens for the next shooter.</small>'}</div>
  </div>
  <div class="cz-actions">${Object.keys(t.place).length||Object.keys(t.buy).length?`<button type="button" class="button secondary" id="craps-press" ${rolling?'disabled':''}>Press</button>`:''}${c.lastLayout&&!t.point&&!rolling?`<button type="button" class="button secondary" id="craps-same">Same bets · ${money(Object.values(c.lastLayout).reduce((a:number,b)=>a+(b??0),0))}</button>`:''}<button type="button" class="button secondary${c.takeDown?' on':''}" id="craps-takedown" aria-pressed="${c.takeDown}" ${rolling?'disabled':''}>${c.takeDown?'Tap a bet to take it down':'Take down'}</button><button type="button" class="button cz-go" id="craps-roll" ${rolling?'disabled':''}>${p.shooterName()==='You'?'Roll the dice':`${esc(p.shooterName())} rolls`}</button></div>
+ ${moreOpen(ui,'cr-table','At the table · Roll history · Dice chart')}
  ${patronsMarkup(p,'craps')}
  <div class="cr-history" aria-label="Recent rolls">${shownHist.slice(-14).reverse().map(([a,b2],i)=>`<span class="${a+b2===7?'seven':''}${i===0?' latest':''}">${a+b2}</span>`).join('')||'<small>No rolls yet</small>'}</div>
  ${diceChart((p.state.boards?.craps??[]) as [number,number][],rolling)}
  <p class="cz-fine">The dice pass to the next player after each seven-out. Odds (${t.oddsX==='10'?'10x':'3-4-5x'} at this table), on the line or behind Come and Don’t Come bets, pay true odds with no house edge; come odds are off on the come-out. Lay bets pay true odds against the number less 5% of the win (4/10 1.67%, 5/9 2%, 6/8 2.27%) and work on every roll. Big 6 and Big 8 pay even money (9.09%). C&amp;E is a chip each on Any craps and Yo; World is the Horn plus Any 7. Buy 4, 5, 9 and 10 pay true odds less 5% of the bet on a win (4/10 1.67%, 5/9 2%). Place, buy and hardway bets and come odds are off on the come-out unless you turn on “Working on the come-out”. Pass 1.41% · Don’t pass 1.36% · Field 2.78% · Place 6/8 1.52% · Any 7 16.7% house edge.</p>
  ${roundsPanel(p,'craps')}
+ ${moreClose()}
  </section>`;
 }
 

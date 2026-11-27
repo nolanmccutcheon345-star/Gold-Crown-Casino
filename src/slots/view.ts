@@ -234,6 +234,11 @@ function machineMarkup(state:SlotsState,ui:SlotsUi,m:Machine):string {
  const big=!!tier;
  const i=m.bets.indexOf(bet),lower=m.bets[i-1],higher=m.bets[i+1];
  const shown=state.balance-ui.pending;
+ /* Phase 14.2: everything after the cabinet (auto panel, session strip, paytable,
+  * record lines) travels in one .slot-detail-sheet so the phone-portrait stage in
+  * src/ui/one-screen.css can keep the cabinet alone on one screen and surface the
+  * sheet only when the auto panel is open or the paytable is opened from PAYS.
+  * Outside the stage the sheet is display:contents — the page renders as before. */
  return `<div class="slot-head"><button type="button" class="button secondary" id="slots-back" ${busy?'disabled':''}>← Machines</button><span class="slot-name"><small>${m.rtp.toFixed(1)}% payback · ${swingMeter(m)}</small><small>Pays on ${m.stats.hitRate.toFixed(0)}% of spins${m.stats.featureEvery?` · feature about 1 in ${m.stats.featureEvery}`:''} · biggest seen ${m.stats.topSeen.toLocaleString()}× bet</small><small>Top award <b>${money(topAward(m))}</b> at the ${money(m.bets.at(-1)!)} max bet</small></span></div>
  ${soundBarMarkup(ui)}
  <div class="slot-cabinet kind-${m.kind}${big?' big-win':''}${tier==='MEGA WIN'?' mega-win':''}${tier==='EPIC WIN'?' epic-win':''}${!tier&&r&&ui.phase==='done'&&r.total>=5*r.bet?' nice-win':''}${r&&settled&&meaningfulWin?' winning':''}${ui.phase==='free'?' free-spins':''}${ui.phase!=='idle'&&ui.phase!=='done'&&ui.phase!=='spinning'?' in-feature':''}${ui.tease?' tease':''}" data-testid="slot-machine" style="--top:${m.theme.top};--bottom:${m.theme.bottom};--glow:${m.theme.glow};--reels:${m.reels.length};--rows:${m.rows};--cabinet-scene:url('/casino-art/${m.id}-cinematic.webp')">
@@ -250,10 +255,10 @@ function machineMarkup(state:SlotsState,ui:SlotsUi,m:Machine):string {
   </div>
   ${ui.neighbour&&ui.machine===m.id?`<div class="slot-neighbour" data-testid="slot-neighbour" aria-live="polite"><span class="slot-nb-face" aria-hidden="true">${esc(ui.neighbour.name[0])}</span><span><b>${esc(ui.neighbour.name)}</b> <small>at the next machine</small><br>“${esc(ui.neighbour.text)}”</span></div>`:''}
  </div>
- ${ui.autoOpen&&!busy?autoMarkup(ui,state.balance):''}${sessionMarkup(ui)}
+ <div class="slot-detail-sheet">${ui.autoOpen&&!busy?autoMarkup(ui,state.balance):''}${sessionMarkup(ui)}
  ${state.balance<bet&&!busy?`<p class="muted">Not enough for this bet.${state.balance<smallestBet()?' <button type="button" class="button secondary" id="slots-reload">Reload $1,000 of practice chips</button>':' Pick a smaller bet.'}</p>`:''}
  ${paytableMarkup(m,bet,ui)}
- <p class="muted slot-record">${rec?`You on this machine: ${rec.spins} spin${rec.spins===1?'':'s'} · bet ${money(rec.wagered)} · won ${money(rec.won)} · ${(100*rec.won/Math.max(1,rec.wagered)).toFixed(0)}% back · biggest ${money(rec.biggest)}`:'No spins here yet.'} Each spin is independent; long-run payback about ${m.rtp.toFixed(1)}%.</p>${floorStreakMarkup(state,m)}${bonusWatchMarkup(state,m)}`;
+ <p class="muted slot-record">${rec?`You on this machine: ${rec.spins} spin${rec.spins===1?'':'s'} · bet ${money(rec.wagered)} · won ${money(rec.won)} · ${(100*rec.won/Math.max(1,rec.wagered)).toFixed(0)}% back · biggest ${money(rec.biggest)}`:'No spins here yet.'} Each spin is independent; long-run payback about ${m.rtp.toFixed(1)}%.</p>${floorStreakMarkup(state,m)}${bonusWatchMarkup(state,m)}</div>`;
 }
 /** Phase 10 (fun #15, BONUS WATCH — the honest replacement for a feature-tease meter):
  * spins since your last feature on this machine, and features hit vs the count expected
